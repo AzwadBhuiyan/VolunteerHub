@@ -4,17 +4,20 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create(): \Illuminate\View\View
     {
         return view('auth.login');
     }
@@ -28,8 +31,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Store user type in session
+        $user = Auth::user();
+        $userType = $user->volunteer ? 'volunteer' : 'organization';
+        session(['user_type' => $userType]);
+
+        return redirect()->route('home');
     }
+    
+
 
     /**
      * Destroy an authenticated session.

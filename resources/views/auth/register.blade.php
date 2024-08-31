@@ -4,9 +4,16 @@
 
         <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('Full Name')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        </div>
+
+        <!-- UserID -->
+        <div class="mt-4">
+            <x-input-label for="userid" :value="__('UserID')" />
+            <x-text-input id="userid" class="block mt-1 w-full" type="text" name="userid" :value="old('userid')" required autocomplete="username" />
+            <x-input-error :messages="$errors->get('userid')" class="mt-2" />
         </div>
 
         <!-- Email Address -->
@@ -19,25 +26,99 @@
         <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
+            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
         <!-- Confirm Password -->
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
+            <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
+
+        <!-- Phone -->
+        <div class="mt-4">
+            <x-input-label for="phone" :value="__('Phone')" />
+            <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone" :value="old('phone')" required />
+            <x-input-error :messages="$errors->get('phone')" class="mt-2" />
+        </div>
+
+        <!-- NID -->
+        <div class="mt-4">
+            <x-input-label for="nid" :value="__('NID')" />
+            <x-text-input id="nid" class="block mt-1 w-full" type="text" name="nid" :value="old('nid')" />
+            <x-input-error :messages="$errors->get('nid')" class="mt-2" />
+        </div>
+
+        <!-- Gender -->
+        <div class="mt-4">
+            <x-input-label for="gender" :value="__('Gender')" />
+            <select id="gender" name="gender" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="O">Other</option>
+            </select>
+            <x-input-error :messages="$errors->get('gender')" class="mt-2" />
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="mt-4">
+            <x-input-label for="dob" :value="__('Date of Birth')" />
+            <x-text-input id="dob" class="block mt-1 w-full" type="date" name="dob" :value="old('dob')" required />
+            <x-input-error :messages="$errors->get('dob')" class="mt-2" />
+        </div>
+
+        <!-- Blood Group -->
+        <div class="mt-4">
+            <x-input-label for="blood_group" :value="__('Blood Group')" />
+            <select id="blood_group" name="blood_group" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+            </select>
+            <x-input-error :messages="$errors->get('blood_group')" class="mt-2" />
+        </div>
+
+        <!-- Present Address -->
+        <div class="mt-4">
+            <x-input-label for="present_address" :value="__('Present Address')" />
+            <x-text-input id="present_address" class="block mt-1 w-full" type="text" name="present_address" :value="old('present_address')" required />
+            <x-input-error :messages="$errors->get('present_address')" class="mt-2" />
+        </div>
+
+        <!-- Permanent Address -->
+        <div class="mt-4">
+            <x-input-label for="permanent_address" :value="__('Permanent Address')" />
+            <x-text-input id="permanent_address" class="block mt-1 w-full" type="text" name="permanent_address" :value="old('permanent_address')" required />
+            <x-input-error :messages="$errors->get('permanent_address')" class="mt-2" />
+        </div>
+
+        <!-- District -->
+        <div class="mt-4">
+            <x-input-label for="district" :value="__('District')" />
+            <select id="district" name="district" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                @foreach(['Dhaka', 'Chittagong', 'Rajshahi', 'Khulna', 'Barisal', 'Sylhet', 'Rangpur', 'Mymensingh', 'Comilla', 'Narayanganj', 'Gazipur'] as $district)
+                    <option value="{{ $district }}">{{ $district }}</option>
+                @endforeach
+            </select>
+            <x-input-error :messages="$errors->get('district')" class="mt-2" />
+        </div>
+
+        <!-- Trained in Emergency Response -->
+        <div class="mt-4">
+            <label for="trained_in_emergency_response" class="inline-flex items-center">
+                <input id="trained_in_emergency_response" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="trained_in_emergency_response" value="1">
+                <span class="ms-2 text-sm text-gray-600">{{ __('Trained in Emergency Response') }}</span>
+            </label>
+        </div>
+
+        <input type="hidden" name="user_type" value="volunteer">
 
         <div class="flex items-center justify-end mt-4">
             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
@@ -49,4 +130,11 @@
             </x-primary-button>
         </div>
     </form>
+
+    <!-- Button to switch to Organization Registration -->
+    <div class="mt-4 text-center">
+        <button id="switch-to-org" class="text-sm text-blue-600 hover:text-blue-900">
+            {{ __('Register as an Organization') }}
+        </button>
+    </div>
 </x-guest-layout>
