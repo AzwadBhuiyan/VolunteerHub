@@ -29,7 +29,19 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        $user = $request->user();
+
+        if (!$user->verified) {
+            Auth::logout();
+            return redirect()->route('login')
+                ->withInput($request->only('email', 'remember'))
+                ->withErrors(['email' => 'You need to verify your email address before logging in.']);
+        }
+
         $request->session()->regenerate();
+
+        // Explicitly set the user ID in the session
+        $request->session()->put('auth.id', Auth::id());
 
         // Store user type in session
         $user = Auth::user();
@@ -38,8 +50,6 @@ class AuthenticatedSessionController extends Controller
 
         return redirect()->route('home');
     }
-    
-
 
     /**
      * Destroy an authenticated session.

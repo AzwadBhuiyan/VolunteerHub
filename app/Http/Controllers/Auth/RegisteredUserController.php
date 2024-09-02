@@ -15,6 +15,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
 use App\Models\Volunteer;
+use App\Models\Organization;
 
 class RegisteredUserController extends Controller
 {
@@ -34,7 +35,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        \Log::info('Registration attempt', $request->all());
+        // \Log::info('Registration attempt', $request->all());
 
         $commonRules = [
             'userid' => [
@@ -114,7 +115,8 @@ class RegisteredUserController extends Controller
 
             Auth::login($user);
 
-            return redirect()->route('home');
+            // Instead of logging in the user, redirect them to a page asking to verify email
+            return redirect()->route('verification.notice')->with('status', 'Please check your email for a verification link.');
         } catch (\Exception $e) {
             \Log::error('Registration failed: ' . $e->getMessage());
             return redirect()->back()->withInput()->withErrors(['error' => 'Registration failed. Please try again.']);
