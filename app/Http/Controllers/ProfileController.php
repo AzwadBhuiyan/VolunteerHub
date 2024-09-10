@@ -11,35 +11,52 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile form.
-     */
     public function edit(Request $request): View
     {
+        $user = $request->user();
+        $profile = $user->volunteer ?? $user->organization;
+        $activities = $user->activities()->latest()->take(5)->get();
+        
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
+            'profile' => $profile,
+            'activities' => $activities,
         ]);
     }
 
-    /**
-     * Update the user's profile information.
-     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $profile = $user->volunteer ?? $user->organization;
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->fill($request->validated());
+        $profile->fill($request->validated());
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        if ($request->hasFile('profile_picture') && $user->volunteer) {
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $profile->profile_picture = $path;
+        }
+
+        if ($request->hasFile('logo') && $user->organization) {
+            $path = $request->file('logo')->store('organization_logos', 'public');
+            $profile->logo = $path;
+        }
+
+        if ($request->hasFile('cover_image') && $user->organization) {
+            $path = $request->file('cover_image')->store('organization_covers', 'public');
+            $profile->cover_image = $path;
+        }
+
+        $user->save();
+        $profile->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [

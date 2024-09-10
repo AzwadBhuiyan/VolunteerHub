@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\CustomLoginController;
+use App\Http\Controllers\PublicProfileController;
 
 Route::get('/', function () {
     return view('home');
@@ -16,10 +17,17 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/edit-profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/edit-profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    
+    // New route for editing favorites (only for volunteers)
+    Route::get('/favorites/edit', [FavoritesController::class, 'edit'])->name('favorites.edit');
+    Route::patch('/favorites', [FavoritesController::class, 'update'])->name('favorites.update');
 });
+
+// Public profile route (accessible without authentication)
+Route::get('/profile/{userid}', [PublicProfileController::class, 'show'])->name('profile.public');
 
 Route::middleware(['web'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

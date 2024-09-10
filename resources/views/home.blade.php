@@ -27,6 +27,7 @@
             <div class="mt-4 flex flex-col items-center">
                 <p class="text-lg mb-2">Welcome, {{ Auth::user()->userid }}!</p>
                 <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Go to Dashboard</a>
+                <a href="{{ route('profile.public', Auth::id()) }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Public profile</a>
                 <form method="POST" action="{{ route('logout') }}" class="mt-4">
                     @csrf
                     <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Logout</button>
