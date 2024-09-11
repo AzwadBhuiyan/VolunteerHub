@@ -14,8 +14,19 @@
 
         <!-- User Type Selection -->
         <div>
-            <x-input-label for="user_type" :value="__('Login as')" />
+            <div>
+                <!-- Replace with your actual logo -->
+                <img class="mx-auto h-12 w-auto" src="/images/logos/facebook-logo.png" alt="Your Logo">
+                <p class="mt-2 text-center text-sm text-gray-600">
+                    <!-- Replace with your actual tagline -->
+                    {{ __('Connecting volunteers with opportunities') }}
+                </p>
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    {{ __('Log in to your account') }}
+                </h2>
+            </div>
             <select id="user_type" name="user_type" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                <option value="" disabled selected>Login as</option>
                 <option value="volunteer">Volunteer</option>
                 <option value="organization">Organization</option>
             </select>
@@ -24,19 +35,17 @@
 
         <!-- UserID -->
         <div class="mt-4">
-            <x-input-label for="userid" :value="__('UserID')" />
-            <x-text-input id="userid" class="block mt-1 w-full" type="text" name="userid" :value="old('userid')" required autofocus autocomplete="username" />
+            <x-text-input id="userid" class="block mt-1 w-full" type="text" name="userid" :value="old('userid')" required autofocus autocomplete="username" placeholder="UserID" />
             <x-input-error :messages="$errors->get('userid')" class="mt-2" />
         </div>
 
         <!-- Password -->
         <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
-                            required autocomplete="current-password" />
+                            required autocomplete="current-password"
+                            placeholder="Password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
@@ -49,16 +58,31 @@
             </label>
         </div>
 
-        <div class="flex items-center justify-end mt-4">
+        <!-- Login Button -->
+        <div class="mt-4">
+            <button type="submit" class="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                {{ __('Log in') }}
+            </button>
+        </div>
+
+        <!-- Forgot Password and Sign Up links -->
+        <div class="   mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
+                <a class="text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
+<br>
+            <hr class="my-6 border-gray-300 w-full mt-4 mb-4">
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
+            @if (Route::has('register'))
+                <div class="text-sm text-center">
+                    <span class="text-gray-600">{{ __("Don't have an account?") }}</span>
+                    <a href="{{ route('register') }}" class="font-bold text-green-600 hover:text-green-500">
+                        {{ __("Sign up") }}
+                    </a>
+                </div>
+            @endif
         </div>
     </form>
 </x-guest-layout>
