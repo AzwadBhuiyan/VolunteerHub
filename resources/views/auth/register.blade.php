@@ -1,4 +1,6 @@
 <x-guest-layout>
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet"> 
+    <h2> Create your account</h2>
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -97,7 +99,8 @@
             </select>
             <x-input-error :messages="$errors->get('district')" class="mt-2" />
         </div>
-
+&nbsp;
+<p>Note: Your password must be atleast 8 characters long</p>
         <!-- Password -->
         <div class="mt-4">
             <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" placeholder="Password" />
@@ -120,21 +123,19 @@
 
         <input type="hidden" name="user_type" value="volunteer">
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+        
 
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
+            <div class="mt-4">
+                <button type="submit" class="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
+                    {{ __('Register') }}
+                </button>
+            </div>
     </form>
 
-    <!-- Button to switch to Organization Registration -->
-    <div class="mt-4 text-center">
-        <button id="switch-to-org" class="text-sm text-blue-600 hover:text-blue-900">
-            {{ __('Register as an Organization') }}
-        </button>
-    </div>
+    <p>Note: Your password must be atleast 8 characters long</p>
+
+    <a class="text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+        {{ __('Already registered?') }}
+    </a>
+ 
 </x-guest-layout>
