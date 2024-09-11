@@ -3,7 +3,12 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="flex items-center space-x-4">
-                    <img src="{{ $profile->profile_picture ?? asset('images/default-avatar.png') }}" alt="{{ $profile->Name }}" class="w-24 h-24 rounded-full">
+                    <!-- <img src="{{ $profile->profile_picture ?? asset('images/default-avatar.jpeg') }}" alt="{{ $profile->Name }}" class="w-24 h-24 rounded-full"> -->
+                    <div class="flex-shrink-0 w-24 h-24">
+                        <img src="{{ $profile->profile_picture ? asset('storage/' . $profile->profile_picture) : asset('images/defaults/default-avatar.jpeg') }}" 
+                            alt="{{ $profile->Name }}" 
+                            class="w-full h-full rounded-full object-cover border-2 border-gray-200">
+                    </div>
                     <div>
                         <h2 class="text-2xl font-bold">{{ $profile->Name }}</h2>
                         <p class="text-gray-600">{{ $profile->email }}</p>
