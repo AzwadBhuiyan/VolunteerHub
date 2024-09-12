@@ -1,5 +1,29 @@
 /* public/css/style.css */
 
+/* Ensure the html and body take up full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style for the main container */
+.min-h-screen {
+    min-height: 100vh; /* This ensures it's at least the full viewport height */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Style for the white div part */
+.bg-white {
+    flex-grow: 1; /* This allows the white div to grow and take up remaining space */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3rem;
+
+}
+
+/* Existing styles for headings */
 h1 {
     font-size: 2.5rem;
     font-weight: bold;
@@ -12,6 +36,8 @@ h2 {
     font-weight: bold;
     color: #444;
     margin-bottom: 0.75rem;
+    margin: auto;
+
 }
 
 h3 {
@@ -21,4 +47,8 @@ h3 {
     margin-bottom: 0.5rem;
 }
 
-/* Add more custom styles as needed */
+/* Style for the login link */
+.login-link {
+    color: #10B981; /* This is a green color, you can adjust it as needed */
+    font-weight: bold;
+}
