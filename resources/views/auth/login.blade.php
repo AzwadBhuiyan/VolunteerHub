@@ -15,8 +15,6 @@
         <!-- User Type Selection -->
         <div>
             <div>
-                <!-- Replace with your actual logo -->
-                <img class="mx-auto h-12 w-auto" src="/images/logos/facebook-logo.png" alt="Your Logo">
                 <p class="mt-2 text-center text-sm text-gray-600">
                     <!-- Replace with your actual tagline -->
                     {{ __('Connecting volunteers with opportunities') }}
