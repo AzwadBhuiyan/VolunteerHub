@@ -154,13 +154,13 @@
                 </button>
             </div>
     </form>
+&nbsp;
+    <p>Already registered?
 
-    <p>Note: Your password must be atleast 8 characters long</p>
-
-    <a class="text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-        {{ __('Already registered?') }}
+    <a class="login-link text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+        <span class="login-text">Login</span>
     </a>
-    
+</p>
     <script>
         function toggleUserType() {
             const userType = document.getElementById('user_type').value;
