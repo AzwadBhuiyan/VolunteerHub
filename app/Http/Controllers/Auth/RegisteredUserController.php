@@ -38,38 +38,43 @@ class RegisteredUserController extends Controller
         // \Log::info('Registration attempt', $request->all());
 
         $commonRules = [
-            'userid' => [
-                'required',
-                'string',
-                'max:255',
-                'regex:/^[a-zA-Z0-9_-]+$/',
-                'not_in:admin,root,superuser',
-                'unique:users',
-            ],
-            'name' => ['required', 'string', 'max:255'],
+            'user_type' => ['required', 'in:volunteer,organization'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ];
-
-        if ($request->user_type === 'volunteer') {
-            $rules = array_merge($commonRules, [
-                'phone' => ['required', 'string', 'max:20'],
-                'nid' => ['nullable', 'string', 'max:20'],
-                'gender' => ['required', 'in:M,F,O'],
-                'dob' => ['required', 'date'],
-                'blood_group' => ['required', 'string', 'max:5'],
-                'present_address' => ['required', 'string'],
-                'permanent_address' => ['required', 'string'],
-                'district' => ['required', 'string'],
-                'trained_in_emergency_response' => ['nullable', 'boolean'],
-            ]);
-        } else {
-            $rules = array_merge($commonRules, [
-                'contact' => ['required', 'string', 'max:20'],
-                'category' => ['required', 'string'],
-                'address' => ['required', 'string'],
-            ]);
-        }
+        
+        $volunteerRules = [
+            'userid' => ['required', 'string', 'max:255', 'unique:users'],
+            'name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:20'],
+            'nid' => ['nullable', 'string', 'max:20'],
+            'gender' => ['required', 'in:M,F,O'],
+            'dob' => ['required', 'date'],
+            'blood_group' => ['required', 'string', 'max:5'],
+            'present_address' => ['required', 'string'],
+            'permanent_address' => ['required', 'string'],
+            'district' => ['required', 'string'],
+            'trained_in_emergency_response' => ['nullable', 'boolean'],
+        ];
+        
+        $organizationRules = [
+            'userid' => ['required', 'string', 'max:255', 'unique:users'],
+            'org_name' => ['required', 'string', 'max:255'],
+            'primary_address' => ['required', 'string'],
+            'secondary_address' => ['required', 'string'],
+            'website' => ['required', 'url'],
+            'org_mobile' => ['required', 'string', 'max:20'],
+            'org_telephone' => ['required', 'string', 'max:20'],
+        ];
+        
+        $rules = array_merge($commonRules, $request->user_type === 'volunteer' ? $volunteerRules : $organizationRules);
+        
+        // Filter out disabled fields
+        $data = array_filter($request->all(), function ($value, $key) use ($rules) {
+            return isset($rules[$key]);
+        }, ARRAY_FILTER_USE_BOTH);
+        
+        $request->validate($rules);
 
         $validator = Validator::make($request->all(), $rules, [
             'userid.unique' => 'This UserID is already taken. Please choose a different one.',
@@ -85,7 +90,7 @@ class RegisteredUserController extends Controller
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
-
+        
             if ($request->user_type === 'volunteer') {
                 Volunteer::create([
                     'userid' => $user->userid,
@@ -103,11 +108,13 @@ class RegisteredUserController extends Controller
             } else {
                 Organization::create([
                     'userid' => $user->userid,
-                    'name' => $request->name,
-                    'contact' => $request->contact,
-                    'category' => $request->category,
-                    'address' => $request->address,
-                    'verification_status' => 'pending',
+                    'org_name' => $request->org_name,
+                    'primary_address' => $request->primary_address,
+                    'secondary_address' => $request->secondary_address,
+                    'website' => $request->website,
+                    'org_mobile' => $request->org_mobile,
+                    'org_telephone' => $request->org_telephone,
+                    'verification_status' => 'unverified',
                 ]);
             }
 

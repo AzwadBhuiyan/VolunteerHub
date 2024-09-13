@@ -6,26 +6,22 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('organizations', function (Blueprint $table) {
             $table->string('userid')->primary();
-            $table->string('name');
-            $table->string('contact');
-            $table->string('category');
-            $table->text('address');
+            $table->string('org_name');
+            $table->text('primary_address');
+            $table->text('secondary_address');
+            $table->string('website');
+            $table->string('org_mobile');
+            $table->string('org_telephone');
             $table->enum('verification_status', ['unverified', 'verified'])->default('unverified');
             $table->foreign('userid')->references('userid')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('organizations');

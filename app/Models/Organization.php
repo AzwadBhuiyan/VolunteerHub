@@ -11,8 +11,8 @@ class Organization extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'userid', 'name', 'contact', 'category', 'address', 'verification_status',
-        'description', 'website'
+        'userid', 'org_name', 'primary_address', 'secondary_address', 'website',
+        'org_mobile', 'org_telephone', 'verification_status'
     ];
 
     public function user()
