@@ -56,7 +56,7 @@
                     </div>
                     <div class="stat-item">
                         <h3>Level</h3>
-                        <p>{{ $profile->Level }}</p>
+                        <p>{{ $profile->Points }}</p>
                     </div>
                 </div>
 
