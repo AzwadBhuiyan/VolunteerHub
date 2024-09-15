@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2024 at 03:42 AM
+-- Generation Time: Sep 15, 2024 at 07:07 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -50,9 +50,10 @@ CREATE TABLE `activities` (
 --
 
 INSERT INTO `activities` (`activityid`, `userid`, `title`, `description`, `date`, `time`, `category`, `district`, `address`, `deadline`, `min_volunteers`, `max_volunteers`, `status`, `created_at`, `updated_at`) VALUES
-(1111, 'rht1', 'Flood Relief', 'Lets save people', '2024-09-18', '07:04:24', '', 'Dhaka', 'dhaka', '2024-09-17 07:04:24', 5, 10, 'open', NULL, NULL),
+(1111, 'rht1', 'Flood Relief', 'Lets save people!!', '2024-09-18', '07:04:00', 'education', 'western', 'dhaka', '2024-09-17 07:04:00', 5, 10, 'open', NULL, '2024-09-14 23:05:35'),
 (1112, 'rht1', 'Party on', 'die', '2024-09-28', '00:00:00', '', 'dhaka', '', '2024-09-15 03:10:57', 5, 7, 'open', NULL, NULL),
-(1113, 'rht1', 'was', 'a', '2024-09-20', '00:00:00', '', 'sss', 'sss', '2024-09-15 03:19:39', 2, 5, 'completed', NULL, NULL);
+(1113, 'rht1', 'was', 'a', '2024-09-20', '00:00:00', '', 'sss', 'sss', '2024-09-15 03:19:39', 2, 5, 'completed', NULL, NULL),
+(1114, 'rht1', 'New', 'its new its fresh', '2024-09-21', '09:49:00', 'environmental', 'central', '56vy79', '2024-09-19 09:49:00', 5, 10, 'open', '2024-09-14 21:49:48', '2024-09-14 21:49:48');
 
 -- --------------------------------------------------------
 
@@ -81,6 +82,13 @@ CREATE TABLE `activity_volunteers` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `activity_volunteers`
+--
+
+INSERT INTO `activity_volunteers` (`id`, `activityid`, `volunteer_userid`, `approval_status`, `created_at`, `updated_at`) VALUES
+(1, 1111, 'rht1795', 'pending', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -211,7 +219,7 @@ CREATE TABLE `organizations` (
 --
 
 INSERT INTO `organizations` (`userid`, `org_name`, `primary_address`, `secondary_address`, `website`, `org_mobile`, `org_telephone`, `description`, `verification_status`, `created_at`, `updated_at`) VALUES
-('rht1', 'Rahat Inc.', 'halishohor', 'dhaka', 'www.rahat.com', '123455', '12345', 'We believe in money', 'unverified', NULL, NULL);
+('rht1', 'Rahat Inc.', 'halishohor11', 'dhaka', 'www.rahat.com', '123455', '12345', 'We believe in money', 'unverified', NULL, '2024-09-14 20:25:17');
 
 -- --------------------------------------------------------
 
@@ -261,7 +269,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userid`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `verified`) VALUES
-('rht1', 'rht.krt@gmail.com', '$2y$12$/8CaRfVmPPlaf9XH0eQL/OGncPbskSmxcBmJ.TRwK.OPREDeBuF8y', NULL, '2024-09-12 15:04:39', '2024-09-12 15:04:39', 1),
+('rht1', 'rht.krt@gmail.com', '$2y$12$1cwEC8ZB35uEb/syCmwjdeA7ukFJacUm9gg61giLsNN7mrEK0clQK', NULL, '2024-09-12 15:04:39', '2024-09-14 20:20:37', 1),
 ('rht1795', 'rh111t.krt@gmail.com', '$2y$12$iFPeg1iaUd7k/AyKB2uT7.APPeWtW/1XL4h9MJW4cVo8IsSEBCY8K', NULL, '2024-09-12 15:17:38', '2024-09-12 15:17:38', 1);
 
 -- --------------------------------------------------------
@@ -420,7 +428,7 @@ ALTER TABLE `volunteer_favorite_categories`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `activityid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1114;
+  MODIFY `activityid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1116;
 
 --
 -- AUTO_INCREMENT for table `activity_categories`
@@ -432,7 +440,7 @@ ALTER TABLE `activity_categories`
 -- AUTO_INCREMENT for table `activity_volunteers`
 --
 ALTER TABLE `activity_volunteers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
