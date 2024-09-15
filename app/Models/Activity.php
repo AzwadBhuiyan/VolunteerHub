@@ -21,7 +21,7 @@ class Activity extends Model
 
     public function organization()
     {
-        return $this->belongsTo(Organization::class, 'userid', 'userid');
+        return $this->belongsTo(Organization::class, 'userid');
     }
 
     public function volunteers()

@@ -37,7 +37,7 @@
                 </div>
 
                 <!-- Action Buttons -->
-                <div class="flex space-x-2 mb-4">
+                <div class="flex space-x-2 mb-4 justify-between">
                     <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Social</button>
                     <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">About</button>
                     <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Contact</button>
@@ -69,9 +69,16 @@
                                         <img src="{{ asset($imagePath) }}" alt="{{ $activity->title }}" class="w-full h-48 object-cover rounded">
                                     </div>
                                 @endif
-                                <div class="flex space-x-2 mb-4">
-                                    <a href="#" class="px-4 py-2 mt-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block">View more details</a>
-                                    <a href="#" class="px-4 py-2 mt-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block">Register for this activity</a>
+                                <!-- Activity Buttons -->
+                                <div class="flex space-x-2 mb-4 mt-4 px-2">
+                                    <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block">View more details</a>
+                                    @auth
+                                        @if(Auth::user()->volunteer)
+                                            <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block">Register now</a>
+                                        @elseif(Auth::user()->organization && Auth::id() == $activity->userid)
+                                            <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block">Edit activity</a>
+                                        @endif
+                                    @endauth                            
                                 </div>
                             </div>                            
                         @endforeach

@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\PublicProfileController;
+use App\Http\Controllers\ActivityController;
 
 Route::get('/', function () {
     return view('home');
@@ -28,6 +29,15 @@ Route::middleware('auth')->group(function () {
     // update organization information -- partials are independent
     Route::patch('/profile/organization', [ProfileController::class, 'updateOrganization'])->name('profile.update.organization');
     Route::patch('/profile/organization/additional', [ProfileController::class, 'updateOrganizationAdditional'])->name('profile.update.organization.additional');
+
+    // Activities
+    Route::get('/activities/create', [ActivityController::class, 'create'])->name('activities.create');
+    Route::post('/activities', [ActivityController::class, 'store'])->name('activities.store');
+    Route::get('/activities-list', [ActivityController::class, 'index'])->name('activities.index');
+    Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
+    Route::get('/activities/{activity}/edit', [ActivityController::class, 'edit'])->name('activities.edit');
+    Route::put('/activities/{activity}', [ActivityController::class, 'update'])->name('activities.update');
+
 });
 
 // Public profile route (accessible without authentication)
