@@ -28,8 +28,10 @@ class ProfileUpdateRequest extends FormRequest
                 'cover_image' => ['nullable', 'image', 'max:2048'],
                 'description' => ['required', 'string', 'max:1000'],
                 'website' => ['required', 'url', 'max:255'],
-                'phone' => ['required', 'string', 'max:20'],
-                'address' => ['required', 'string', 'max:255'],
+                'primary_address' => ['required', 'string', 'max:255'],
+                'secondary_address' => ['nullable', 'string', 'max:255'],
+                'org_mobile' => ['required', 'string', 'max:20'],
+                'org_telephone' => ['nullable', 'string', 'max:20'],
             ]);
         }
 

@@ -9,19 +9,36 @@
         </p>
     </header>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+    <form method="post" action="{{ route('profile.update.organization') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
-        <div>
+        <div class="flex items-center space-x-4">
             <x-input-label for="logo" :value="__('Logo')" />
-            <input id="logo" name="logo" type="file" class="mt-1 block w-full" accept="image/*" />
+            <div class="flex items-center">
+                @php
+                    $logoPath = 'images/logos/' . $profile->userid . '.jpg';
+                    $fullLogoPath = public_path($logoPath);
+                    $logoExists = file_exists($fullLogoPath);
+                @endphp
+                <img id="logoPreview" src="{{ $logoExists ? asset($logoPath) : asset('images/defaults/default-logo.png') }}" alt="Current Logo" class="w-16 h-16 object-cover mr-2">
+
+                <input id="logo" name="logo" type="file" class="mt-1 block" accept="image/*" onchange="previewImage(this, 'logoPreview')" />
+            </div>
             <x-input-error class="mt-2" :messages="$errors->get('logo')" />
         </div>
 
-        <div>
+        <div class="flex items-center space-x-4 mt-4">
             <x-input-label for="cover_image" :value="__('Cover Image')" />
-            <input id="cover_image" name="cover_image" type="file" class="mt-1 block w-full" accept="image/*" />
+            <div class="flex items-center">
+                @php
+                    $coverPath = 'images/cover/' . $profile->userid . '.jpg';
+                    $fullCoverPath = public_path($coverPath);
+                    $coverExists = file_exists($fullCoverPath);
+                @endphp
+                <img id="coverPreview" src="{{ $coverExists ? asset($coverPath) : asset('images/defaults/default-cover.jpg') }}" alt="Current Cover Image" class="w-32 h-16 object-cover mr-2">
+                <input id="cover_image" name="cover_image" type="file" class="mt-1 block" accept="image/*" onchange="previewImage(this, 'coverPreview')" />
+            </div>
             <x-input-error class="mt-2" :messages="$errors->get('cover_image')" />
         </div>
 
@@ -37,18 +54,6 @@
             <x-input-error class="mt-2" :messages="$errors->get('website')" />
         </div>
 
-        <!-- <div>
-            <x-input-label for="phone" :value="__('Phone')" />
-            <x-text-input id="phone" name="phone" type="tel" class="mt-1 block w-full" :value="old('phone', $profile->phone)" required />
-            <x-input-error class="mt-2" :messages="$errors->get('phone')" />
-        </div>
-
-        <div>
-            <x-input-label for="address" :value="__('Address')" />
-            <x-text-input id="address" name="address" type="text" class="mt-1 block w-full" :value="old('address', $profile->address)" required />
-            <x-input-error class="mt-2" :messages="$errors->get('address')" />
-        </div> -->
-
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
@@ -63,4 +68,15 @@
             @endif
         </div>
     </form>
+    <script>
+        function previewImage(input, previewId) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(previewId).src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
 </section>

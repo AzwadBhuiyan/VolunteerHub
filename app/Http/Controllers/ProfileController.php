@@ -66,9 +66,10 @@ class ProfileController extends Controller
         if ($user->organization) {
             $profile->description = $request->description;
             $profile->website = $request->website;
-            $profile->org_mobile = $request->org_mobile;
             $profile->primary_address = $request->primary_address;
             $profile->secondary_address = $request->secondary_address;
+            $profile->org_mobile = $request->org_mobile;
+            $profile->org_telephone = $request->org_telephone;
         }
 
         $user->save();
@@ -93,5 +94,51 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function updateOrganization(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+        $profile = $user->organization;
+
+        $request->validate([
+            'logo' => ['nullable', 'image', 'max:1024'],
+            'cover_image' => ['nullable', 'image', 'max:2048'],
+            'description' => ['required', 'string', 'max:1000'],
+            'website' => ['required', 'url', 'max:255'],
+        ]);
+
+        if ($request->hasFile('logo')) {
+            $file = $request->file('logo');
+            $filename = $user->userid . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/logos'), $filename);
+        }
+
+        if ($request->hasFile('cover_image')) {
+            $file = $request->file('cover_image');
+            $filename = $user->userid . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/cover'), $filename);
+        }
+
+        $profile->update($request->only(['description', 'website']));
+
+        return Redirect::route('profile.edit')->with('status', 'organization-updated');
+    }
+
+    public function updateOrganizationAdditional(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+        $profile = $user->organization;
+
+        $request->validate([
+            'primary_address' => ['required', 'string', 'max:255'],
+            'secondary_address' => ['nullable', 'string', 'max:255'],
+            'org_mobile' => ['required', 'string', 'max:20'],
+            'org_telephone' => ['nullable', 'string', 'max:20'],
+        ]);
+
+        $profile->update($request->only(['primary_address', 'secondary_address', 'org_mobile', 'org_telephone']));
+
+        return Redirect::route('profile.edit')->with('status', 'organization-additional-updated');
     }
 }

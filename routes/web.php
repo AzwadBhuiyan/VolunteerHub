@@ -24,6 +24,10 @@ Route::middleware('auth')->group(function () {
     // New route for editing favorites (only for volunteers)
     Route::get('/favorites/edit', [FavoritesController::class, 'edit'])->name('favorites.edit');
     Route::patch('/favorites', [FavoritesController::class, 'update'])->name('favorites.update');
+    
+    // update organization information -- partials are independent
+    Route::patch('/profile/organization', [ProfileController::class, 'updateOrganization'])->name('profile.update.organization');
+    Route::patch('/profile/organization/additional', [ProfileController::class, 'updateOrganizationAdditional'])->name('profile.update.organization.additional');
 });
 
 // Public profile route (accessible without authentication)

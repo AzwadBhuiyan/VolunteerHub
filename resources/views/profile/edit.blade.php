@@ -25,6 +25,11 @@
                         @include('profile.partials.update-organization-information-form')
                     </div>
                 </div>
+                <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
+                    <div class="max-w-xl">
+                        @include('profile.partials.update-organization-additional-info-form')
+                    </div>
+                </div>
             @endif
 
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
