@@ -13,9 +13,14 @@
         @csrf
         @method('patch')
 
+        @if($profile->profile_picture)
+            <div class="mt-2">
+                <img src="{{ asset('images/profile_pictures/' . $profile->profile_picture) }}" alt="Profile Picture" class="w-32 h-32 object-cover rounded-full">
+            </div>
+        @endif
         <div>
             <x-input-label for="profile_picture" :value="__('Profile Picture')" />
-            <input id="profile_picture" name="profile_picture" type="file" class="mt-1 block w-full" />
+            <input id="profile_picture" name="profile_picture" type="file" class="mt-1 block w-full" accept="image/*" />
             <x-input-error class="mt-2" :messages="$errors->get('profile_picture')" />
         </div>
 
@@ -54,6 +59,18 @@
                     class="text-sm text-gray-600"
                 >{{ __('Saved.') }}</p>
             @endif
+        </div>
+
+        <div class="mt-4">
+            <h3 class="text-lg font-medium text-gray-900">Debug Information:</h3>
+            <pre class="mt-1 text-sm text-gray-600">
+                User ID: {{ $user->userid }}
+                Profile Picture: {{ $profile->profile_picture ?? 'Not set' }}
+                Bio: {{ $profile->bio ?? 'Not set' }}
+                Phone: {{ $profile->Phone ?? 'Not set' }}
+                Blood Group: {{ $profile->BloodGroup ?? 'Not set' }}
+                Form Data: {{ json_encode(old()) }}
+            </pre>
         </div>
     </form>
 </section>

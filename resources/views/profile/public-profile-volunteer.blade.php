@@ -1,6 +1,6 @@
 <x-app-layout>
     <link href="{{ asset('css/volunteer-profile.css') }}" rel="stylesheet"> 
-    <link href="{{ asset('css/volunteer-profile.css') }}" rel="stylesheet"> 
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 
@@ -9,7 +9,13 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="flex flex-col sm:flex-row items-center sm:space-x-4">
                     <div class="flex-shrink-0 w-24 h-24 mb-4 sm:mb-0">
-                        <img src="{{ $profile->profile_picture ? asset('storage/' . $profile->profile_picture) : asset('images/defaults/default-avatar.png') }}" 
+                        @php
+                            $imagePath = 'images/profile_pictures/' . $profile->userid . '.jpg';
+                            $fullPath = public_path($imagePath);
+                            $exists = file_exists($fullPath);
+                        @endphp
+                        <!-- <img src="{{ $profile->profile_picture ? asset('images/profile_pictures/' . $profile->userid . '.jpg') : asset('images/defaults/default-avatar.png') }}"  -->
+                        <img src="{{ $exists ? asset($imagePath) : asset('images/defaults/default-avatar.png') }}"                        
                             alt="{{ $profile->Name }}" 
                             class="profile-picture">
                     </div>

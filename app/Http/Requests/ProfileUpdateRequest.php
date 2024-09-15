@@ -17,7 +17,7 @@ class ProfileUpdateRequest extends FormRequest
 
         if ($this->user()->volunteer) {
             $rules = array_merge($rules, [
-                'profile_picture' => ['nullable', 'image', 'max:1024'],
+                'profile_picture' => ['nullable', 'image'],
                 'bio' => ['nullable', 'string', 'max:1000'],
                 'phone' => ['required', 'string', 'max:20'],
                 'blood_group' => ['required', 'string', 'in:A+,A-,B+,B-,AB+,AB-,O+,O-'],

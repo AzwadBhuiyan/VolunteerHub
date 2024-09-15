@@ -37,18 +37,38 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('profile_picture') && $user->volunteer) {
-            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
-            $profile->profile_picture = $path;
+            $file = $request->file('profile_picture');
+            $filename = $user->userid . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/profile_pictures'), $filename);
         }
 
         if ($request->hasFile('logo') && $user->organization) {
-            $path = $request->file('logo')->store('organization_logos', 'public');
-            $profile->logo = $path;
+            $file = $request->file('logo');
+            $filename = $user->userid . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/logos'), $filename);
         }
 
         if ($request->hasFile('cover_image') && $user->organization) {
-            $path = $request->file('cover_image')->store('organization_covers', 'public');
-            $profile->cover_image = $path;
+            $file = $request->file('cover_image');
+            $filename = $user->userid . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/cover'), $filename);
+
+        }
+
+        // Handle new fields for volunteer
+        if ($user->volunteer) {
+            $profile->bio = $request->bio;
+            $profile->Phone = $request->phone;
+            $profile->BloodGroup = $request->blood_group;
+        }
+
+        // Handle new fields for organization
+        if ($user->organization) {
+            $profile->description = $request->description;
+            $profile->website = $request->website;
+            $profile->org_mobile = $request->org_mobile;
+            $profile->primary_address = $request->primary_address;
+            $profile->secondary_address = $request->secondary_address;
         }
 
         $user->save();

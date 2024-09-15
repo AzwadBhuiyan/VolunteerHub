@@ -1,56 +1,105 @@
 <x-app-layout>
-    <div class="relative">
-        <img src="{{ $profile->cover_image ?? asset('images/default-cover.jpg') }}" alt="Cover Image" class="w-full h-64 object-cover">
-        <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-4">
-            <h1 class="text-3xl font-bold">{{ $profile->Name }}</h1>
-        </div>
+    <!-- Cover Image -->
+    <div class="w-full aspect-[21/9]">
+        <!-- // to check if image exists -->
+        @php
+            $coverPath = 'images/cover/' . $profile->userid . '.jpg';
+            $fullCoverPath = public_path($coverPath);
+            $coverExists = file_exists($fullCoverPath);
+        @endphp
+        <img src="{{ $coverExists ? asset($coverPath) : asset('images/defaults/default-cover.jpg') }}" alt="Cover Image" class="w-full h-full object-cover">
     </div>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="flex items-center space-x-4">
-                    <img src="{{ $profile->logo ?? asset('images/default-logo.png') }}" alt="{{ $profile->Name }}" class="w-24 h-24 rounded-full">
+    <div class="container mx-auto p-4">
+
+        <!-- Main Content -->
+        <main class="bg-white shadow-md rounded-lg overflow-hidden">
+            <!-- Profile Info -->
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <!-- // to check if image exists -->
+                    @php
+                        $logoPath = 'images/logos/' . $profile->userid . '.jpg';
+                        $fullLogoPath = public_path($logoPath);
+                        $logoExists = file_exists($fullLogoPath);
+                    @endphp
+                    <img src="{{ $logoExists ? asset($logoPath) : asset('images/defaults/default-logo.png') }}" alt="{{ $profile->Name }}" class="w-20 h-20 rounded-full object-cover mr-4">
                     <div>
-                        <p class="mt-2">{{ $profile->description }}</p>
-                        <a href="{{ $profile->website }}" class="text-blue-600 hover:underline">Visit Website</a>
+                        <h1 class="text-gray-600">{{ $profile->org_name }}</h1>
+                        <p class="text-gray-600">{{ $profile->description }}</p>
+                        <a href="{{ $profile->website }}" class="text-blue-600 hover:underline">{{ $profile->website }}</a>
+                        @if(Auth::id() == $profile->userid)
+                            <a href="{{ route('profile.edit') }}" class="btn">
+                                <i class="fas fa-pen"></i> Edit Profile
+                            </a>
+                        @endif
                     </div>
                 </div>
-            </div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <h3 class="text-xl font-semibold mb-4">Activities</h3>
-                <div x-data="{ tab: 'ongoing' }">
-                    <div class="border-b border-gray-200">
-                        <nav class="-mb-px flex">
-                            <button @click="tab = 'ongoing'" :class="{'border-indigo-500 text-indigo-600': tab === 'ongoing'}" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm">
-                                Ongoing Activities
-                            </button>
-                            <button @click="tab = 'completed'" :class="{'border-indigo-500 text-indigo-600': tab === 'completed'}" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm">
-                                Completed Activities
-                            </button>
-                        </nav>
+                <!-- Action Buttons -->
+                <div class="flex space-x-2 mb-4">
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Social</button>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">About</button>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Contact</button>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Website</button>
+                </div>
+
+                <!-- Activities Section -->
+                <div x-data="{ tab: 'ongoing' }" class="mb-6">
+                    <div class="flex justify-center space-x-2 mb-4">
+                        <button @click="tab = 'ongoing'" :class="{'bg-green-600': tab === 'ongoing'}" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Ongoing</button>
+                        <button @click="tab = 'completed'" :class="{'bg-green-600': tab === 'completed'}" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Completed</button>
                     </div>
+
                     <div x-show="tab === 'ongoing'">
                         @foreach($ongoingActivities as $activity)
                             <div class="mb-4 p-4 border rounded">
                                 <h4 class="font-semibold">{{ $activity->title }}</h4>
                                 <p class="text-sm text-gray-600">{{ $activity->date }}</p>
                                 <p>{{ Str::limit($activity->description, 100) }}</p>
-                            </div>
+                                
+                                <!-- Activity Image -->
+                                @php
+                                    $imagePath = 'images/activities/' . $activity->activityid . '/' . $activity->activityid . '.jpg';
+                                    $fullImagePath = public_path($imagePath);
+                                    $imageExists = file_exists($fullImagePath);
+                                @endphp
+                                @if($imageExists)
+                                    <div class="mt-2">
+                                        <img src="{{ asset($imagePath) }}" alt="{{ $activity->title }}" class="w-full h-48 object-cover rounded">
+                                    </div>
+                                @endif
+                                <div class="flex space-x-2 mb-4">
+                                    <a href="#" class="px-4 py-2 mt-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block">View more details</a>
+                                    <a href="#" class="px-4 py-2 mt-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block">Register for this activity</a>
+                                </div>
+                            </div>                            
                         @endforeach
                     </div>
+
                     <div x-show="tab === 'completed'">
                         @foreach($completedActivities as $activity)
                             <div class="mb-4 p-4 border rounded">
                                 <h4 class="font-semibold">{{ $activity->title }}</h4>
                                 <p class="text-sm text-gray-600">{{ $activity->date }}</p>
                                 <p>{{ Str::limit($activity->description, 100) }}</p>
+                                
+                                <!-- Activity Image -->
+                                @php
+                                    $imagePath = 'images/activities/' . $activity->activityid . '/' . $activity->activityid . '.jpg';
+                                    $fullImagePath = public_path($imagePath);
+                                    $imageExists = file_exists($fullImagePath);
+                                @endphp
+                                @if($imageExists)
+                                    <div class="mt-2">
+                                        <img src="{{ asset($imagePath) }}" alt="{{ $activity->title }}" class="w-full h-48 object-cover rounded">
+                                    </div>
+                                @endif
                             </div>
                         @endforeach
                     </div>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 </x-app-layout>

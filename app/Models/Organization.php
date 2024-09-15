@@ -12,7 +12,7 @@ class Organization extends Model
 
     protected $fillable = [
         'userid', 'org_name', 'primary_address', 'secondary_address', 'website',
-        'org_mobile', 'org_telephone', 'verification_status'
+        'org_mobile', 'org_telephone', 'description', 'verification_status'
     ];
 
     public function user()

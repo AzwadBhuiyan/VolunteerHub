@@ -58,3 +58,7 @@ h3 {
     color: #10B981;
     font-weight: bold;
 }
+
+.custom-nav-height{
+    height: 2rem !important; /* 2rem is equivalent to h-8 in Tailwind */
+}

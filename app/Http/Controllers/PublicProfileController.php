@@ -16,6 +16,7 @@ class PublicProfileController extends Controller
         
         if ($user->volunteer) {
             $profile = $user->volunteer;
+            $profile->userid = $user->userid; // Ensure userid is set
             $completedActivities = Activity::whereHas('volunteers', function ($query) use ($userid) {
                 $query->where('volunteer_userid', $userid)->where('approval_status', 'approved');
             })->where('status', 'completed')->get();
@@ -23,6 +24,7 @@ class PublicProfileController extends Controller
             return view('profile.public-profile-volunteer', compact('profile', 'completedActivities'));
         } elseif ($user->organization) {
             $profile = $user->organization;
+            $profile->userid = $user->userid; // Ensure userid is set
             $completedActivities = $user->activities()->where('status', 'completed')->get();
             $ongoingActivities = $user->activities()->where('status', 'open')->get();
             

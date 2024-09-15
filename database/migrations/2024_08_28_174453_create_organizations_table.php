@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('website');
             $table->string('org_mobile');
             $table->string('org_telephone');
+            $table->text('description')->nullable();
             $table->enum('verification_status', ['unverified', 'verified'])->default('unverified');
             $table->foreign('userid')->references('userid')->on('users')->onDelete('cascade');
             $table->timestamps();

@@ -133,6 +133,11 @@
                 <x-text-input id="org_name" class="block mt-1 w-full" type="text" name="org_name" :value="old('org_name')" data-required placeholder="Organization Name" />
                 <x-input-error :messages="$errors->get('org_name')" class="mt-2" />
             </div>
+            <!-- Description -->
+            <div class="mt-4">
+                <textarea id="description" name="description" rows="3" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Organization Description (optional)">{{ old('description') }}</textarea>
+                <x-input-error :messages="$errors->get('description')" class="mt-2" />
+            </div>
 
             <!-- Primary Address -->
             <div class="mt-4">
