@@ -27,7 +27,7 @@
                             <p><strong>Volunteers Needed:</strong> {{ $activity->min_volunteers }} - {{ $activity->max_volunteers ?? 'No limit' }}</p>
                         </div>
                         <div class="flex justify-between items-center">
-                            <a href="{{ route('organizations.public-profile', $activity->organization) }}" class="text-blue-500 hover:underline">
+                            <a href="{{ route('profile.public', $activity->organization) }}" class="text-blue-500 hover:underline">
                                 Organized by: {{ $activity->organization->org_name }}
                             </a>
                             <div>
