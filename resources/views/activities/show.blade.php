@@ -9,11 +9,15 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    @if($activity->image)
-                        <img src="{{ asset('images/activities/' . $activity->activityid . '/' . $activity->activityid . '.jpg') }}" 
-                             alt="{{ $activity->title }}" 
-                             class="w-full h-64 object-cover mb-4 rounded">
-                    @endif
+                    @php
+                        $imagePath = 'images/activities/' . $activity->activityid . '.jpg';
+                        $fullPath = public_path($imagePath);
+                        $exists = file_exists($fullPath);
+                    @endphp              
+                    <img src="{{ asset('images/activities/' . $activity->activityid . '/' . $activity->activityid . '.jpg') }}" 
+                            alt="{{ $activity->title }}" 
+                            class="w-full h-64 object-cover mb-4 rounded">
+                 
                     <p class="text-gray-700 mb-4">{{ $activity->description }}</p>
                     <div class="mb-4">
                         <p><strong>Date:</strong> {{ $activity->date->format('M d, Y') }}</p>
