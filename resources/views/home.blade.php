@@ -28,6 +28,7 @@
                 <p class="text-lg mb-2">Welcome, {{ Auth::user()->userid }}!</p>
                 <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Go to Dashboard</a>
                 <a href="{{ route('profile.public', Auth::id()) }}" class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Public profile</a>
+                <a href="{{ route('activities.feed') }}" class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Activity Feed</a>
                 @if (Auth::user()->organization)                
                     <a href="{{ route('activities.create') }}" class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Create Activity</a>
                     <a href="{{ route('activities.index') }}" class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">All Activities</a>
@@ -43,6 +44,10 @@
                 <a href="{{ route('register') }}" class="ml-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Register</a>
             </div>
         @endif
+        <div class="mt-4">
+            <a href="{{ route('activities.feed') }}" class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-4">Activity Feed</a>
+        </div>
+        
     </div>
 </body>
 </html>

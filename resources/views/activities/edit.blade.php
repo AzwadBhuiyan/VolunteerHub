@@ -93,6 +93,18 @@
                             </div>
                         </div>
 
+                        <div class="mb-4">
+                            <x-input-label for="status" :value="__('Status')" />
+                            <select id="status" name="status" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                @foreach(App\Models\Activity::STATUSES as $status)
+                                    <option value="{{ $status }}" {{ old('status', $activity->status) === $status ? 'selected' : '' }}>
+                                        {{ ucfirst($status) }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                        </div>
+
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button class="ml-4">
                                 {{ __('Update Activity') }}
@@ -104,6 +116,7 @@
         </div>
     </div>
 
+    <!-- TODO: move this to single js file -->
     <script>
         function previewImage(input, previewId) {
             var preview = document.getElementById(previewId);

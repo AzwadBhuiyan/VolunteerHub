@@ -31,12 +31,21 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile/organization/additional', [ProfileController::class, 'updateOrganizationAdditional'])->name('profile.update.organization.additional');
 
     // Activities
+    Route::get('/activities-feed', [ActivityController::class, 'feed'])->name('activities.feed');
     Route::get('/activities/create', [ActivityController::class, 'create'])->name('activities.create');
     Route::post('/activities', [ActivityController::class, 'store'])->name('activities.store');
     Route::get('/activities-list', [ActivityController::class, 'index'])->name('activities.index');
     Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
     Route::get('/activities/{activity}/edit', [ActivityController::class, 'edit'])->name('activities.edit');
     Route::put('/activities/{activity}', [ActivityController::class, 'update'])->name('activities.update');
+        // org->activities
+    Route::patch('/activities/{activity}/update-status', [ActivityController::class, 'updateStatus'])->name('activities.updateStatus');
+
+    Route::get('/activities/{activity}/signups', [ActivityController::class, 'showSignups'])->name('activities.show_signups');
+    Route::patch('/activities/{activity}/volunteers/{volunteer}', [ActivityController::class, 'updateVolunteerStatus'])->name('activities.update_volunteer_status');
+    Route::patch('/activities/{activity}/update-multiple-volunteer-status', [ActivityController::class, 'updateMultipleVolunteerStatus'])->name('activities.update_multiple_volunteer_status');
+        // volunteer->activities
+    Route::post('/activities/{activity}/register', [ActivityController::class, 'register'])->name('activities.register')->middleware('auth');
 
 });
 

@@ -76,7 +76,7 @@
                                         @if(Auth::user()->volunteer)
                                             <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block">Register now</a>
                                         @elseif(Auth::user()->organization && Auth::id() == $activity->userid)
-                                            <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block">Edit activity</a>
+                                            <a href="{{ route('activities.edit', $activity) }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 inline-block">Edit activity</a>
                                         @endif
                                     @endauth                            
                                 </div>

@@ -68,6 +68,8 @@
             @endif
         </div>
     </form>
+
+    <!-- TODO: move this to single js file -->
     <script>
         function previewImage(input, previewId) {
             if (input.files && input.files[0]) {
@@ -79,4 +81,5 @@
             }
         }
     </script>
+    
 </section>

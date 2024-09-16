@@ -29,9 +29,20 @@
                                             <td class="px-4 py-2">{{ $activity->title }}</td>
                                             <td class="px-4 py-2">{{ $activity->date->format('Y-m-d') }}</td>
                                             <td class="px-4 py-2">
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $activity->status === 'open' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
-                                                    {{ ucfirst($activity->status) }}
-                                                </span>
+                                                <form action="{{ route('activities.updateStatus', $activity) }}" method="POST" class="flex items-center">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <select name="status" class="mr-2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                                        @foreach(App\Models\Activity::STATUSES as $status)
+                                                            <option value="{{ $status }}" {{ $activity->status === $status ? 'selected' : '' }}>
+                                                                {{ ucfirst($status) }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <button type="submit" class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                                        Change Status
+                                                    </button>
+                                                </form>
                                             </td>
                                             <td class="px-4 py-2">
                                                 <a href="{{ route('activities.show', $activity) }}" class="text-blue-500 hover:underline">Show</a>

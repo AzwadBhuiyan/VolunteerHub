@@ -12,17 +12,21 @@
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
+        <x-input-label for="profile_picture" :value="__('Profile Picture')" />
+        <div class="flex items-center space-x-4">            
+            <div class="flex items-center">
+                @php
+                    $profilePicturePath = 'images/profile_pictures/' . $profile->userid . '.jpg';
+                    $fullProfilePicturePath = public_path($profilePicturePath);
+                    $profilePictureExists = file_exists($fullProfilePicturePath);
+                @endphp
+                <img id="profilePicturePreview" src="{{ $profilePictureExists ? asset($profilePicturePath) : asset('images/defaults/default-avatar.png') }}" alt="{{$profile->name}}" class="w-64 h-64 object-cover rounded-full mr-2">
 
-        @if($profile->profile_picture)
-            <div class="mt-2">
-                <img src="{{ asset('images/profile_pictures/' . $profile->profile_picture) }}" alt="Profile Picture" class="w-32 h-32 object-cover rounded-full">
+                <input id="profile_picture" name="profile_picture" type="file" class="mt-1 block" accept="image/*" onchange="previewImage(this, 'profilePicturePreview')" />
             </div>
-        @endif
-        <div>
-            <x-input-label for="profile_picture" :value="__('Profile Picture')" />
-            <input id="profile_picture" name="profile_picture" type="file" class="mt-1 block w-full" accept="image/*" />
             <x-input-error class="mt-2" :messages="$errors->get('profile_picture')" />
         </div>
+
 
         <div>
             <x-input-label for="bio" :value="__('Bio')" />
@@ -61,16 +65,19 @@
             @endif
         </div>
 
-        <div class="mt-4">
-            <h3 class="text-lg font-medium text-gray-900">Debug Information:</h3>
-            <pre class="mt-1 text-sm text-gray-600">
-                User ID: {{ $user->userid }}
-                Profile Picture: {{ $profile->profile_picture ?? 'Not set' }}
-                Bio: {{ $profile->bio ?? 'Not set' }}
-                Phone: {{ $profile->Phone ?? 'Not set' }}
-                Blood Group: {{ $profile->BloodGroup ?? 'Not set' }}
-                Form Data: {{ json_encode(old()) }}
-            </pre>
-        </div>
     </form>
+
+    <!-- TODO: move this to single js file -->
+    <script>
+        function previewImage(input, previewId) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(previewId).src = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
 </section>

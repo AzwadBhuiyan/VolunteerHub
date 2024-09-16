@@ -16,7 +16,7 @@
                         @endphp
                         <!-- <img src="{{ $profile->profile_picture ? asset('images/profile_pictures/' . $profile->userid . '.jpg') : asset('images/defaults/default-avatar.png') }}"  -->
                         <img src="{{ $exists ? asset($imagePath) : asset('images/defaults/default-avatar.png') }}"                        
-                            alt="{{ $profile->Name }}" 
+                            alt="{{ $profile->name }}" 
                             class="profile-picture">
                     </div>
                     <div class="text-center sm:text-left">
