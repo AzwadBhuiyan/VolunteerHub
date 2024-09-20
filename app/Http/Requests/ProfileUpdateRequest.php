@@ -12,7 +12,8 @@ class ProfileUpdateRequest extends FormRequest
     {
         $rules = [
             'name' => ['string', 'max:255'],
-            'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id, 'id')],
+            'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->userid, 'userid')],
+            'new_userid' => ['sometimes', 'string', 'max:255', Rule::unique(User::class, 'userid')->ignore($this->user()->userid, 'userid')],
         ];
 
         if ($this->user()->volunteer) {

@@ -29,6 +29,11 @@ class ProfileController extends Controller
         $user = $request->user();
         $profile = $user->volunteer ?? $user->organization;
 
+        $newUserid = $request->new_userid;
+        if ($user->organization) {
+            $newUserid = 'org-' . ltrim($newUserid, 'org-');
+        }
+
         $user->fill($request->validated());
         $profile->fill($request->validated());
 
@@ -70,6 +75,29 @@ class ProfileController extends Controller
             $profile->secondary_address = $request->secondary_address;
             $profile->org_mobile = $request->org_mobile;
             $profile->org_telephone = $request->org_telephone;
+        }
+
+        // Update userid if provided
+        if ($newUserid && $newUserid !== $user->userid) {
+            $request->validate([
+                'new_userid' => ['required', 'string', 'max:255', 'unique:users,userid,' . $user->userid . ',userid'],
+            ]);
+            $user->userid = $newUserid;
+        }
+
+        if ($request->has('url')) {
+            $newUrl = $request->url;
+            if ($user->organization) {
+                $newUrl = 'org-' . ltrim($newUrl, 'org-');
+            }
+            
+            // Check if the new URL is unique
+            if (($user->volunteer && Volunteer::where('url', $newUrl)->where('userid', '!=', $user->userid)->exists()) ||
+                ($user->organization && Organization::where('url', $newUrl)->where('userid', '!=', $user->userid)->exists())) {
+                return Redirect::back()->withErrors(['url' => 'This URL is already taken.']);
+            }
+            
+            $profile->url = $newUrl;
         }
 
         $user->save();

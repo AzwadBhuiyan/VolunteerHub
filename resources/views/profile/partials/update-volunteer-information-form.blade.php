@@ -12,6 +12,14 @@
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
+
+        <!-- URL field -->
+        <div>
+            <x-input-label for="url" :value="__('Profile URL')" />
+            <x-text-input id="url" name="url" type="text" class="mt-1 block w-full" :value="old('url', $profile->url)" required />
+            <x-input-error class="mt-2" :messages="$errors->get('url')" />
+        </div>
+
         <x-input-label for="profile_picture" :value="__('Profile Picture')" />
         <div class="flex items-center space-x-4">            
             <div class="flex items-center">

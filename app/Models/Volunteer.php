@@ -13,7 +13,7 @@ class Volunteer extends Model
     protected $fillable = [
         'userid', 'Name', 'Phone', 'NID', 'Gender', 'DOB',
         'BloodGroup', 'PresentAddress', 'PermanentAddress', 'District',
-        'TrainedInEmergencyResponse', 'Points', 'Badges', 'bio'
+        'TrainedInEmergencyResponse', 'Points', 'Badges', 'bio', 'url'
     ];
 
     protected $casts = [

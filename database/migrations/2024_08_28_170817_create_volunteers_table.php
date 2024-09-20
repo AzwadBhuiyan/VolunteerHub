@@ -11,6 +11,7 @@ return new class extends Migration
     {
         Schema::create('volunteers', function (Blueprint $table) {
             $table->string('userid')->primary();
+            $table->string('url')->unique();
             $table->string('Name');
             $table->string('Phone');
             $table->string('NID')->nullable();
@@ -32,6 +33,7 @@ return new class extends Migration
             $table->boolean('TrainedInEmergencyResponse')->default(false);
             $table->integer('Points')->default(0);
             $table->json('Badges')->nullable();
+            $table->text('bio')->nullable();
             $table->foreign('userid')->references('userid')->on('users')->onDelete('cascade');
             $table->timestamps();
         });

@@ -28,6 +28,11 @@ class RegisteredUserController extends Controller
         return $userType === 'organization' ? view('auth.register-org') : view('auth.register');
     }
 
+    private function generateUserid($userType)
+    {
+        return User::generateUserid($userType);
+    }
+
     /**
      * Handle an incoming registration request.
      *
@@ -85,8 +90,10 @@ class RegisteredUserController extends Controller
         }
 
         try {
+            $userid = $this->generateUserid($request->user_type);
+
             $user = User::create([
-                'userid' => $request->userid,
+                'userid' => $userid,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
@@ -94,6 +101,7 @@ class RegisteredUserController extends Controller
             if ($request->user_type === 'volunteer') {
                 Volunteer::create([
                     'userid' => $user->userid,
+                    'url' => $user->userid,
                     'Name' => $request->name,
                     'Phone' => $request->phone,
                     'NID' => $request->nid,
@@ -108,6 +116,7 @@ class RegisteredUserController extends Controller
             } else {
                 Organization::create([
                     'userid' => $user->userid,
+                    'url' => $user->userid,
                     'org_name' => $request->org_name,
                     'primary_address' => $request->primary_address,
                     'secondary_address' => $request->secondary_address,

@@ -13,6 +13,13 @@
         @csrf
         @method('patch')
 
+        <!-- URL field -->
+        <div>
+            <x-input-label for="url" :value="__('Profile URL')" />
+            <x-text-input id="url" name="url" type="text" class="mt-1 block w-full" :value="old('url', $profile->url)" required />
+            <x-input-error class="mt-2" :messages="$errors->get('url')" />
+        </div>
+
         <div class="flex items-center space-x-4">
             <x-input-label for="logo" :value="__('Logo')" />
             <div class="flex items-center">
@@ -81,5 +88,4 @@
             }
         }
     </script>
-    
 </section>

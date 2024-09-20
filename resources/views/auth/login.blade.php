@@ -12,29 +12,16 @@
     <form method="POST" action="{{ route('login') }}">
         @csrf
 
-        <!-- User Type Selection -->
         <div>
-            <div>
-                <p class="mt-2 text-center text-sm text-gray-600">
-                    <!-- Replace with your actual tagline -->
-                    {{ __('Connecting volunteers with opportunities') }}
-                </p>
-                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                    {{ __('Log in to your account') }}
-                </h2>
-            </div>
-            <select id="user_type" name="user_type" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                <option value="" disabled selected>Login as</option>
-                <option value="volunteer">Volunteer</option>
-                <option value="organization">Organization</option>
-            </select>
-            <x-input-error :messages="$errors->get('user_type')" class="mt-2" />
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                {{ __('Log in to your account') }}
+            </h2>
         </div>
 
-        <!-- UserID -->
+        <!-- Email -->
         <div class="mt-4">
-            <x-text-input id="userid" class="block mt-1 w-full" type="text" name="userid" :value="old('userid')" required autofocus autocomplete="username" placeholder="UserID" />
-            <x-input-error :messages="$errors->get('userid')" class="mt-2" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Email" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->

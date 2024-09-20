@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('organizations', function (Blueprint $table) {
             $table->string('userid')->primary();
+            $table->string('url')->unique();
             $table->string('org_name');
             $table->text('primary_address');
             $table->text('secondary_address');

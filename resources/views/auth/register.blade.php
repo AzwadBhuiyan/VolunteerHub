@@ -16,11 +16,8 @@
 
         <!-- Common Fields -->
         <div id="common-fields">
-            <!-- UserID -->
-            <div class="mt-4">
-                <x-text-input id="userid" class="block mt-1 w-full" type="text" name="userid" :value="old('userid')" data-required autocomplete="username" placeholder="UserID" />
-                <x-input-error :messages="$errors->get('userid')" class="mt-2" />
-            </div>
+            <!-- Hidden UserID field -->
+            <input type="hidden" id="userid" name="userid" value="auto-generate">
 
             <!-- Email Address -->
             <div class="mt-4">
