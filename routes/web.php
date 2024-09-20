@@ -50,7 +50,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Public profile route (accessible without authentication)
-Route::get('/profile/{userid}', [PublicProfileController::class, 'show'])->name('profile.public');
+Route::get('/profile/{url}', [PublicProfileController::class, 'show'])->name('profile.public');
 
 Route::middleware(['web'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -77,3 +77,6 @@ Route::post('/email/verification-notification', [EmailVerificationNotificationCo
 Route::post('/login', [CustomLoginController::class, 'login'])->name('login');
 
 require __DIR__.'/auth.php';
+
+Route::patch('/profile/volunteer/additional', [ProfileController::class, 'updateVolunteerAdditional'])
+    ->name('profile.update.volunteer.additional');

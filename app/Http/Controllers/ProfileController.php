@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Volunteer;
+use App\Models\Organization;
 
 class ProfileController extends Controller
 {
@@ -168,5 +170,29 @@ class ProfileController extends Controller
         $profile->update($request->only(['primary_address', 'secondary_address', 'org_mobile', 'org_telephone']));
 
         return Redirect::route('profile.edit')->with('status', 'organization-additional-updated');
+    }
+
+    public function updateVolunteerAdditional(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+        $profile = $user->volunteer;
+
+        $validated = $request->validate([
+            'nid' => 'nullable|string|max:255',
+            'present_address' => 'required|string',
+            'permanent_address' => 'required|string',
+            'district' => 'required|string',
+            'trained_in_emergency' => 'boolean',
+        ]);
+
+        $profile->NID = $validated['nid'];
+        $profile->PresentAddress = $validated['present_address'];
+        $profile->PermanentAddress = $validated['permanent_address'];
+        $profile->District = $validated['district'];
+        $profile->TrainedInEmergencyResponse = $validated['trained_in_emergency'] ?? false;
+
+        $profile->save();
+
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 }
