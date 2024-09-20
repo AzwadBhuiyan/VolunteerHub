@@ -1,0 +1,129 @@
+/* navbar.css */
+
+/* General styles for the navigation bar */
+nav {
+    background-color: #ffffff; /* White background */
+    border-bottom: 1px solid #e0e0e0; /* Light gray border */
+    height: 60px; /* Height of the navbar */
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    padding: 0 20px; /* Horizontal padding for the navbar */
+    position: sticky; /* Make the navbar sticky */
+    top: 0; /* Stick to the top of the viewport */
+    z-index: 1000; /* Ensure it stays above other content */
+    background-color: white; /* Set a background color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for depth */
+}
+
+/* Logo styles */
+.site-logo {
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Center items vertically */
+}
+
+/* Styles for the navigation links */
+.nav-links {
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center the icons in the middle */
+    flex-grow: 1; /* Allow this section to grow and take available space */
+}
+
+/* Logout button styles */
+.logout-button {
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Center items vertically */
+}
+
+/* Logout and Login button styles */
+.btn-login, .btn-logout {
+    background-color: #1877f2; /* Facebook blue */
+    color: white; /* White text */
+    padding: 10px 15px; /* Padding for the button */
+    border-radius: 5px; /* Rounded corners */
+    text-decoration: none; /* Remove underline */
+    margin-left: 10px; /* Space between logout button and icons */
+    transition: background-color 0.2s ease; /* Smooth background transition */
+}
+
+.btn-login:hover, .btn-logout:hover {
+    background-color: #165eab; /* Darker blue on hover */
+}
+
+/* Icon container styles */
+.icon-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50px; /* Width of the rounded square */
+    height: 50px; /* Height of the rounded square */
+    border-radius: 12px; /* Rounded corners */
+    background-color: transparent; /* Initially transparent */
+    transition: background-color 0.2s ease; /* Smooth background transition */
+}
+
+/* Icon styles */
+nav a svg {
+    width: 24px; /* Icon size */
+    height: 24px; /* Icon size */
+    color: inherit; /* Inherit color from parent */
+    transition: fill 0.2s ease; /* Smooth fill transition */
+}
+
+/* Active link styles */
+nav a.text-blue-500 {
+    color: #1877f2; /* Facebook blue for active link */
+}
+
+/* Hover effects */
+nav a:hover .icon-container {
+    background-color: #e4e6eb; /* Light gray on hover */
+}
+
+/* Tooltip styles */
+.tooltip {
+    background-color: #4b4f54; /* Dark gray background */
+    color: #ffffff; /* White text color */
+    padding: 4px 8px; /* Padding for tooltip */
+    border-radius: 4px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    position: absolute; /* Positioning for tooltip */
+    bottom: -30px; /* Position below the icon */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center adjustment */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.2s ease; /* Smooth transition */
+    z-index: 10; /* Ensure it appears above other elements */
+}
+
+/* Show tooltip on hover */
+nav a:hover .tooltip {
+    opacity: 1; /* Show tooltip on hover */
+}
+
+/* Underline effect for active links */
+nav a div {
+    height: 2px; /* Height of the underline */
+    background-color: transparent; /* Default transparent */
+    transition: background-color 0.2s ease; /* Smooth transition */
+}
+
+/* Active underline */
+.active-underline {
+    height: 2px; /* Height of the underline */
+    background-color: transparent; /* Default transparent */
+    transition: background-color 0.2s ease; /* Smooth transition */
+}
+
+.active-underline.active {
+    background-color: #1877f2; /* Blue underline color */
+    margin-top: 4px; /* Space between icon and underline */
+}
+
+/* CSS for the logo */
+.logo {
+    height: 40px; /* Adjust height as needed */
+    max-width: 100%; /* Ensure it doesn't exceed its container */
+    object-fit: contain; /* Maintain aspect ratio */
+}
