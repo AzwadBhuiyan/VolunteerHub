@@ -79,13 +79,13 @@ class ProfileController extends Controller
             $profile->org_telephone = $request->org_telephone;
         }
 
-        // Update userid if provided
-        if ($newUserid && $newUserid !== $user->userid) {
-            $request->validate([
-                'new_userid' => ['required', 'string', 'max:255', 'unique:users,userid,' . $user->userid . ',userid'],
-            ]);
-            $user->userid = $newUserid;
-        }
+        // // Update userid if provided
+        // if ($newUserid && $newUserid !== $user->userid) {
+        //     $request->validate([
+        //         'new_userid' => ['required', 'string', 'max:255', 'unique:users,userid,' . $user->userid . ',userid'],
+        //     ]);
+        //     $user->userid = $newUserid;
+        // }
 
         if ($request->has('url')) {
             $newUrl = $request->url;
@@ -132,10 +132,10 @@ class ProfileController extends Controller
         $profile = $user->organization;
 
         $request->validate([
-            'logo' => ['nullable', 'image', 'max:1024'],
-            'cover_image' => ['nullable', 'image', 'max:2048'],
-            'description' => ['required', 'string', 'max:1000'],
-            'website' => ['required', 'url', 'max:255'],
+            'logo' => ['nullable', 'image', 'max:5120'],
+            'cover_image' => ['nullable', 'image', 'max:5120'],
+            'description' => ['required', 'string', 'max:150'],
+            'website' => ['nullable', 'string', 'regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'],
         ]);
 
         if ($request->hasFile('logo')) {
@@ -161,10 +161,10 @@ class ProfileController extends Controller
         $profile = $user->organization;
 
         $request->validate([
-            'primary_address' => ['required', 'string', 'max:255'],
-            'secondary_address' => ['nullable', 'string', 'max:255'],
-            'org_mobile' => ['required', 'string', 'max:20'],
-            'org_telephone' => ['nullable', 'string', 'max:20'],
+            'primary_address' => ['required', 'string', 'max:300'],
+            'secondary_address' => ['nullable', 'string', 'max:300'],
+            'org_mobile' => ['required', 'string', 'max:11'],
+            'org_telephone' => ['nullable', 'string', 'between:7,11'],
         ]);
 
         $profile->update($request->only(['primary_address', 'secondary_address', 'org_mobile', 'org_telephone']));
@@ -179,8 +179,8 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'nid' => 'nullable|string|max:255',
-            'present_address' => 'required|string',
-            'permanent_address' => 'required|string',
+            'present_address' => 'required|string|max:300',
+            'permanent_address' => 'required|string|max:300',
             'district' => 'required|string',
             'trained_in_emergency' => 'boolean',
         ]);

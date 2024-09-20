@@ -34,6 +34,7 @@
             </div>
             <x-input-error class="mt-2" :messages="$errors->get('profile_picture')" />
         </div>
+        <p class="text-sm text-gray-600 mt-1">Maximum file size: 5MB</p>
 
 
         <div>

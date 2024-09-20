@@ -60,7 +60,7 @@ class ActivityController extends Controller
             'deadline' => 'required|date',
             'min_volunteers' => 'required|integer|min:1',
             'max_volunteers' => 'nullable|integer|gt:min_volunteers',
-            'image' => 'nullable|image|max:2048', // 2MB Max
+            'image' => 'nullable|image|max:5120', // 5MB Max
         ]);
 
         $validatedData['userid'] = Auth::id();
@@ -105,7 +105,7 @@ class ActivityController extends Controller
             'deadline' => 'required|date',
             'min_volunteers' => 'required|integer|min:1',
             'max_volunteers' => 'nullable|integer|gt:min_volunteers',
-            'image' => 'nullable|image|max:2048', // 2MB Max
+            'image' => 'nullable|image|max:5120', // 5MB Max
         ]);
 
         $activity->update($validatedData);

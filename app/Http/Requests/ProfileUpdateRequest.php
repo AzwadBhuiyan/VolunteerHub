@@ -11,28 +11,28 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name' => ['string', 'max:255'],
+            'name' => ['string', 'max:50'],
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->userid, 'userid')],
             'new_userid' => ['sometimes', 'string', 'max:255', Rule::unique(User::class, 'userid')->ignore($this->user()->userid, 'userid')],
         ];
 
         if ($this->user()->volunteer) {
             $rules = array_merge($rules, [
-                'profile_picture' => ['nullable', 'image'],
-                'bio' => ['nullable', 'string', 'max:1000'],
-                'phone' => ['required', 'string', 'max:20'],
+                'profile_picture' => ['nullable', 'image', 'max:5120'],
+                'bio' => ['nullable', 'string', 'max:150'],
+                'phone' => ['required', 'string', 'max:11'],
                 'blood_group' => ['required', 'string', 'in:A+,A-,B+,B-,AB+,AB-,O+,O-'],
             ]);
         } elseif ($this->user()->organization) {
             $rules = array_merge($rules, [
-                'logo' => ['nullable', 'image', 'max:1024'],
-                'cover_image' => ['nullable', 'image', 'max:2048'],
-                'description' => ['required', 'string', 'max:1000'],
-                'website' => ['required', 'url', 'max:255'],
-                'primary_address' => ['required', 'string', 'max:255'],
-                'secondary_address' => ['nullable', 'string', 'max:255'],
-                'org_mobile' => ['required', 'string', 'max:20'],
-                'org_telephone' => ['nullable', 'string', 'max:20'],
+                'logo' => ['nullable', 'image', 'max:5120'],
+                'cover_image' => ['nullable', 'image', 'max:5120'],
+                'description' => ['required', 'string', 'max:150'],
+                'website' => ['nullable', 'string', 'regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'],
+                'primary_address' => ['required', 'string', 'max:300'],
+                'secondary_address' => ['nullable', 'string', 'max:300'],
+                'org_mobile' => ['required', 'string', 'max:11'],
+                'org_telephone' => ['nullable', 'string', 'between:7,11'],
             ]);
         }
 

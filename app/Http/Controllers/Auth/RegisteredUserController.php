@@ -50,26 +50,28 @@ class RegisteredUserController extends Controller
         
         $volunteerRules = [
             'userid' => ['required', 'string', 'max:255', 'unique:users'],
-            'name' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:20'],
+            'name' => ['required', 'string', 'max:50'],
+            'phone' => ['required', 'string', 'max:11'],
             'nid' => ['nullable', 'string', 'max:20'],
             'gender' => ['required', 'in:M,F,O'],
-            'dob' => ['required', 'date'],
+            'dob' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
             'blood_group' => ['required', 'string', 'max:5'],
-            'present_address' => ['required', 'string'],
-            'permanent_address' => ['required', 'string'],
+            'present_address' => ['required', 'string', 'max:300'],
+            'permanent_address' => ['required', 'string', 'max:300'],
             'district' => ['required', 'string'],
             'trained_in_emergency_response' => ['nullable', 'boolean'],
+            'bio' => ['nullable', 'string' , 'max:150']
         ];
         
         $organizationRules = [
             'userid' => ['required', 'string', 'max:255', 'unique:users'],
             'org_name' => ['required', 'string', 'max:255'],
-            'primary_address' => ['required', 'string'],
-            'secondary_address' => ['required', 'string'],
-            'website' => ['required', 'url'],
-            'org_mobile' => ['required', 'string', 'max:20'],
-            'org_telephone' => ['required', 'string', 'max:20'],
+            'primary_address' => ['required', 'string', 'max:300'],
+            'secondary_address' => ['nullable', 'string', 'max:300'],
+            'website' => ['required', 'string', 'regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'],
+            'org_mobile' => ['required', 'string', 'max:11'],
+            'org_telephone' => ['required', 'string', 'between:7,11'],
+            'description' => ['required', 'string', 'max:150'],
         ];
         
         $rules = array_merge($commonRules, $request->user_type === 'volunteer' ? $volunteerRules : $organizationRules);
@@ -80,10 +82,6 @@ class RegisteredUserController extends Controller
         }, ARRAY_FILTER_USE_BOTH);
         
         $request->validate($rules);
-
-        $validator = Validator::make($request->all(), $rules, [
-            'userid.unique' => 'This UserID is already taken. Please choose a different one.',
-        ]);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();

@@ -34,6 +34,7 @@
             </div>
             <x-input-error class="mt-2" :messages="$errors->get('logo')" />
         </div>
+        <p class="text-sm text-gray-600 mt-1">Maximum file size: 5MB</p>
 
         <div class="flex items-center space-x-4 mt-4">
             <x-input-label for="cover_image" :value="__('Cover Image')" />
