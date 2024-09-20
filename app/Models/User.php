@@ -51,13 +51,19 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static function generateUserid($userType)
     {
-        $lastUser = self::orderBy('userid', 'desc')->first();
-        $lastId = $lastUser ? intval(preg_replace('/[^0-9]/', '', $lastUser->userid)) : 0;
-        $newId = $lastId + 1;
-
         if ($userType === 'organization') {
+            $lastOrg = self::where('userid', 'like', 'org-%')
+                        ->orderBy('userid', 'desc')
+                        ->first();
+            $lastId = $lastOrg ? intval(substr($lastOrg->userid, 4)) : 0;
+            $newId = $lastId + 1;
             return 'org-' . str_pad($newId, 3, '0', STR_PAD_LEFT);
         } else {
+            $lastVolunteer = self::where('userid', 'not like', 'org-%')
+                                ->orderBy('userid', 'desc')
+                                ->first();
+            $lastId = $lastVolunteer ? intval($lastVolunteer->userid) : 0;
+            $newId = $lastId + 1;
             return str_pad($newId, 5, '0', STR_PAD_LEFT);
         }
     }
