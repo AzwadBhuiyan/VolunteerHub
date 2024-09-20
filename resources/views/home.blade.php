@@ -26,12 +26,13 @@
 
         @if(Auth::check())
             <div class="mt-4 flex flex-col items-center">
-                <p class="text-lg mb-2">Welcome, {{ Auth::user()->userid }}!</p>
-                <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Go to Dashboard</a>
                 @php
                     $profile = Auth::user()->volunteer ?? Auth::user()->organization;
                     $profileUrl = $profile ? $profile->url : '';
                 @endphp
+                <p class="text-lg mb-2">Welcome, {{ $profileUrl }}!</p>
+                <a href="{{ route('dashboard') }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Go to Dashboard</a>
+                
                 <a href="{{ route('profile.public', $profileUrl) }}" class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Public profile</a>
                 <a href="{{ route('activities.feed') }}" class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Activity Feed</a>
                 @if (Auth::user()->organization)                
