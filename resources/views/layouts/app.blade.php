@@ -13,9 +13,10 @@
         <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <!-- Scripts -->
+    
         <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
-        <link href="{{ asset('build/assets/app-DRSBbpQh.css') }}" rel="stylesheet">
-        <script src="{{ asset('build/assets/app-BrtSY-Si.js') }}" defer></script>
+        <link href="{{ asset('build/assets/app-BbJVil0a.css') }}" rel="stylesheet">
+        <script src="{{ asset('build/assets/app-DCrXoRMQ.js') }}" defer></script>
         <link rel="icon" href="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" type="image/png"> <!-- Favicon -->
         <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Your CSS file -->
     </head>

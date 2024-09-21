@@ -1,12 +1,11 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Additional Volunteer Information') }}
+            {{ __('Additional Details') }}
         </h2>
+        <link href="{{ asset('css/volunteer-profile.css') }}" rel="stylesheet"> 
 
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your additional volunteer information.") }}
-        </p>
+       
     </header>
 
     <form method="post" action="{{ route('profile.update.volunteer.additional') }}" class="mt-6 space-y-6">
@@ -14,6 +13,7 @@
         @method('patch')
 
         <div>
+
             <x-input-label for="nid" :value="__('NID')" />
             <x-text-input id="nid" name="nid" type="text" class="mt-1 block w-full" :value="old('nid', $profile->NID)" />
             <x-input-error class="mt-2" :messages="$errors->get('nid')" />
