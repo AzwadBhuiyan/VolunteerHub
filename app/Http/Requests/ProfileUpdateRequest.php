@@ -14,6 +14,22 @@ class ProfileUpdateRequest extends FormRequest
             'name' => ['string', 'max:50'],
             'email' => ['email', 'max:255', Rule::unique(User::class)->ignore($this->user()->userid, 'userid')],
             'new_userid' => ['sometimes', 'string', 'max:255', Rule::unique(User::class, 'userid')->ignore($this->user()->userid, 'userid')],
+            'url' => [
+                'sometimes',
+                'string',
+                'max:30',
+                function ($attribute, $value, $fail) {
+                    $user = $this->user();
+                    if ($user->organization) {
+                        $value = 'org-' . ltrim($value, 'org-');
+                    }
+                    
+                    if (($user->volunteer && Volunteer::where('url', $value)->where('userid', '!=', $user->userid)->exists()) ||
+                        ($user->organization && Organization::where('url', $value)->where('userid', '!=', $user->userid)->exists())) {
+                        $fail('This URL is already taken.');
+                    }
+                },
+            ],
         ];
 
         if ($this->user()->volunteer) {
@@ -37,5 +53,18 @@ class ProfileUpdateRequest extends FormRequest
         }
 
         return $rules;
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        $validated = parent::validated($key, $default);
+
+        if (isset($validated['url'])) {
+            if ($this->user()->organization) {
+                $validated['url'] = 'org-' . ltrim($validated['url'], 'org-');
+            }
+        }
+
+        return $validated;
     }
 }

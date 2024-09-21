@@ -31,11 +31,6 @@ class ProfileController extends Controller
         $user = $request->user();
         $profile = $user->volunteer ?? $user->organization;
 
-        $newUserid = $request->new_userid;
-        if ($user->organization) {
-            $newUserid = 'org-' . ltrim($newUserid, 'org-');
-        }
-
         $user->fill($request->validated());
         $profile->fill($request->validated());
 
@@ -87,20 +82,7 @@ class ProfileController extends Controller
         //     $user->userid = $newUserid;
         // }
 
-        if ($request->has('url')) {
-            $newUrl = $request->url;
-            if ($user->organization) {
-                $newUrl = 'org-' . ltrim($newUrl, 'org-');
-            }
-            
-            // Check if the new URL is unique
-            if (($user->volunteer && Volunteer::where('url', $newUrl)->where('userid', '!=', $user->userid)->exists()) ||
-                ($user->organization && Organization::where('url', $newUrl)->where('userid', '!=', $user->userid)->exists())) {
-                return Redirect::back()->withErrors(['url' => 'This URL is already taken.']);
-            }
-            
-            $profile->url = $newUrl;
-        }
+
 
         $user->save();
         $profile->save();
@@ -136,6 +118,10 @@ class ProfileController extends Controller
             'cover_image' => ['nullable', 'image', 'max:5120'],
             'description' => ['required', 'string', 'max:150'],
             'website' => ['nullable', 'string', 'regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'],
+            'url' => [
+                'sometimes',
+                'string',
+                'max:30',],
         ]);
 
         if ($request->hasFile('logo')) {
@@ -150,7 +136,22 @@ class ProfileController extends Controller
             $file->move(public_path('images/cover'), $filename);
         }
 
-        $profile->update($request->only(['description', 'website']));
+        if ($request->has('url')) {
+            $newUrl = $request->url;
+            if ($user->organization) {
+                $newUrl = 'org-' . ltrim($newUrl, 'org-');
+            }
+            
+            // Check if the new URL is unique
+            if (($user->volunteer && Volunteer::where('url', $newUrl)->where('userid', '!=', $user->userid)->exists()) ||
+                ($user->organization && Organization::where('url', $newUrl)->where('userid', '!=', $user->userid)->exists())) {
+                return Redirect::back()->withErrors(['url' => 'This URL is already taken.']);
+            }
+            
+            $profile->url = $newUrl;
+        }
+
+        $profile->update($request->only(['description', 'website', 'url']));
 
         return Redirect::route('profile.edit')->with('status', 'organization-updated');
     }
