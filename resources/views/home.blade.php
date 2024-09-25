@@ -37,7 +37,7 @@
                 <a href="{{ route('activities.feed') }}" class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Activity Feed</a>
                 @if (Auth::user()->organization)                
                     <a href="{{ route('activities.create') }}" class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Create Activity</a>
-                    <a href="{{ route('activities.index') }}" class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">All Activities</a>
+                    <a href="{{ route('activities.index') }}" class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">My Activities</a>
                 @endif
                 <form method="POST" action="{{ route('logout') }}" class="mt-4">
                     @csrf

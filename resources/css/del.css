@@ -1,0 +1,24 @@
+/* Center all contents and add some random design for testing */
+.delete-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.x-danger-button, .x-secondary-button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.x-danger-button {
+    background-color: #e3342f;
+    color: #fff;
+}
+
+.x-secondary-button {
+    background-color: #6c757d;
+    color: #fff;
+}
