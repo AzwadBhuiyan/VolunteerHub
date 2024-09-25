@@ -3,6 +3,7 @@
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Volunteer Information') }}
         </h2>
+        <link href="{{ asset('css/volunteer-profile.css') }}" rel="stylesheet"> 
 
         <p class="mt-1 text-sm text-gray-600">
             {{ __("Update your volunteer profile information.") }}
@@ -13,14 +14,9 @@
         @csrf
         @method('patch')
 
-        <!-- URL field -->
-        <div>
-            <x-input-label for="url" :value="__('Profile URL')" />
-            <x-text-input id="url" name="url" type="text" class="mt-1 block w-full" :value="old('url', $profile->url)" required />
-            <x-input-error class="mt-2" :messages="$errors->get('url')" />
-        </div>
+     
 
-        <x-input-label for="profile_picture" :value="__('Profile Picture')" />
+        <x-input-label for="profile_picture" :value="__('Upload Profile Picture')" />
         <div class="flex items-center space-x-4">            
             <div class="flex items-center">
                 @php
@@ -28,13 +24,21 @@
                     $fullProfilePicturePath = public_path($profilePicturePath);
                     $profilePictureExists = file_exists($fullProfilePicturePath);
                 @endphp
-                <img id="profilePicturePreview" src="{{ $profilePictureExists ? asset($profilePicturePath) : asset('images/defaults/default-avatar.png') }}" alt="{{$profile->name}}" class="w-64 h-64 object-cover rounded-full mr-2">
+                <img id="profilePicturePreview" src="{{ $profilePictureExists ? asset($profilePicturePath) : asset('images/defaults/default-avatar.png') }}" alt="{{$profile->name}}" class="profile-picture mr-2">
 
-                <input id="profile_picture" name="profile_picture" type="file" class="mt-1 block" accept="image/*" onchange="previewImage(this, 'profilePicturePreview')" />
+                {{-- <input id="profile_picture" name="profile_picture" type="file" class="mt-1 block" accept="image/*" onchange="previewImage(this, 'profilePicturePreview')" /> --}}
             </div>
             <x-input-error class="mt-2" :messages="$errors->get('profile_picture')" />
         </div>
         <p class="text-sm text-gray-600 mt-1">Maximum file size: 5MB</p>
+
+        <div class="relative">
+            <input id="profile_picture" name="profile_picture" type="file" class="absolute inset-0 opacity-0 cursor-pointer" accept="image/*" onchange="previewImage(this, 'profilePicturePreview')"/>
+            <button type="button" class="mt-1 block w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">
+                {{ __('Upload Profile Picture') }}
+            </button>
+        </div>
+
 
 
         <div>
@@ -43,7 +47,12 @@
             <x-input-error class="mt-2" :messages="$errors->get('bio')" />
         </div>
 
-
+   <!-- URL field -->
+   <div>
+    <x-input-label for="url" :value="__('Profile URL')" />
+    <x-text-input id="url" name="url" type="text" class="mt-1 block w-full" :value="old('url', $profile->url)" required />
+    <x-input-error class="mt-2" :messages="$errors->get('url')" />
+</div>
         <div>
             <x-input-label for="phone" :value="__('Phone')" />
             <x-text-input id="phone" name="phone" type="tel" class="mt-1 block w-full" :value="old('phone', $profile->Phone)" required />

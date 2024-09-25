@@ -3,6 +3,8 @@
         <img src="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" alt="Site Logo" class="logo"> <!-- Ensure this path is correct -->
     </div>
 
+   
+
     <div class="nav-links flex-grow flex justify-center">
         <a href="{{ route('home') }}" class="relative text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('home') ? 'text-blue-500' : '' }}">
             <div class="icon-container">
