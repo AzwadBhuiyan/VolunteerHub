@@ -56,6 +56,7 @@ class ActivityController extends Controller
             'time' => 'required|date_format:H:i',
             'category' => 'required',
             'district' => 'required',
+            'difficulty' => 'required|in:easy,medium,hard,severe',
             'address' => 'required',
             'deadline' => 'required|date',
             'min_volunteers' => 'required|integer|min:1',
@@ -101,6 +102,7 @@ class ActivityController extends Controller
             'time' => 'required|date_format:H:i',
             'category' => 'required',
             'district' => 'required',
+            'difficulty' => 'required|in:easy,medium,hard,severe',
             'address' => 'required',
             'deadline' => 'required|date',
             'min_volunteers' => 'required|integer|min:1',
@@ -216,7 +218,10 @@ class ActivityController extends Controller
         return redirect()->route('activities.show_signups', $activity)
             ->with('success', 'Volunteer statuses updated successfully.');
     }
+
+    // ````````````````````````````````````
     //volunteer registers for an activity
+    // ````````````````````````````````````
     public function register(Activity $activity)
     {
         $user = Auth::user();
@@ -237,5 +242,64 @@ class ActivityController extends Controller
         $activity->volunteers()->attach($user->volunteer->userid, ['approval_status' => 'pending']);
 
         return redirect()->route('activities.feed')->with('success', 'You have successfully registered for this activity.');
+    }
+
+// ````````````````````````````````````
+    // Completing an activity by an organization
+// ````````````````````````````````````
+    public function complete(Activity $activity)
+    {
+        // Authorization check can be added here
+        return view('activities.complete', compact('activity'));
+    }
+
+    public function completeStore(Request $request, Activity $activity)
+    {
+        $validatedData = $request->validate([
+            'accomplished_description' => 'required',
+            'duration' => 'required|numeric|min:1.0', // Changed to numeric and min 0.5 hours
+            'photos' => 'required|array|min:1|max:5',
+            'photos.*' => 'image|max:5120', // 5MB Max
+        ]);
+
+        // Round up the duration to the nearest integer
+        $roundedDuration = ceil($validatedData['duration']);
+
+        // Calculate points
+        $difficultyPoints = [
+            'easy' => 1,
+            'medium' => 2,
+            'hard' => 3,
+            'severe' => 5
+        ];
+        $points = $roundedDuration * $difficultyPoints[$activity->difficulty];
+
+        $activity->update([
+            'accomplished_description' => $validatedData['accomplished_description'],
+            'duration' => $roundedDuration, // Use the rounded value
+            'status' => 'completed',
+            'points' => $points
+        ]);
+
+        // Update points for registered volunteers
+        $registeredVolunteers = $activity->volunteers()->wherePivot('approval_status', 'approved')->get();
+        foreach ($registeredVolunteers as $volunteer) {
+            $volunteer->increment('Points', $points);
+        }
+
+
+        if ($request->hasFile('photos')) {
+            $path = public_path('images/activities/' . $activity->activityid . '/accomplished');
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            foreach ($request->file('photos') as $index => $photo) {
+                $filename = ($index + 1) . '.' . $photo->getClientOriginalExtension();
+                $photo->move($path, $filename);
+            }
+        }
+
+        return redirect()->route('activities.index')->with('success', 'Activity completed successfully.');
     }
 }

@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/activities/{activity}', [ActivityController::class, 'update'])->name('activities.update');
         // org->activities
     Route::patch('/activities/{activity}/update-status', [ActivityController::class, 'updateStatus'])->name('activities.updateStatus');
+    Route::get('/activities/{activity}/complete', [ActivityController::class, 'complete'])->name('activities.complete');
+    Route::patch('/activities/{activity}/complete', [ActivityController::class, 'completeStore'])->name('activities.complete.store');
 
     Route::get('/activities/{activity}/signups', [ActivityController::class, 'showSignups'])->name('activities.show_signups');
     Route::patch('/activities/{activity}/volunteers/{volunteer}', [ActivityController::class, 'updateVolunteerStatus'])->name('activities.update_volunteer_status');

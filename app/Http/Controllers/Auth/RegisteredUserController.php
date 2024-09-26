@@ -83,10 +83,6 @@ class RegisteredUserController extends Controller
         
         $request->validate($rules);
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
         try {
             $userid = $this->generateUserid($request->user_type);
 

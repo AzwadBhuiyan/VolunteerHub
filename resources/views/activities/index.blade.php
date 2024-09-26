@@ -20,6 +20,7 @@
                                         <th class="px-4 py-2 text-left">Title</th>
                                         <th class="px-4 py-2 text-left">Date</th>
                                         <th class="px-4 py-2 text-left">Status</th>
+                                        <th class="px-4 py-2 text-left">Change Status</th>
                                         <th class="px-4 py-2 text-left">Actions</th>
                                     </tr>
                                 </thead>
@@ -28,6 +29,7 @@
                                         <tr class="border-b">
                                             <td class="px-4 py-2">{{ $activity->title }}</td>
                                             <td class="px-4 py-2">{{ $activity->date->format('Y-m-d') }}</td>
+                                            <td class="px-4 py-2">{{ ucfirst($activity->status) }}</td>
                                             <td class="px-4 py-2">
                                                 <form action="{{ route('activities.updateStatus', $activity) }}" method="POST" class="flex items-center">
                                                     @csrf
@@ -39,15 +41,22 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    @if($activity->status !== 'completed')
                                                     <button type="submit" class="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">
                                                         Change Status
                                                     </button>
+                                                    @endif
                                                 </form>
                                             </td>
                                             <td class="px-4 py-2">
                                                 <a href="{{ route('activities.show', $activity) }}" class="text-blue-500 hover:underline">Show</a>
                                                 <a href="{{ route('activities.edit', $activity) }}" class="text-green-500 hover:underline ml-2">Edit</a>
+                                                <a href="{{ route('activities.show_signups', $activity) }}" class="text-purple-500 hover:underline ml-2">Manage Volunteers</a>
+                                                @if($activity->status !== 'completed')
+                                                    <a href="{{ route('activities.complete', $activity) }}" class="text-yellow-500 hover:underline ml-2">Complete Activity</a>
+                                                @endif
                                             </td>
+                                            
                                         </tr>
                                     @endforeach
                                 </tbody>

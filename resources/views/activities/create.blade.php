@@ -57,6 +57,18 @@
                         </div>
 
                         <div class="mb-4">
+                            <x-input-label for="difficulty" :value="__('Difficulty')" />
+                            <select id="difficulty" name="difficulty" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                <option value="">Select difficulty level</option>
+                                <option value="easy">Easy</option>
+                                <option value="medium">Medium</option>
+                                <option value="hard">Hard</option>
+                                <option value="severe">Severe</option>
+                            </select>
+                            <x-input-error :messages="$errors->get('difficulty')" class="mt-2" />
+                        </div>
+
+                        <div class="mb-4">
                             <x-input-label for="address" :value="__('Address')" />
                             <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
                             <x-input-error :messages="$errors->get('address')" class="mt-2" />

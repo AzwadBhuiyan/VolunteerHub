@@ -10,7 +10,8 @@ class Activity extends Model
 
     protected $fillable = [
         'userid', 'title', 'description', 'date', 'time', 'category',
-        'district', 'address', 'deadline', 'min_volunteers', 'max_volunteers', 'status'
+        'district', 'address', 'deadline', 'min_volunteers', 'max_volunteers', 'status',
+        'accomplished_description', 'duration', 'difficulty'
     ];
 
     protected $casts = [
