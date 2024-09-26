@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 15, 2024 at 07:07 AM
+-- Generation Time: Sep 27, 2024 at 12:18 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -42,18 +42,21 @@ CREATE TABLE `activities` (
   `max_volunteers` int(11) DEFAULT NULL,
   `status` enum('open','closed','cancelled','completed') NOT NULL DEFAULT 'open',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `accomplished_description` text DEFAULT NULL,
+  `duration` int(11) DEFAULT NULL,
+  `difficulty` varchar(255) DEFAULT NULL,
+  `points` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `activities`
 --
 
-INSERT INTO `activities` (`activityid`, `userid`, `title`, `description`, `date`, `time`, `category`, `district`, `address`, `deadline`, `min_volunteers`, `max_volunteers`, `status`, `created_at`, `updated_at`) VALUES
-(1111, 'rht1', 'Flood Relief', 'Lets save people!!', '2024-09-18', '07:04:00', 'education', 'western', 'dhaka', '2024-09-17 07:04:00', 5, 10, 'open', NULL, '2024-09-14 23:05:35'),
-(1112, 'rht1', 'Party on', 'die', '2024-09-28', '00:00:00', '', 'dhaka', '', '2024-09-15 03:10:57', 5, 7, 'open', NULL, NULL),
-(1113, 'rht1', 'was', 'a', '2024-09-20', '00:00:00', '', 'sss', 'sss', '2024-09-15 03:19:39', 2, 5, 'completed', NULL, NULL),
-(1114, 'rht1', 'New', 'its new its fresh', '2024-09-21', '09:49:00', 'environmental', 'central', '56vy79', '2024-09-19 09:49:00', 5, 10, 'open', '2024-09-14 21:49:48', '2024-09-14 21:49:48');
+INSERT INTO `activities` (`activityid`, `userid`, `title`, `description`, `date`, `time`, `category`, `district`, `address`, `deadline`, `min_volunteers`, `max_volunteers`, `status`, `created_at`, `updated_at`, `accomplished_description`, `duration`, `difficulty`, `points`) VALUES
+(1, 'org-001', 'Party on', 'lets go', '2024-10-04', '12:45:00', 'education', 'eastern', 'asdad', '2024-09-17 00:42:00', 1, 2, 'closed', '2024-09-20 12:42:20', '2024-09-20 12:47:14', NULL, NULL, NULL, 0),
+(2, 'org-001', 'Lets go', 'lets go', '2024-09-27', '06:21:00', 'environmental', 'central', '1aaf', '2024-10-02 03:22:00', 1, 5, 'completed', '2024-09-25 15:22:15', '2024-09-26 15:24:28', NULL, NULL, NULL, 0),
+(3, 'org-001', 'wall paint need artists', 'lets paint all the walls', '2024-09-30', '16:27:00', 'education', 'central', 'bashundhara', '2024-09-29 00:09:00', 3, 10, 'completed', '2024-09-26 15:52:59', '2024-09-26 16:11:06', 'all walls look beautiful', 6, 'easy', 0);
 
 -- --------------------------------------------------------
 
@@ -88,7 +91,9 @@ CREATE TABLE `activity_volunteers` (
 --
 
 INSERT INTO `activity_volunteers` (`id`, `activityid`, `volunteer_userid`, `approval_status`, `created_at`, `updated_at`) VALUES
-(1, 1111, 'rht1795', 'pending', NULL, NULL);
+(2, 1, '00002', 'pending', NULL, NULL),
+(3, 3, '00002', 'approved', '2024-09-26 15:53:14', '2024-09-26 15:58:02'),
+(4, 3, '00004', 'approved', '2024-09-26 15:54:10', '2024-09-26 15:58:02');
 
 -- --------------------------------------------------------
 
@@ -182,17 +187,18 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '0001_01_01_000000_create_users_table', 1),
-(2, '0001_01_01_000001_create_cache_table', 1),
-(3, '0001_01_01_000002_create_jobs_table', 1),
-(4, '2024_08_28_170817_create_volunteers_table', 1),
-(12, '2024_08_28_174453_create_organizations_table', 2),
-(13, '2024_09_02_093608_add_verified_to_users_table', 2),
-(14, '2024_09_06_131216_create_activity_categories_table', 2),
-(15, '2024_09_06_131342_create_volunteer_favorite_categories_table', 2),
-(16, '2024_09_06_143531_create_activities_table', 2),
-(17, '2024_09_06_144947_create_activity_volunteers_table', 2),
-(18, '2024_09_07_194436_add_bio_to_volunteers_table', 2);
+(19, '2024_09_07_194436_add_bio_to_volunteers_table', 3),
+(20, '0001_01_01_000000_create_users_table', 4),
+(21, '0001_01_01_000001_create_cache_table', 4),
+(22, '0001_01_01_000002_create_jobs_table', 4),
+(23, '2024_08_28_170817_create_volunteers_table', 4),
+(24, '2024_08_28_174453_create_organizations_table', 4),
+(25, '2024_09_02_093608_add_verified_to_users_table', 4),
+(26, '2024_09_06_131216_create_activity_categories_table', 4),
+(27, '2024_09_06_131342_create_volunteer_favorite_categories_table', 4),
+(28, '2024_09_06_143531_create_activities_table', 4),
+(29, '2024_09_06_144947_create_activity_volunteers_table', 4),
+(31, '2024_09_26_210817_add_completion_details_to_activities_table', 5);
 
 -- --------------------------------------------------------
 
@@ -202,6 +208,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `organizations` (
   `userid` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
   `org_name` varchar(255) NOT NULL,
   `primary_address` text NOT NULL,
   `secondary_address` text NOT NULL,
@@ -218,8 +225,9 @@ CREATE TABLE `organizations` (
 -- Dumping data for table `organizations`
 --
 
-INSERT INTO `organizations` (`userid`, `org_name`, `primary_address`, `secondary_address`, `website`, `org_mobile`, `org_telephone`, `description`, `verification_status`, `created_at`, `updated_at`) VALUES
-('rht1', 'Rahat Inc.', 'halishohor11', 'dhaka', 'www.rahat.com', '123455', '12345', 'We believe in money', 'unverified', NULL, '2024-09-14 20:25:17');
+INSERT INTO `organizations` (`userid`, `url`, `org_name`, `primary_address`, `secondary_address`, `website`, `org_mobile`, `org_telephone`, `description`, `verification_status`, `created_at`, `updated_at`) VALUES
+('org-001', 'rahatinc', 'rahat inc', 'dh', 'dh', 'https://www.facebook.com/rht.krmO.o/', '123', '132', 'we believe in money', 'unverified', '2024-09-20 07:52:52', '2024-09-20 13:41:44'),
+('org-002', 'org-002', 'org', 'org', 'org', 'https://org@c.com', '91239', '123123', NULL, 'unverified', '2024-09-20 10:18:14', '2024-09-20 10:18:14');
 
 -- --------------------------------------------------------
 
@@ -269,8 +277,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userid`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `verified`) VALUES
-('rht1', 'rht.krt@gmail.com', '$2y$12$1cwEC8ZB35uEb/syCmwjdeA7ukFJacUm9gg61giLsNN7mrEK0clQK', NULL, '2024-09-12 15:04:39', '2024-09-14 20:20:37', 1),
-('rht1795', 'rh111t.krt@gmail.com', '$2y$12$iFPeg1iaUd7k/AyKB2uT7.APPeWtW/1XL4h9MJW4cVo8IsSEBCY8K', NULL, '2024-09-12 15:17:38', '2024-09-12 15:17:38', 1);
+('00002', 'volunteer@gmail.com', '$2y$12$UoCj2BpNB1JrgIt52cSfzOMdn08Wk/HJj6ro8Gv6jB7vtw5GSEWLC', NULL, '2024-09-20 07:54:58', '2024-09-20 07:54:58', 1),
+('00003', 'rht.krt@gmail.com', '$2y$12$V7A2GOSUdQgSk.EwzPdE.elMi29NAzgkxYZdVpfdhepWW86LsmCSa', NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 0),
+('00004', 'as2@gmail.com', '$2y$12$jVXp.L4xCT/eGMS1mvziT.RyvbmZ57Rqx9L9gCBP/lOyXs8B34ucO', NULL, '2024-09-26 15:50:49', '2024-09-26 15:50:49', 1),
+('org-001', 'organization@gmail.com', '$2y$12$eohVVZ72P3qUd9MFC/eKFOmQIHraB1FLZsIS3bLKuc5Gdk31p3I8a', NULL, '2024-09-20 07:52:52', '2024-09-20 07:52:52', 1),
+('org-002', 'org2@gmail.com', '$2y$12$R1fNsPbwj5ZicKAPcZPnDe6XoqPKjfmkOl6mYNFBxGMoQW4Mif9gO', NULL, '2024-09-20 10:18:14', '2024-09-20 10:18:14', 1);
 
 -- --------------------------------------------------------
 
@@ -280,6 +291,7 @@ INSERT INTO `users` (`userid`, `email`, `password`, `remember_token`, `created_a
 
 CREATE TABLE `volunteers` (
   `userid` varchar(255) NOT NULL,
+  `url` varchar(255) NOT NULL,
   `Name` varchar(255) NOT NULL,
   `Phone` varchar(255) NOT NULL,
   `NID` varchar(255) DEFAULT NULL,
@@ -301,8 +313,10 @@ CREATE TABLE `volunteers` (
 -- Dumping data for table `volunteers`
 --
 
-INSERT INTO `volunteers` (`userid`, `Name`, `Phone`, `NID`, `Gender`, `DOB`, `BloodGroup`, `PresentAddress`, `PermanentAddress`, `District`, `TrainedInEmergencyResponse`, `Points`, `Badges`, `bio`, `created_at`, `updated_at`) VALUES
-('rht1795', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-26', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 1, 0, NULL, 'hi everyone', '2024-09-12 15:17:38', '2024-09-14 14:12:32');
+INSERT INTO `volunteers` (`userid`, `url`, `Name`, `Phone`, `NID`, `Gender`, `DOB`, `BloodGroup`, `PresentAddress`, `PermanentAddress`, `District`, `TrainedInEmergencyResponse`, `Points`, `Badges`, `bio`, `created_at`, `updated_at`) VALUES
+('00002', 'rhtProMax', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-25', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 6, NULL, NULL, '2024-09-20 07:54:58', '2024-09-26 16:11:06'),
+('00003', '00003', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-11', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 0, NULL, NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02'),
+('00004', '00004', 'asdf', '01990376524', NULL, 'M', '1992-06-09', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 6, NULL, NULL, '2024-09-26 15:50:49', '2024-09-26 16:11:07');
 
 -- --------------------------------------------------------
 
@@ -384,7 +398,8 @@ ALTER TABLE `migrations`
 -- Indexes for table `organizations`
 --
 ALTER TABLE `organizations`
-  ADD PRIMARY KEY (`userid`);
+  ADD PRIMARY KEY (`userid`),
+  ADD UNIQUE KEY `organizations_url_unique` (`url`);
 
 --
 -- Indexes for table `password_reset_tokens`
@@ -411,7 +426,8 @@ ALTER TABLE `users`
 -- Indexes for table `volunteers`
 --
 ALTER TABLE `volunteers`
-  ADD PRIMARY KEY (`userid`);
+  ADD PRIMARY KEY (`userid`),
+  ADD UNIQUE KEY `volunteers_url_unique` (`url`);
 
 --
 -- Indexes for table `volunteer_favorite_categories`
@@ -428,7 +444,7 @@ ALTER TABLE `volunteer_favorite_categories`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `activityid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1116;
+  MODIFY `activityid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `activity_categories`
@@ -440,7 +456,7 @@ ALTER TABLE `activity_categories`
 -- AUTO_INCREMENT for table `activity_volunteers`
 --
 ALTER TABLE `activity_volunteers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -458,7 +474,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Constraints for dumped tables
