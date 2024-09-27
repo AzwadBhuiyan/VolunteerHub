@@ -55,6 +55,7 @@ class RegisteredUserController extends Controller
             'nid' => ['nullable', 'string', 'max:20'],
             'gender' => ['required', 'in:M,F,O'],
             'dob' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
+            'profession' => 'nullable|string|max:255',
             'blood_group' => ['required', 'string', 'max:5'],
             'present_address' => ['required', 'string', 'max:300'],
             'permanent_address' => ['required', 'string', 'max:300'],

@@ -13,6 +13,7 @@
                         $imagePath = 'images/activities/' . $activity->activityid . '.jpg';
                         $fullPath = public_path($imagePath);
                         $exists = file_exists($fullPath);
+
                     @endphp              
                     <img src="{{ asset('images/activities/' . $activity->activityid . '/' . $activity->activityid . '.jpg') }}" 
                             alt="{{ $activity->title }}" 
@@ -29,8 +30,9 @@
                         <p><strong>Volunteers Needed:</strong> {{ $activity->min_volunteers }} - {{ $activity->max_volunteers ?? 'No limit' }}</p>
                     </div>
                     <div class="mb-4">
-                        <a href="{{ route('profile.public', $activity->organization) }}" class="text-blue-500 hover:underline">
-                            Organized by: {{ $activity->organization->org_name }}
+                        Organized by:
+                        <a href="{{ route('profile.public', $activity->organization->url) }}" class="text-blue-500 hover:underline">
+                             {{ $activity->organization->org_name }}
                         </a>
                     </div>
                     @auth

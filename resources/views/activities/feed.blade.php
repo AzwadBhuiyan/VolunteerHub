@@ -6,6 +6,11 @@
     </x-slot>
 
     <div class="py-12">
+        @if (session('success'))
+            <div class="max-w-3xl mx-auto px-4 py-3 mb-4 bg-green-100 text-green-700 border border-green-400 rounded">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             @foreach($activities as $activity)
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
@@ -28,7 +33,7 @@
                         </div>
                         <div class="flex justify-between items-center">
                             <a href="{{ route('profile.public', $activity->organization) }}" class="text-blue-500 hover:underline">
-                                Organized by: {{ $activity->organization->org_name }}
+                            Organized by: {{ $activity->organization->org_name }}
                             </a>
                             <div>
                                 <a href="{{ route('activities.show', $activity) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">
@@ -36,12 +41,29 @@
                                 </a>
                                 @auth
                                     @if(Auth::user()->volunteer)
-                                        <form action="{{ route('activities.register', $activity) }}" method="POST" class="inline">
-                                            @csrf
-                                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                                Register
+                                        @php
+                                            $volunteerStatus = $activity->getVolunteerStatus(Auth::user()->volunteer->userid);
+                                        @endphp
+                                        @if($volunteerStatus === 'approved')
+                                            <button disabled class="bg-gray-300 text-gray-500 font-bold py-2 px-4 rounded cursor-not-allowed">
+                                                Already Registered
                                             </button>
-                                        </form>
+                                        @elseif($volunteerStatus === 'pending')
+                                            <form action="{{ route('activities.cancel_registration', $activity) }}" method="POST" class="inline">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                                    Cancel Registration
+                                                </button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('activities.register', $activity) }}" method="POST" class="inline">
+                                                @csrf
+                                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                                    Register
+                                                </button>
+                                            </form>
+                                        @endif
                                     @endif
                                 @else
                                     <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
