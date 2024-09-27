@@ -24,4 +24,9 @@ class Organization extends Model
     {
         return $this->hasMany(Activity::class, 'userid', 'userid');
     }
+
+    public function completedActivities()
+    {
+        return $this->activities()->where('status', 'completed')->latest();
+    }
 }

@@ -86,22 +86,43 @@
 
                     <div x-show="tab === 'completed'">
                         @foreach($completedActivities as $activity)
-                            <div class="mb-4 p-4 border rounded">
-                                <h4 class="font-semibold">{{ $activity->title }}</h4>
-                                <p class="text-sm text-gray-600">{{ $activity->date }}</p>
-                                <p>{{ Str::limit($activity->description, 100) }}</p>
-                                
-                                <!-- Activity Image -->
-                                @php
-                                    $imagePath = 'images/activities/' . $activity->activityid . '/' . $activity->activityid . '.jpg';
-                                    $fullImagePath = public_path($imagePath);
-                                    $imageExists = file_exists($fullImagePath);
-                                @endphp
-                                @if($imageExists)
-                                    <div class="mt-2">
-                                        <img src="{{ asset($imagePath) }}" alt="{{ $activity->title }}" class="w-full h-48 object-cover rounded">
+                            <div class="mb-8 bg-white rounded-lg shadow-md overflow-hidden">
+                                <!-- Activity Title -->
+                                <div class="px-6 py-4 bg-gray-100 border-b border-gray-200">
+                                    <h4 class="text-xl font-semibold text-gray-800">{{ $activity->title }}</h4>
+                                    <p class="text-sm text-gray-600">{{ $activity->date->format('M d, Y') }}</p>
+                                </div>
+
+                                <!-- Accomplishment Description -->
+                                <div class="px-6 py-4">
+                                    <p class="text-gray-700">{{ $activity->accomplished_description }}</p>
+                                </div>
+
+                                <!-- Accomplishment Photos -->
+                                <div class="px-6 py-4">
+                                    <div class="flex flex-wrap -mx-2">
+                                        @php
+                                            $accomplishedPath = 'images/activities/' . $activity->activityid . '/accomplished/';
+                                            $accomplishedFullPath = public_path($accomplishedPath);
+                                            $accomplishedPhotos = File::exists($accomplishedFullPath) ? File::files($accomplishedFullPath) : [];
+                                        @endphp
+                                        @foreach($accomplishedPhotos as $photo)
+                                            <div class="w-1/2 sm:w-1/3 md:w-1/4 px-2 mb-4">
+                                                <img src="{{ asset($accomplishedPath . $photo->getFilename()) }}" 
+                                                     alt="Accomplished Activity Photo" 
+                                                     class="w-full h-32 object-cover rounded-lg shadow-md">
+                                            </div>
+                                        @endforeach
                                     </div>
-                                @endif
+                                </div>
+
+                                <!-- Activity Details -->
+                                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
+                                    <p><strong>Category:</strong> {{ $activity->category }}</p>
+                                    <p><strong>District:</strong> {{ $activity->district }}</p>
+                                    <p><strong>Duration:</strong> {{ $activity->duration }} hours</p>
+                                    <p><strong>Points Earned:</strong> {{ $activity->points }}</p>
+                                </div>
                             </div>
                         @endforeach
                     </div>

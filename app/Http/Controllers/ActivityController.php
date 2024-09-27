@@ -176,6 +176,19 @@ class ActivityController extends Controller
         return view('activities.show_signups', compact('activity', 'volunteers'));
     }
 
+    public function showAccomplished(Activity $activity)
+    {
+        if ($activity->status !== 'completed') {
+            return redirect()->route('activities.show', $activity)->with('error', 'This activity has not been completed yet.');
+        }
+
+        $accomplishedPath = 'images/activities/' . $activity->activityid . '/accomplished/';
+        $accomplishedFullPath = public_path($accomplishedPath);
+        $accomplishedPhotos = File::exists($accomplishedFullPath) ? File::files($accomplishedFullPath) : [];
+
+        return view('activities.show_accomplished', compact('activity', 'accomplishedPhotos'));
+    }
+
     
     // public function updateVolunteerStatus(Request $request, Activity $activity, Volunteer $volunteer)
     // {
