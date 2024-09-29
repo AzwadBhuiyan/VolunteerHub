@@ -7,7 +7,7 @@ nav {
     height: 60px; /* Height of the navbar */
     display: flex; /* Flexbox for alignment */
     align-items: center; /* Center items vertically */
-    padding: 0 20px; /* Horizontal padding for the navbar */
+    padding: 0 5px; /* Horizontal padding for the navbar */
     position: sticky; /* Make the navbar sticky */
     top: 0; /* Stick to the top of the viewport */
     z-index: 1000; /* Ensure it stays above other content */
@@ -126,4 +126,41 @@ nav a div {
     height: 40px; /* Adjust height as needed */
     max-width: 100%; /* Ensure it doesn't exceed its container */
     object-fit: contain; /* Maintain aspect ratio */
+}
+
+/* Add this CSS to your stylesheet */
+@media only screen and (max-width: 600px) {
+    .nav-links {
+        flex-direction: row; /* Keep icons in a row */
+        justify-content: center; /* Center the icons */
+    }
+
+    .nav-links a {
+        margin: 0 1px; /* Reduce the gap between icons to 1px */
+        padding: 3px 5px; /* Adjust padding for smaller screens to bring icons closer */
+        font-size: 14px; /* Optionally reduce font size for better fit */
+    }
+
+    .logout-button {
+        display: flex; /* Ensure logout button is displayed as flex */
+        justify-content: center; /* Center the logout button */
+        margin-top: 10px; /* Add some space above */
+    }
+
+    .logout-button a {
+        margin: 0 1px; /* Reduce the gap for logout button to 1px */
+        padding: 3px 1px; /* Adjust padding for logout button */
+    }
+
+    /* Hide the Idea Board icon on mobile view */
+    .idea-board-icon {
+        display: none; /* Hide the Idea Board icon */
+    }
+}
+
+/* Add this CSS to your stylesheet */
+@media only screen and (max-width: 600px) {
+    .mobile-logout {
+        padding-bottom: 10px; /* Add padding to the bottom of the logout button */
+    }
 }
