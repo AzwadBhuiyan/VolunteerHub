@@ -11,15 +11,16 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link href="{{ asset('css/style.css') }}" rel="stylesheet"> 
+        <link rel="icon" href="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" type="image/png"> <!-- Favicon -->
 
         <!-- Scripts -->
         <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
-        <link href="{{ asset('build/assets/app-JORL7NPY.css') }}" rel="stylesheet">
-        <script src="{{ asset('build/assets/app-BrtSY-Si.js') }}" defer></script>
+        <link href="{{ asset('build/assets/app-BbJVil0a.css') }}" rel="stylesheet">
+        <script src="{{ asset('build/assets/app-DCrXoRMQ.js') }}" defer></script>
     </head>
     <body class="font-sans text-gray-900 antialiased">
         <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-        @include('layouts.navigation')
+        {{-- @include('layouts.navigation') --}}
         <div>
             
             </div>
