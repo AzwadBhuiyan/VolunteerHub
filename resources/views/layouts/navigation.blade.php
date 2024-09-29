@@ -124,7 +124,7 @@
                     {{ __('Login') }}
                 </a>
                 <a href="{{ route('register') }}" class="text-green-500 font-bold px-3 py-2 rounded-md">
-                    {{ __('Register') }}
+                    {{ __('signup') }}
                 </a>
             </div>
         @endauth
