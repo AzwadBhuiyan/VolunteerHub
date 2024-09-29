@@ -164,3 +164,38 @@ nav a div {
         padding-bottom: 10px; /* Add padding to the bottom of the logout button */
     }
 }
+
+/* Default styles for icon links */
+.icon-link {
+    padding: 8px 10px; /* Default padding */
+}
+
+/* Styles for desktop view */
+@media only screen and (min-width: 601px) {
+    .icon-link {
+        padding: 12px 20px; /* Wider padding for desktop view */
+    }
+
+    .icon-container {
+        width: 80px; /* Set a wider width for the icon container */
+        display: flex; /* Ensure the icon and text are aligned */
+        justify-content: center; /* Center the content */
+        align-items: center; /* Center the content vertically */
+    }
+}
+
+
+
+/* Default styles for icons */
+
+/* Common styles for all nav icons */
+.nav-icon {
+    fill: none; /* Default fill for hollow icons */
+    stroke: currentColor; /* Use current text color for stroke */
+}
+
+/* Active state for all icons */
+.nav-icon.active-icon {
+    fill: #007bff; /* Set the fill color to match the dashboard icon's active color */
+    stroke: #007bff; /* Set the stroke color to match the dashboard icon's active color */
+}
