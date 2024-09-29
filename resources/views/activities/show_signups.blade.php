@@ -1,3 +1,4 @@
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -34,28 +35,51 @@
                         </div>
                     @endif
 
-                    <!-- Search and Filter Form -->
+                    <!-- Filter Form -->
                     <form action="{{ route('activities.show_signups', $activity) }}" method="GET" class="mb-4">
-                        <div class="flex items-center space-x-4">
-                            <div class="flex-1">
-                                <label for="search" class="block text-sm font-medium text-gray-700">Search by Name</label>
-                                <input type="text" name="search" id="search" value="{{ request('search') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div>
+                                <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                                <select name="status" id="status" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="">All</option>
+                                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Approved</option>
+                                    <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Rejected</option>
+                                </select>
                             </div>
-                            <div class="flex-1">
-                                <label for="points_range" class="block text-sm font-medium text-gray-700">Filter by Points (0-1000)</label>
+                            <div>
+                                <label for="level" class="block text-sm font-medium text-gray-700">Level</label>
+                                <select name="level" id="level" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="">All</option>
+                                    <option value="1" {{ request('level') == '1' ? 'selected' : '' }}>Level 1</option>
+                                    <option value="2" {{ request('level') == '2' ? 'selected' : '' }}>Level 2</option>
+                                    <option value="3" {{ request('level') == '3' ? 'selected' : '' }}>Level 3</option>
+                                    <option value="4" {{ request('level') == '4' ? 'selected' : '' }}>Level 4</option>
+                                    <option value="5" {{ request('level') == '5' ? 'selected' : '' }}>Level 5</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="age_range" class="block text-sm font-medium text-gray-700">Age Range</label>
                                 <div class="flex items-center space-x-2">
-                                    <input type="range" name="min_points" id="min_points" min="0" max="1000" value="{{ request('min_points', 0) }}" class="w-full">
-                                    <span id="min_points_value">{{ request('min_points', 0) }}</span>
+                                    <input type="number" name="min_age" id="min_age" min="0" max="100" value="{{ request('min_age', 0) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                     <span>-</span>
-                                    <input type="range" name="max_points" id="max_points" min="0" max="1000" value="{{ request('max_points', 1000) }}" class="w-full">
-                                    <span id="max_points_value">{{ request('max_points', 1000) }}</span>
+                                    <input type="number" name="max_age" id="max_age" min="0" max="100" value="{{ request('max_age', 100) }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                 </div>
                             </div>
-                            <div class="flex-none">
-                                <button type="submit" class="mt-6 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
-                                    Apply Filters
-                                </button>
+                            <div>
+                                <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
+                                <select name="gender" id="gender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                    <option value="">All</option>
+                                    <option value="M" {{ request('gender') == 'M' ? 'selected' : '' }}>Male</option>
+                                    <option value="F" {{ request('gender') == 'F' ? 'selected' : '' }}>Female</option>
+                                    <option value="O" {{ request('gender') == 'O' ? 'selected' : '' }}>Other</option>
+                                </select>
                             </div>
+                        </div>
+                        <div class="mt-4">
+                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                                Apply Filters
+                            </button>
                         </div>
                     </form>
 
@@ -73,6 +97,12 @@
                                                 <input type="checkbox" id="select-all" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                             </th>
                                             <th class="px-4 py-2 text-left">Name</th>
+                                            <th class="px-4 py-2 text-left">ID</th>
+                                            <th class="px-4 py-2 text-left">Gender</th>
+                                            <th class="px-4 py-2 text-left">Age</th>
+                                            <th class="px-4 py-2 text-left">Level</th>
+                                            <th class="px-4 py-2 text-left">Profession</th>
+                                            <th class="px-4 py-2 text-left">District</th>
                                             <th class="px-4 py-2 text-left">Points</th>
                                             <th class="px-4 py-2 text-left">Badges</th>
                                             <th class="px-4 py-2 text-left">Status</th>
@@ -86,13 +116,19 @@
                                                     <input type="checkbox" name="selected_volunteers[]" value="{{ $volunteer->userid }}" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
                                                 </td>
                                                 <td class="px-4 py-2">{{ $volunteer->Name }}</td>
+                                                <td class="px-4 py-2">{{ $volunteer->userid }}</td>
+                                                <td class="px-4 py-2">{{ $volunteer->Gender }}</td>
+                                                <td class="px-4 py-2">{{ \Carbon\Carbon::parse($volunteer->DOB)->age }}</td>
+                                                <td class="px-4 py-2">{{ $volunteer->getLevel() }}</td>
+                                                <td class="px-4 py-2">{{ $volunteer->profession }}</td>
+                                                <td class="px-4 py-2">{{ $volunteer->District }}</td>
                                                 <td class="px-4 py-2">{{ $volunteer->Points }}</td>
                                                 <td class="px-4 py-2">Badges</td>
                                                 <td class="px-4 py-2">
                                                     {{ ucfirst($volunteer->pivot->approval_status) }}
                                                 </td>
                                                 <td class="px-4 py-2">
-                                                    <a href="{{ route('profile.public', $volunteer->userid) }}" class="text-blue-500 hover:underline">View Profile</a>
+                                                    <a href="{{ route('profile.public', $volunteer->url) }}" class="text-blue-500 hover:underline">View Profile</a>
                                                 </td>
                                             </tr>
                                         @endforeach

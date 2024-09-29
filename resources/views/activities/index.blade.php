@@ -34,11 +34,17 @@
                                                 <form action="{{ route('activities.updateStatus', $activity) }}" method="POST" class="flex items-center">
                                                     @csrf
                                                     @method('PATCH')
-                                                    <select name="status" class="mr-2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                                    <select name="status" class="mr-2 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" {{ $activity->status === 'completed' ? 'disabled' : '' }}>
                                                         @foreach(App\Models\Activity::STATUSES as $status)
-                                                            <option value="{{ $status }}" {{ $activity->status === $status ? 'selected' : '' }}>
-                                                                {{ ucfirst($status) }}
-                                                            </option>
+                                                            @if($status !== 'completed')
+                                                                <option value="{{ $status }}" {{ $activity->status === $status ? 'selected' : '' }}>
+                                                                    {{ ucfirst($status) }}
+                                                                </option>
+                                                            @elseif($activity->status === 'completed')
+                                                                <option value="completed" selected>
+                                                                    Completed
+                                                                </option>
+                                                            @endif
                                                         @endforeach
                                                     </select>
                                                     @if($activity->status !== 'completed')

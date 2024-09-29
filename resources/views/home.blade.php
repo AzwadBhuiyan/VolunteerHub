@@ -12,7 +12,7 @@
                     <h1 class="text-4xl font-bold mb-4">Welcome to {{ config('app.name', 'Laravel') }}</h1>
                     
                     <!-- Debug Information -->
-                    <div class="mt-4 p-4 bg-yellow-100 rounded">
+                    <!-- <div class="mt-4 p-4 bg-yellow-100 rounded">
                         <p>Auth::check(): {{ Auth::check() ? 'true' : 'false' }}</p>
                         <p>Auth::id(): {{ Auth::id() ?? 'null' }}</p>
                         <p>Session auth.id: {{ session('auth.id') ?? 'null' }}</p>
@@ -22,7 +22,7 @@
                         @else
                             <p>Auth::user(): null</p>
                         @endif
-                    </div>
+                    </div> -->
 
                     @if(Auth::check())
                         <div class="mt-4 flex flex-col items-center">

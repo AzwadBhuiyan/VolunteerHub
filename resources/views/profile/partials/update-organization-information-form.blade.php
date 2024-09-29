@@ -24,7 +24,7 @@
             <x-input-label for="logo" :value="__('Logo')" />
             <div class="flex items-center">
                 @php
-                    $logoPath = 'images/logos/' . $profile->userid . '.jpg';
+                    $logoPath = public_path('images/logos/' . $profile->userid . '.*');
                     $fullLogoPath = public_path($logoPath);
                     $logoExists = file_exists($fullLogoPath);
                 @endphp
@@ -40,7 +40,7 @@
             <x-input-label for="cover_image" :value="__('Cover Image')" />
             <div class="flex items-center">
                 @php
-                    $coverPath = 'images/cover/' . $profile->userid . '.jpg';
+                    $coverPath = 'images/cover/' . $profile->userid . '.*';
                     $fullCoverPath = public_path($coverPath);
                     $coverExists = file_exists($fullCoverPath);
                 @endphp

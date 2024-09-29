@@ -10,7 +10,8 @@
                 <div class="flex flex-col sm:flex-row items-center sm:space-x-4">
                     <div class="flex-shrink-0 w-24 h-24 mb-4 sm:mb-0">
                         @php
-                            $imagePath = 'images/profile_pictures/' . $profile->userid . '.jpg';
+                        $imagePath = public_path('images/profile_pictures/' . $profile->userid . '.*');
+                            
                             $fullPath = public_path($imagePath);
                             $exists = file_exists($fullPath);
                         @endphp

@@ -75,6 +75,12 @@
                 <x-input-error :messages="$errors->get('dob')" class="mt-2" />
             </div>
 
+            <!-- Profession -->
+            <div class="mt-4">
+                <x-label for="profession" :value="__('Profession')" />
+                <x-input id="profession" class="block mt-1 w-full" type="text" name="profession" :value="old('profession')" />
+            </div>
+
             <!-- Blood Group -->
             <div class="mt-4">
                 <x-input-label for="blood_group" :value="__('Blood Group')" />

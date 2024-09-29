@@ -36,10 +36,6 @@ class ActivityController extends Controller
         if ($user->organization) {
             $activities = $user->organization->activities()->latest()->paginate(10);
             
-            // Debug: Check if we're getting any activities
-            \Log::info('Activities count: ' . $activities->count());
-            \Log::info('First activity: ' . json_encode($activities->first()));
-            
             return view('activities.index', compact('activities'));
         } else {
             return redirect()->route('home')->with('error', 'Only organizations can view activities.');
@@ -82,7 +78,7 @@ class ActivityController extends Controller
             $image->move($path, $filename);
         }
 
-        return redirect()->route('activities.create')->with('success', 'Activity created successfully.');
+        return redirect()->route('dashboard')->with('success', 'Activity created successfully.');
     }
 
     public function edit(Activity $activity)
@@ -151,19 +147,46 @@ class ActivityController extends Controller
             ->withPivot('approval_status')
             ->with('user');
 
-        // Search by name
-        if ($request->has('search')) {
-            $query->where('Name', 'like', '%' . $request->search . '%');
+        if ($request->filled('status')) {
+            $query->wherePivot('approval_status', $request->status);
         }
 
-        // Filter by points range
-        if ($request->has('min_points') && $request->has('max_points')) {
-            $query->whereBetween('Points', [$request->min_points, $request->max_points]);
+        if ($request->filled('level')) {
+            $levelPoints = Volunteer::getLevelPoints($request->level);
+            $query->where(function ($q) use ($levelPoints) {
+                $q->where('Points', '>=', $levelPoints['min'])
+                  ->where('Points', '<', $levelPoints['max']);
+            });
+        }
+
+        if ($request->filled('min_age') || $request->filled('max_age')) {
+            $query->where(function ($q) use ($request) {
+                $minDate = now()->subYears($request->input('max_age', 100))->toDateString();
+                $maxDate = now()->subYears($request->input('min_age', 0))->toDateString();
+                $q->whereBetween('DOB', [$minDate, $maxDate]);
+            });
+        }
+
+        if ($request->filled('gender')) {
+            $query->where('Gender', $request->gender);
         }
 
         $volunteers = $query->get();
 
         return view('activities.show_signups', compact('activity', 'volunteers'));
+    }
+
+    public function showAccomplished(Activity $activity)
+    {
+        if ($activity->status !== 'completed') {
+            return redirect()->route('activities.show', $activity)->with('error', 'This activity has not been completed yet.');
+        }
+
+        $accomplishedPath = 'images/activities/' . $activity->activityid . '/accomplished/';
+        $accomplishedFullPath = public_path($accomplishedPath);
+        $accomplishedPhotos = File::exists($accomplishedFullPath) ? File::files($accomplishedFullPath) : [];
+
+        return view('activities.show_accomplished', compact('activity', 'accomplishedPhotos'));
     }
 
     
@@ -241,7 +264,7 @@ class ActivityController extends Controller
         // Register the volunteer
         $activity->volunteers()->attach($user->volunteer->userid, ['approval_status' => 'pending']);
 
-        return redirect()->route('activities.feed')->with('success', 'You have successfully registered for this activity.');
+        return redirect()->route('activities.feed')->with('success', 'You have registered for this activity. Wait for approval from the organization.');
     }
 
 // ````````````````````````````````````
@@ -302,4 +325,15 @@ class ActivityController extends Controller
 
         return redirect()->route('activities.index')->with('success', 'Activity completed successfully.');
     }
+
+    public function cancelRegistration(Activity $activity)
+    {
+        $user = Auth::user();
+        if ($user->volunteer) {
+            $activity->volunteers()->detach($user->volunteer->userid);
+            return redirect()->route('activities.feed')->with('success', 'Your registration has been cancelled.');
+        }
+        return redirect()->route('activities.feed')->with('error', 'Unable to cancel registration.');
+    }
+
 }

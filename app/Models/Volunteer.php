@@ -13,7 +13,7 @@ class Volunteer extends Model
     protected $fillable = [
         'userid', 'Name', 'Phone', 'NID', 'Gender', 'DOB',
         'BloodGroup', 'PresentAddress', 'PermanentAddress', 'District',
-        'TrainedInEmergencyResponse', 'Points', 'Badges', 'bio', 'url'
+        'TrainedInEmergencyResponse', 'Points', 'Badges', 'bio', 'url', 'profession'
     ];
 
     protected $casts = [
@@ -47,4 +47,33 @@ class Volunteer extends Model
     {
         return $this->hasMany(Favorite::class);
     }
+
+    // calculate level
+    // change as needed
+    public function getLevel()
+    {
+        if ($this->Points >= 101) return '5';
+        if ($this->Points >= 51) return '4';
+        if ($this->Points >= 31) return '3';
+        if ($this->Points >= 11) return '2';
+        return '1';
+    }
+
+    // for filter according to level
+    public static function getLevelPoints($level)
+    {
+        switch ($level) {
+            case '5':
+                return ['min' => 101, 'max' => PHP_INT_MAX];
+            case '4':
+                return ['min' => 51, 'max' => 101];
+            case '3':
+                return ['min' => 31, 'max' => 51];
+            case '2':
+                return ['min' => 11, 'max' => 31];
+            default:
+                return ['min' => 0, 'max' => 11];
+        }
+    }
+
 }

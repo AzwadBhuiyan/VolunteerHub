@@ -97,7 +97,7 @@
                             <x-input-label for="image" :value="__('Activity Image')" />
                             <div class="flex items-center space-x-4">                            
                                 <div class="flex items-center">
-                                    <img id="imagePreview" src="{{ asset('images/activities/' . $activity->activityid . '/' . $activity->activityid . '.jpg') }}" class="w-32 h-16 object-cover mr-2">
+                                    <img id="imagePreview" src="{{ asset('images/activities/' . $activity->activityid . '/' . $activity->activityid . '.*') }}" class="w-32 h-16 object-cover mr-2">
                                     <input id="image" name="image" type="file" class="mt-1 block" accept="image/*" onchange="previewImage(this, 'imagePreview')" />
                                 </div>
                                 <x-input-error class="mt-2" :messages="$errors->get('image')" />

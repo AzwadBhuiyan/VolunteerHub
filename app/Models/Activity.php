@@ -64,4 +64,10 @@ class Activity extends Model
     {
         $this->update(['status' => 'closed']);
     }
+
+    public function getVolunteerStatus($volunteerUserId)
+    {
+        $volunteer = $this->volunteers()->where('volunteer_userid', $volunteerUserId)->first();
+        return $volunteer ? $volunteer->pivot->approval_status : null;
+    }
 }

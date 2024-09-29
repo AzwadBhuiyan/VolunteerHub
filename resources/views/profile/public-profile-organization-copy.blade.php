@@ -3,7 +3,7 @@
     <div class="w-full aspect-[21/9]">
         <!-- // to check if image exists -->
         @php
-            $coverPath = public_path('images/cover/' . $profile->userid . '.*');
+            $coverPath = 'images/cover/' . $profile->userid . '.jpg';
             $fullCoverPath = public_path($coverPath);
             $coverExists = file_exists($fullCoverPath);
         @endphp
@@ -19,7 +19,7 @@
                 <div class="flex items-center mb-4">
                     <!-- // to check if image exists -->
                     @php
-                        $logoPath = public_path('images/logos/' . $profile->userid . '.*');
+                        $logoPath = 'images/logos/' . $profile->userid . '.jpg';
                         $fullLogoPath = public_path($logoPath);
                         $logoExists = file_exists($fullLogoPath);
                     @endphp
@@ -60,7 +60,7 @@
                                 
                                 <!-- Activity Image -->
                                 @php
-                                    $imagePath = public_path('images/activities/' . $activity->activityid . '/' . $activity->activityid . '.*');
+                                    $imagePath = 'images/activities/' . $activity->activityid . '/' . $activity->activityid . '.jpg';
                                     $fullImagePath = public_path($imagePath);
                                     $imageExists = file_exists($fullImagePath);
                                 @endphp
@@ -84,44 +84,54 @@
                         @endforeach
                     </div>
 
-                    <div x-show="tab === 'completed'">
+                    <div x-show="tab === 'completed'" class="space-y-8">
                         @foreach($completedActivities as $activity)
-                            <div class="mb-8 bg-white rounded-lg shadow-md overflow-hidden">
-                                <!-- Activity Title -->
-                                <div class="px-6 py-4 bg-gray-100 border-b border-gray-200">
-                                    <h4 class="text-xl font-semibold text-gray-800">{{ $activity->title }}</h4>
-                                    <p class="text-sm text-gray-600">{{ $activity->date->format('M d, Y') }}</p>
+                            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                                <!-- Activity Header -->
+                                <div class="px-6 py-4 flex items-center space-x-4 border-b border-gray-100">
+                                    <img src="{{ $logoExists ? asset($logoPath) : asset('images/defaults/default-logo.png') }}" alt="{{ $profile->Name }}" class="w-12 h-12 rounded-full object-cover">
+                                    <div>
+                                        <h4 class="text-lg font-semibold text-gray-800">{{ $activity->title }}</h4>
+                                        <p class="text-sm text-gray-500">{{ $activity->date->format('M d, Y') }}</p>
+                                    </div>
                                 </div>
 
                                 <!-- Accomplishment Description -->
                                 <div class="px-6 py-4">
-                                    <p class="text-gray-700">{{ $activity->accomplished_description }}</p>
+                                    <p class="text-gray-700 leading-relaxed">{{ $activity->accomplished_description }}</p>
                                 </div>
 
                                 <!-- Accomplishment Photos -->
                                 <div class="px-6 py-4">
-                                    <div class="flex flex-wrap -mx-2">
+                                    <div class="flex space-x-2 overflow-x-auto pb-2">
                                         @php
                                             $accomplishedPath = 'images/activities/' . $activity->activityid . '/accomplished/';
                                             $accomplishedFullPath = public_path($accomplishedPath);
                                             $accomplishedPhotos = File::exists($accomplishedFullPath) ? File::files($accomplishedFullPath) : [];
                                         @endphp
                                         @foreach($accomplishedPhotos as $photo)
-                                            <div class="w-1/2 sm:w-1/3 md:w-1/4 px-2 mb-4">
-                                                <img src="{{ asset($accomplishedPath . $photo->getFilename()) }}" 
-                                                     alt="Accomplished Activity Photo" 
-                                                     class="w-full h-32 object-cover rounded-lg shadow-md">
-                                            </div>
+                                            <img src="{{ asset($accomplishedPath . $photo->getFilename()) }}" 
+                                                 alt="Accomplished Activity Photo" 
+                                                 class="w-40 h-40 object-cover rounded-lg shadow-md flex-shrink-0">
                                         @endforeach
                                     </div>
                                 </div>
 
                                 <!-- Activity Details -->
-                                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                                    <p><strong>Category:</strong> {{ $activity->category }}</p>
-                                    <p><strong>District:</strong> {{ $activity->district }}</p>
-                                    <p><strong>Duration:</strong> {{ $activity->duration }} hours</p>
-                                    <p><strong>Points Earned:</strong> {{ $activity->points }}</p>
+                                <div class="px-6 py-4 bg-gray-50 flex flex-wrap items-center justify-between text-sm">
+                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{{ $activity->category }}</span>
+                                    <span class="text-gray-600"><i class="fas fa-map-marker-alt mr-1"></i>{{ $activity->district }}</span>
+                                    <span class="text-gray-600"><i class="far fa-clock mr-1"></i>{{ $activity->duration }} hours</span>
+                                    <span class="text-green-600 font-semibold"><i class="fas fa-star mr-1"></i>{{ $activity->points }} points</span>
+                                </div>
+
+                                <!-- Engagement Section -->
+                                <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
+                                    <div class="flex space-x-4">
+                                        <button class="text-gray-500 hover:text-blue-500 transition"><i class="far fa-thumbs-up mr-1"></i>Like</button>
+                                        <button class="text-gray-500 hover:text-blue-500 transition"><i class="far fa-comment mr-1"></i>Comment</button>
+                                    </div>
+                                    <button class="text-gray-500 hover:text-blue-500 transition"><i class="far fa-share-square mr-1"></i>Share</button>
                                 </div>
                             </div>
                         @endforeach

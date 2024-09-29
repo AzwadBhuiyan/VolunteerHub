@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
     Route::get('/activities/{activity}/edit', [ActivityController::class, 'edit'])->name('activities.edit');
     Route::put('/activities/{activity}', [ActivityController::class, 'update'])->name('activities.update');
+    Route::get('/activities/{activity}/accomplished', [ActivityController::class, 'showAccomplished'])->name('activities.show_accomplished');
         // org->activities
     Route::patch('/activities/{activity}/update-status', [ActivityController::class, 'updateStatus'])->name('activities.updateStatus');
     Route::get('/activities/{activity}/complete', [ActivityController::class, 'complete'])->name('activities.complete');
@@ -48,6 +49,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/activities/{activity}/update-multiple-volunteer-status', [ActivityController::class, 'updateMultipleVolunteerStatus'])->name('activities.update_multiple_volunteer_status');
         // volunteer->activities
     Route::post('/activities/{activity}/register', [ActivityController::class, 'register'])->name('activities.register')->middleware('auth');
+    Route::delete('/activities/{activity}/cancel-registration', [ActivityController::class, 'cancelRegistration'])->name('activities.cancel_registration');
 
 });
 
