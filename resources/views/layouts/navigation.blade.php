@@ -81,7 +81,7 @@
             </a>
 
             <!-- New Idea Board Icon -->
-            <a href="{{ route('home') }}" class="relative text-gray-500 hover:text-gray-700 icon-link">
+            <a href="{{ route('home') }}" class="relative text-gray-500 hover:text-gray-700 icon-link hide-idea-icon">
                 <div class="icon-container">
                     <!-- Information icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
@@ -93,7 +93,7 @@
                     </svg>
                     <span class="tooltip">{{ __('Ideas') }}</span>
                 </div>
-                <div class="active-underline {{ request()->routeIs('home') ? 'active' : '' }}"></div>
+                <div class=" active-underline {{ request()->routeIs('home') ? 'active' : '' }}"></div>
             </a>
 
            

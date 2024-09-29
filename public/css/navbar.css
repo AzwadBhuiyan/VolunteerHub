@@ -153,8 +153,8 @@ nav a div {
     }
 
     /* Hide the Idea Board icon on mobile view */
-    .idea-board-icon {
-        display: none; /* Hide the Idea Board icon */
+    .hide-idea-icon {
+        display: none; /* Hide the icon */
     }
 }
 
