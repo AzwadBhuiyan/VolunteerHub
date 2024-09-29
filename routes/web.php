@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\IdeaThreadController;
 
 Route::get('/', function () {
     return view('home');
@@ -50,6 +51,16 @@ Route::middleware('auth')->group(function () {
         // volunteer->activities
     Route::post('/activities/{activity}/register', [ActivityController::class, 'register'])->name('activities.register')->middleware('auth');
     Route::delete('/activities/{activity}/cancel-registration', [ActivityController::class, 'cancelRegistration'])->name('activities.cancel_registration');
+
+
+    // Idea Board
+    Route::get('/idea-board', [IdeaThreadController::class, 'index'])->name('idea_board.index');
+    Route::get('/idea-board/create', [IdeaThreadController::class, 'create'])->name('idea_board.create');
+    Route::post('/idea-board', [IdeaThreadController::class, 'store'])->name('idea_board.store');
+    Route::get('/idea-board/{ideaThread}', [IdeaThreadController::class, 'show'])->name('idea_board.show');
+    Route::post('/idea-board/{ideaThread}/comment', [IdeaThreadController::class, 'comment'])->name('idea_board.comment');
+    Route::post('/idea-board/{ideaThread}/vote', [IdeaThreadController::class, 'vote'])->name('idea_board.vote');
+    Route::post('/idea-board/poll-vote/{pollOption}', [IdeaThreadController::class, 'pollVote'])->name('idea_board.poll_vote');
 
 });
 
