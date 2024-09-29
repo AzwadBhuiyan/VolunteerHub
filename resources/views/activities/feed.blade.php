@@ -21,7 +21,7 @@
                         </div>
                         <p class="text-gray-700 mb-4">{{ Str::limit($activity->description, 150) }}</p>
                         @if($activity->image)
-                            <img src="{{ asset('images/activities/' . $activity->activityid . '/' . $activity->activityid . '.jpg') }}" 
+                            <img src="{{ asset('images/activities/' . $activity->activityid . '/' . $activity->activityid . '.*') }}" 
                                  alt="{{ $activity->title }}" 
                                  class="w-full h-64 object-cover mb-4 rounded">
                         @endif

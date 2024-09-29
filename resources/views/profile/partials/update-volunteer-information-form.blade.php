@@ -20,7 +20,7 @@
         <div class="flex items-center space-x-4">            
             <div class="flex items-center">
                 @php
-                    $profilePicturePath = 'images/profile_pictures/' . $profile->userid . '.jpg';
+                    $profilePicturePath = 'images/profile_pictures/' . $profile->userid . '.*';
                     $fullProfilePicturePath = public_path($profilePicturePath);
                     $profilePictureExists = file_exists($fullProfilePicturePath);
                 @endphp
