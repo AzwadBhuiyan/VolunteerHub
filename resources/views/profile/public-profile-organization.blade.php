@@ -118,22 +118,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Activity Details -->
-                                <div class="px-6 py-4 bg-gray-50 flex flex-wrap items-center justify-between text-sm">
-                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">{{ $activity->category }}</span>
-                                    <span class="text-gray-600"><i class="fas fa-map-marker-alt mr-1"></i>{{ $activity->district }}</span>
-                                    <span class="text-gray-600"><i class="far fa-clock mr-1"></i>{{ $activity->duration }} hours</span>
-                                    <span class="text-green-600 font-semibold"><i class="fas fa-star mr-1"></i>{{ $activity->points }} points</span>
-                                </div>
-
-                                <!-- Engagement Section -->
-                                <div class="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
-                                    <div class="flex space-x-4">
-                                        <button class="text-gray-500 hover:text-blue-500 transition"><i class="far fa-thumbs-up mr-1"></i>Like</button>
-                                        <button class="text-gray-500 hover:text-blue-500 transition"><i class="far fa-comment mr-1"></i>Comment</button>
-                                    </div>
-                                    <button class="text-gray-500 hover:text-blue-500 transition"><i class="far fa-share-square mr-1"></i>Share</button>
-                                </div>
+                                
                             </div>
                         @endforeach
                     </div>

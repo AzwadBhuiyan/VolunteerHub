@@ -13,34 +13,80 @@
         @endif
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
             @foreach($activities as $activity)
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                    <div class="p-6 bg-white border-b border-gray-200">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-semibold">{{ $activity->title }}</h3>
-                            <span class="text-sm text-gray-500">{{ $activity->date->format('M d, Y') }}</span>
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+                    <!-- Activity Header -->
+                    <div class="px-6 py-4 flex items-center space-x-4 border-b border-gray-100">
+                        @php
+                            $logoPath = 'images/logos/' . $activity->organization->userid . '.jpg';
+                            $fullLogoPath = public_path($logoPath);
+                            $logoExists = file_exists($fullLogoPath);
+                        @endphp
+                        <img src="{{ $logoExists ? asset($logoPath) : asset('images/defaults/default-logo.png') }}" alt="{{ $activity->organization->org_name }}" class="w-12 h-12 rounded-full object-cover">
+                        <div>
+                            <h4 class="text-lg font-semibold text-gray-800">{{ $activity->title }}</h4>
+                            <p class="text-sm text-gray-500">{{ $activity->date->format('M d, Y') }}</p>
                         </div>
-                        <p class="text-gray-700 mb-4">{{ Str::limit($activity->description, 150) }}</p>
-                        @if($activity->image)
-                            <img src="{{ asset('images/activities/' . $activity->activityid . '/' . $activity->activityid . '.*') }}" 
-                                 alt="{{ $activity->title }}" 
-                                 class="w-full h-64 object-cover mb-4 rounded">
+                    </div>
+
+                    <!-- Activity Content -->
+                    <div class="px-6 py-4">
+                        @if($activity->status === 'completed')
+                            <p class="text-gray-700 leading-relaxed">{{ $activity->accomplished_description }}</p>
+                        @else
+                            <p class="text-gray-700 leading-relaxed">{{ Str::limit($activity->description, 150) }}</p>
                         @endif
+                    </div>
+
+                    <!-- Activity Image -->
+                    <div class="px-6 py-4">
+                        @php
+                            $imagePath = 'images/activities/' . $activity->activityid . '/' . $activity->activityid . '.jpg';
+                            $fullImagePath = public_path($imagePath);
+                            $imageExists = file_exists($fullImagePath);
+                        @endphp
+                        @if($imageExists)
+                            <img src="{{ asset($imagePath) }}" alt="{{ $activity->title }}" class="w-full h-48 object-cover rounded">
+                        @endif
+                    </div>
+
+                    <!-- Accomplishment Photos (for completed activities) -->
+                    @if($activity->status === 'completed')
+                        <div class="px-6 py-4">
+                            <div class="flex space-x-2 overflow-x-auto pb-2">
+                                @php
+                                    $accomplishedPath = 'images/activities/' . $activity->activityid . '/accomplished/';
+                                    $accomplishedFullPath = public_path($accomplishedPath);
+                                    $accomplishedPhotos = File::exists($accomplishedFullPath) ? File::files($accomplishedFullPath) : [];
+                                @endphp
+                                @foreach($accomplishedPhotos as $photo)
+                                    <img src="{{ asset($accomplishedPath . $photo->getFilename()) }}" 
+                                         alt="Accomplished Activity Photo" 
+                                         class="w-40 h-40 object-cover rounded-lg shadow-md flex-shrink-0">
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
+                    <!-- Activity Details and Actions -->
+                    <div class="px-6 py-4">
                         <div class="mb-4">
                             <p><strong>Category:</strong> {{ $activity->category }}</p>
                             <p><strong>District:</strong> {{ $activity->district }}</p>
-                            <p><strong>Deadline:</strong> {{ $activity->deadline->format('M d, Y H:i') }}</p>
-                            <p><strong>Volunteers Needed:</strong> {{ $activity->min_volunteers }} - {{ $activity->max_volunteers ?? 'No limit' }}</p>
+                            @if($activity->status !== 'completed')
+                                <p><strong>Deadline:</strong> {{ $activity->deadline->format('M d, Y H:i') }}</p>
+                                <p><strong>Volunteers Needed:</strong> {{ $activity->min_volunteers }} - {{ $activity->max_volunteers ?? 'No limit' }}</p>
+                            @endif
                         </div>
                         <div class="flex justify-between items-center">
                             <a href="{{ route('profile.public', $activity->organization) }}" class="text-blue-500 hover:underline">
-                            Organized by: {{ $activity->organization->org_name }}
+                                Organized by: {{ $activity->organization->org_name }}
                             </a>
                             <div>
                                 <a href="{{ route('activities.show', $activity) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">
                                     View Details
                                 </a>
                                 @auth
-                                    @if(Auth::user()->volunteer)
+                                    @if(Auth::user()->volunteer && $activity->status !== 'completed')
                                         @php
                                             $volunteerStatus = $activity->getVolunteerStatus(Auth::user()->volunteer->userid);
                                         @endphp
@@ -66,9 +112,11 @@
                                         @endif
                                     @endif
                                 @else
-                                    <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                        Login to Register
-                                    </a>
+                                    @if($activity->status !== 'completed')
+                                        <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                            Login to Register
+                                        </a>
+                                    @endif
                                 @endauth
                             </div>
                         </div>

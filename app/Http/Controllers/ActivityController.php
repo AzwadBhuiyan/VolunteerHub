@@ -16,11 +16,10 @@ class ActivityController extends Controller
 
     public function feed()
     {
-        $activities = Activity::where('status', 'open')
-                            ->with('organization')
-                            ->orderBy('date', 'asc')
-                            ->paginate(10);
-
+        $activities = Activity::with('organization')
+            ->orderBy('date', 'desc')
+            ->paginate(10);
+    
         return view('activities.feed', compact('activities'));
     }
 
