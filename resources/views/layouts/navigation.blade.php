@@ -1,18 +1,24 @@
 <nav class="flex justify-between items-center">
     <div class="site-logo">
-        <!-- Site logo section -->
-        <img src="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" alt="Site Logo" class="logo"> <!-- Ensure this path is correct -->
+        <!-- Site logo linked to the home page -->
+        <a href="{{ route('home') }}">
+            <img src="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" alt="Site Logo" class="logo"> <!-- Ensure this path is correct -->
+        </a>
     </div>
 
     <div class="nav-links flex-grow flex justify-center">
         @auth
             <!-- Existing code for logged-in users -->
             <!-- Home link -->
-            <a href="{{ route('home') }}" class="relative text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('home') ? 'text-blue-500' : '' }}">
+            <a href="{{ route('home') }}" class="relative text-gray-500 hover:text-gray-700 icon-link">
                 <div class="icon-container">
-                    <!-- Home icon -->
-                    <svg class="h-5 w-5 {{ request()->routeIs('home') ? 'fill-current text-blue-500' : 'fill-none' }}" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    <!-- Hollow Home icon with active color class -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                         fill="none" 
+                         stroke="currentColor" 
+                         class="h-7 w-7 nav-icon {{ request()->routeIs('home') ? 'active-icon' : '' }}" 
+                         viewBox="0 0 24 24">
+                        <path stroke-width="2" d="M3 9.75L12 3l9 6.75V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z"/>
                     </svg>
                     <span class="tooltip">{{ __('Home') }}</span>
                 </div>
@@ -30,14 +36,16 @@
             @endphp
 
             <!-- Profile link -->
-            <a href="{{ Auth::check() ? route('profile.public', $profileUrl) : route('login') }}" class="relative text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('profile.public', Auth::id()) ? 'text-blue-500' : '' }}">
+            <a href="{{ Auth::check() ? route('profile.public', $profileUrl) : route('login') }}" class="relative text-gray-500 hover:text-gray-700 icon-link">
                 <div class="icon-container">
                     <!-- Profile icon -->
-                    <svg class="h-5 w-5 {{ request()->routeIs('profile.public', $profileUrl) ? 'fill-current text-blue-500' : 'fill-none' }}" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                         fill="{{ request()->routeIs('profile.public', $profileUrl) ? 'currentColor' : 'none' }}" 
+                         class="h-7 w-7 nav-icon {{ request()->routeIs('profile.public', $profileUrl) ? 'active-icon' : '' }}" 
+                         viewBox="0 0 16 16">
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
                     </svg>
                     <span class="tooltip">{{ __('Profile') }}</span>
-
                 </div>
                 <div class="active-underline {{ request()->routeIs('profile.public', $profileUrl) ? 'active' : '' }}"></div>
             </a>
@@ -46,7 +54,8 @@
             <a href="{{ Auth::check() ? route('dashboard') : route('login') }}" class="relative text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('dashboard') ? 'text-blue-500' : '' }}">
                 <div class="icon-container">
                     <!-- Dashboard icon -->
-                    <svg class="h-5 w-5 {{ request()->routeIs('dashboard') ? 'fill-current text-blue-500' : 'fill-none' }}" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                 </svg>
+                    <svg class="h-7 w-7 {{ request()->routeIs('dashboard') ? 'fill-current text-blue-500' : 'fill-none' }}" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                         <path d="M4 4h6v6H4V4zm0 10h6v6H4v-6zm10-10h6v6h-6V4zm0 10h6v6h-6v-6z"></path>
                     </svg>
                     <span class="tooltip">{{ __('Dashboard') }}</span>
@@ -58,36 +67,46 @@
             <!-- New Favorites Icon -->
             <a href="{{ Auth::check() ? '#' : route('login') }}" class="relative text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">
                 <div class="icon-container">
-                    <!-- Favorites icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-5 w-5" viewBox="0 0 16 16">
-                        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+                    <!-- Favorites icon with active color -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                         fill="{{ request()->routeIs('home') ? '#007bff' : 'none' }}" 
+                         stroke="currentColor" 
+                         class="h-7 w-7 nav-icon {{ request()->routeIs('home') ? 'active-icon' : '' }}" 
+                         viewBox="0 0 24 24">
+                        <path stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                     </svg>
                     <span class="tooltip">{{ __('Favorites') }}</span>
-
                 </div>
+                <div class="active-underline {{ request()->routeIs('home') ? 'active' : '' }}"></div>
             </a>
 
             <!-- New Idea Board Icon -->
-            <a href="{{ Auth::check() ? '#' : route('login') }}" class="relative text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">
+            <a href="{{ route('home') }}" class="relative text-gray-500 hover:text-gray-700 icon-link hide-idea-icon">
                 <div class="icon-container">
-                    <!-- Idea Board icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-5 w-5" viewBox="0 0 16 16">
-                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                    <!-- Information icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                         fill="{{ request()->routeIs('home') ? 'currentColor' : 'none' }}" 
+                         class="h-7 w-7 nav-icon {{ request()->routeIs('home') ? 'active-icon' : '' }}" 
+                         viewBox="0 0 16 16">
+                        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12.93A5.93 5.93 0 1 1 8 2.07 5.93 5.93 0 0 1 8 13.93z" fill="{{ request()->routeIs('home') ? '#007bff' : 'currentColor' }}" stroke="{{ request()->routeIs('home') ? '#007bff' : 'currentColor' }}" stroke-width="0.5" />
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" fill="{{ request()->routeIs('home') ? '#007bff' : 'currentColor' }}" stroke="{{ request()->routeIs('home') ? '#007bff' : 'currentColor' }}" stroke-width="0.5" />
                     </svg>
                     <span class="tooltip">{{ __('Ideas') }}</span>
                 </div>
+                <div class=" active-underline {{ request()->routeIs('home') ? 'active' : '' }}"></div>
             </a>
+
+           
         @endauth
     </div>
 
-    <div class="logout-button">
+    <div class="logout-button flex items-center mobile-logout"> <!-- Added class mobile-logout -->
         @auth
             <!-- Existing logout button code -->
-            <a href="{{ route('logout') }}" class="relative text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <a href="{{ route('logout') }}" class=" relative text-gray-500 hover:text-gray-700 px-1 py-1 rounded-md text-sm font-medium" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <div class="icon-container">
                     <!-- Logout icon -->
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="h-5 w-5" viewBox="0 0 16 16">
+                    <svg width="16" height="16" fill="currentColor" class="h-7 w-7" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
                         <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
                     </svg>
@@ -105,7 +124,7 @@
                     {{ __('Login') }}
                 </a>
                 <a href="{{ route('register') }}" class="text-green-500 font-bold px-3 py-2 rounded-md">
-                    {{ __('Register') }}
+                    {{ __('signup') }}
                 </a>
             </div>
         @endauth

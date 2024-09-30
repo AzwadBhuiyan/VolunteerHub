@@ -5,13 +5,17 @@
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
+            {{ __('By proceeding with account deletion, you acknowledge that all associated data, including but not limited to personal information, activity history, and any other content, will be irreversibly removed from our systems. This action is final and cannot be undone. Please ensure that you have read and understood our terms and conditions before proceeding.') }}
         </p>
     </header>
+    <div class="flex items-center">
+        <input type="checkbox" id="terms" name="terms" required>
+        <label for="terms" class="ml-2 text-sm text-gray-600">I confirm that I have read and understood the terms, and I wish to permanently delete my account.</label>
+    </div>
 
     <x-danger-button
         x-data=""
-        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
+        x-on:click.prevent="checkTerms()"
     >{{ __('Delete Account') }}</x-danger-button>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
@@ -53,3 +57,15 @@
         </form>
     </x-modal>
 </section>
+
+<script>
+    function checkTerms() {
+        const checkbox = document.getElementById('terms');
+        if (!checkbox.checked) {
+            alert("Please read the terms and check the box before deleting your account.");
+        } else {
+            // Open the modal for confirmation
+            $dispatch('open-modal', 'confirm-user-deletion');
+        }
+    }
+</script>
