@@ -77,8 +77,8 @@
 
             <!-- Profession -->
             <div class="mt-4">
-                <x-label for="profession" :value="__('Profession')" />
-                <x-input id="profession" class="block mt-1 w-full" type="text" name="profession" :value="old('profession')" />
+                <x-input-label for="profession" :value="__('Profession')" />
+                <x-text-input id="profession" class="block mt-1 w-full" type="text" name="profession" :value="old('profession')" />
             </div>
 
             <!-- Blood Group -->
