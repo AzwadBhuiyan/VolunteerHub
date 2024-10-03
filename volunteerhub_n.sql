@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 27, 2024 at 12:18 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- Generation Time: Oct 04, 2024 at 01:01 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -138,6 +138,101 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `idea_comments`
+--
+
+CREATE TABLE `idea_comments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `idea_thread_id` bigint(20) UNSIGNED NOT NULL,
+  `volunteer_userid` varchar(255) NOT NULL,
+  `comment` varchar(200) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `idea_comments`
+--
+
+INSERT INTO `idea_comments` (`id`, `idea_thread_id`, `volunteer_userid`, `comment`, `created_at`, `updated_at`) VALUES
+(1, 2, '00002', '2 words:\r\nmachine guns', '2024-10-03 12:28:33', '2024-10-03 12:28:33'),
+(3, 2, '00004', 'time to build a medieval catapult', '2024-10-03 12:44:35', '2024-10-03 12:44:35'),
+(4, 1, '00002', 'kill them all!', '2024-10-03 12:51:32', '2024-10-03 12:51:32'),
+(5, 2, '00003', 'this is weird', '2024-10-03 15:55:21', '2024-10-03 15:55:21');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `idea_polls`
+--
+
+CREATE TABLE `idea_polls` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `idea_thread_id` bigint(20) UNSIGNED NOT NULL,
+  `question` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `idea_threads`
+--
+
+CREATE TABLE `idea_threads` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `userid` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'open',
+  `votes` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `idea_threads`
+--
+
+INSERT INTO `idea_threads` (`id`, `userid`, `title`, `description`, `status`, `votes`, `created_at`, `updated_at`) VALUES
+(1, 'org-001', 'how to stop corruption', 'lets hear it', 'open', 0, NULL, NULL),
+(2, 'org-001', 'How would you rob a bank?', 'Best idea maker will be taken to jail\r\n\r\nNo bombs allowed', 'open', 0, '2024-10-03 12:20:24', '2024-10-03 12:20:24');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `idea_votes`
+--
+
+CREATE TABLE `idea_votes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `idea_thread_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `idea_comment_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `user_userid` varchar(255) NOT NULL,
+  `vote` tinyint(4) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `idea_votes`
+--
+
+INSERT INTO `idea_votes` (`id`, `idea_thread_id`, `idea_comment_id`, `user_userid`, `vote`, `created_at`, `updated_at`) VALUES
+(13, 2, 1, '00003', 1, '2024-10-03 16:43:36', '2024-10-03 16:43:36'),
+(15, 2, 3, '00003', 1, '2024-10-03 16:48:20', '2024-10-03 16:48:20'),
+(17, 2, NULL, '00004', 1, '2024-10-03 16:48:38', '2024-10-03 16:48:38'),
+(18, 1, NULL, '00004', 1, '2024-10-03 16:48:41', '2024-10-03 16:48:41'),
+(20, 2, 3, '00004', 1, '2024-10-03 16:48:55', '2024-10-03 16:48:55'),
+(21, 2, NULL, '00003', 1, '2024-10-03 16:49:10', '2024-10-03 16:49:10'),
+(24, 1, NULL, '00002', 1, '2024-10-03 16:54:25', '2024-10-03 16:54:25'),
+(30, 2, NULL, '00002', 1, '2024-10-03 17:00:16', '2024-10-03 17:00:16'),
+(34, 2, 3, '00002', 1, '2024-10-03 17:00:23', '2024-10-03 17:00:23');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `jobs`
 --
 
@@ -198,7 +293,14 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (27, '2024_09_06_131342_create_volunteer_favorite_categories_table', 4),
 (28, '2024_09_06_143531_create_activities_table', 4),
 (29, '2024_09_06_144947_create_activity_volunteers_table', 4),
-(31, '2024_09_26_210817_add_completion_details_to_activities_table', 5);
+(31, '2024_09_26_210817_add_completion_details_to_activities_table', 5),
+(32, '2024_09_27_193349_add_profession_to_volunteer_table', 6),
+(33, '2024_09_29_093437_create_idea_threads_table', 6),
+(34, '2024_09_29_093438_create_idea_comments_table', 6),
+(35, '2024_09_29_093438_create_idea_polls_table', 6),
+(36, '2024_09_29_093438_create_poll_options_table', 6),
+(39, '2024_09_29_093458_create_idea_votes_table', 7),
+(40, '2024_10_03_221834_add_status_to_idea_threads_table', 7);
 
 -- --------------------------------------------------------
 
@@ -244,6 +346,21 @@ CREATE TABLE `password_reset_tokens` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `poll_options`
+--
+
+CREATE TABLE `poll_options` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `idea_poll_id` bigint(20) UNSIGNED NOT NULL,
+  `option_text` varchar(255) NOT NULL,
+  `votes` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sessions`
 --
 
@@ -278,7 +395,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`userid`, `email`, `password`, `remember_token`, `created_at`, `updated_at`, `verified`) VALUES
 ('00002', 'volunteer@gmail.com', '$2y$12$UoCj2BpNB1JrgIt52cSfzOMdn08Wk/HJj6ro8Gv6jB7vtw5GSEWLC', NULL, '2024-09-20 07:54:58', '2024-09-20 07:54:58', 1),
-('00003', 'rht.krt@gmail.com', '$2y$12$V7A2GOSUdQgSk.EwzPdE.elMi29NAzgkxYZdVpfdhepWW86LsmCSa', NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 0),
+('00003', 'rht.krt@gmail.com', '$2y$12$V7A2GOSUdQgSk.EwzPdE.elMi29NAzgkxYZdVpfdhepWW86LsmCSa', NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 1),
 ('00004', 'as2@gmail.com', '$2y$12$jVXp.L4xCT/eGMS1mvziT.RyvbmZ57Rqx9L9gCBP/lOyXs8B34ucO', NULL, '2024-09-26 15:50:49', '2024-09-26 15:50:49', 1),
 ('org-001', 'organization@gmail.com', '$2y$12$eohVVZ72P3qUd9MFC/eKFOmQIHraB1FLZsIS3bLKuc5Gdk31p3I8a', NULL, '2024-09-20 07:52:52', '2024-09-20 07:52:52', 1),
 ('org-002', 'org2@gmail.com', '$2y$12$R1fNsPbwj5ZicKAPcZPnDe6XoqPKjfmkOl6mYNFBxGMoQW4Mif9gO', NULL, '2024-09-20 10:18:14', '2024-09-20 10:18:14', 1);
@@ -303,6 +420,7 @@ CREATE TABLE `volunteers` (
   `District` enum('Dhaka','Chittagong','Rajshahi','Khulna','Barisal','Sylhet','Rangpur','Mymensingh','Comilla','Narayanganj','Gazipur','Faridpur','Gopalganj','Kishoreganj','Madaripur','Manikganj','Munshiganj','Narsingdi','Rajbari','Shariatpur','Tangail','Brahmanbaria','Chandpur','Coxs Bazar','Feni','Khagrachari','Lakshmipur','Noakhali','Rangamati','Bandarban','Bagerhat','Chuadanga','Jashore','Jhenaidah','Kushtia','Magura','Meherpur','Narail','Satkhira','Barguna','Bhola','Jhalokathi','Patuakhali','Pirojpur','Bogra','Jaipurhat','Naogaon','Natore','Nawabganj','Pabna','Sirajganj','Dinajpur','Gaibandha','Kurigram','Lalmonirhat','Nilphamari','Panchagarh','Thakurgaon','Habiganj','Maulvibazar','Sunamganj','Jamalpur','Netrokona','Sherpur') NOT NULL,
   `TrainedInEmergencyResponse` tinyint(1) NOT NULL DEFAULT 0,
   `Points` int(11) NOT NULL DEFAULT 0,
+  `profession` varchar(255) DEFAULT NULL,
   `Badges` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`Badges`)),
   `bio` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -313,10 +431,10 @@ CREATE TABLE `volunteers` (
 -- Dumping data for table `volunteers`
 --
 
-INSERT INTO `volunteers` (`userid`, `url`, `Name`, `Phone`, `NID`, `Gender`, `DOB`, `BloodGroup`, `PresentAddress`, `PermanentAddress`, `District`, `TrainedInEmergencyResponse`, `Points`, `Badges`, `bio`, `created_at`, `updated_at`) VALUES
-('00002', 'rhtProMax', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-25', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 6, NULL, NULL, '2024-09-20 07:54:58', '2024-09-26 16:11:06'),
-('00003', '00003', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-11', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 0, NULL, NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02'),
-('00004', '00004', 'asdf', '01990376524', NULL, 'M', '1992-06-09', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 6, NULL, NULL, '2024-09-26 15:50:49', '2024-09-26 16:11:07');
+INSERT INTO `volunteers` (`userid`, `url`, `Name`, `Phone`, `NID`, `Gender`, `DOB`, `BloodGroup`, `PresentAddress`, `PermanentAddress`, `District`, `TrainedInEmergencyResponse`, `Points`, `profession`, `Badges`, `bio`, `created_at`, `updated_at`) VALUES
+('00002', 'rhtProMax', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-25', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 6, NULL, NULL, NULL, '2024-09-20 07:54:58', '2024-09-26 16:11:06'),
+('00003', '00003', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-11', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02'),
+('00004', '00004', 'asdf', '01990376524', NULL, 'M', '1992-06-09', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 6, NULL, NULL, NULL, '2024-09-26 15:50:49', '2024-09-26 16:11:07');
 
 -- --------------------------------------------------------
 
@@ -376,6 +494,37 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `idea_comments`
+--
+ALTER TABLE `idea_comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idea_comments_idea_thread_id_foreign` (`idea_thread_id`),
+  ADD KEY `idea_comments_volunteer_userid_foreign` (`volunteer_userid`);
+
+--
+-- Indexes for table `idea_polls`
+--
+ALTER TABLE `idea_polls`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idea_polls_idea_thread_id_foreign` (`idea_thread_id`);
+
+--
+-- Indexes for table `idea_threads`
+--
+ALTER TABLE `idea_threads`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idea_threads_userid_foreign` (`userid`);
+
+--
+-- Indexes for table `idea_votes`
+--
+ALTER TABLE `idea_votes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `idea_vote_unique` (`idea_thread_id`,`idea_comment_id`,`user_userid`),
+  ADD KEY `idea_votes_idea_comment_id_foreign` (`idea_comment_id`),
+  ADD KEY `idea_votes_user_userid_foreign` (`user_userid`);
+
+--
 -- Indexes for table `jobs`
 --
 ALTER TABLE `jobs`
@@ -406,6 +555,13 @@ ALTER TABLE `organizations`
 --
 ALTER TABLE `password_reset_tokens`
   ADD PRIMARY KEY (`email`);
+
+--
+-- Indexes for table `poll_options`
+--
+ALTER TABLE `poll_options`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `poll_options_idea_poll_id_foreign` (`idea_poll_id`);
 
 --
 -- Indexes for table `sessions`
@@ -465,6 +621,30 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `idea_comments`
+--
+ALTER TABLE `idea_comments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `idea_polls`
+--
+ALTER TABLE `idea_polls`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `idea_threads`
+--
+ALTER TABLE `idea_threads`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `idea_votes`
+--
+ALTER TABLE `idea_votes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
@@ -474,7 +654,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `poll_options`
+--
+ALTER TABLE `poll_options`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -494,10 +680,43 @@ ALTER TABLE `activity_volunteers`
   ADD CONSTRAINT `activity_volunteers_volunteer_userid_foreign` FOREIGN KEY (`volunteer_userid`) REFERENCES `volunteers` (`userid`) ON DELETE CASCADE;
 
 --
+-- Constraints for table `idea_comments`
+--
+ALTER TABLE `idea_comments`
+  ADD CONSTRAINT `idea_comments_idea_thread_id_foreign` FOREIGN KEY (`idea_thread_id`) REFERENCES `idea_threads` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `idea_comments_volunteer_userid_foreign` FOREIGN KEY (`volunteer_userid`) REFERENCES `volunteers` (`userid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `idea_polls`
+--
+ALTER TABLE `idea_polls`
+  ADD CONSTRAINT `idea_polls_idea_thread_id_foreign` FOREIGN KEY (`idea_thread_id`) REFERENCES `idea_threads` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `idea_threads`
+--
+ALTER TABLE `idea_threads`
+  ADD CONSTRAINT `idea_threads_userid_foreign` FOREIGN KEY (`userid`) REFERENCES `organizations` (`userid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `idea_votes`
+--
+ALTER TABLE `idea_votes`
+  ADD CONSTRAINT `idea_votes_idea_comment_id_foreign` FOREIGN KEY (`idea_comment_id`) REFERENCES `idea_comments` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `idea_votes_idea_thread_id_foreign` FOREIGN KEY (`idea_thread_id`) REFERENCES `idea_threads` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `idea_votes_user_userid_foreign` FOREIGN KEY (`user_userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `organizations`
 --
 ALTER TABLE `organizations`
   ADD CONSTRAINT `organizations_userid_foreign` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `poll_options`
+--
+ALTER TABLE `poll_options`
+  ADD CONSTRAINT `poll_options_idea_poll_id_foreign` FOREIGN KEY (`idea_poll_id`) REFERENCES `idea_polls` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `volunteers`
