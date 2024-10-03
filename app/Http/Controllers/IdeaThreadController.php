@@ -106,7 +106,7 @@ class IdeaThreadController extends Controller
 
         if ($existingVote) {
             $existingVote->delete();
-            $message = 'Vote removed successfully.';
+            $voted = false;
         } else {
             IdeaVote::create([
                 'user_userid' => Auth::id(),
@@ -114,10 +114,14 @@ class IdeaThreadController extends Controller
                 'idea_comment_id' => $request->votable_type === 'comment' ? $votable->id : null,
                 'vote' => $request->vote
             ]);
-            $message = 'Vote recorded successfully.';
+            $voted = true;
         }
 
-        return back()->with('success', $message);
+        return response()->json([
+            'success' => true,
+            'newVoteCount' => $votable->getVoteCount(),
+            'voted' => $voted
+        ]);
     }
 
     public function pollVote(Request $request, PollOption $pollOption)
