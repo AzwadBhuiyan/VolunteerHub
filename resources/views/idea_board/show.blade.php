@@ -14,20 +14,53 @@
                     <p class="text-sm text-gray-600">Status: {{ ucfirst($ideaThread->status) }}</p>
                     <p class="mt-4">{{ $ideaThread->description }}</p>
 
+                    @php
+                        $votableType = 'thread';
+                        $votable = $ideaThread;
+                    @endphp
+                    <div class="mt-2 flex items-center">
+                        <form method="POST" action="{{ route('idea_board.vote') }}">
+                            @csrf
+                            <input type="hidden" name="votable_type" value="{{ $votableType }}">
+                            <input type="hidden" name="votable_id" value="{{ $votable->id }}">
+                            <input type="hidden" name="vote" value="1">
+                            <button type="submit" class="text-gray-500 hover:text-blue-500">
+                                @if ($votable->votes()->where('user_userid', Auth::id())->exists())
+                                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                                @else
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                                @endif
+                            </button>
+                        </form>
+                        <span class="mx-2">{{ $votable->getVoteCount() }}</span>
+                    </div>
+
                     <div class="mt-6">
                         <h4 class="text-lg font-semibold mb-2">Comments</h4>
                         @foreach($ideaThread->comments as $comment)
                             <div class="mb-4 p-4 border rounded {{ $comment->is_winner ? 'bg-green-100' : '' }}">
                                 <p>{{ $comment->comment }}</p>
                                 <p class="text-sm text-gray-600">By: {{ $comment->volunteer->Name }}</p>
-                                @if($comment->is_winner)
-                                    <p class="text-sm font-semibold text-green-600">Winner</p>
-                                @elseif(Auth::id() === $ideaThread->userid && $ideaThread->status === 'open')
-                                    <form method="POST" action="{{ route('idea_board.select_winner', [$ideaThread, $comment]) }}">
+                                @php
+                                    $votableType = 'comment';
+                                    $votable = $comment;
+                                @endphp
+                                <div class="mt-2 flex items-center">
+                                    <form method="POST" action="{{ route('idea_board.vote') }}">
                                         @csrf
-                                        <button type="submit" class="text-sm text-blue-600 hover:text-blue-800">Select as Winner</button>
+                                        <input type="hidden" name="votable_type" value="{{ $votableType }}">
+                                        <input type="hidden" name="votable_id" value="{{ $votable->id }}">
+                                        <input type="hidden" name="vote" value="1">
+                                        <button type="submit" class="text-gray-500 hover:text-blue-500">
+                                            @if ($votable->votes()->where('user_userid', Auth::id())->exists())
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                                            @else
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                                            @endif
+                                        </button>
                                     </form>
-                                @endif
+                                    <span class="mx-2">{{ $votable->getVoteCount() }}</span>
+                                </div>
                             </div>
                         @endforeach
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class IdeaThread extends Model
 {
-    protected $fillable = ['userid', 'title', 'description', 'votes'];
+    protected $fillable = ['userid', 'title', 'description', 'votes', 'status'];
 
     public function organization()
     {
@@ -26,5 +26,10 @@ class IdeaThread extends Model
     public function votes()
     {
         return $this->hasMany(IdeaVote::class);
+    }
+
+    public function getVoteCount()
+    {
+        return $this->votes()->whereNull('idea_comment_id')->sum('vote');
     }
 }

@@ -26,6 +26,83 @@
                                 <p class="text-sm text-gray-600">Posted by: {{ $thread->organization->org_name }}</p>
                                 <p class="text-sm text-gray-600">Status: {{ ucfirst($thread->status) }}</p>
                                 <p class="mt-2">{{ Str::limit($thread->description, 100) }}</p>
+
+                                <!-- voting button -->
+                                 @php
+                                    $votableType = 'thread';
+                                    $votable = $thread;
+                                 @endphp
+                                <div class="mt-2 flex items-center">
+                                    <form method="POST" action="{{ route('idea_board.vote') }}">
+                                        @csrf
+                                        <input type="hidden" name="votable_type" value="{{ $votableType }}">
+                                        <input type="hidden" name="votable_id" value="{{ $votable->id }}">
+                                        <input type="hidden" name="vote" value="1">
+                                        <button type="submit" class="text-gray-500 hover:text-blue-500">
+                                            @if ($votable->votes()->where('user_userid', Auth::id())->exists())
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"></path></svg>
+                                            @else
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                                            @endif
+                                        </button>
+                                    </form>
+                                    <span class="mx-2">{{ $votable->getVoteCount() }}</span>
+                                </div>
+
+
+
+
+                                @if($thread->comments->isNotEmpty())
+                                    @php
+                                        $lastComment = $thread->comments->sortByDesc('created_at')->first();
+                                    @endphp
+                                    <div class="mt-2 p-2 bg-gray-100 rounded">
+                                        <p class="text-sm"><strong>Latest Comment:</strong> </p>
+                                        <p>{{ Str::limit($lastComment->comment, 100) }}</p>
+                                        <p class="text-xs text-gray-500">By: {{ $lastComment->volunteer->Name }}</p>
+                                    </div>
+                                    @auth
+                                        @if(Auth::user()->volunteer)
+                                            @php
+                                                $authUserId = Auth::id();
+                                                $userComment = $thread->comments->where('volunteer_userid', $authUserId)->first();
+                                            @endphp
+                                            @if($userComment)
+                                                <div class="mt-2 p-2 bg-blue-100 rounded">
+                                                    <p class="text-sm"><strong>Your Comment:</strong></p>
+                                                    <p>{{ Str::limit($userComment->comment, 100) }}</p>
+                                                </div>
+                                            @endif
+                                        @endif
+                                    @endauth
+                                @endif
+
+                                <a href="{{ route('idea_board.show', $thread) }}#comment-section" class="mt-2 inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm">
+                                    View All Comments
+                                </a>
+
+                                <!-- Comment Form -->
+                                @auth
+                                    @if(Auth::user()->volunteer)
+                                        <form method="POST" action="{{ route('idea_board.comment', $thread) }}" class="mt-4">
+                                            @csrf
+                                            <div class="mb-4">
+                                                <label for="comment" class="block text-gray-700 text-sm font-bold mb-2">Your Comment:</label>
+                                                <textarea name="comment" id="comment" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required maxlength="200"></textarea>
+                                            </div>
+                                            <div class="flex items-center justify-end mt-4">
+                                            @if($thread->comments->where('volunteer_userid', Auth::id())->count()>0)
+                                                <p class="text-yellow-600">You have already commented on this idea.</p>
+                                            @else
+                                                <p class="text-yellow-600">You can only comment once, so prepare your comment well.</p>
+                                            @endif
+                                                <x-primary-button class="ml-4">
+                                                    {{ __('Submit Comment') }}
+                                                </x-primary-button>
+                                            </div>
+                                        </form>
+                                    @endif
+                                @endauth
                             </div>
                         @endforeach
                     </div>

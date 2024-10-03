@@ -179,7 +179,7 @@ class ProfileController extends Controller
         $profile = $user->volunteer;
 
         $validated = $request->validate([
-            'nid' => 'nullable|string|max:255',
+            'nid' => 'nullable', 'numeric', 'digits:10',
             'present_address' => 'required|string|max:300',
             'permanent_address' => 'required|string|max:300',
             'district' => 'required|string',
