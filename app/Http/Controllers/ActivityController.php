@@ -280,7 +280,7 @@ class ActivityController extends Controller
         $validatedData = $request->validate([
             'accomplished_description' => 'required',
             'duration' => 'required|numeric|min:1.0', // Changed to numeric and min 0.5 hours
-            'photos' => 'required|array|min:1|max:5',
+            'photos' => 'required|array|min:1|max:4',
             'photos.*' => 'image|max:5120', // 5MB Max
         ]);
 

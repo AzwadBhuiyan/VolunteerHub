@@ -19,10 +19,11 @@
         <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <link rel="icon" href="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" type="image/png">
-
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" /> -->
         <!-- Scripts -->
-        <link href="{{ asset('build/assets/app-CboVWtwL.css') }}" rel="stylesheet">
-        <script src="{{ asset('build/assets/app-CKEzXkKM.js') }}" defer></script>
+        <link href="{{ asset('build/assets/app-B-RhTCEg.css') }}" rel="stylesheet">
+        <!-- <link href="{{ asset('build/assets/app-X6JekhOX.css') }}" rel="stylesheet"> -->
+        <script src="{{ asset('build/assets/app-BmtUwlhf.js') }}" defer></script>
     </head>
     <body class="font-sans text-gray-900 antialiased">
         @include('layouts.navigation')

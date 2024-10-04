@@ -17,7 +17,7 @@
                     <!-- Activity Header -->
                     <div class="p-6 flex items-center space-x-4 border-b border-gray-100">
                         @php
-                            $logoPath = 'images/logos/' . $activity->organization->userid . '.jpg';
+                            $logoPath = 'images/logos/' . $activity->organization->userid . '.*';
                             $fullLogoPath = public_path($logoPath);
                             $logoExists = file_exists($fullLogoPath);
                         @endphp
@@ -69,4 +69,7 @@
             </div>
         </div>
     </div>
+
+    <x-image-popup />
+
 </x-public-layout>
