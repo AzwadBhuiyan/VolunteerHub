@@ -14,20 +14,33 @@
                     <p class="text-sm text-gray-600">Status: {{ ucfirst($ideaThread->status) }}</p>
                     <p class="mt-4">{{ $ideaThread->description }}</p>
 
+                    @php
+                        $votableType = 'thread';
+                        $votable = $ideaThread;
+                    @endphp
+                    <div class="mt-2 flex items-center">
+                        <button type="button" class="vote-button text-gray-500 hover:text-blue-500" data-votable-type="{{ $votableType }}" data-votable-id="{{ $votable->id }}">
+                            <svg class="w-5 h-5 vote-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                        </button>
+                        <span class="mx-2 vote-count">{{ $votable->getVoteCount() }}</span>
+                    </div>
+
                     <div class="mt-6">
                         <h4 class="text-lg font-semibold mb-2">Comments</h4>
                         @foreach($ideaThread->comments as $comment)
                             <div class="mb-4 p-4 border rounded {{ $comment->is_winner ? 'bg-green-100' : '' }}">
                                 <p>{{ $comment->comment }}</p>
                                 <p class="text-sm text-gray-600">By: {{ $comment->volunteer->Name }}</p>
-                                @if($comment->is_winner)
-                                    <p class="text-sm font-semibold text-green-600">Winner</p>
-                                @elseif(Auth::id() === $ideaThread->userid && $ideaThread->status === 'open')
-                                    <form method="POST" action="{{ route('idea_board.select_winner', [$ideaThread, $comment]) }}">
-                                        @csrf
-                                        <button type="submit" class="text-sm text-blue-600 hover:text-blue-800">Select as Winner</button>
-                                    </form>
-                                @endif
+                                @php
+                                    $votableType = 'comment';
+                                    $votable = $comment;
+                                @endphp
+                                <div class="mt-2 flex items-center">
+                                    <button type="button" class="vote-button text-gray-500 hover:text-blue-500" data-votable-type="{{ $votableType }}" data-votable-id="{{ $votable->id }}">
+                                        <svg class="w-5 h-5 vote-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                                    </button>
+                                    <span class="mx-2 vote-count">{{ $votable->getVoteCount() }}</span>
+                                </div>
                             </div>
                         @endforeach
 

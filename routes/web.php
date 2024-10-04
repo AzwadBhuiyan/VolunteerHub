@@ -42,7 +42,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile/organization/additional', [ProfileController::class, 'updateOrganizationAdditional'])->name('profile.update.organization.additional');
 
     // Activities
-    Route::get('/activities-feed', [ActivityController::class, 'feed'])->name('activities.feed');
     Route::get('/activities/create', [ActivityController::class, 'create'])->name('activities.create');
     Route::post('/activities', [ActivityController::class, 'store'])->name('activities.store');
     Route::get('/activities-list', [ActivityController::class, 'index'])->name('activities.index');
@@ -69,10 +68,14 @@ Route::middleware('auth')->group(function () {
     Route::post('/idea-board', [IdeaThreadController::class, 'store'])->name('idea_board.store');
     Route::get('/idea-board/{ideaThread}', [IdeaThreadController::class, 'show'])->name('idea_board.show');
     Route::post('/idea-board/{ideaThread}/comment', [IdeaThreadController::class, 'comment'])->name('idea_board.comment');
-    Route::post('/idea-board/{ideaThread}/vote', [IdeaThreadController::class, 'vote'])->name('idea_board.vote');
+    // Route::post('/idea-board/{ideaThread}/vote', [IdeaThreadController::class, 'vote'])->name('idea_board.vote');
     Route::post('/idea-board/poll-vote/{pollOption}', [IdeaThreadController::class, 'pollVote'])->name('idea_board.poll_vote');
+    Route::post('/idea-board/vote', [IdeaThreadController::class, 'vote'])->name('idea_board.vote');
 
 });
+
+// Public activities feed
+Route::get('/activities-feed', [ActivityController::class, 'feed'])->name('activities.feed');
 
 // Public profile route (accessible without authentication)
 Route::get('/profile/{url}', [PublicProfileController::class, 'show'])->name('profile.public');

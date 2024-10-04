@@ -13,8 +13,23 @@ class IdeaComment extends Model
         return $this->belongsTo(IdeaThread::class);
     }
 
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
     public function volunteer()
     {
         return $this->belongsTo(Volunteer::class, 'volunteer_userid', 'userid');
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(IdeaVote::class);
+    }
+
+    public function getVoteCount()
+    {
+        return $this->votes()->sum('vote');
     }
 }

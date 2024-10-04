@@ -52,7 +52,7 @@ class RegisteredUserController extends Controller
             'userid' => ['required', 'string', 'max:255', 'unique:users'],
             'name' => ['required', 'string', 'max:50'],
             'phone' => ['required', 'string', 'max:11'],
-            'nid' => ['nullable', 'string', 'max:20'],
+            'nid' => ['nullable', 'numeric', 'digits:10'],
             'gender' => ['required', 'in:M,F,O'],
             'dob' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
             'profession' => 'nullable|string|max:255',
