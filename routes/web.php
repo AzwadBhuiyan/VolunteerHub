@@ -10,6 +10,16 @@ use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\IdeaThreadController;
 
+Route::get('/connection', function () {
+    try {
+        DB::connection()->getPdo();
+        return 'connected successfully';
+    } catch (\Exception $ex) {
+        dd($ex->getMessage());
+    }
+});
+
+
 Route::get('/', function () {
     return view('home');
 });
