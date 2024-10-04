@@ -18,11 +18,15 @@ class ProfileController extends Controller
         $user = $request->user();
         $profile = $user->volunteer ?? $user->organization;
         $activities = $user->activities()->latest()->take(5)->get();
+
+        $logMessages = session('profile_update_logs', []);
+        session()->forget('profile_update_logs');
         
         return view('profile.edit', [
             'user' => $user,
             'profile' => $profile,
             'activities' => $activities,
+            'logMessages' => $logMessages,
         ]);
     }
 
@@ -51,10 +55,32 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('cover_image') && $user->organization) {
-            $file = $request->file('cover_image');
-            $filename = $user->userid . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/cover'), $filename);
-
+            try {
+                $file = $request->file('cover_image');
+                $filename = $user->userid . '.' . $file->getClientOriginalExtension();
+                $path = public_path('images/cover');
+                
+                $logMessages[] = [
+                    'type' => 'log',
+                    'message' => 'Attempting to upload cover image',
+                    'data' => [
+                        'userId' => $user->userid,
+                        'filename' => $filename,
+                        'uploadPath' => $path,
+                        'fileDetails' => [
+                            'originalName' => $file->getClientOriginalName(),
+                            'size' => $file->getSize(),
+                            'mimeType' => $file->getMimeType()
+                        ]
+                    ]
+                ];
+                
+                $file->move($path, $filename);
+                
+                $logMessages[] = ['type' => 'log', 'message' => 'Cover image uploaded successfully'];
+            } catch (\Exception $e) {
+                $logMessages[] = ['type' => 'error', 'message' => 'Cover image upload failed: ' . $e->getMessage()];
+            }
         }
 
         // Handle new fields for volunteer
@@ -74,18 +100,11 @@ class ProfileController extends Controller
             $profile->org_telephone = $request->org_telephone;
         }
 
-        // // Update userid if provided
-        // if ($newUserid && $newUserid !== $user->userid) {
-        //     $request->validate([
-        //         'new_userid' => ['required', 'string', 'max:255', 'unique:users,userid,' . $user->userid . ',userid'],
-        //     ]);
-        //     $user->userid = $newUserid;
-        // }
-
-
-
         $user->save();
         $profile->save();
+
+        // Store log messages in session
+        session(['profile_update_logs' => $logMessages]);
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

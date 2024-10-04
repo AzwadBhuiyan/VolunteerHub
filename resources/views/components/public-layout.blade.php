@@ -21,8 +21,8 @@
         <link rel="icon" href="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" type="image/png">
 
         <!-- Scripts -->
-        <link href="{{ asset('build/assets/app-8OV8Hl-C.css') }}" rel="stylesheet">
-        <script src="{{ asset('build/assets/app-BrtSY-Si.js') }}" defer></script>
+        <link href="{{ asset('build/assets/app-CboVWtwL.css') }}" rel="stylesheet">
+        <script src="{{ asset('build/assets/app-CKEzXkKM.js') }}" defer></script>
     </head>
     <body class="font-sans text-gray-900 antialiased">
         @include('layouts.navigation')

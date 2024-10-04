@@ -41,4 +41,20 @@
             </div>
         </div>
     </div>
+    @if(!empty($logMessages))
+    <script>
+        window.addEventListener('load', function() {
+            var messages = @json($logMessages);
+            messages.forEach(function(msg) {
+                if (msg.type === 'error') {
+                    console.error(msg.message, msg.data);
+                } else {
+                    console.log(msg.message, msg.data);
+                }
+            });
+        });
+    </script>
+@endif
+
+
 </x-app-layout>
