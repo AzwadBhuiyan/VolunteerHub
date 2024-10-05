@@ -1,19 +1,30 @@
 <x-app-layout>
-    <!-- Cover Image -->
-    <div class="w-full aspect-[21/9]">
-        <!-- // to check if image exists -->
-        @php
-            $coverPath = 'images/cover/' . $profile->userid . '.*';
-            $matchingFiles = glob(public_path($coverPath));
-            $coverImage = !empty($matchingFiles) ? basename($matchingFiles[0]) : null;
-        @endphp
-        <img src="{{ $coverImage ? asset('images/cover/' . $coverImage) : asset('images/defaults/default-cover.jpg') }}" alt="Cover Image" class="w-full h-full object-cover">
-    </div>
+    <link href="{{ asset('css/org-profile.css') }}" rel="stylesheet">  <!-- Link to custom CSS for styling the volunteer profile -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  <!-- Link to Font Awesome for icon usage -->
 
-    <div class="container mx-auto p-4">
+    {{-- <div class=" sm:py-12 bg-blue-500 h-full">  <!-- Main container with vertical padding --> --}}
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 bg-green-500">  <!-- Centered container with responsive padding and vertical spacing -->
+            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg bg-red-500">  <!-- Profile information card with padding, background color, shadow, and rounded corners -->
+               
+    <!-- Cover Image -->
+
+
+   
+
+        
 
         <!-- Main Content -->
         <main class="bg-white shadow-md rounded-lg overflow-hidden">
+
+            <div class="">
+                <!-- // to check if image exists -->
+                @php
+                    $coverPath = 'images/cover/' . $profile->userid . '.*';
+                    $matchingFiles = glob(public_path($coverPath));
+                    $coverImage = !empty($matchingFiles) ? basename($matchingFiles[0]) : null;
+                @endphp
+                <img src="{{ $coverImage ? asset('images/cover/' . $coverImage) : asset('images/defaults/default-cover.jpg') }}" alt="Cover Image" class="cover-photo">
+            </div>
             <!-- Profile Info -->
             <div class="p-6">
                 <div class="flex items-center mb-4">
@@ -27,11 +38,11 @@
                     <div>
                         <h1 class="text-gray-600">{{ $profile->org_name }}</h1>
                         <p class="text-gray-600">{{ $profile->description }}</p>
-                        <a href="{{ $profile->website }}" class="text-blue-600 hover:underline">{{ $profile->website }}</a>
                         @if(Auth::id() == $profile->userid)
                             <a href="{{ route('profile.edit') }}" class="btn">
                                 <i class="fas fa-pen"></i> Edit Profile
                             </a>
+                          
                         @endif
                     </div>
                 </div>
@@ -41,7 +52,8 @@
                     <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Social</button>
                     <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">About</button>
                     <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Contact</button>
-                    <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Website</button>
+                    <a href="{{ $profile->website }}" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Website</a>
+
                 </div>
 
                 <!-- Activities Section -->
@@ -125,5 +137,8 @@
                 </div>
             </div>
         </main>
-    </div>
+</div>
+</div>
+</div>
+
 </x-app-layout>

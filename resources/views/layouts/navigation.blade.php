@@ -85,15 +85,15 @@
                 <div class="icon-container">
                     <!-- Information icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
-                         fill="{{ request()->routeIs('home') ? 'currentColor' : 'none' }}" 
-                         class="h-7 w-7 nav-icon {{ request()->routeIs('home') ? 'active-icon' : '' }}" 
+                         fill="{{ request()->routeIs('idea_board.index') ? 'currentColor' : 'none' }}" 
+                         class="h-7 w-7 nav-icon {{ request()->routeIs('idea_board.index') ? 'active-icon' : '' }}" 
                          viewBox="0 0 16 16">
-                        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12.93A5.93 5.93 0 1 1 8 2.07 5.93 5.93 0 0 1 8 13.93z" fill="{{ request()->routeIs('home') ? '#007bff' : 'currentColor' }}" stroke="{{ request()->routeIs('home') ? '#007bff' : 'currentColor' }}" stroke-width="0.5" />
-                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" fill="{{ request()->routeIs('home') ? '#007bff' : 'currentColor' }}" stroke="{{ request()->routeIs('home') ? '#007bff' : 'currentColor' }}" stroke-width="0.5" />
+                        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12.93A5.93 5.93 0 1 1 8 2.07 5.93 5.93 0 0 1 8 13.93z" fill="{{ request()->routeIs('idea_board.index') ? '#007bff' : 'currentColor' }}" stroke="{{ request()->routeIs('idea_board.index') ? '#007bff' : 'currentColor' }}" stroke-width="0.5" />
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" fill="{{ request()->routeIs('idea_board.index') ? '#007bff' : 'currentColor' }}" stroke="{{ request()->routeIs('idea_board.index') ? '#007bff' : 'currentColor' }}" stroke-width="0.5" />
                     </svg>
                     <span class="tooltip">{{ __('Ideas') }}</span>
                 </div>
-                <div class=" active-underline {{ request()->routeIs('home') ? 'active' : '' }}"></div>
+                <div class=" active-underline {{ request()->routeIs('idea_board.index') ? 'active' : '' }}"></div>
             </a>
 
            

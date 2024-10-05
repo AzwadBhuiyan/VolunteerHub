@@ -56,7 +56,7 @@ nav {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 50px; /* Width of the rounded square */
+    width: 50px; /* Default width for mobile view */
     height: 50px; /* Height of the rounded square */
     border-radius: 12px; /* Rounded corners */
     background-color: transparent; /* Initially transparent */
@@ -141,6 +141,21 @@ nav a div {
         font-size: 14px; /* Optionally reduce font size for better fit */
     }
 
+    /* .icon-container {
+        width: 30px; 
+        height: 30px; 
+    } */
+
+    nav a svg {
+        width: 16px; /* Reduce icon size for mobile view */
+        height: 16px; /* Reduce icon size for mobile view */
+    }
+
+    .icon-container {
+        width: 40px; /* Optionally adjust the container size if needed */
+        height: 40px; /* Optionally adjust the container size if needed */
+    }
+
     .logout-button {
         display: flex; /* Ensure logout button is displayed as flex */
         justify-content: center; /* Center the logout button */
@@ -154,7 +169,7 @@ nav a div {
 
     /* Hide the Idea Board icon on mobile view */
     .hide-idea-icon {
-        display: none; /* Hide the icon */
+        display: none; 
     }
 }
 
@@ -174,17 +189,15 @@ nav a div {
 @media only screen and (min-width: 601px) {
     .icon-link {
         padding: 12px 20px; /* Wider padding for desktop view */
+        margin: 0 10px; /* Increase space between icons */
     }
 
     .icon-container {
-        width: 80px; /* Set a wider width for the icon container */
         display: flex; /* Ensure the icon and text are aligned */
         justify-content: center; /* Center the content */
         align-items: center; /* Center the content vertically */
     }
 }
-
-
 
 /* Default styles for icons */
 
