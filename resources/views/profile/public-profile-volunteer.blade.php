@@ -3,11 +3,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">  <!-- Link to Font Awesome for icon usage -->
 
-    <div class="py-6 sm:py-12">  <!-- Main container with vertical padding -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">  <!-- Centered container with responsive padding and vertical spacing -->
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">  <!-- Profile information card with padding, background color, shadow, and rounded corners -->
-                <div class="flex flex-col sm:flex-row items-center sm:space-x-4">  <!-- Flex container for profile picture and details -->
-                    <div class="flex-shrink-0 w-24 h-24 mb-4 sm:mb-0">  <!-- Profile picture container with fixed size -->
+            <div class="p-4 sm:p-8 bg-white items-center shadow sm:rounded-lg">  <!-- Profile information card with padding, background color, shadow, and rounded corners -->
+                
+                <div class="flex flex-col items-center"> <!-- Centering the profile picture and name -->
                         @php
                             $imagePath = 'images/profile_pictures/' . $profile->userid . '.*';  // Define path to profile picture based on user ID
                             $matchingFiles = glob(public_path($imagePath));  // Get matching profile picture files
@@ -15,14 +14,10 @@
                         @endphp
                         <img src="{{ $profilePicture ? asset('images/profile_pictures/' . $profilePicture) : asset('images/defaults/default-avatar.png') }}"                        
                             alt="{{ $profile->name }}" 
-                            class="profile-picture">  <!-- Display profile picture or default avatar if none exists -->
-                    </div>
-                    <div class="text-center sm:text-left">  <!-- Text container for profile details -->
-                        <h2 class="text-xl sm:text-2xl font-bold">{{ $profile->Name }}</h2>  <!-- Display profile name -->
-                        <p class="text-gray-600">{{ $profile->email }}</p>  <!-- Display profile email -->
-                        <p class="mt-2">{{ $profile->bio }}</p>  <!-- Display profile bio -->
-                    </div>
+                            class=" profile-picture "> <!-- Use object-cover to maintain aspect ratio -->
                 </div>
+                <h2 class="text-xl sm:text-2xl font-bold text-center">{{ $profile->Name }}</h2> <!-- Display profile name directly under the picture -->
+
                 <div class="btn-group">  <!-- Button group for profile actions -->
                     @if(Auth::id() == $profile->userid)  <!-- Check if the logged-in user is the profile owner -->
                         <a href="{{ route('profile.edit') }}" class="btn">  <!-- Link to edit profile -->
@@ -65,8 +60,8 @@
                 </div>
             </div>
 
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">  <!-- Accomplishments card -->
-                <h3 class="text-lg sm:text-xl font-semibold mb-4">Accomplishments</h3>  <!-- Accomplishments section header -->
+            <div class="bg-white shadow sm:rounded-lg">  <!-- Accomplishments card -->
+                <h3 class="text-lg sm:text-xl font-semibold mb-4 text-center">Accomplishments</h3>  <!-- Accomplishments section header -->
                 <div class="space-y-8">  <!-- Container for individual accomplishments -->
                     @foreach($completedActivities as $activity)  <!-- Loop through completed activities -->
                         <div class="bg-white rounded-xl shadow-lg overflow-hidden">  <!-- Individual activity card -->
@@ -114,7 +109,6 @@
                 </div>
             </div>
         </div>
-    </div>
 
     <x-image-popup />  <!-- Component for image popup functionality -->
 

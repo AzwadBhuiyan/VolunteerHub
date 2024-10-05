@@ -1,0 +1,50 @@
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border: 2px solid #333;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.btn i {
+    margin-right: 8px;
+    color: inherit;
+}
+
+.btn:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+
+.cover-photo {
+    width:95%; /* Default width for desktop */
+    height: 300px; /* Default height for desktop */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    overflow: hidden; /* Hides any overflow */
+ 
+    margin: 0 auto;
+}
+
+.cover-photo img {
+    width: 100%; /* Make the image fill the container */
+    height: 100%; /* Make the image fill the container */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    position: absolute; /* Positioning to cover the div */
+    top: 0; /* Align to the top */
+}
+
+/* Mobile view */
+@media (max-width: 600px) {
+    .cover-photo {
+        width: 100%; /* Full width for mobile */
+        height: 200px; /* Adjusted height for mobile */
+    }
+}
