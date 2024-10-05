@@ -3,11 +3,11 @@
     <div class="w-full aspect-[21/9]">
         <!-- // to check if image exists -->
         @php
-            $coverPath = 'images/cover/' . $profile->userid . '.jpg';
-            $fullCoverPath = public_path($coverPath);
-            $coverExists = file_exists($fullCoverPath);
+            $coverPath = 'images/cover/' . $profile->userid . '.*';
+            $matchingFiles = glob(public_path($coverPath));
+            $coverImage = !empty($matchingFiles) ? basename($matchingFiles[0]) : null;
         @endphp
-        <img src="{{ $coverExists ? asset($coverPath) : asset('images/defaults/default-cover.jpg') }}" alt="Cover Image" class="w-full h-full object-cover">
+        <img src="{{ $coverImage ? asset('images/cover/' . $coverImage) : asset('images/defaults/default-cover.jpg') }}" alt="Cover Image" class="w-full h-full object-cover">
     </div>
 
     <div class="container mx-auto p-4">
@@ -19,11 +19,11 @@
                 <div class="flex items-center mb-4">
                     <!-- // to check if image exists -->
                     @php
-                        $logoPath = 'images/logos/' . $profile->userid . '.jpg';
-                        $fullLogoPath = public_path($logoPath);
-                        $logoExists = file_exists($fullLogoPath);
+                        $logoPath = 'images/logos/' . $profile->userid . '.*';
+                        $matchingFiles = glob(public_path($logoPath));
+                        $logoImage = !empty($matchingFiles) ? basename($matchingFiles[0]) : null;
                     @endphp
-                    <img src="{{ $logoExists ? asset($logoPath) : asset('images/defaults/default-logo.png') }}" alt="{{ $profile->Name }}" class="w-20 h-20 rounded-full object-cover mr-4">
+                    <img src="{{ $logoImage ? asset('images/logos/' . $logoImage) : asset('images/defaults/default-logo.png') }}" alt="{{ $profile->Name }}" class="w-20 h-20 rounded-full object-cover mr-4">
                     <div>
                         <h1 class="text-gray-600">{{ $profile->org_name }}</h1>
                         <p class="text-gray-600">{{ $profile->description }}</p>

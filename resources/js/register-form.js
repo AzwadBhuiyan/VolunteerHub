@@ -1,5 +1,8 @@
 function toggleUserType() {
-    const userType = document.getElementById('user_type').value;
+    const userTypeElement = document.getElementById('user_type');
+    if (!userTypeElement) return;
+
+    const userType = userTypeElement.value;
     const volunteerFields = document.getElementById('volunteer-fields');
     const organizationFields = document.getElementById('organization-fields');
 

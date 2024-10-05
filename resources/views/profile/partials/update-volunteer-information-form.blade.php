@@ -15,10 +15,10 @@
             <div class="flex items-center">
                 @php
                     $profilePicturePath = 'images/profile_pictures/' . $profile->userid . '.*';
-                    $fullProfilePicturePath = public_path($profilePicturePath);
-                    $profilePictureExists = file_exists($fullProfilePicturePath);
+                    $matchingFiles = glob(public_path($profilePicturePath));
+                    $profilePicture = !empty($matchingFiles) ? basename($matchingFiles[0]) : null;
                 @endphp
-                <img id="profilePicturePreview" src="{{ $profilePictureExists ? asset($profilePicturePath) : asset('images/defaults/default-avatar.png') }}" alt="{{$profile->name}}" class="profile-picture mr-2">
+                <img id="profilePicturePreview" src="{{ $profilePicture ? asset('images/profile_pictures/' . $profilePicture) : asset('images/defaults/default-avatar.png') }}" alt="{{$profile->name}}" class="profile-picture mr-2">
 
                 {{-- <input id="profile_picture" name="profile_picture" type="file" class="mt-1 block" accept="image/*" onchange="previewImage(this, 'profilePicturePreview')" /> --}}
             </div>

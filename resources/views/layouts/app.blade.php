@@ -15,9 +15,9 @@
         <!-- Scripts -->
     
         <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
-        <link href="{{ asset('build/assets/app-kg3tZzBH.css') }}" rel="stylesheet">
+        <link href="{{ asset('build/assets/app-B-RhTCEg.css') }}" rel="stylesheet">
         <!-- <link href="{{ asset('build/assets/app-X6JekhOX.css') }}" rel="stylesheet"> -->
-        <script src="{{ asset('build/assets/app-C1lQybwB.js') }}" defer></script>
+        <script src="{{ asset('build/assets/app-BmtUwlhf.js') }}" defer></script>
         <link rel="icon" href="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" type="image/png"> <!-- Favicon -->
         
     </head>
