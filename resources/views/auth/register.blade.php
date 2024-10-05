@@ -110,10 +110,13 @@
             </div>
 
             <!-- District -->
+            @php
+                $districts = config('districts.districts');
+            @endphp
             <div class="mt-4">
                 <x-input-label for="district" :value="__('District')" />
-                <select id="district" name="district" class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" data-required>
-                    @foreach(['Dhaka', 'Chittagong', 'Rajshahi', 'Khulna', 'Barisal', 'Sylhet', 'Rangpur', 'Mymensingh', 'Comilla', 'Narayanganj', 'Gazipur'] as $district)
+                <select id="district" name="district" class="mt-1 block w-full" required>
+                    @foreach($districts as $district)
                         <option value="{{ $district }}">{{ $district }}</option>
                     @endforeach
                 </select>

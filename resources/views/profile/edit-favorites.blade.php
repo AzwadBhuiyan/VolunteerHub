@@ -13,13 +13,29 @@
                         @csrf
                         @method('patch')
 
-                        @for ($i = 0; $i < 5; $i++)
-                            <div>
-                                <x-input-label for="favorite_{{ $i }}" :value="__('Favorite ' . ($i + 1))" />
-                                <x-text-input id="favorite_{{ $i }}" name="favorites[]" type="text" class="mt-1 block w-full" :value="old('favorites.' . $i, $favorites[$i] ?? '')" />
-                                <x-input-error :messages="$errors->get('favorites.' . $i)" class="mt-2" />
-                            </div>
-                        @endfor
+                        <div>
+                            <x-input-label for="districts" :value="__('Favorite Districts')" />
+                            <select id="districts" name="districts[]" multiple class="mt-1 block w-full">
+                                @foreach ($districts as $district)
+                                    <option value="{{ $district }}" {{ in_array($district, old('districts', $favorites->districts ?? [])) ? 'selected' : '' }}>
+                                        {{ $district }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('districts')" class="mt-2" />
+                        </div>
+
+                        <div>
+                            <x-input-label for="categories" :value="__('Favorite Categories')" />
+                            <select id="categories" name="categories[]" multiple class="mt-1 block w-full">
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->id }}" {{ in_array($category->id, old('categories', $favorites->categories->pluck('id')->toArray() ?? [])) ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error :messages="$errors->get('categories')" class="mt-2" />
+                        </div>
 
                         <div class="flex items-center gap-4">
                             <x-primary-button>{{ __('Save') }}</x-primary-button>

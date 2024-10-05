@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\IdeaThreadController;
+use App\Http\Controllers\FavoritesController;
 
 Route::get('/connection', function () {
     try {

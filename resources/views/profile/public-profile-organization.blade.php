@@ -90,7 +90,7 @@
                                 <!-- Activity Header -->
                                 
                                 <div class="px-6 py-4 flex items-center space-x-4 border-b border-gray-100">
-                                    <img src="{{ $logoExists ? asset($logoPath) : asset('images/defaults/default-logo.png') }}" alt="{{ $profile->Name }}" class="w-12 h-12 rounded-full object-cover">
+                                    <img src="{{ $logoImage ? asset('images/logos/' . $logoImage) : asset('images/defaults/default-logo.png') }}" alt="{{ $profile->Name }}" class="w-12 h-12 rounded-full object-cover">
                                     <div>
                                         <h4 class="text-lg font-semibold text-gray-800">{{ $activity->title }}</h4>
                                         <p class="text-sm text-gray-500">{{ $activity->date->format('M d, Y') }}</p>

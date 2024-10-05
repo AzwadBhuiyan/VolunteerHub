@@ -4,30 +4,30 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateVolunteerFavoriteCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
     public function up()
     {
         Schema::create('volunteer_favorite_categories', function (Blueprint $table) {
-            $table->string('userid');
-            $table->unsignedBigInteger('category_id');
+            $table->id();
+            $table->foreignId('volunteer_id')->references('userid')->on('volunteers')->onDelete('cascade');
+            $table->foreignId('category_id')->references('id')->on('activity_categories')->onDelete('cascade');
             $table->timestamps();
-    
-            $table->foreign('userid')->references('userid')->on('volunteers')->onDelete('cascade');
-            $table->foreign('category_id')->references('id')->on('activity_categories')->onDelete('cascade');
-    
-            $table->primary(['userid', 'category_id']);
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('volunteer_favorite_categories');
     }
-};
+}

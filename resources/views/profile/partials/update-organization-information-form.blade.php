@@ -24,11 +24,12 @@
             <x-input-label for="logo" :value="__('Logo')" />
             <div class="flex items-center">
                 @php
-                    $logoPath = public_path('images/logos/' . $profile->userid . '.*');
-                    $fullLogoPath = public_path($logoPath);
-                    $logoExists = file_exists($fullLogoPath);
+                    $logoPath = 'images/logos/' . $profile->userid . '.*';
+                    $matchingFiles = glob(public_path($logoPath));
+                    $logoExists = !empty($matchingFiles);
+                    $logoImage = $logoExists ? basename($matchingFiles[0]) : null;
                 @endphp
-                <img id="logoPreview" src="{{ $logoExists ? asset($logoPath) : asset('images/defaults/default-logo.png') }}" alt="Current Logo" class="w-16 h-16 object-cover mr-2">
+                <img id="logoPreview" src="{{ $logoImage ? asset('images/logos/' . $logoImage) : asset('images/defaults/default-logo.png') }}" alt="Current Logo" class="w-16 h-16 object-cover mr-2">
 
                 <input id="logo" name="logo" type="file" class="mt-1 block" accept="image/*" onchange="previewImage(this, 'logoPreview')" />
             </div>
@@ -41,10 +42,11 @@
             <div class="flex items-center">
                 @php
                     $coverPath = 'images/cover/' . $profile->userid . '.*';
-                    $fullCoverPath = public_path($coverPath);
-                    $coverExists = file_exists($fullCoverPath);
+                    $matchingFiles = glob(public_path($coverPath));
+                    $coverExists = !empty($matchingFiles);
+                    $coverImage = $coverExists ? basename($matchingFiles[0]) : null;
                 @endphp
-                <img id="coverPreview" src="{{ $coverExists ? asset($coverPath) : asset('images/defaults/default-cover.jpg') }}" alt="Current Cover Image" class="w-32 h-16 object-cover mr-2">
+                <img id="coverPreview" src="{{ $coverImage ? asset('images/cover/' . $coverImage) : asset('images/defaults/default-cover.jpg') }}" alt="Current Cover Image" class="w-32 h-16 object-cover mr-2">
                 <input id="cover_image" name="cover_image" type="file" class="mt-1 block" accept="image/*" onchange="previewImage(this, 'coverPreview')" />
             </div>
             <x-input-error class="mt-2" :messages="$errors->get('cover_image')" />

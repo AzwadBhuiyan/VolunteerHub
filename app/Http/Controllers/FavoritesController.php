@@ -15,9 +15,12 @@ class FavoritesController extends Controller
         }
         
         $favorites = $user->volunteer->favorites;
-        return view('profile.favorites.edit', compact('favorites'));
+        $districts = config('districts.districts');
+        $categories = \App\Models\ActivityCategory::all();
+        
+        return view('profile.favorites.edit', compact('favorites', 'districts', 'categories'));
     }
-
+    
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -26,11 +29,14 @@ class FavoritesController extends Controller
         }
         
         $validated = $request->validate([
-            'favorites' => 'required|array|max:5',
-            'favorites.*' => 'string|distinct|max:50',
+            'districts' => 'required|array|max:3',
+            'districts.*' => 'string|distinct|in:' . implode(',', config('districts.districts')),
+            'categories' => 'required|array|max:3',
+            'categories.*' => 'exists:activity_categories,id',
         ]);
         
-        $user->volunteer->favorites = $validated['favorites'];
+        $user->volunteer->favorite_districts = $validated['districts'];
+        $user->volunteer->favorite_categories()->sync($validated['categories']);
         $user->volunteer->save();
         
         return redirect()->route('profile.edit')->with('status', 'favorites-updated');
