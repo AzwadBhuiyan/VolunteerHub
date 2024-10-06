@@ -1,3 +1,30 @@
+.h1{
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0px;
+}
+
+.btn-rounded{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    border: 2px solid #333;
+    border-radius: 50px; 
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-width: 80px;
+}
+
+.btn-rounded:hover{
+    color: #fff;
+    background-color: #333;
+}
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -24,12 +51,36 @@
 }
 
 
+.org-logo{
+  
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid #e0e0e0;
+        margin-bottom: 5px;
+margin-right: 15px;   
+margin-left: 15px;    
+
+}
+@media (max-width: 600px) {
+    .org-logo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #e0e0e0;
+        margin-bottom: 10px;
+        margin-right: 15px;   
+margin-left: 5px;   
+    }
+}
+
 .cover-photo {
-    width:95%; /* Default width for desktop */
-    height: 300px; /* Default height for desktop */
+    width:100%; /* Default width for desktop */
+    height: 400px; /* Default height for desktop */
     object-fit: cover; /* Ensures the image covers the area without distortion */
     overflow: hidden; /* Hides any overflow */
- 
     margin: 0 auto;
 }
 
@@ -41,10 +92,57 @@
     top: 0; /* Align to the top */
 }
 
+
 /* Mobile view */
 @media (max-width: 600px) {
     .cover-photo {
         width: 100%; /* Full width for mobile */
         height: 200px; /* Adjusted height for mobile */
     }
+}
+
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.copy-link {
+    cursor: pointer;
+}
+
+.copy-link:hover {
+    text-decoration: underline;
 }
