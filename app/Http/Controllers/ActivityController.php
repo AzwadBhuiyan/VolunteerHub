@@ -294,7 +294,8 @@ class ActivityController extends Controller
             'hard' => 3,
             'severe' => 5
         ];
-        $points = $roundedDuration * $difficultyPoints[$activity->difficulty];
+
+        $points = $roundedDuration * ($difficultyPoints[$activity->difficulty] ?? 1);
 
         $activity->update([
             'accomplished_description' => $validatedData['accomplished_description'],

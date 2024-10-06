@@ -60,54 +60,54 @@
                 </div>
             </div>
 
-            <div class="bg-white shadow sm:rounded-lg">  <!-- Accomplishments card -->
-                <h3 class="text-lg sm:text-xl font-semibold mb-4 text-center">Accomplishments</h3>  <!-- Accomplishments section header -->
-                <div class="space-y-8">  <!-- Container for individual accomplishments -->
-                    @foreach($completedActivities as $activity)  <!-- Loop through completed activities -->
-                        <div class="bg-white rounded-xl shadow-lg overflow-hidden">  <!-- Individual activity card -->
-                            <!-- Activity Header -->
-                            <div class="px-6 py-4 flex items-center space-x-4 border-b border-gray-100">  <!-- Header for activity -->
-                                @php
-                                    $logoPath = 'images/logos/' . $activity->organization->userid . '.*';  // Path to organization logo
-                                    $fullLogoPath = public_path($logoPath);  // Full path to logo
-                                    $logoExists = file_exists($fullLogoPath);  // Check if logo file exists
-                                @endphp
-                                <img src="{{ $logoExists ? asset($logoPath) : asset('images/defaults/default-logo.png') }}" 
-                                     alt="{{ $activity->organization->org_name }}" 
-                                     class="w-12 h-12 rounded-full object-cover">  <!-- Display organization logo or default logo -->
-                                <div>
-                                    <h4 class="text-lg font-semibold text-gray-800">{{ $activity->title }}</h4>  <!-- Display activity title -->
-                                    <p class="text-sm text-gray-500">{{ $activity->date->format('M d, Y') }}</p>  <!-- Display activity date -->
-                                </div>
-                            </div>
-
-                            <!-- Accomplishment Description -->
-                            <div class="px-6 py-4">  <!-- Description container -->
-                                <p class="text-gray-700 leading-relaxed">{{ $activity->accomplished_description }}</p>  <!-- Display description of the accomplishment -->
-                            </div>
-
-                            <!-- Accomplishment Photos -->
-                            <div class="px-6 py-4">  <!-- Photos container -->
-                                <div class="flex space-x-2 overflow-x-auto pb-2">  <!-- Flex container for photos -->
+            <div class="bg-white shadow sm:rounded-lg">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4 text-center">Accomplishments</h3>
+                    <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-8">
+                        @foreach($completedActivities as $activity)
+                            <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
+                                <!-- Activity Header -->
+                                <div class="p-6 flex items-center space-x-4 border-b border-gray-100">
                                     @php
-                                        $accomplishedPath = 'images/activities/' . $activity->activityid . '/accomplished/';  // Path to accomplished activity photos
-                                        $accomplishedFullPath = public_path($accomplishedPath);  // Full path to photos
-                                        $accomplishedPhotos = File::exists($accomplishedFullPath) ? File::files($accomplishedFullPath) : [];  // Get photos if they exist
+                                        $logoPath = 'images/logos/' . $activity->organization->userid . '.*';
+                                        $fullLogoPath = public_path($logoPath);
+                                        $logoExists = file_exists($fullLogoPath);
                                     @endphp
-                                    @foreach($accomplishedPhotos as $photo)  <!-- Loop through each accomplished photo -->
-                                        <img src="{{ asset($accomplishedPath . $photo->getFilename()) }}" 
-                                             alt="Accomplished Activity Photo" 
-                                             class="w-40 h-40 object-cover rounded-lg shadow-md flex-shrink-0 clickable-image cursor-pointer"
-                                             data-full-src="{{ asset($accomplishedPath . $photo->getFilename()) }}"  <!-- Full-size image source for popup -->
-                                             data-carousel="true"
-                                             data-carousel-images='{{ json_encode(array_map(function($p) use ($accomplishedPath) { return asset($accomplishedPath . $p->getFilename()); }, $accomplishedPhotos)) }}'>  <!-- JSON for carousel images -->
-                                    @endforeach
+                                    <img src="{{ $logoExists ? asset($logoPath) : asset('images/defaults/default-logo.png') }}" alt="{{ $activity->organization->org_name }}" class="w-16 h-16 rounded-full object-cover">
+                                    <div>
+                                        <h4 class="text-xl font-semibold text-gray-800">{{ $activity->title }}</h4>
+                                        <p class="text-sm text-gray-500">{{ $activity->date->format('M d, Y') }}</p>
+                                    </div>
+                                </div>
+
+                                <!-- Activity Description -->
+                                <div class="p-6">
+                                    <p class="text-gray-700 leading-relaxed">
+                                        {{ $activity->accomplished_description }}
+                                    </p>
+                                </div>
+
+                                <!-- Activity Images -->
+                                <div class="p-6">
+                                    <div class="aspect-w-1 aspect-h-1">
+                                        <x-activity-completed-images :activity="$activity" />
+                                    </div>
+                                </div>
+
+                                <!-- Activity Footer -->
+                                <div class="px-6 py-4 bg-gray-50 mt-auto">
+                                    <div class="flex justify-between items-center">
+                                        <a href="{{ route('profile.public', $activity->organization) }}" class="text-blue-500 hover:underline">
+                                            Organized by: {{ $activity->organization->org_name }}
+                                        </a>
+                                        <a href="{{ route('activities.show', $activity) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                            View Details
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
-            </div>
         </div>
 
     <x-image-popup />  <!-- Component for image popup functionality -->
