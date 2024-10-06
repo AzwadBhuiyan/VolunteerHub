@@ -161,12 +161,14 @@
                                     <!-- Activity Footer -->
                                     <div class="px-6 py-4 bg-gray-50 mt-auto">
                                         <div class="flex justify-between items-center">
-                                            <span class="text-blue-500">
-                                                Organized by: {{ $profile->org_name }}
-                                            </span>
-                                            <a href="{{ route('activities.show', $activity) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                                                View Details
+                                            <a href="{{ route('profile.public', $activity->organization->url) }}" class="text-blue-500 hover:underline">
+                                                Organized by: {{ $activity->organization->org_name }}
                                             </a>
+                                            @if ($activity->status !== 'completed')
+                                                <a href="{{ route('activities.show', $activity) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                                    View Details
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
