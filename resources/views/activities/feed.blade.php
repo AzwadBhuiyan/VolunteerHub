@@ -73,5 +73,4 @@
     </div>
 
     <x-image-popup />
-
 </x-public-layout>
