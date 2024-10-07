@@ -34,9 +34,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/edit-profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/edit-profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    // New route for editing favorites (only for volunteers)
-    Route::get('/favorites/edit', [FavoritesController::class, 'edit'])->name('favorites.edit');
-    Route::patch('/favorites', [FavoritesController::class, 'update'])->name('favorites.update');
     
     // update organization information -- partials are independent
     Route::patch('/profile/organization', [ProfileController::class, 'updateOrganization'])->name('profile.update.organization');
@@ -75,7 +72,8 @@ Route::middleware('auth')->group(function () {
 
 
     // Favorites
-    Route::get('/favorites', [FavoriteController::class, 'edit'])->name('favorites.edit');
+    Route::get('/favorites', [FavoriteController::class, 'showFavorites'])->name('favorites.show');
+    Route::get('/favorites/edit', [FavoriteController::class, 'edit'])->name('favorites.edit');
     Route::patch('/favorites', [FavoriteController::class, 'update'])->name('favorites.update');
 
 });

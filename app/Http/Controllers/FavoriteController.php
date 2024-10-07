@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ActivityCategory;
+use App\Models\Activity;
 
 class FavoriteController extends Controller
 {
@@ -12,8 +13,12 @@ class FavoriteController extends Controller
     {
         $user = $request->user();
         $favorites = $user->volunteer->favorite;
-        $categories = ActivityCategory::all();
-        $districts = array_diff(config('districts.districts'), [$user->volunteer->District]);
+        
+        // Sort categories alphabetically by name
+        $categories = ActivityCategory::orderBy('name')->get();
+        
+        // Sort districts alphabetically
+        $districts = collect(config('districts.districts'))->sort()->values()->all();
     
         // If favorites exist, ensure we're passing only category names
         if ($favorites && $favorites->favorite_categories) {
@@ -47,6 +52,33 @@ class FavoriteController extends Controller
             ]
         );
     
-        return redirect()->route('favorites.edit')->with('status', 'favorites-updated');
+        return redirect()->route('favorites.show')->with('status', 'favorites-updated');
+    }
+
+    public function showFavorites(Request $request)
+    {
+        $user = $request->user();
+        $favorites = $user->volunteer->favorite;
+        
+        $query = Activity::where('status', 'open');
+    
+        if ($favorites && (!empty($favorites->favorite_categories) || !empty($favorites->favorite_districts))) {
+            $query->where(function ($q) use ($favorites) {
+                if (!empty($favorites->favorite_categories)) {
+                    $q->whereIn('category', $favorites->favorite_categories);
+                }
+                if (!empty($favorites->favorite_districts)) {
+                    $q->orWhereIn('district', $favorites->favorite_districts);
+                }
+            });
+        }
+    
+        $activities = $query->orderBy('date', 'asc')->paginate(10);
+    
+        if ($activities->isEmpty() && $favorites) {
+            $activities = Activity::where('status', 'ongoing')->orderBy('date', 'asc')->paginate(10);
+        }
+    
+        return view('profile.favorites', compact('activities', 'favorites'));
     }
 }

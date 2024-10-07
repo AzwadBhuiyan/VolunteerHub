@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2024 at 09:15 PM
+-- Generation Time: Oct 07, 2024 at 10:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -54,10 +54,20 @@ CREATE TABLE `activities` (
 --
 
 INSERT INTO `activities` (`activityid`, `userid`, `title`, `description`, `date`, `time`, `category`, `district`, `address`, `deadline`, `min_volunteers`, `max_volunteers`, `status`, `created_at`, `updated_at`, `accomplished_description`, `duration`, `difficulty`, `points`) VALUES
-(1, 'org-001', 'Party on', 'lets go', '2024-10-04', '12:45:00', 'education', 'Dhaka', 'asdad', '2024-09-17 00:42:00', 1, 2, 'completed', '2024-09-20 12:42:20', '2024-10-06 04:12:39', 'it was great lets goooooooo', 4, NULL, 4),
-(2, 'org-001', 'Lets go', 'lets go', '2024-09-27', '06:21:00', 'environmental', 'Dhaka', '1aaf', '2024-10-02 03:22:00', 1, 5, 'completed', '2024-09-25 15:22:15', '2024-09-26 15:24:28', NULL, NULL, NULL, 0),
-(3, 'org-001', 'wall paint need artists', 'lets paint all the walls', '2024-09-30', '16:27:00', 'education', 'Dhaka', 'bashundhara', '2024-09-29 00:09:00', 3, 10, 'completed', '2024-09-26 15:52:59', '2024-09-26 16:11:06', 'all walls look beautiful', 6, 'easy', 0),
-(5, 'org-001', 'EMERGENCY FLOOD RESCUE OPERATION', 'need 10 brave volunteers who are good swimmers', '2024-10-08', '06:28:00', 'Disaster Management', 'western', 'flood, bangladesh', '2024-10-07 23:28:00', 10, NULL, 'open', '2024-10-04 18:29:14', '2024-10-07 08:16:11', NULL, NULL, 'easy', 0);
+(1, 'org-001', 'Party on', 'lets go', '2024-10-04', '12:45:00', 'Agriculture', 'Dhaka', 'asdad', '2024-09-17 00:42:00', 1, 2, 'completed', '2024-09-20 12:42:20', '2024-10-06 04:12:39', 'it was great lets goooooooo', 4, NULL, 4),
+(2, 'org-001', 'Lets go', 'lets go', '2024-09-27', '06:21:00', 'Agriculture', 'Dhaka', '1aaf', '2024-10-02 03:22:00', 1, 5, 'completed', '2024-09-25 15:22:15', '2024-09-26 15:24:28', NULL, NULL, NULL, 0),
+(3, 'org-001', 'wall paint need artists', 'lets paint all the walls', '2024-09-30', '16:27:00', 'Agriculture', 'Dhaka', 'bashundhara', '2024-09-29 00:09:00', 3, 10, 'completed', '2024-09-26 15:52:59', '2024-09-26 16:11:06', 'all walls look beautiful', 6, 'easy', 0),
+(5, 'org-001', 'EMERGENCY FLOOD RESCUE OPERATION', 'need 10 brave volunteers who are good swimmers', '2024-10-08', '06:28:00', 'Disaster Management', 'western', 'flood, bangladesh', '2024-10-07 23:28:00', 10, NULL, 'open', '2024-10-04 18:29:14', '2024-10-07 08:16:11', NULL, NULL, 'easy', 0),
+(6, 'org-001', 'Activity 1', 'This is a description for Activity 1', '2024-10-12', '20:16:44', 'Fundraising', 'Barguna', 'Address for Activity 1', '2024-10-11 20:16:44', 5, 24, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'medium', 0),
+(7, 'org-001', 'Activity 2', 'This is a description for Activity 2', '2024-11-06', '20:16:44', 'Arts and Culture', 'Dhaka', 'Address for Activity 2', '2024-11-04 20:16:44', 7, 24, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'medium', 0),
+(8, 'org-001', 'Activity 3', 'This is a description for Activity 3', '2024-10-20', '20:16:44', 'Advocacy', 'Dhaka', 'Address for Activity 3', '2024-10-15 20:16:44', 8, 15, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'medium', 0),
+(9, 'org-001', 'Activity 4', 'This is a description for Activity 4', '2024-11-03', '20:16:44', 'Agriculture', 'Gazipur', 'Address for Activity 4', '2024-11-01 20:16:44', 8, 24, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'easy', 0),
+(10, 'org-001', 'Activity 5', 'This is a description for Activity 5', '2024-10-23', '20:16:44', 'Agriculture', 'Faridpur', 'Address for Activity 5', '2024-10-19 20:16:44', 5, 23, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'easy', 0),
+(11, 'org-001', 'Activity 6', 'This is a description for Activity 6', '2024-11-02', '20:16:44', 'Arts and Culture', 'Bhola', 'Address for Activity 6', '2024-11-01 20:16:44', 7, 21, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'hard', 0),
+(12, 'org-001', 'Activity 7', 'This is a description for Activity 7', '2024-10-13', '20:16:44', 'Environment', 'Thakurgaon', 'Address for Activity 7', '2024-10-08 20:16:44', 8, 28, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'hard', 0),
+(13, 'org-001', 'Activity 8', 'This is a description for Activity 8', '2024-10-09', '20:16:44', 'Blood Donation', 'Manikganj', 'Address for Activity 8', '2024-10-05 20:16:44', 7, 18, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'severe', 0),
+(14, 'org-001', 'Activity 9', 'This is a description for Activity 9', '2024-10-20', '20:16:44', 'Advocacy', 'Nilphamari', 'Address for Activity 9', '2024-10-17 20:16:44', 6, 20, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'hard', 0),
+(15, 'org-001', 'Activity 10', 'This is a description for Activity 10', '2024-10-15', '20:16:44', 'Fundraising', 'Kurigram', 'Address for Activity 10', '2024-10-13 20:16:44', 7, 23, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'medium', 0);
 
 -- --------------------------------------------------------
 
@@ -184,7 +194,7 @@ CREATE TABLE `favorites` (
 --
 
 INSERT INTO `favorites` (`id`, `volunteer_userid`, `favorite_categories`, `favorite_districts`, `created_at`, `updated_at`) VALUES
-(2, '00002', '[\"Microfinance\",\"Social Entrepreneurship\"]', '[\"Narsingdi\",\"Madaripur\",\"Gopalganj\"]', '2024-10-07 13:13:08', '2024-10-07 13:13:42');
+(2, '00002', '[]', '[]', '2024-10-07 13:13:08', '2024-10-07 14:24:52');
 
 -- --------------------------------------------------------
 
@@ -642,7 +652,7 @@ ALTER TABLE `volunteers`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `activityid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `activityid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `activity_categories`

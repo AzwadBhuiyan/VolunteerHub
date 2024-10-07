@@ -37,9 +37,7 @@
                             <select id="district_select" class="mt-1 block w-full">
                                 <option value="">Select a district</option>
                                 @foreach ($districts as $district)
-                                    @if($district !== $user->volunteer->District)
-                                        <option value="{{ $district }}">{{ $district }}</option>
-                                    @endif
+                                    <option value="{{ $district }}">{{ $district }}</option>
                                 @endforeach
                             </select>
                         </div>
