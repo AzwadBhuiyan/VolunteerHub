@@ -28,9 +28,9 @@ class Volunteer extends Model
         return $this->belongsTo(User::class, 'userid');
     }
 
-    public function favoriteCategories()
+    public function favorite()
     {
-        return $this->belongsToMany(JobCategory::class, 'volunteer_favorite_categories', 'userid', 'category_id');
+        return $this->hasOne(Favorite::class, 'volunteer_userid', 'userid');
     }
 
     public function participatingActivities()
