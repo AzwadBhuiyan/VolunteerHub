@@ -6,13 +6,16 @@ use App\Models\Activity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Volunteer;
+use App\Models\ActivityCategory;
 
 class ActivityController extends Controller
 {
     public function create()
     {
-        return view('activities.create');
+        $categories = ActivityCategory::all();
+        return view('activities.create', compact('categories'));
     }
+    
 
     public function feed()
     {
@@ -49,7 +52,7 @@ class ActivityController extends Controller
             'description' => 'required',
             'date' => 'required|date',
             'time' => 'required|date_format:H:i',
-            'category' => 'required',
+            'category' => 'required|exists:activity_categories,name',
             'district' => 'required',
             'difficulty' => 'required|in:easy,medium,hard,severe',
             'address' => 'required',
@@ -83,7 +86,8 @@ class ActivityController extends Controller
     public function edit(Activity $activity)
     {
         // $this->authorize('update', $activity);
-        return view('activities.edit', compact('activity'));
+        $categories = ActivityCategory::all();
+        return view('activities.edit', compact('activity', 'categories'));
     }
 
     public function update(Request $request, Activity $activity)
@@ -95,7 +99,7 @@ class ActivityController extends Controller
             'description' => 'required',
             'date' => 'required|date',
             'time' => 'required|date_format:H:i',
-            'category' => 'required',
+            'category' => 'required|exists:activity_categories,name',
             'district' => 'required',
             'difficulty' => 'required|in:easy,medium,hard,severe',
             'address' => 'required',

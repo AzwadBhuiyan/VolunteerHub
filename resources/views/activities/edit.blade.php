@@ -40,10 +40,12 @@
                         <div class="mb-4">
                             <x-input-label for="category" :value="__('Category')" />
                             <select id="category" name="category" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                <option value="education" {{ old('category', $activity->category) === 'education' ? 'selected' : '' }}>Education</option>
-                                <option value="environment" {{ old('category', $activity->category) === 'environment' ? 'selected' : '' }}>Environment</option>
-                                <option value="health" {{ old('category', $activity->category) === 'health' ? 'selected' : '' }}>Health</option>
-                                <option value="community" {{ old('category', $activity->category) === 'community' ? 'selected' : '' }}>Community</option>
+                                <option value="">Select a category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->name }}" {{ old('category', $activity->category) == $category->name ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('category')" class="mt-2" />
                         </div>

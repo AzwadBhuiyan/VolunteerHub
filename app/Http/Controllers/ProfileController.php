@@ -77,7 +77,6 @@ class ProfileController extends Controller
                 
                 $file->move($path, $filename);
                 
-                $logMessages[] = ['type' => 'log', 'message' => 'Cover image uploaded successfully'];
             } catch (\Exception $e) {
                 $logMessages[] = ['type' => 'error', 'message' => 'Cover image upload failed: ' . $e->getMessage()];
             }
@@ -103,8 +102,6 @@ class ProfileController extends Controller
         $user->save();
         $profile->save();
 
-        // Store log messages in session
-        session(['profile_update_logs' => $logMessages]);
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }

@@ -22,6 +22,11 @@ class Activity extends Model
 
     const STATUSES = ['open', 'closed', 'completed', 'cancelled'];
 
+    public function category()
+    {
+        return $this->belongsTo(ActivityCategory::class, 'category');
+    }
+
     public function organization()
     {
         return $this->belongsTo(Organization::class, 'userid');
@@ -51,7 +56,7 @@ class Activity extends Model
 
     public function getConfirmedVolunteersCountAttribute()
     {
-        return $this->confirmedVolunteers()->count();
+        return $this->volunteers()->wherePivot('approval_status', 'approved')->count();
     }
 
     public function shouldBeClosed()
@@ -64,10 +69,12 @@ class Activity extends Model
     {
         $this->update(['status' => 'closed']);
     }
+    
 
     public function getVolunteerStatus($volunteerUserId)
     {
         $volunteer = $this->volunteers()->where('volunteer_userid', $volunteerUserId)->first();
         return $volunteer ? $volunteer->pivot->approval_status : null;
     }
+    
 }

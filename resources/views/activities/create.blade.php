@@ -40,8 +40,9 @@
                             <x-input-label for="category" :value="__('Category')" />
                             <select id="category" name="category" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 <option value="">Select a category</option>
-                                <option value="environmental">Environmental</option>
-                                <option value="social">Social</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->name }}">{{ $category->name }}</option>
+                                @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('category')" class="mt-2" />
                         </div>

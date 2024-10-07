@@ -18,5 +18,6 @@
 @else
     <div class="aspect-w-1 aspect-h-1 bg-gray-200 flex items-center justify-center rounded">
         <img src="{{ $imageSrc }}" alt="Default Activity Image" class="object-cover w-full h-full rounded">
+        
     </div>
 @endif
