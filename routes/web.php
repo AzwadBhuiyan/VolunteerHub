@@ -9,7 +9,7 @@ use App\Http\Controllers\Auth\CustomLoginController;
 use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\IdeaThreadController;
-use App\Http\Controllers\FavoritesController;
+use App\Http\Controllers\FavoriteController;
 
 Route::get('/connection', function () {
     try {
@@ -72,6 +72,11 @@ Route::middleware('auth')->group(function () {
     // Route::post('/idea-board/{ideaThread}/vote', [IdeaThreadController::class, 'vote'])->name('idea_board.vote');
     Route::post('/idea-board/poll-vote/{pollOption}', [IdeaThreadController::class, 'pollVote'])->name('idea_board.poll_vote');
     Route::post('/idea-board/vote', [IdeaThreadController::class, 'vote'])->name('idea_board.vote');
+
+
+    // Favorites
+    Route::get('/favorites', [FavoriteController::class, 'edit'])->name('favorites.edit');
+    Route::patch('/favorites', [FavoriteController::class, 'update'])->name('favorites.update');
 
 });
 

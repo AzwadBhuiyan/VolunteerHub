@@ -9,19 +9,15 @@ class Favorite extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'districts'];
+    protected $fillable = ['volunteer_userid', 'favorite_categories', 'favorite_districts'];
 
     protected $casts = [
-        'districts' => 'array',
+        'favorite_categories' => 'array',
+        'favorite_districts' => 'array',
     ];
 
     public function volunteer()
     {
-        return $this->belongsTo(Volunteer::class);
-    }
-
-    public function categories()
-    {
-        return $this->belongsToMany(ActivityCategory::class, 'volunteer_favorite_categories', 'volunteer_id', 'category_id');
+        return $this->belongsTo(Volunteer::class, 'volunteer_userid', 'userid');
     }
 }
