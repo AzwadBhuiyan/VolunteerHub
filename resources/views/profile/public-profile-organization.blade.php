@@ -73,7 +73,7 @@
                             </div>
                         </div>
                     </div>
-                    <hr class="mt-2 mb-2">
+                    <hr class="mt-2 mt-4 mb-4">
 
                     <!-- Activities Section -->
                     <div x-data="{ tab: 'ongoing' }" class="mb-6">

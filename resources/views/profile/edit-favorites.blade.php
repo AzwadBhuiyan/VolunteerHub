@@ -1,23 +1,18 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Favorites') }}
-        </h2>
-    </x-slot>
+
+    <div class="p-4 sm:p-8 bg-white items-center shadow sm:rounded-lg">
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">
-                        Select Your Favorite Categories and Districts
+                        Select Your Favorite Activity Categories & Locations
                     </h3>
                     <p class="text-sm text-gray-600 mb-4">
-                        Choose up to 3 favorite categories and 3 favorite districts. These will help us suggest activities that match your interests and preferred locations.
+                        Choose activity categories & locations to get a more personalised activity suggestions in your favorites tab.
                     </p>
-                    <p class="text-sm text-gray-600 mb-4">
-                        You will still be able to see activities from other categories and districts
-                    </p>
+                   
                     <form method="post" action="{{ route('favorites.update') }}" class="mt-6 space-y-6">
                         @csrf
                         @method('patch')
@@ -43,13 +38,12 @@
                         </div>
 
                         <div class="mb-4">
-                            <h4 class="font-medium text-gray-700 mb-2">Selected Favorites:</h4>
                             <div id="selected_categories" class="mb-2">
-                                <h5 class="text-sm font-medium text-gray-600">Categories:</h5>
+                                <h5 class="text-sm font-medium text-gray-600"> Selected Categories:</h5>
                                 <div id="category_tags" class="flex flex-wrap gap-2"></div>
                             </div>
                             <div id="selected_districts">
-                                <h5 class="text-sm font-medium text-gray-600">Districts:</h5>
+                                <h5 class="text-sm font-medium text-gray-600"> Preferred Loactions:</h5>
                                 <div id="district_tags" class="flex flex-wrap gap-2"></div>
                             </div>
                         </div>
@@ -58,8 +52,8 @@
                         <input type="hidden" name="favorite_districts" id="favorite_districts">
 
                         <div class="flex items-center gap-4">
-                            <x-primary-button>{{ __('Save') }}</x-primary-button>
                             <button type="button" id="clear_selections" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">Clear Selections</button>
+                            <x-primary-button>{{ __('Save') }}</x-primary-button>
 
                             @if (session('status') === 'favorites-updated')
                                 <p
@@ -76,6 +70,7 @@
             </div>
         </div>
     </div>
+</div>
 
 
     <script>
