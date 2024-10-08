@@ -7,10 +7,10 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">
-                        Select Your Favorite Activity Categories, Locations & Organizations
+                        Select Your Favorite Activity Categories and Locations
                     </h3>
                     <p class="text-sm text-gray-600 mb-4">
-                        Choose activity categories, locations, and organizations to get more personalized activity suggestions in your favorites tab.
+                        Choose activity categories and locations to get more personalized activity suggestions in your favorites tab.
                     </p>
                    
                     <form method="post" action="{{ route('favorites.update') }}" class="mt-6 space-y-6">
@@ -38,16 +38,6 @@
                         </div>
 
                         <div class="mb-4">
-                            <x-input-label for="organization_select" :value="__('Follow Organizations')" />
-                            <select id="organization_select" class="mt-1 block w-full">
-                                <option value="">Select an organization</option>
-                                @foreach ($organizations as $organization)
-                                    <option value="{{ $organization->userid }}">{{ $organization->org_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
                             <div id="selected_categories" class="mb-2">
                                 <h5 class="text-sm font-medium text-gray-600">Selected Categories:</h5>
                                 <div id="category_tags" class="flex flex-wrap gap-2"></div>
@@ -56,15 +46,10 @@
                                 <h5 class="text-sm font-medium text-gray-600">Preferred Locations:</h5>
                                 <div id="district_tags" class="flex flex-wrap gap-2"></div>
                             </div>
-                            <div id="followed_organizations">
-                                <h5 class="text-sm font-medium text-gray-600">Followed Organizations:</h5>
-                                <div id="organization_tags" class="flex flex-wrap gap-2"></div>
-                            </div>
                         </div>
 
                         <input type="hidden" name="favorite_categories" id="favorite_categories">
                         <input type="hidden" name="favorite_districts" id="favorite_districts">
-                        <input type="hidden" name="followed_organizations" id="followed_organizations">
 
                         <div class="flex items-center gap-4">
                             <button type="button" id="clear_selections" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">Clear Selections</button>
@@ -81,33 +66,43 @@
                             @endif
                         </div>
                     </form>
+
+                    <div class="mt-8">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Followed Organizations</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Click on an organization to visit their profile and unfollow if desired.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($followedOrganizations as $organization)
+                                <a href="{{ route('profile.public', $organization->url) }}" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm hover:bg-blue-200">
+                                    {{ $organization->org_name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const categorySelect = document.getElementById('category_select');
             const districtSelect = document.getElementById('district_select');
-            const organizationSelect = document.getElementById('organization_select');
             const categoryTags = document.getElementById('category_tags');
             const districtTags = document.getElementById('district_tags');
-            const organizationTags = document.getElementById('organization_tags');
             const favoriteCategories = document.getElementById('favorite_categories');
             const favoriteDistricts = document.getElementById('favorite_districts');
-            const followedOrganizations = document.getElementById('followed_organizations');
             const clearSelectionsBtn = document.getElementById('clear_selections');
 
             let selectedCategories = [];
             let selectedDistricts = [];
-            let selectedOrganizations = [];
 
             function updateHiddenInputs() {
                 favoriteCategories.value = JSON.stringify(selectedCategories);
                 favoriteDistricts.value = JSON.stringify(selectedDistricts);
-                followedOrganizations.value = JSON.stringify(selectedOrganizations);
             }
 
             function createTag(text, type) {
@@ -122,12 +117,9 @@
                     if (type === 'category') {
                         selectedCategories = selectedCategories.filter(c => c.name !== text);
                         categoryTags.removeChild(tag);
-                    } else if (type === 'district') {
+                    } else {
                         selectedDistricts = selectedDistricts.filter(d => d !== text);
                         districtTags.removeChild(tag);
-                    } else if (type === 'organization') {
-                        selectedOrganizations = selectedOrganizations.filter(o => o.name !== text);
-                        organizationTags.removeChild(tag);
                     }
                     updateHiddenInputs();
                 };
@@ -160,30 +152,15 @@
                 this.value = '';
             });
 
-            organizationSelect.addEventListener('change', function() {
-                if (this.value) {
-                    const selectedOption = this.options[this.selectedIndex];
-                    const organization = {id: this.value, name: selectedOption.text};
-                    if (!selectedOrganizations.some(o => o.id === organization.id)) {
-                        selectedOrganizations.push(organization);
-                        organizationTags.appendChild(createTag(organization.name, 'organization'));
-                        updateHiddenInputs();
-                    }
-                }
-                this.value = '';
-            });
-
             clearSelectionsBtn.addEventListener('click', function() {
                 selectedCategories = [];
                 selectedDistricts = [];
-                selectedOrganizations = [];
                 categoryTags.innerHTML = '';
                 districtTags.innerHTML = '';
-                organizationTags.innerHTML = '';
                 updateHiddenInputs();
             });
 
-            // Initialize with existing favorites and followed organizations
+            // Initialize with existing favorites
             @if($favorites && $favorites->favorite_categories)
                 @foreach($favorites->favorite_categories as $categoryId => $categoryName)
                     selectedCategories.push({id: '{{ $categoryId }}', name: '{{ $categoryName }}'});
@@ -196,10 +173,6 @@
                     districtTags.appendChild(createTag('{{ $district }}', 'district'));
                 @endforeach
             @endif
-            @foreach($followedOrganizations as $organization)
-                selectedOrganizations.push({id: '{{ $organization->userid }}', name: '{{ $organization->org_name }}'});
-                organizationTags.appendChild(createTag('{{ $organization->org_name }}', 'organization'));
-            @endforeach
             updateHiddenInputs();
         });
     </script>

@@ -22,9 +22,6 @@ class FavoriteController extends Controller
         // Sort districts alphabetically
         $districts = collect(config('districts.districts'))->sort()->values()->all();
 
-        // Get all organizations
-        $organizations = Organization::orderBy('org_name')->get();
-
         // Get followed organizations
         $followedOrganizations = $volunteer->followedOrganizations;
     
@@ -33,7 +30,7 @@ class FavoriteController extends Controller
             $favorites->favorite_categories = array_values($favorites->favorite_categories);
         }
     
-        return view('profile.edit-favorites', compact('favorites', 'categories', 'districts', 'user', 'organizations', 'followedOrganizations'));
+        return view('profile.edit-favorites', compact('favorites', 'categories', 'districts', 'user', 'followedOrganizations'));
     }
 
     public function update(Request $request)
@@ -44,12 +41,10 @@ class FavoriteController extends Controller
         $request->validate([
             'favorite_categories' => 'required|json|max:255',
             'favorite_districts' => 'required|json|max:255',
-            'followed_organizations' => 'required|json|max:255',
         ]);
     
         $favoriteCategories = json_decode($request->favorite_categories, true);
         $favoriteDistricts = json_decode($request->favorite_districts, true);
-        $followedOrganizations = json_decode($request->followed_organizations, true);
     
         // Extract only the category names
         $categoryNames = array_column($favoriteCategories, 'name');
@@ -61,10 +56,6 @@ class FavoriteController extends Controller
                 'favorite_districts' => $favoriteDistricts,
             ]
         );
-    
-        // Update followed organizations
-        $organizationIds = array_column($followedOrganizations, 'id');
-        $volunteer->followedOrganizations()->sync($organizationIds);
     
         return redirect()->route('favorites.show')->with('status', 'favorites-updated');
     }
