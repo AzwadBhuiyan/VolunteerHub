@@ -46,6 +46,23 @@
                             <p class="text-gray-600 mb-2">{{ $profile->description }}</p>
                            
                         </div>
+
+                        @auth
+                            @if(Auth::user()->volunteer)
+                                @php
+                                    $isFollowing = Auth::user()->volunteer->followedOrganizations->contains($profile->userid);
+                                @endphp
+                                <form action="{{ $isFollowing ? route('organizations.unfollow', $profile) : route('organizations.follow', $profile) }}" method="POST">
+                                    @csrf
+                                    @if($isFollowing)
+                                        @method('DELETE')
+                                    @endif
+                                    <button type="submit" class="btn {{ $isFollowing ? 'btn-danger' : 'btn-primary' }}">
+                                        {{ $isFollowing ? 'Unfollow' : 'Follow' }}
+                                    </button>
+                                </form>
+                            @endif
+                        @endauth
                         
                     </div>
 
@@ -181,4 +198,5 @@
         {{-- </div> --}}
     </div>
     <x-image-popup />
+    
 </x-app-layout>

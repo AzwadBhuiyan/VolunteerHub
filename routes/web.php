@@ -10,6 +10,7 @@ use App\Http\Controllers\PublicProfileController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\IdeaThreadController;
 use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\FollowController;
 
 Route::get('/connection', function () {
     try {
@@ -75,6 +76,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/favorites', [FavoriteController::class, 'showFavorites'])->name('favorites.show');
     Route::get('/favorites/edit', [FavoriteController::class, 'edit'])->name('favorites.edit');
     Route::patch('/favorites', [FavoriteController::class, 'update'])->name('favorites.update');
+
+    //Follow organizations
+    Route::post('/organizations/{organization}/follow', [FollowController::class, 'follow'])->name('organizations.follow');
+    Route::delete('/organizations/{organization}/unfollow', [FollowController::class, 'unfollow'])->name('organizations.unfollow');
 
 });
 

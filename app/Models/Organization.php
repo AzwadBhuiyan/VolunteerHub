@@ -29,4 +29,10 @@ class Organization extends Model
     {
         return $this->activities()->where('status', 'completed')->latest();
     }
+
+    // volunteer followers
+    public function followers()
+    {
+        return $this->belongsToMany(Volunteer::class, 'volunteer_follows', 'organization_userid', 'volunteer_userid')->withTimestamps();
+    }
 }

@@ -5,7 +5,7 @@
 
     <div class="px-1">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-8">
-            @if (!$favorites || (empty($favorites->favorite_categories) && empty($favorites->favorite_districts)))
+            @if (!$favorites || (empty($favorites->favorite_categories) && empty($favorites->favorite_districts)) && $volunteer->followedOrganizations->isEmpty()))
                 <div class="bg-yellow-100 border-yellow-500 text-yellow-700 p-4 mb-4 flex items-center"
                     role="alert">
                     <i class="bi bi-exclamation-triangle-fill text-2xl mr-4"></i>

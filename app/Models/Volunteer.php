@@ -76,4 +76,12 @@ class Volunteer extends Model
         }
     }
 
+    // follow organizations
+    public function followedOrganizations()
+    {
+        return $this->belongsToMany(Organization::class, 'volunteer_follows', 'volunteer_userid', 'organization_userid')->withTimestamps();
+    }
+
+    
+
 }
