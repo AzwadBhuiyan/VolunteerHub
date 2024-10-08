@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2024 at 10:42 PM
+-- Generation Time: Oct 08, 2024 at 10:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -194,7 +194,7 @@ CREATE TABLE `favorites` (
 --
 
 INSERT INTO `favorites` (`id`, `volunteer_userid`, `favorite_categories`, `favorite_districts`, `created_at`, `updated_at`) VALUES
-(2, '00002', '[]', '[]', '2024-10-07 13:13:08', '2024-10-07 14:24:52');
+(2, '00002', '[]', '[]', '2024-10-07 13:13:08', '2024-10-08 13:49:09');
 
 -- --------------------------------------------------------
 
@@ -365,7 +365,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (36, '2024_09_29_093438_create_poll_options_table', 6),
 (39, '2024_09_29_093458_create_idea_votes_table', 7),
 (41, '2024_10_03_221834_add_status_to_idea_threads_table', 8),
-(42, '2024_10_07_184918_create_favorites_table', 9);
+(42, '2024_10_07_184918_create_favorites_table', 9),
+(43, '2024_10_08_193437_create_volunteer_follows_table', 10);
 
 -- --------------------------------------------------------
 
@@ -500,6 +501,27 @@ INSERT INTO `volunteers` (`userid`, `url`, `Name`, `Phone`, `NID`, `Gender`, `DO
 ('00002', 'TheGreatestVolunteerWhoLived', 'Abbas ali', '01990376524', NULL, 'M', '2024-09-25', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 33, NULL, NULL, 'I am TheGreatestVolunteerWhoLived. Bow down before me', '2024-09-20 07:54:58', '2024-10-07 06:57:26'),
 ('00003', '00003', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-11', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02'),
 ('00004', '00004', 'asdf', '01990376524', NULL, 'M', '1992-06-09', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Gopalganj', 0, 6, NULL, NULL, NULL, '2024-09-26 15:50:49', '2024-09-26 16:11:07');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `volunteer_follows`
+--
+
+CREATE TABLE `volunteer_follows` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `volunteer_userid` varchar(255) NOT NULL,
+  `organization_userid` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `volunteer_follows`
+--
+
+INSERT INTO `volunteer_follows` (`id`, `volunteer_userid`, `organization_userid`, `created_at`, `updated_at`) VALUES
+(2, '00002', 'org-001', '2024-10-08 14:07:36', '2024-10-08 14:07:36');
 
 --
 -- Indexes for dumped tables
@@ -645,6 +667,14 @@ ALTER TABLE `volunteers`
   ADD UNIQUE KEY `volunteers_url_unique` (`url`);
 
 --
+-- Indexes for table `volunteer_follows`
+--
+ALTER TABLE `volunteer_follows`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `volunteer_follows_volunteer_userid_organization_userid_unique` (`volunteer_userid`,`organization_userid`),
+  ADD KEY `volunteer_follows_organization_userid_foreign` (`organization_userid`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -712,13 +742,19 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `poll_options`
 --
 ALTER TABLE `poll_options`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `volunteer_follows`
+--
+ALTER TABLE `volunteer_follows`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -787,6 +823,13 @@ ALTER TABLE `poll_options`
 --
 ALTER TABLE `volunteers`
   ADD CONSTRAINT `volunteers_userid_foreign` FOREIGN KEY (`userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `volunteer_follows`
+--
+ALTER TABLE `volunteer_follows`
+  ADD CONSTRAINT `volunteer_follows_organization_userid_foreign` FOREIGN KEY (`organization_userid`) REFERENCES `organizations` (`userid`) ON DELETE CASCADE,
+  ADD CONSTRAINT `volunteer_follows_volunteer_userid_foreign` FOREIGN KEY (`volunteer_userid`) REFERENCES `volunteers` (`userid`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
