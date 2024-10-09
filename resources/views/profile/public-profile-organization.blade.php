@@ -34,13 +34,7 @@
                 <div class="p-2">
                     <div class="flex items-center mb-2">
                         <!-- // to check if image exists -->
-                        @php
-                            $logoPath = 'images/logos/' . $profile->userid . '.*';
-                            $matchingFiles = glob(public_path($logoPath));
-                            $logoImage = !empty($matchingFiles) ? basename($matchingFiles[0]) : null;
-                        @endphp
-                        <img src="{{ $logoImage ? asset('images/logos/' . $logoImage) : asset('images/defaults/default-logo.png') }}"
-                            alt="{{ $profile->Name }}" class="org-logo">
+                        <img src="{{ asset($activity->organization->getLogoPath()) }}" alt="{{ $activity->organization->org_name }}" class="w-16 h-16 rounded-full object-cover">
                         <div>
                             <h1 class="h1">{{ $profile->org_name }}</h1>
                             <p class="text-gray-600 mb-2">{{ $profile->description }}</p>

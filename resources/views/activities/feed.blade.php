@@ -16,12 +16,7 @@
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
                     <!-- Activity Header -->
                     <div class="p-6 flex items-center space-x-4 border-b border-gray-100">
-                        @php
-                            $logoPath = 'images/logos/' . $activity->organization->userid . '.*';
-                            $fullLogoPath = public_path($logoPath);
-                            $logoExists = file_exists($fullLogoPath);
-                        @endphp
-                        <img src="{{ $logoExists ? asset($logoPath) : asset('images/defaults/default-logo.png') }}" alt="{{ $activity->organization->org_name }}" class="w-16 h-16 rounded-full object-cover">
+                    <img src="{{ asset($activity->organization->getLogoPath()) }}" alt="{{ $activity->organization->org_name }}" class="w-16 h-16 rounded-full object-cover">
                         <div>
                             <h4 class="text-xl font-semibold text-gray-800">{{ $activity->title }}</h4>
                             <p class="text-sm text-gray-500">{{ $activity->date->format('M d, Y') }}</p>

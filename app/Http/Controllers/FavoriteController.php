@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\ActivityCategory;
 use App\Models\Activity;
 use App\Models\Organization;
+use App\Models\IdeaThread;
 
 class FavoriteController extends Controller
 {
@@ -64,10 +65,10 @@ class FavoriteController extends Controller
     {
         $user = $request->user();
         $volunteer = $user->volunteer;
-        $favorites = $user->volunteer->favorite;
-        $followedOrganizations = $user->volunteer->followedOrganizations()->pluck('userid');
-        
-        $query = Activity::where('status', 'open')
+        $favorites = $volunteer->favorite;
+        $followedOrganizations = $volunteer->followedOrganizations()->pluck('userid');
+    
+        $ongoingActivities = Activity::where('status', 'open')
             ->where(function ($q) use ($favorites, $followedOrganizations) {
                 $q->when($favorites && (!empty($favorites->favorite_categories) || !empty($favorites->favorite_districts)), function ($subQ) use ($favorites) {
                     $subQ->where(function ($innerQ) use ($favorites) {
@@ -80,14 +81,14 @@ class FavoriteController extends Controller
                     });
                 })
                 ->orWhereIn('userid', $followedOrganizations);
-            });
+            })
+            ->orderBy('date', 'asc')
+            ->paginate(10);
     
-        $activities = $query->orderBy('date', 'asc')->paginate(10);
+        $ideas = IdeaThread::whereIn('userid', $followedOrganizations)
+            ->latest()
+            ->paginate(10);
     
-        if ($activities->isEmpty() && ($favorites || $followedOrganizations->isNotEmpty())) {
-            $activities = Activity::where('status', 'open')->orderBy('date', 'asc')->paginate(10);
-        }
-    
-        return view('profile.favorites', compact('activities', 'favorites', 'user', 'volunteer'));
+        return view('profile.favorites', compact('ongoingActivities', 'ideas', 'favorites', 'user', 'volunteer'));
     }
 }
