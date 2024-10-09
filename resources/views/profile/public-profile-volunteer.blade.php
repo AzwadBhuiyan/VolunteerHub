@@ -21,6 +21,7 @@
                 <!-- Use object-cover to maintain aspect ratio -->
             </div>
             <h2 class="text-xl sm:text-2xl font-bold text-center">{{ $profile->Name }}</h2>
+            <p class="text-lg sm:text-xl text-center">{{ $profile->bio }}</p>
             <!-- Display profile name directly under the picture -->
 
             <div class="btn-group"> <!-- Button group for profile actions -->
