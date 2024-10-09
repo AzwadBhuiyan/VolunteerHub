@@ -68,7 +68,7 @@ class FavoriteController extends Controller
         $favorites = $volunteer->favorite;
         $followedOrganizations = $volunteer->followedOrganizations()->pluck('userid');
     
-        $ongoingActivities = Activity::where('status', 'open')
+        $ongoingActivitiesQuery = Activity::where('status', 'open')
             ->where(function ($q) use ($favorites, $followedOrganizations) {
                 $q->when($favorites && (!empty($favorites->favorite_categories) || !empty($favorites->favorite_districts)), function ($subQ) use ($favorites) {
                     $subQ->where(function ($innerQ) use ($favorites) {
@@ -81,9 +81,20 @@ class FavoriteController extends Controller
                     });
                 })
                 ->orWhereIn('userid', $followedOrganizations);
-            })
-            ->orderBy('date', 'asc')
-            ->paginate(10);
+            });
+    
+            $ongoingActivities = $ongoingActivitiesQuery->orderByRaw('
+            CASE 
+                WHEN (SELECT COUNT(*) FROM activity_volunteers WHERE activity_volunteers.activityid = activities.activityid AND approval_status = "approved") >= activities.min_volunteers THEN -50
+                WHEN DATEDIFF(activities.deadline, NOW()) <= 7 THEN (7 - DATEDIFF(activities.deadline, NOW())) * 10
+                ELSE 0
+            END - DATEDIFF(NOW(), activities.created_at) DESC
+        ')->paginate(10);
+
+        $ongoingActivities->getCollection()->transform(function ($activity) {
+            $activity->priority_score = $activity->calculatePriorityScore();
+            return $activity;
+        });
     
         $ideas = IdeaThread::whereIn('userid', $followedOrganizations)
             ->latest()

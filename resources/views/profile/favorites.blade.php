@@ -38,6 +38,9 @@
                                 <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col mb-4">
                                     <!-- Activity content -->
                                     @include('components.activity-card', ['activity' => $activity])
+                                    <div class="px-4 py-2 bg-gray-100">
+                                        <p class="text-sm text-gray-600">Priority Score: {{ $activity->priority_score }}</p>
+                                    </div>
                                 </div>
                             @endforeach
                             {{ $ongoingActivities->links() }}
