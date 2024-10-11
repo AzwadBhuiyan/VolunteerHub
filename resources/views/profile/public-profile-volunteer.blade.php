@@ -81,7 +81,7 @@
                     <div class="rounded-xl mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
                         <!-- Activity Header -->
                         <div class="p-4 flex items-center space-x-4 border-b border-gray-100">
-                        <img src="{{ asset($activity->organization->getLogoPath()) }}" alt="{{ $activity->organization->org_name }}" class="w-16 h-16 rounded-full object-cover">
+                        <img src="{{ asset($activity->organization->getLogoPath()) }}" alt="{{ $activity->organization->org_name }}" class="w-12 h-12 rounded-full object-cover">
                             <div class="flex flex-col ml-4">
                                 <h4 class="text-xl font-semibold text-gray-800">{{ $activity->title }}</h4>
                                 <div class="text-sm text-gray-500">
