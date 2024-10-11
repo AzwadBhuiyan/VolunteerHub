@@ -76,5 +76,33 @@ class Activity extends Model
         $volunteer = $this->volunteers()->where('volunteer_userid', $volunteerUserId)->first();
         return $volunteer ? $volunteer->pivot->approval_status : null;
     }
+
+    public function calculatePriorityScore()
+    {
+        $score = 0;
+
+        // Recency score: newer activities get higher scores
+        // Each day old = -1 point
+        $score += $this->created_at->diffInDays(now(), false) * -1;
+
+        // Check if minimum volunteer count is reached
+        $confirmedCount = $this->confirmedVolunteers()->count();
+        if ($confirmedCount >= $this->min_volunteers) {
+            $score -= 50; // Activities that have reached their minimum volunteer count lose 50 points
+        } else {
+            // Higher priority if close to deadline and minimum count not reached
+            // (e.g., 3 days until deadline adds 40 points: (7 - 3) * 10)
+            // Maximum bonus: 60 points (for activities due today)
+            // Minimum bonus: 0 points (for activities due in 7 or more days)
+            $daysUntilDeadline = now()->diffInDays($this->deadline, false);
+            if ($daysUntilDeadline <= 7) {
+                $score += (7 - $daysUntilDeadline) * 10;
+            }
+        }
+
+        // The final score is a combination of recency, volunteer count, and urgency
+        // Higher scores indicate higher priority for display or notifications
+        return $score;
+    }
     
 }

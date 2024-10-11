@@ -340,4 +340,5 @@ class ActivityController extends Controller
         return redirect()->route('activities.feed')->with('error', 'Unable to cancel registration.');
     }
 
+
 }

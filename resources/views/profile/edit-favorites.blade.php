@@ -7,10 +7,10 @@
             <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
                 <div class="max-w-xl">
                     <h3 class="text-lg font-medium text-gray-900 mb-4">
-                        Select Your Favorite Activity Categories & Locations
+                        Select Your Favorite Activity Categories and Locations
                     </h3>
                     <p class="text-sm text-gray-600 mb-4">
-                        Choose activity categories & locations to get a more personalised activity suggestions in your favorites tab.
+                        Choose activity categories and locations to get more personalized activity suggestions in your favorites tab.
                     </p>
                    
                     <form method="post" action="{{ route('favorites.update') }}" class="mt-6 space-y-6">
@@ -39,11 +39,11 @@
 
                         <div class="mb-4">
                             <div id="selected_categories" class="mb-2">
-                                <h5 class="text-sm font-medium text-gray-600"> Selected Categories:</h5>
+                                <h5 class="text-sm font-medium text-gray-600">Selected Categories:</h5>
                                 <div id="category_tags" class="flex flex-wrap gap-2"></div>
                             </div>
-                            <div id="selected_districts">
-                                <h5 class="text-sm font-medium text-gray-600"> Preferred Loactions:</h5>
+                            <div id="selected_districts" class="mb-2">
+                                <h5 class="text-sm font-medium text-gray-600">Preferred Locations:</h5>
                                 <div id="district_tags" class="flex flex-wrap gap-2"></div>
                             </div>
                         </div>
@@ -66,6 +66,20 @@
                             @endif
                         </div>
                     </form>
+
+                    <div class="mt-8">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Followed Organizations</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Click on an organization to visit their profile and unfollow if desired.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            @foreach($followedOrganizations as $organization)
+                                <a href="{{ route('profile.public', $organization->url) }}" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm hover:bg-blue-200">
+                                    {{ $organization->org_name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

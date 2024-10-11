@@ -34,18 +34,29 @@
                 <div class="p-2">
                     <div class="flex items-center mb-2">
                         <!-- // to check if image exists -->
-                        @php
-                            $logoPath = 'images/logos/' . $profile->userid . '.*';
-                            $matchingFiles = glob(public_path($logoPath));
-                            $logoImage = !empty($matchingFiles) ? basename($matchingFiles[0]) : null;
-                        @endphp
-                        <img src="{{ $logoImage ? asset('images/logos/' . $logoImage) : asset('images/defaults/default-logo.png') }}"
-                            alt="{{ $profile->Name }}" class="org-logo">
+                        <img src="{{ asset($profile->getLogoPath()) }}" alt="{{ $profile->org_name }}" class="w-16 h-16 rounded-full object-cover">
                         <div>
                             <h1 class="h1">{{ $profile->org_name }}</h1>
                             <p class="text-gray-600 mb-2">{{ $profile->description }}</p>
                            
                         </div>
+
+                        @auth
+                            @if(Auth::user()->volunteer)
+                                @php
+                                    $isFollowing = Auth::user()->volunteer->followedOrganizations->contains($profile->userid);
+                                @endphp
+                                <form action="{{ $isFollowing ? route('organizations.unfollow', $profile) : route('organizations.follow', $profile) }}" method="POST">
+                                    @csrf
+                                    @if($isFollowing)
+                                        @method('DELETE')
+                                    @endif
+                                    <button type="submit" class="btn {{ $isFollowing ? 'btn-danger' : 'btn-primary' }}">
+                                        {{ $isFollowing ? 'Unfollow' : 'Follow' }}
+                                    </button>
+                                </form>
+                            @endif
+                        @endauth
                         
                     </div>
 
@@ -94,8 +105,7 @@
                                 <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
                                     <!-- Activity Header -->
                                     <div class="p-6 flex items-center space-x-4 border-b border-gray-100">
-                                        <img src="{{ $logoImage ? asset('images/logos/' . $logoImage) : asset('images/defaults/default-logo.png') }}"
-                                            alt="{{ $profile->Name }}" class="w-16 h-16 rounded-full object-cover">
+                                    <img src="{{ asset($profile->getLogoPath()) }}" alt="{{ $profile->org_name }}" class="w-16 h-16 rounded-full object-cover">
                                         <div>
                                             <h4 class="text-xl font-semibold text-gray-800">{{ $activity->title }}</h4>
                                             <p class="text-sm text-gray-500">{{ $activity->date->format('M d, Y') }}</p>
@@ -136,8 +146,7 @@
                                 <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
                                     <!-- Activity Header -->
                                     <div class="p-6 flex items-center space-x-4 border-b border-gray-100">
-                                        <img src="{{ $logoImage ? asset('images/logos/' . $logoImage) : asset('images/defaults/default-logo.png') }}"
-                                            alt="{{ $profile->Name }}" class="w-16 h-16 rounded-full object-cover">
+                                    <img src="{{ asset($profile->getLogoPath()) }}" alt="{{ $profile->org_name }}" class="w-16 h-16 rounded-full object-cover">
                                         <div>
                                             <h4 class="text-xl font-semibold text-gray-800">{{ $activity->title }}</h4>
                                             <p class="text-sm text-gray-500">{{ $activity->date->format('M d, Y') }}</p>
@@ -181,4 +190,5 @@
         {{-- </div> --}}
     </div>
     <x-image-popup />
+    
 </x-app-layout>
