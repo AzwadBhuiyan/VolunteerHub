@@ -83,7 +83,7 @@
             @endif
 
             <!-- New Idea Board Icon -->
-            <a href="{{ route('idea_board.index') }}" class="relative text-gray-500 hover:text-gray-700 icon-link hide-idea-icon">
+            <a href="{{ route('idea_board.index') }}" class="relative text-gray-500 hover:text-gray-700 icon-link {{ Auth::user()->volunteer ? 'hide-idea-icon' : '' }}">
                 <div class="icon-container">
                     <!-- Information icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
