@@ -86,7 +86,7 @@
                                 <h4 class="text-xl font-semibold text-gray-800">{{ $activity->title }}</h4>
                                 <div class="text-sm text-gray-500">
                                     <a href="{{ route('profile.public', $activity->organization->url) }}"
-                                        class="text-blue-500 hover:underline">
+                                        class="bg-gray-700 hover:underline">
                                         Organized by: {{ $activity->organization->org_name }}
                                     </a>
                                     <span>.</span>

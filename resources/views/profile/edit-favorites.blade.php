@@ -2,89 +2,86 @@
 
     <div class="p-4 sm:p-8 bg-white items-center shadow sm:rounded-lg">
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    <h3 class="text-lg font-medium text-gray-900 mb-4">
-                        Select Your Favorite Activity Categories and Locations
-                    </h3>
-                    <p class="text-sm text-gray-600 mb-4">
-                        Choose activity categories and locations to get more personalized activity suggestions in your favorites tab.
-                    </p>
-                   
-                    <form method="post" action="{{ route('favorites.update') }}" class="mt-6 space-y-6">
-                        @csrf
-                        @method('patch')
+        <div class="max-w-3xl mx-auto px-1 sm:px-6 lg:px-8">
+            <!-- Centered container with responsive padding and vertical spacing -->
+            <div class="p-4 sm:p-8 bg-white items-center shadow sm:rounded-lg">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">
+                    Select Your Favorite Activity Categories and Locations
+                </h3>
+                <p class="text-sm text-gray-600 mb-4">
+                    Choose categories & locations to get a more personalized activity suggestions in your
+                    favorites tab.
+                </p>
 
-                        <div class="mb-4">
-                            <x-input-label for="category_select" :value="__('Favorite Categories (Select up to 3)')" />
-                            <select id="category_select" class="mt-1 block w-full">
-                                <option value="">Select a category</option>
-                                @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                <form method="post" action="{{ route('favorites.update') }}" class="mt-6 space-y-6">
+                    @csrf
+                    @method('patch')
 
-                        <div class="mb-4">
-                            <x-input-label for="district_select" :value="__('Favorite Districts (Select up to 3)')" />
-                            <select id="district_select" class="mt-1 block w-full">
-                                <option value="">Select a district</option>
-                                @foreach ($districts as $district)
-                                    <option value="{{ $district }}">{{ $district }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="mb-4">
-                            <div id="selected_categories" class="mb-2">
-                                <h5 class="text-sm font-medium text-gray-600">Selected Categories:</h5>
-                                <div id="category_tags" class="flex flex-wrap gap-2"></div>
-                            </div>
-                            <div id="selected_districts" class="mb-2">
-                                <h5 class="text-sm font-medium text-gray-600">Preferred Locations:</h5>
-                                <div id="district_tags" class="flex flex-wrap gap-2"></div>
-                            </div>
-                        </div>
-
-                        <input type="hidden" name="favorite_categories" id="favorite_categories">
-                        <input type="hidden" name="favorite_districts" id="favorite_districts">
-
-                        <div class="flex items-center gap-4">
-                            <button type="button" id="clear_selections" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">Clear Selections</button>
-                            <x-primary-button>{{ __('Save') }}</x-primary-button>
-
-                            @if (session('status') === 'favorites-updated')
-                                <p
-                                    x-data="{ show: true }"
-                                    x-show="show"
-                                    x-transition
-                                    x-init="setTimeout(() => show = false, 2000)"
-                                    class="text-sm text-gray-600"
-                                >{{ __('Saved.') }}</p>
-                            @endif
-                        </div>
-                    </form>
-
-                    <div class="mt-8">
-                        <h3 class="text-lg font-medium text-gray-900 mb-4">Followed Organizations</h3>
-                        <p class="text-sm text-gray-600 mb-4">
-                            Click on an organization to visit their profile and unfollow if desired.
-                        </p>
-                        <div class="flex flex-wrap gap-2">
-                            @foreach($followedOrganizations as $organization)
-                                <a href="{{ route('profile.public', $organization->url) }}" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm hover:bg-blue-200">
-                                    {{ $organization->org_name }}
-                                </a>
+                    <div class="mb-4">
+                        <x-input-label for="category_select" :value="__('Favorite Categories (Select up to 3)')" />
+                        <select id="category_select" class="mt-1 block w-1/2">
+                            <option value="">Select a category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                             @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <x-input-label for="district_select" :value="__('Favorite Districts (Select up to 3)')" />
+                        <select id="district_select" class="mt-1 block w-1/2">
+                            <option value="">Select a district</option>
+                            @foreach ($districts as $district)
+                                <option value="{{ $district }}">{{ $district }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <div id="selected_categories" class="mb-2">
+                            <h5 class="text-sm font-medium text-gray-600">Selected Categories:</h5>
+                            <div id="category_tags" class="flex flex-wrap gap-2"></div>
+                        </div>
+                        <div id="selected_districts" class="mb-2">
+                            <h5 class="text-sm font-medium text-gray-600">Preferred Locations:</h5>
+                            <div id="district_tags" class="flex flex-wrap gap-2"></div>
                         </div>
                     </div>
+
+                    <input type="hidden" name="favorite_categories" id="favorite_categories">
+                    <input type="hidden" name="favorite_districts" id="favorite_districts">
+
+                    <div class="flex items-center gap-4">
+                        <button type="button" id="clear_selections"
+                            class="px-4 py-1 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">Clear
+                            Selections</button>
+                        <x-primary-button>{{ __('Save') }}</x-primary-button>
+
+                        @if (session('status') === 'favorites-updated')
+                            <p x-data="{ show: true }" x-show="show" x-transition x-init="setTimeout(() => show = false, 2000)"
+                                class="px-4 py-1 text-gray-600">{{ __('Saved.') }}</p>
+                        @endif
+                    </div>
+                </form>
+                <hr class="mt-8 mb-6">
+                <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center"
+                    style="border-bottom: 2px solid #8B9467; width: 50%; margin: 0 auto;">Following</h3>
+                <h3 class="text-lg font-medium text-gray-900 mt-4 mb-4">Organizations</h3>
+                <p class="text-sm text-gray-600 mb-4">
+                    Click on names to visit their profile. You can unfollow them anytime from their profile.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                    @foreach ($followedOrganizations as $organization)
+                        <a href="{{ route('profile.public', $organization->url) }}"
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm hover:bg-blue-200">
+                            {{ $organization->org_name }}
+                        </a>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
-</div>
+
 
 
     <script>
@@ -109,7 +106,7 @@
                 const tag = document.createElement('span');
                 tag.textContent = text;
                 tag.className = 'px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-sm';
-                
+
                 const removeBtn = document.createElement('button');
                 removeBtn.textContent = '×';
                 removeBtn.className = 'ml-1 text-blue-600 hover:text-blue-800 focus:outline-none';
@@ -131,7 +128,10 @@
             categorySelect.addEventListener('change', function() {
                 if (this.value && selectedCategories.length < 3) {
                     const selectedOption = this.options[this.selectedIndex];
-                    const category = {id: this.value, name: selectedOption.text};
+                    const category = {
+                        id: this.value,
+                        name: selectedOption.text
+                    };
                     if (!selectedCategories.some(c => c.id === category.id)) {
                         selectedCategories.push(category);
                         categoryTags.appendChild(createTag(category.name, 'category'));
@@ -161,14 +161,17 @@
             });
 
             // Initialize with existing favorites
-            @if($favorites && $favorites->favorite_categories)
-                @foreach($favorites->favorite_categories as $categoryId => $categoryName)
-                    selectedCategories.push({id: '{{ $categoryId }}', name: '{{ $categoryName }}'});
+            @if ($favorites && $favorites->favorite_categories)
+                @foreach ($favorites->favorite_categories as $categoryId => $categoryName)
+                    selectedCategories.push({
+                        id: '{{ $categoryId }}',
+                        name: '{{ $categoryName }}'
+                    });
                     categoryTags.appendChild(createTag('{{ $categoryName }}', 'category'));
                 @endforeach
             @endif
-            @if($favorites && $favorites->favorite_districts)
-                @foreach($favorites->favorite_districts as $district)
+            @if ($favorites && $favorites->favorite_districts)
+                @foreach ($favorites->favorite_districts as $district)
                     selectedDistricts.push('{{ $district }}');
                     districtTags.appendChild(createTag('{{ $district }}', 'district'));
                 @endforeach
