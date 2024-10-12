@@ -12,12 +12,20 @@ use Illuminate\Support\Facades\Auth;
 
 class IdeaThreadController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $sort = $request->query('sort', 'likes');
+    
         $ideaThreads = IdeaThread::with(['organization', 'comments'])
-            ->latest()
+            ->when($sort === 'likes', function ($query) {
+                return $query->withCount('votes')->orderByDesc('votes_count');
+            })
+            ->when($sort === 'recent', function ($query) {
+                return $query->latest();
+            })
             ->paginate(10);
-        return view('idea_board.index', compact('ideaThreads'));
+    
+        return view('idea_board.index', compact('ideaThreads', 'sort'));
     }
 
     public function create()
@@ -128,5 +136,33 @@ class IdeaThreadController extends Controller
     {
         $pollOption->increment('votes');
         return back()->with('success', 'Poll vote recorded successfully.');
+    }
+
+    public function loadMoreComments(IdeaThread $thread, Request $request)
+    {
+        $offset = $request->query('offset', 0);
+        $sort = $request->query('sort', 'recent');
+    
+        $comments = $thread->comments()->with('volunteer')
+            ->when($sort === 'likes', function ($query) {
+                return $query->withCount('votes')->orderByDesc('votes_count');
+            })
+            ->when($sort === 'recent', function ($query) {
+                return $query->latest();
+            })
+            ->skip($offset)
+            ->take(1)
+            ->get();
+    
+        return response()->json([
+            'comments' => $comments->map(function ($comment) {
+                return [
+                    'id' => $comment->id,
+                    'comment' => $comment->comment,
+                    'volunteer_name' => $comment->volunteer->Name,
+                    'vote_count' => $comment->getVoteCount(),
+                ];
+            })
+        ]);
     }
 }

@@ -71,6 +71,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/idea-board/poll-vote/{pollOption}', [IdeaThreadController::class, 'pollVote'])->name('idea_board.poll_vote');
     Route::post('/idea-board/vote', [IdeaThreadController::class, 'vote'])->name('idea_board.vote');
 
+    Route::get('/idea-board/{thread}/comments', [IdeaThreadController::class, 'loadMoreComments'])->name('idea_board.load_more_comments');
+
 
     // Favorites
     Route::get('/favorites', [FavoriteController::class, 'showFavorites'])->name('favorites.show');
@@ -117,3 +119,4 @@ require __DIR__.'/auth.php';
 
 Route::patch('/profile/volunteer/additional', [ProfileController::class, 'updateVolunteerAdditional'])
     ->name('profile.update.volunteer.additional');
+
