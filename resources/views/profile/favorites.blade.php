@@ -43,21 +43,63 @@
                     <div x-show="tab === 'ongoing'">
                         @if ($ongoingActivities->isEmpty())
                             <div class="bg-white rounded-xl shadow-lg p-6">
-                                <p class="text-gray-700">There is no ongoing activities that match your favorites.</p>
+                                <p class="text-gray-700">There are no ongoing activities that match your favorites.</p>
                             </div>
                         @else
-                            @foreach ($ongoingActivities as $activity)
-                                <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col mb-4">
-                                    <!-- Activity content -->
-                                    @include('components.activity-card', ['activity' => $activity])
-                                    <div class="px-4 py-2 bg-gray-100">
-                                        <p class="text-sm text-gray-600">Priority Score: {{ $activity->priority_score }}</p>
+                            <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-4"> <!-- Match the same container structure -->
+                                @foreach ($ongoingActivities as $activity)
+                                    <div class="rounded-xl mb-4 overflow-hidden flex flex-col shadow border border-gray-200 p-4">
+                                        <!-- Activity Header -->
+                                        <div class="flex items-center space-x-4 border-b border-gray-100 pb-2">
+                                            <img src="{{ asset($activity->organization->getLogoPath()) }}"
+                                                 alt="{{ $activity->organization->org_name }}" class="w-12 h-12 rounded-full object-cover">
+                                            <div class="flex flex-col ml-2">
+                                                <h4 class="text-lg font-semibold text-gray-800">{{ $activity->title }}</h4>
+                                                <div class="text-sm text-gray-500">
+                                                    <a href="{{ route('profile.public', $activity->organization->url) }}"
+                                                       class="text-blue-500 hover:underline">{{ $activity->organization->org_name }}</a>
+                                                    <span>.</span>
+                                                    <span>{{ $activity->date->format('M d, Y') }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                    
+                                        <!-- Activity Description -->
+                                        <div class="px-4 py-1">
+                                            <p class="text-gray-700 leading-relaxed">{{ Str::limit($activity->description, 150) }}</p>
+                                        </div>
+                    
+                                        <!-- Activity Images -->
+                                        <div class="px-4 py-2">
+                                            <div class="aspect-w-4 aspect-h-3">
+                                                <x-activity-ongoing-image :activity="$activity" />
+                                            </div>
+                                        </div>
+                    
+                                        <!-- Activity Footer -->
+                                        <div class="px-4 py-2 bg-gray-50 mt-auto">
+                                            <div class="flex justify-between items-center">
+                                                <div>
+                                                    <span>Organized by:</span>
+                                                    <a href="{{ route('profile.public', $activity->organization->url) }}"
+                                                       class="text-blue-500 hover:underline">{{ $activity->organization->org_name }}</a>
+                                                </div>
+                                                <a href="{{ route('activities.show', $activity) }}"
+                                                   class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded">View Details</a>
+                                            </div>
+                                        </div>
+                    
+                                        <!-- Priority Score -->
+                                        <div class="px-4 py-2 bg-gray-100">
+                                            <p class="text-sm text-gray-600">Priority Score: {{ $activity->priority_score }}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                             {{ $ongoingActivities->links() }}
                         @endif
                     </div>
+                    
 
                     <div x-show="tab === 'ideas'">
                         @if ($ideas->isEmpty())
