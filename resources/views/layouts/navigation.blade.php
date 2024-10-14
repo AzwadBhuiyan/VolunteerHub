@@ -105,7 +105,7 @@
     <div class="logout-button flex items-center mobile-logout"> <!-- Added class mobile-logout -->
         @auth
             <!-- Existing logout button code -->
-            <a href="{{ route('logout') }}" class=" relative text-gray-500 hover:text-gray-700 px-1 py-1 rounded-md text-sm font-medium" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <a href="{{ route('logout') }}" class=" relative text-gray-500 hover:text-gray-700 py-1 rounded-md text-sm font-medium" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <div class="icon-container">
                     <!-- Logout icon -->
                     <svg width="16" height="16" fill="currentColor" class="h-7 w-7" viewBox="0 0 16 16">

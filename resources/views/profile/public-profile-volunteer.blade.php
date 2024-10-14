@@ -2,15 +2,14 @@
     <link href="{{ asset('css/volunteer-profile.css') }}" rel="stylesheet">
     <!-- Link to custom CSS for styling the volunteer profile -->
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Link to Font Awesome for icon usage -->
 
-    <div class="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <!-- Centered container with responsive padding and vertical spacing -->
-        <div class="p-4 sm:p-8 bg-white items-center shadow sm:rounded-lg">
+        <div class="p-1 sm:p-8 bg-white shadow sm:rounded-lg">
             <!-- Profile information card with padding, background color, shadow, and rounded corners -->
 
-            <div class="flex flex-col items-center"> <!-- Centering the profile picture and name -->
+            <div class="flex flex-col items-center pt-6"> <!-- Centering the profile picture and name -->
                 @php
                     $imagePath = 'images/profile_pictures/' . $profile->userid . '.*'; // Define path to profile picture based on user ID
                     $matchingFiles = glob(public_path($imagePath)); // Get matching profile picture files
@@ -20,8 +19,8 @@
                     alt="{{ $profile->name }}" class=" profile-picture ">
                 <!-- Use object-cover to maintain aspect ratio -->
             </div>
-            <h2 class="text-xl sm:text-2xl font-bold text-center">{{ $profile->Name }}</h2>
-            <p class="text-lg sm:text-xl text-center">{{ $profile->bio }}</p>
+            <h2 class="text-2xl sm:text-2xl font-bold text-center">{{ $profile->Name }}</h2>
+            <p class="text-base sm:text-xl text-center">{{ $profile->bio }}</p>
             <!-- Display profile name directly under the picture -->
 
             <div class="btn-group"> <!-- Button group for profile actions -->
@@ -76,18 +75,20 @@
             {{-- <div class="bg-white shadow sm:rounded-lg"> --}}
             <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center"
                 style="border-bottom: 2px solid #8B9467; width: 50%; margin: 0 auto;">Accomplishments</h3>
-            <div class="max-w-3xl mx-auto sm:px-6 lg:px-8  mt-4 mb-0 pb-0">
+            <div class="max-w-3xl mx-auto  mt-4 mb-0 pb-0">
                 @foreach ($completedActivities as $activity)
-                    <div class="rounded-xl mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
+                    <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
                         <!-- Activity Header -->
-                        <div class="p-4 flex items-center space-x-4 border-b border-gray-100">
-                        <img src="{{ asset($activity->organization->getLogoPath()) }}" alt="{{ $activity->organization->org_name }}" class="w-12 h-12 rounded-full object-cover">
+                        <div class="p-3 flex items-center space-x-4 border-b  border-gray-100">
+                            <img src="{{ asset($activity->organization->getLogoPath()) }}"
+                                alt="{{ $activity->organization->org_name }}"
+                                class="w-10 h-10 rounded-full object-cover">
                             <div class="flex flex-col ml-4">
-                                <h4 class="text-xl font-semibold text-gray-800">{{ $activity->title }}</h4>
-                                <div class="text-sm text-gray-500">
+                                <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}</h4>
+                                <div class="text-xs text-gray-500">
                                     <a href="{{ route('profile.public', $activity->organization->url) }}"
-                                        class="bg-gray-700 hover:underline">
-                                        Organized by: {{ $activity->organization->org_name }}
+                                        class="text-blue-500 hover:underline">
+                                        {{ $activity->organization->org_name }}
                                     </a>
                                     <span>.</span>
                                     <span>{{ $activity->date->format('M d, Y') }}</span>
@@ -96,14 +97,14 @@
                         </div>
 
                         <!-- Activity Description -->
-                        <div class="px-4">
-                            <p class="text-gray-700 leading-relaxed">
+                        <div class="px-3 py-1">
+                            <p class=" text-sm text-gray-700 leading-relaxed">
                                 {{ $activity->accomplished_description }}
                             </p>
                         </div>
 
                         <!-- Activity Images -->
-                        <div class="px-4 py-4">
+                        <div class="px-2 py-2">
                             <div class="aspect-w-1 aspect-h-1">
                                 <x-activity-completed-images :activity="$activity" />
                             </div>
