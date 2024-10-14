@@ -18,7 +18,7 @@
 
 
         <!-- Main Content -->
-        <main class="bg-white mb-0">
+        <main class="bg-white shadow-md ">
 
             <!-- // to check if image exists -->
             @php
@@ -27,17 +27,17 @@
                 $coverImage = !empty($matchingFiles) ? basename($matchingFiles[0]) : null;
             @endphp
             <img src="{{ $coverImage ? asset('images/cover/' . $coverImage) : asset('images/defaults/default-cover.jpg') }}"
-                alt="Cover Image" class="cover-photo mb-4">
+                alt="Cover Image" class="cover-photo">
 
             <!-- Profile Info -->
-            <div class="p-2">
-                <div class="flex items-center mb-2">
+            <div class="my-4">
+                <div class="flex items-center">
                     <!-- // to check if image exists -->
                     <img src="{{ asset($profile->getLogoPath()) }}" alt="{{ $profile->org_name }}"
-                        class="w-24 h-24 rounded-full object-cover mx-4">
+                        class="w-24 h-24 rounded-full object-cover mx-2">
                     <div>
-                        <h1 class="h1">{{ $profile->org_name }}</h1>
-                        <p class="text-gray-600 mb-2">{{ $profile->description }}</p>
+                        <h1 class="text-2xl font-bold">{{ $profile->org_name }}</h1>
+                        <p class="text-gray-600">{{ $profile->description }}</p>
 
                     </div>
 
@@ -195,7 +195,7 @@
                                             alt="{{ $activity->organization->org_name }}"
                                             class="w-10 h-10 rounded-full object-cover">
                                         <div class="flex flex-col ml-4">
-                                            <h4 class="text-sm font-semibold text-gray-800">{{ $activity->title }}
+                                            <h4 class="text--base font-semibold text-gray-800">{{ $activity->title }}
                                             </h4>
                                             <div class="text-xs text-gray-500">
                                                 <a href="{{ route('profile.public', $activity->organization->url) }}"
@@ -210,7 +210,7 @@
 
                                     <!-- Activity Description -->
                                     <div class="px-3 py-1"> <!-- Added padding -->
-                                        <p class="text-gray-700 leading-relaxed">
+                                        <p class="text-sm text-gray-700 leading-relaxed">
                                             {{ $activity->accomplished_description }}
                                         </p>
                                     </div>
