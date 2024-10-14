@@ -1,7 +1,6 @@
 <x-app-layout>
     <link href="{{ asset('css/volunteer-profile.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Link to Font Awesome for icon usage -->
+ 
     {{-- <div class="p-4 sm:p-8 bg-white items-center shadow sm:rounded-lg">
         <div class="px-1">
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-8"> --}}
