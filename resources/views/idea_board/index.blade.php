@@ -53,7 +53,7 @@
                                 @endphp
                                 <div class="px-4 py-2 bg-gray-50">
                                     <p class="text-sm"><strong>Latest Comment:</strong></p>
-                                    <p>{{ Str::limit($lastComment->comment, 100) }}</p>
+                                    <p>{{ Str::limit($lastComment->comment, 200) }}</p>
                                     <p class="text-xs text-gray-500">By: {{ $lastComment->volunteer->Name }}</p>
                                 </div>
                                 <!-- sorting -->
@@ -117,8 +117,8 @@
                                             @else
                                                 <div class="mt-2 p-2 bg-gray-100 rounded">
                                                     <p class="text-sm"><strong>Your Comment:</strong> </p>
-                                                    <p>{{ Str::limit($userComment->comment, 100) }}
-                                                    @if (strlen($userComment->comment) > 100)
+                                                    <p>{{ Str::limit($userComment->comment, 250) }}
+                                                    @if (strlen($userComment->comment) > 250)
                                                         <a href="#" class="text-blue-500 hover:underline view-full-description" data-full-description="{{ $userComment->comment }}">View full</a>
                                                     @endif
                                                     </p>
@@ -143,39 +143,6 @@
                                 @endauth
                             @endif
 
-                            <!-- View All Comments -->
-                            <a href="{{ route('idea_board.show', $thread) }}#comment-section"
-                                class="mt-2 inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm">
-                                View All Comments
-                            </a>
-
-                            <!-- Comment Form -->
-                            @auth
-                                @if (Auth::user()->volunteer)
-                                    <form method="POST" action="{{ route('idea_board.comment', $thread) }}"
-                                        class="mt-4">
-                                        @csrf
-                                        <div class="mb-4">
-                                            <label for="comment" class="block text-gray-700 text-sm font-bold mb-2">Your
-                                                Comment:</label>
-                                            <textarea name="comment" id="comment" rows="3"
-                                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                required maxlength="200"></textarea>
-                                        </div>
-                                        <div class="flex items-center justify-end mt-4">
-                                            @if ($thread->comments->where('volunteer_userid', Auth::id())->count() > 0)
-                                                <p class="text-yellow-600">You have already commented on this idea.</p>
-                                            @else
-                                                <p class="text-yellow-600">You can only comment once, so prepare your
-                                                    comment well.</p>
-                                            @endif
-                                            <x-primary-button class="ml-4">
-                                                {{ __('Submit Comment') }}
-                                            </x-primary-button>
-                                        </div>
-                                    </form>
-                                @endif
-                            @endauth
 
                             <!-- Priority Score -->
                             {{-- <div class="px-4 py-2 bg-gray-100">

@@ -75,7 +75,7 @@ class IdeaThreadController extends Controller
     public function comment(Request $request, IdeaThread $ideaThread)
     {
         $request->validate([
-            'comment' => 'required|max:150',
+            'comment' => 'required|max:2500',
         ]);
 
         $volunteerUserId = Auth::id();
