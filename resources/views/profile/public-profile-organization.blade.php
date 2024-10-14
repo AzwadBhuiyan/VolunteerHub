@@ -208,7 +208,7 @@
                                             <div class="text-sm text-gray-500">
                                                 <a href="{{ route('profile.public', $activity->organization->url) }}"
                                                     class="text-blue-500 hover:underline">
-                                                    Organized by: {{ $activity->organization->org_name }}
+                                                    {{ $activity->organization->org_name }}
                                                 </a>
                                                 <span>.</span>
                                                 <span>{{ $activity->date->format('M d, Y') }}</span>
