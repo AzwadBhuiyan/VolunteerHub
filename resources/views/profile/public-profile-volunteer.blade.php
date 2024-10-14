@@ -80,9 +80,11 @@
                     <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
                         <!-- Activity Header -->
                         <div class="p-3 flex items-center space-x-4 border-b  border-gray-100">
-                        <img src="{{ asset($activity->organization->getLogoPath()) }}" alt="{{ $activity->organization->org_name }}" class="w-10 h-10 rounded-full object-cover">
+                            <img src="{{ asset($activity->organization->getLogoPath()) }}"
+                                alt="{{ $activity->organization->org_name }}"
+                                class="w-10 h-10 rounded-full object-cover">
                             <div class="flex flex-col ml-4">
-                                <h4 class="text-sm font-semibold text-gray-800">{{ $activity->title }}</h4>
+                                <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}</h4>
                                 <div class="text-xs text-gray-500">
                                     <a href="{{ route('profile.public', $activity->organization->url) }}"
                                         class="text-blue-500 hover:underline">
@@ -96,7 +98,7 @@
 
                         <!-- Activity Description -->
                         <div class="px-3 py-1">
-                            <p class="text-gray-700 leading-relaxed">
+                            <p class=" text-sm text-gray-700 leading-relaxed">
                                 {{ $activity->accomplished_description }}
                             </p>
                         </div>
