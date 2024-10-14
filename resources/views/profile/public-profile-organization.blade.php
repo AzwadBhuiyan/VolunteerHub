@@ -4,7 +4,6 @@
     <!-- Link to custom CSS for styling the volunteer profile -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Link to Font Awesome for icon usage -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 
     {{-- <div class=" sm:py-12 bg-blue-500 h-full">  <!-- Main container with vertical padding --> --}}
     <div class="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 space-y-6">
@@ -135,7 +134,7 @@
                                     <!-- Adjusted padding-bottom -->
                                     <img src="{{ asset($activity->organization->getLogoPath()) }}"
                                         alt="{{ $activity->organization->org_name }}"
-                                        class="w-12 h-12 rounded-full object-cover">
+                                        class="w-10 h-10 rounded-full object-cover">
                                     <div class="flex flex-col ml-2"> <!-- Adjusted margin -->
                                         <h4 class="text-lg font-semibold text-gray-800">{{ $activity->title }}</h4>
                                         <!-- Adjusted font size -->

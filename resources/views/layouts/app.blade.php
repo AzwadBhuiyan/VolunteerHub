@@ -13,7 +13,9 @@
         <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <!-- Scripts -->
-    
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
         <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
         <link href="{{ asset('build/assets/app-B-RhTCEg.css') }}" rel="stylesheet">
         <!-- <link href="{{ asset('build/assets/app-X6JekhOX.css') }}" rel="stylesheet"> -->
@@ -22,7 +24,7 @@
         
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-full bg-gray-100">
             @include('layouts.navigation')
 
             <!-- Page Heading -->

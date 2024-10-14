@@ -1,7 +1,8 @@
 <x-app-layout>
     <link href="{{ asset('css/volunteer-profile.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    {{-- <div class="p-4 sm:p-8 bg-white items-center shadow sm:rounded-lg">
+    <!-- Link to Font Awesome for icon usage -->
+     {{-- <div class="p-4 sm:p-8 bg-white items-center shadow sm:rounded-lg">
         <div class="px-1">
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-8"> --}}
 
@@ -52,10 +53,10 @@
                                         <!-- Activity Header -->
                                         <div class="flex items-center space-x-4 border-b border-gray-100 pb-2">
                                             <img src="{{ asset($activity->organization->getLogoPath()) }}"
-                                                 alt="{{ $activity->organization->org_name }}" class="w-12 h-12 rounded-full object-cover">
+                                                 alt="{{ $activity->organization->org_name }}" class="w-10 h-10 rounded-full object-cover">
                                             <div class="flex flex-col ml-2">
-                                                <h4 class="text-lg font-semibold text-gray-800">{{ $activity->title }}</h4>
-                                                <div class="text-sm text-gray-500">
+                                                <h4 class="text-sm font-semibold text-gray-800">{{ $activity->title }}</h4>
+                                                <div class="text-xs text-gray-500">
                                                     <a href="{{ route('profile.public', $activity->organization->url) }}"
                                                        class="text-blue-500 hover:underline">{{ $activity->organization->org_name }}</a>
                                                     <span>.</span>
@@ -90,9 +91,9 @@
                                         </div>
                     
                                         <!-- Priority Score -->
-                                        <div class="px-4 py-2 bg-gray-100">
+                                        {{-- <div class="px-4 py-2 bg-gray-100">
                                             <p class="text-sm text-gray-600">Priority Score: {{ $activity->priority_score }}</p>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 @endforeach
                             </div>
