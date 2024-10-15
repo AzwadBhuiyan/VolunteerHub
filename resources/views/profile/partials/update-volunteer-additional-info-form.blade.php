@@ -47,7 +47,7 @@
         </div>
 
         <div class="flex items-center justify-center gap-4"> <!-- Centered the button group -->
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>{{ __('Save Additional Details') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p

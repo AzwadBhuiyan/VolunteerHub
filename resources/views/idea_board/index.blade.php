@@ -45,6 +45,17 @@
                             <div class="px-4 py-1">
                                 <p class="text-gray-700 leading-relaxed">{{ Str::limit($thread->description, 150) }}</p>
                             </div>
+                            <!-- upvote buttone for thread -->
+                            @php
+                                $votableType = 'thread';
+                                $votable = $thread;
+                            @endphp
+                            <div class="mt-2 flex items-center">
+                                <button type="button" class="vote-button text-gray-500 hover:text-blue-500" data-votable-type="{{ $votableType }}" data-votable-id="{{ $thread->id }}">
+                                    <svg class="w-5 h-5 vote-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                                </button>
+                                <span class="mx-2 vote-count">{{ $thread->getVoteCount() }}</span>
+                            </div>
 
                             <!-- Thread Footer (Comments Section) -->
                             @if ($thread->comments->isNotEmpty())
@@ -58,8 +69,8 @@
                                 </div>
                                 <!-- sorting -->
                                 <div class="mt-2 flex justify-end">
-                                    <button class="sort-comments mr-2" data-thread-id="{{ $thread->id }}" data-sort="likes">Most Liked</button>
-                                    <button class="sort-comments" data-thread-id="{{ $thread->id }}" data-sort="recent">Most Recent</button>
+                                    <button class="sort-comments mr-2 {{ $sort === 'recent' ? 'text-blue-500 font-bold' : '' }}" data-thread-id="{{ $thread->id }}" data-sort="recent">Most Recent</button>
+                                    <button class="sort-comments {{ $sort === 'likes' ? 'text-blue-500 font-bold' : '' }}" data-thread-id="{{ $thread->id }}" data-sort="likes">Most Liked</button>
                                 </div>
 
 
@@ -68,7 +79,7 @@
                                 <div class="mt-4">
                                     <h4 class="text-lg font-semibold mb-2">Comments</h4>
                                     <div class="comments-container" data-thread-id="{{ $thread->id }}" style="max-height: 300px; overflow-y: auto;">
-                                        @foreach($thread->comments->take(1) as $comment)
+                                        @foreach($thread->comments->take(5) as $comment)
                                             <div class="mb-2 p-2 border rounded">
                                                 <p>{{ $comment->comment }}</p>
                                                 <p class="text-sm text-gray-600">By: {{ $comment->volunteer->Name }}</p>
@@ -86,7 +97,7 @@
                                         @endforeach
                                     </div>
                                     @if($thread->comments->count() > 1)
-                                        <button class="view-more-comments mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm" data-thread-id="{{ $thread->id }}" data-offset="1">
+                                        <button class="view-more-comments mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm" data-thread-id="{{ $thread->id }}" data-offset="5">
                                             View More Comments
                                         </button>
                                     @endif
@@ -173,6 +184,13 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', sortComments);
     });
 
+    // Use event delegation for vote buttons
+    document.addEventListener('click', function(event) {
+        if (event.target.closest('.vote-button')) {
+            vote.call(event.target.closest('.vote-button'));
+        }
+    });
+
     function loadMoreComments() {
         const threadId = this.dataset.threadId;
         const offset = parseInt(this.dataset.offset);
@@ -182,14 +200,16 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.comments.length > 0) {
-                    const commentElement = createCommentElement(data.comments[0]);
-                    commentsContainer.appendChild(commentElement);
+                    data.comments.forEach(comment => {
+                        const commentElement = createCommentElement(comment);
+                        commentsContainer.appendChild(commentElement);
+                    });
 
-                    this.dataset.offset = offset + 1;
+                    this.dataset.offset = offset + data.comments.length;
                     commentsContainer.scrollTop = commentsContainer.scrollHeight;
                 }
 
-                if (data.comments.length < 1) {
+                if (data.comments.length < 5) {
                     this.style.display = 'none';
                 }
             });
@@ -200,6 +220,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const sort = this.dataset.sort;
         const commentsContainer = document.querySelector(`.comments-container[data-thread-id="${threadId}"]`);
         const viewMoreButton = commentsContainer.nextElementSibling;
+
+        // Update button styles
+        const sortButtons = document.querySelectorAll(`.sort-comments[data-thread-id="${threadId}"]`);
+        sortButtons.forEach(button => {
+            button.classList.toggle('text-blue-500', button.dataset.sort === sort);
+            button.classList.toggle('font-bold', button.dataset.sort === sort);
+        });
 
         fetch(`/idea-board/${threadId}/comments?sort=${sort}`)
             .then(response => response.json())
@@ -212,10 +239,43 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Reset the view more button
                 if (viewMoreButton) {
-                    viewMoreButton.dataset.offset = '1';
-                    viewMoreButton.style.display = 'inline-block';
+                    viewMoreButton.dataset.offset = '5';
+                    viewMoreButton.style.display = data.comments.length >= 5 ? 'inline-block' : 'none';
                 }
             });
+    }
+
+    function vote() {
+        const votableType = this.dataset.votableType;
+        const votableId = this.dataset.votableId;
+        const voteCount = this.nextElementSibling;
+        const voteIcon = this.querySelector('.vote-icon');
+
+        fetch('/idea-board/vote', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                votable_type: votableType,
+                votable_id: votableId,
+                vote: 1
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                voteCount.textContent = data.newVoteCount;
+                if (data.voted) {
+                    voteIcon.setAttribute('fill', 'currentColor');
+                    this.classList.add('text-blue-500');
+                } else {
+                    voteIcon.setAttribute('fill', 'none');
+                    this.classList.remove('text-blue-500');
+                }
+            }
+        });
     }
 
     function createCommentElement(comment) {

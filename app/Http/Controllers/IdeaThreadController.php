@@ -14,14 +14,14 @@ class IdeaThreadController extends Controller
 {
     public function index(Request $request)
     {
-        $sort = $request->query('sort', 'likes');
+        $sort = $request->query('sort', 'recent');
     
         $ideaThreads = IdeaThread::with(['organization', 'comments'])
+            ->when($sort === 'recent', function ($query) {
+                return $query->orderBy('created_at', 'desc');
+            })
             ->when($sort === 'likes', function ($query) {
                 return $query->withCount('votes')->orderByDesc('votes_count');
-            })
-            ->when($sort === 'recent', function ($query) {
-                return $query->latest();
             })
             ->paginate(10);
     
@@ -148,10 +148,10 @@ class IdeaThreadController extends Controller
                 return $query->withCount('votes')->orderByDesc('votes_count');
             })
             ->when($sort === 'recent', function ($query) {
-                return $query->latest();
+                return $query->orderBy('created_at', 'desc');
             })
             ->skip($offset)
-            ->take(1)
+            ->take(5)
             ->get();
     
         return response()->json([
