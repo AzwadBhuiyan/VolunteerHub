@@ -9,7 +9,6 @@
 <body class="antialiased">
     <div class="container mx-auto p-4">
         <!-- Header -->
-         
         <header class="flex justify-between items-center mb-6">
             <div class="text-xl font-bold">Logo</div>
             <nav class="flex space-x-4">
