@@ -56,6 +56,7 @@ class ProfileController extends Controller
             $file->move($path, $filename);
         }
         
+        
         if ($request->hasFile('logo') && $user->organization) {
             $file = $request->file('logo');
             $filename = $user->userid . '.' . $file->getClientOriginalExtension();
