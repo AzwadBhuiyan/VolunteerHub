@@ -45,41 +45,44 @@ class ProfileController extends Controller
         if ($request->hasFile('profile_picture') && $user->volunteer) {
             $file = $request->file('profile_picture');
             $filename = $user->userid . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/profile_pictures'), $filename);
+            $path = public_path('images/profile_pictures');
+            
+            // Delete existing profile picture
+            $existingFiles = glob($path . '/' . $user->userid . '.*');
+            foreach ($existingFiles as $existingFile) {
+                unlink($existingFile);
+            }
+            
+            $file->move($path, $filename);
         }
-
+        
         if ($request->hasFile('logo') && $user->organization) {
             $file = $request->file('logo');
             $filename = $user->userid . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/logos'), $filename);
-        }
-
-        if ($request->hasFile('cover_image') && $user->organization) {
-            try {
-                $file = $request->file('cover_image');
-                $filename = $user->userid . '.' . $file->getClientOriginalExtension();
-                $path = public_path('images/cover');
-                
-                $logMessages[] = [
-                    'type' => 'log',
-                    'message' => 'Attempting to upload cover image',
-                    'data' => [
-                        'userId' => $user->userid,
-                        'filename' => $filename,
-                        'uploadPath' => $path,
-                        'fileDetails' => [
-                            'originalName' => $file->getClientOriginalName(),
-                            'size' => $file->getSize(),
-                            'mimeType' => $file->getMimeType()
-                        ]
-                    ]
-                ];
-                
-                $file->move($path, $filename);
-                
-            } catch (\Exception $e) {
-                $logMessages[] = ['type' => 'error', 'message' => 'Cover image upload failed: ' . $e->getMessage()];
+            $path = public_path('images/logos');
+            
+            // Delete existing logo
+            $existingFiles = glob($path . '/' . $user->userid . '.*');
+            foreach ($existingFiles as $existingFile) {
+                unlink($existingFile);
             }
+            
+            $file->move($path, $filename);
+        }
+        
+        if ($request->hasFile('cover_image') && $user->organization) {
+
+            $file = $request->file('cover_image');
+            $filename = $user->userid . '.' . $file->getClientOriginalExtension();
+            $path = public_path('images/cover');
+            
+            // Delete existing cover image
+            $existingFiles = glob($path . '/' . $user->userid . '.*');
+            foreach ($existingFiles as $existingFile) {
+                unlink($existingFile);
+            }
+            
+            $file->move($path, $filename);
         }
 
         // Handle new fields for volunteer
