@@ -1,66 +1,43 @@
 <x-app-layout>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Search Bar -->
+        <div class="my-4">
+            <input type="text" placeholder="Search..." class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
 
+        <!-- Welcome Message -->
+        <div class="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-8 rounded-lg shadow-lg mb-8">
+            <h1 class="text-4xl font-bold mb-4">Welcome to {{ config('app.name', 'Laravel') }}</h1>
+            <p class="text-xl">Join our community and make a difference!</p>
+        </div>
 
-    <div class="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 h-screen">
-        <!-- Centered container with responsive padding and vertical spacing -->
-        <div class="p-1 sm:p-8 bg-white items-center shadow sm:rounded-lg h-screen ">
-            <div class="p-6 text-gray-900">
-                <h1 class="text-4xl font-bold mb-4">Welcome to {{ config('app.name', 'Laravel') }}</h1>
-
-                <!-- Debug Information -->
-                <!-- <div class="mt-4 p-4 bg-yellow-100 rounded">
-                        <p>Auth::check(): {{ Auth::check() ? 'true' : 'false' }}</p>
-                        <p>Auth::id(): {{ Auth::id() ?? 'null' }}</p>
-                        <p>Session auth.id: {{ session('auth.id') ?? 'null' }}</p>
-                        @if (Auth::user())
-<p>Auth::user()->id: {{ Auth::user()->userid }}</p>
-@else
-<p>Auth::user(): null</p>
-@endif
-                    </div> -->
-
-                @if (Auth::check())
-                    <div class="mt-4 flex flex-col items-center">
-                        @php
-                            $profile = Auth::user()->volunteer ?? Auth::user()->organization;
-                            $profileUrl = $profile ? $profile->url : '';
-                        @endphp
-                        <p class="text-lg mb-2">Welcome, {{ $profileUrl }}!</p>
-
-                        <a href="{{ route('profile.public', $profileUrl) }}"
-                            class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Public profile</a>
-                        <a href="{{ route('activities.feed') }}"
-                            class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Activity Feed</a>
-                        <a href="{{ route('idea_board.index') }}"
-                            class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Idea Board</a>
-                        @if (Auth::user()->organization)
-                            <a href="{{ route('activities.create') }}"
-                                class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">Create
-                                Activity</a>
-                            <a href="{{ route('activities.index') }}"
-                                class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2">My
-                                Activities</a>
-                        @endif
-                        <form method="POST" action="{{ route('logout') }}" class="mt-4">
-                            @csrf
-                            <button type="submit"
-                                class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Logout</button>
-                        </form>
-                    </div>
-                @else
-                    <div class="mt-4">
-                        <a href="{{ route('login') }}"
-                            class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Log in</a>
-                        <a href="{{ route('register') }}"
-                            class="ml-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Register</a>
-                    </div>
-                @endif
-                <div class="mt-4">
-                    <a href="{{ route('activities.feed') }}"
-                        class="px-8 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mt-4">Activity Feed</a>
-                </div>
+        <!-- Stats -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            @php
+                $totalHours = \App\Models\Activity::where('status', 'completed')->sum('duration');
+                $totalVolunteers = \App\Models\Volunteer::whereHas('user', function($query) {
+                    $query->where('verified', true);
+                })->count();
+                $totalCompletedActivities = \App\Models\Activity::where('status', 'completed')->count();
+            @endphp
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h2 class="text-3xl font-bold text-blue-600">{{ $totalHours }}</h2>
+                <p class="text-gray-600">Total Hours of Activities</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h2 class="text-3xl font-bold text-green-600">{{ $totalVolunteers }}</h2>
+                <p class="text-gray-600">Registered Volunteers</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-md text-center">
+                <h2 class="text-3xl font-bold text-purple-600">{{ $totalCompletedActivities }}</h2>
+                <p class="text-gray-600">Completed Activities</p>
             </div>
         </div>
-    </div>
+
+        <!-- Activity Feed -->
+        <h2 class="text-2xl font-bold mb-4">Activity Feed</h2>
+        <div class="space-y-8">
+            <x-activity-feed :activities="$activities" />
+        </div>
     </div>
 </x-app-layout>

@@ -30,6 +30,7 @@ class ProfileController extends Controller
         ]);
     }
 
+    // THIS ONLY UPDATES VOLUNTEER
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $user = $request->user();
@@ -48,36 +49,6 @@ class ProfileController extends Controller
             $path = public_path('images/profile_pictures');
             
             // Delete existing profile picture
-            $existingFiles = glob($path . '/' . $user->userid . '.*');
-            foreach ($existingFiles as $existingFile) {
-                unlink($existingFile);
-            }
-            
-            $file->move($path, $filename);
-        }
-        
-        
-        if ($request->hasFile('logo') && $user->organization) {
-            $file = $request->file('logo');
-            $filename = $user->userid . '.' . $file->getClientOriginalExtension();
-            $path = public_path('images/logos');
-            
-            // Delete existing logo
-            $existingFiles = glob($path . '/' . $user->userid . '.*');
-            foreach ($existingFiles as $existingFile) {
-                unlink($existingFile);
-            }
-            
-            $file->move($path, $filename);
-        }
-        
-        if ($request->hasFile('cover_image') && $user->organization) {
-
-            $file = $request->file('cover_image');
-            $filename = $user->userid . '.' . $file->getClientOriginalExtension();
-            $path = public_path('images/cover');
-            
-            // Delete existing cover image
             $existingFiles = glob($path . '/' . $user->userid . '.*');
             foreach ($existingFiles as $existingFile) {
                 unlink($existingFile);
@@ -110,24 +81,6 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
-    }
-
     public function updateOrganization(Request $request): RedirectResponse
     {
         $user = $request->user();
@@ -144,16 +97,33 @@ class ProfileController extends Controller
                 'max:30',],
         ]);
 
-        if ($request->hasFile('logo')) {
+        if ($request->hasFile('logo') && $user->organization) {
             $file = $request->file('logo');
             $filename = $user->userid . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/logos'), $filename);
+            $path = public_path('images/logos');
+            
+            // Delete existing logo
+            $existingFiles = glob($path . '/' . $user->userid . '.*');
+            foreach ($existingFiles as $existingFile) {
+                unlink($existingFile);
+            }
+            
+            $file->move($path, $filename);
         }
 
-        if ($request->hasFile('cover_image')) {
+        if ($request->hasFile('cover_image') && $user->organization) {
+
             $file = $request->file('cover_image');
             $filename = $user->userid . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/cover'), $filename);
+            $path = public_path('images/cover');
+            
+            // Delete existing cover image
+            $existingFiles = glob($path . '/' . $user->userid . '.*');
+            foreach ($existingFiles as $existingFile) {
+                unlink($existingFile);
+            }
+            
+            $file->move($path, $filename);
         }
 
         if ($request->has('url')) {
@@ -216,4 +186,25 @@ class ProfileController extends Controller
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
+
+    public function destroy(Request $request): RedirectResponse
+    {
+        $request->validateWithBag('userDeletion', [
+            'password' => ['required', 'current_password'],
+        ]);
+
+        $user = $request->user();
+
+        Auth::logout();
+
+        $user->delete();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return Redirect::to('/');
+    }
+
+
+
 }

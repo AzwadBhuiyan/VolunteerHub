@@ -22,9 +22,9 @@ Route::get('/connection', function () {
 });
 
 
-Route::get('/', function () {
-    return view('home');
-});
+// Route::get('/', function () {
+//     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -93,6 +93,7 @@ Route::get('/profile/{url}', [PublicProfileController::class, 'show'])->name('pr
 
 Route::middleware(['web'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
 });
 

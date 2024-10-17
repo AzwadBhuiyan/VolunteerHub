@@ -21,9 +21,9 @@
         <link rel="icon" href="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" type="image/png">
         <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" /> -->
         <!-- Scripts -->
-        <link href="{{ asset('build/assets/app-B-RhTCEg.css') }}" rel="stylesheet">
+        <link href="{{ asset('build/assets/app-JORL7NPY.css') }}" rel="stylesheet">
         <!-- <link href="{{ asset('build/assets/app-X6JekhOX.css') }}" rel="stylesheet"> -->
-        <script src="{{ asset('build/assets/app-BmtUwlhf.js') }}" defer></script>
+        <script src="{{ asset('build/assets/app-BrtSY-Si.js') }}" defer></script>
     </head>
     <body class="font-sans text-gray-900 antialiased">
         @include('layouts.navigation')
