@@ -13,9 +13,9 @@
         @csrf
 
         <div>
-            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
-                {{ __('Log in to your account') }}
-            </h2>
+            <h3 class="mt-6 text-center text-2xl font-extrabold">
+                {{ __('Log in to your accounts') }}
+            </h3>
         </div>
 
         <!-- Email -->

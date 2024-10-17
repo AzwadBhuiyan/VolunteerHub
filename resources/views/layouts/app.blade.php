@@ -13,15 +13,18 @@
         <link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
         <!-- Scripts -->
-    
+        <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">   
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
         <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
-        <link href="{{ asset('build/assets/app-JORL7NPY.css') }}" rel="stylesheet">
-        <script src="{{ asset('build/assets/app-BrtSY-Si.js') }}" defer></script>
+        <link href="{{ asset('build/assets/app-B-RhTCEg.css') }}" rel="stylesheet">
+        <!-- <link href="{{ asset('build/assets/app-X6JekhOX.css') }}" rel="stylesheet"> -->
+        <script src="{{ asset('build/assets/app-BmtUwlhf.js') }}" defer></script>
         <link rel="icon" href="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" type="image/png"> <!-- Favicon -->
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}"> <!-- Your CSS file -->
+        
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-full bg-white">
             @include('layouts.navigation')
 
             <!-- Page Heading -->

@@ -28,9 +28,9 @@ class Volunteer extends Model
         return $this->belongsTo(User::class, 'userid');
     }
 
-    public function favoriteCategories()
+    public function favorite()
     {
-        return $this->belongsToMany(JobCategory::class, 'volunteer_favorite_categories', 'userid', 'category_id');
+        return $this->hasOne(Favorite::class, 'volunteer_userid', 'userid');
     }
 
     public function participatingActivities()
@@ -75,5 +75,13 @@ class Volunteer extends Model
                 return ['min' => 0, 'max' => 11];
         }
     }
+
+    // follow organizations
+    public function followedOrganizations()
+    {
+        return $this->belongsToMany(Organization::class, 'volunteer_follows', 'volunteer_userid', 'organization_userid')->withTimestamps();
+    }
+
+    
 
 }

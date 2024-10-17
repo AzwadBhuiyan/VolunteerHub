@@ -18,11 +18,15 @@ class ProfileController extends Controller
         $user = $request->user();
         $profile = $user->volunteer ?? $user->organization;
         $activities = $user->activities()->latest()->take(5)->get();
+
+        $logMessages = session('profile_update_logs', []);
+        session()->forget('profile_update_logs');
         
         return view('profile.edit', [
             'user' => $user,
             'profile' => $profile,
             'activities' => $activities,
+            'logMessages' => $logMessages,
         ]);
     }
 
@@ -41,20 +45,45 @@ class ProfileController extends Controller
         if ($request->hasFile('profile_picture') && $user->volunteer) {
             $file = $request->file('profile_picture');
             $filename = $user->userid . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/profile_pictures'), $filename);
+            $path = public_path('images/profile_pictures');
+            
+            // Delete existing profile picture
+            $existingFiles = glob($path . '/' . $user->userid . '.*');
+            foreach ($existingFiles as $existingFile) {
+                unlink($existingFile);
+            }
+            
+            $file->move($path, $filename);
         }
-
+        
+        
         if ($request->hasFile('logo') && $user->organization) {
             $file = $request->file('logo');
             $filename = $user->userid . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/logos'), $filename);
+            $path = public_path('images/logos');
+            
+            // Delete existing logo
+            $existingFiles = glob($path . '/' . $user->userid . '.*');
+            foreach ($existingFiles as $existingFile) {
+                unlink($existingFile);
+            }
+            
+            $file->move($path, $filename);
         }
-
+        
         if ($request->hasFile('cover_image') && $user->organization) {
+
             $file = $request->file('cover_image');
             $filename = $user->userid . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('images/cover'), $filename);
-
+            $path = public_path('images/cover');
+            
+            // Delete existing cover image
+            $existingFiles = glob($path . '/' . $user->userid . '.*');
+            foreach ($existingFiles as $existingFile) {
+                unlink($existingFile);
+            }
+            
+            $file->move($path, $filename);
         }
 
         // Handle new fields for volunteer
@@ -74,18 +103,9 @@ class ProfileController extends Controller
             $profile->org_telephone = $request->org_telephone;
         }
 
-        // // Update userid if provided
-        // if ($newUserid && $newUserid !== $user->userid) {
-        //     $request->validate([
-        //         'new_userid' => ['required', 'string', 'max:255', 'unique:users,userid,' . $user->userid . ',userid'],
-        //     ]);
-        //     $user->userid = $newUserid;
-        // }
-
-
-
         $user->save();
         $profile->save();
+
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -179,7 +199,7 @@ class ProfileController extends Controller
         $profile = $user->volunteer;
 
         $validated = $request->validate([
-            'nid' => 'nullable|string|max:255',
+            'nid' => 'nullable', 'numeric', 'digits:10',
             'present_address' => 'required|string|max:300',
             'permanent_address' => 'required|string|max:300',
             'district' => 'required|string',

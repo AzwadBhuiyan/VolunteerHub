@@ -40,20 +40,26 @@
                             <x-input-label for="category" :value="__('Category')" />
                             <select id="category" name="category" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
                                 <option value="">Select a category</option>
-                                <option value="environmental">Environmental</option>
-                                <option value="social">Social</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->name }}">{{ $category->name }}</option>
+                                @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('category')" class="mt-2" />
                         </div>
 
-                        <div class="mb-4">
+
+                        @php
+                            $districts = config('districts.districts');
+                        @endphp
+
+                        <div>
                             <x-input-label for="district" :value="__('District')" />
-                            <select id="district" name="district" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                <option value="">Select a district</option>
-                                <option value="central">Central</option>
-                                <option value="eastern">Eastern</option>
+                            <select id="district" name="district" class="mt-1 block w-full" required>
+                                @foreach($districts as $district)
+                                    <option value="{{ $district }}">{{ $district }}</option>
+                                @endforeach
                             </select>
-                            <x-input-error :messages="$errors->get('district')" class="mt-2" />
+                            <x-input-error class="mt-2" :messages="$errors->get('district')" />
                         </div>
 
                         <div class="mb-4">
