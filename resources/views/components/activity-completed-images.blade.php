@@ -3,10 +3,10 @@
 @php
     $accomplishedPath = 'images/activities/' . $activity->activityid . '/accomplished/';
     $accomplishedFullPath = public_path($accomplishedPath);
-    $accomplishedPhotos = File::exists($accomplishedFullPath) ? File::files($accomplishedFullPath) : [];
+    $accomplishedPhotos = glob($accomplishedFullPath . '*.*');
     $photoCount = count($accomplishedPhotos);
     $carouselImages = json_encode(array_map(function($photo) use ($accomplishedPath) {
-        return asset($accomplishedPath . $photo->getFilename());
+        return asset($accomplishedPath . basename($photo));
     }, $accomplishedPhotos));
 @endphp
 
@@ -16,10 +16,10 @@
             <p class="text-gray-500">No images available</p>
         </div>
     @elseif($photoCount === 1)
-        <img src="{{ asset($accomplishedPath . $accomplishedPhotos[0]->getFilename()) }}" 
+        <img src="{{ asset($accomplishedPath . basename($accomplishedPhotos[0])) }}" 
              alt="Accomplished Activity Photo" 
              class="w-full h-full object-cover rounded clickable-image cursor-pointer" 
-             data-full-src="{{ asset($accomplishedPath . $accomplishedPhotos[0]->getFilename()) }}">
+             data-full-src="{{ asset($accomplishedPath . basename($accomplishedPhotos[0])) }}">
     @else
         <div class="grid gap-2 w-full h-full {{ $photoCount > 2 ? 'grid-cols-2 grid-rows-2' : 'grid-cols-1 grid-rows-2' }} justify-items-center items-center">
             @foreach($accomplishedPhotos as $index => $photo)
@@ -27,10 +27,10 @@
                     @if($photoCount === 2) row-span-1
                     @elseif($photoCount === 3 && $index === 2) col-span-2
                     @endif">
-                    <img src="{{ asset($accomplishedPath . $photo->getFilename()) }}" 
+                    <img src="{{ asset($accomplishedPath . basename($photo)) }}" 
                          alt="Accomplished Activity Photo" 
                          class="absolute inset-0 w-full h-full object-cover rounded clickable-image cursor-pointer" 
-                         data-full-src="{{ asset($accomplishedPath . $photo->getFilename()) }}" 
+                         data-full-src="{{ asset($accomplishedPath . basename($photo)) }}" 
                          data-carousel="true"
                          data-carousel-images='{{ $carouselImages }}'>
                 </div>

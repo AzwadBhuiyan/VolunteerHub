@@ -1,4 +1,13 @@
+<!-- ````````````````````````` -->
 <!-- this is for favorites blade -->
+<!-- this is for favorites blade -->
+<!-- this is for favorites blade -->
+<!-- this is for favorites blade -->
+<!-- this is for favorites blade -->
+<!-- this is for favorites blade -->
+<!-- ````````````````````````` -->
+
+
 <div class="p-6 flex items-center space-x-4 border-b border-gray-100">
     <img src="{{ asset($activity->organization->getLogoPath()) }}" alt="{{ $activity->organization->org_name }}" class="w-16 h-16 rounded-full object-cover">
     <div>
