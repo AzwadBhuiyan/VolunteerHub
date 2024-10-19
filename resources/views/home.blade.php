@@ -21,15 +21,15 @@
                 $totalCompletedActivities = \App\Models\Activity::where('status', 'completed')->count();
             @endphp
             <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                <h2 class="text-3xl font-bold text-blue-600">{{ $totalHours }}</h2>
+                <h2 class="text-3xl font-bold text-blue-600"><span id="totalHours" data-target="{{ $totalHours }}">0</span></h2>
                 <p class="text-gray-600">Total Hours of Activities</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                <h2 class="text-3xl font-bold text-green-600">{{ $totalVolunteers }}</h2>
+                <h2 class="text-3xl font-bold text-green-600"><span id="totalVolunteers" data-target="{{ $totalVolunteers }}">0</span></h2>
                 <p class="text-gray-600">Registered Volunteers</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                <h2 class="text-3xl font-bold text-purple-600">{{ $totalCompletedActivities }}</h2>
+                <h2 class="text-3xl font-bold text-purple-600"><span id="totalCompletedActivities" data-target="{{ $totalCompletedActivities }}">0</span></h2>
                 <p class="text-gray-600">Completed Activities</p>
             </div>
         </div>
@@ -47,3 +47,45 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+function animateValue(obj, start, end, duration) {
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        obj.innerHTML = Math.floor(progress * (end - start) + start);
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        }
+    };
+    window.requestAnimationFrame(step);
+}
+
+function isElementInViewport(el) {
+    const rect = el.getBoundingClientRect();
+    return (
+        rect.top >= 0 &&
+        rect.left >= 0 &&
+        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
+}
+
+function handleScroll() {
+    const elements = document.querySelectorAll('#totalHours, #totalVolunteers, #totalCompletedActivities');
+    elements.forEach(element => {
+        if (isElementInViewport(element) && !element.classList.contains('animated')) {
+            const end = parseInt(element.getAttribute('data-target'));
+            animateValue(element, 0, end, 1000);
+            element.classList.add('animated');
+        }
+    });
+}
+
+// Initial check on page load
+handleScroll();
+
+// Add scroll event listener
+window.addEventListener('scroll', handleScroll);
+</script>
