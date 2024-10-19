@@ -106,7 +106,7 @@
                         <!-- Activity Images -->
                         <div class="px-2 py-2">
                             <div class="aspect-w-1 aspect-h-1 w-full h-64">
-                                <x-activity-completed-images :activity="$activity" />
+                                <x-activity-completed-images :activity="$activity" class="clickable-image"/>
                             </div>
                         </div>
 

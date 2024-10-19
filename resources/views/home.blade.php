@@ -34,6 +34,12 @@
             </div>
         </div>
 
+        <!-- Idea Board Link -->
+        <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white p-8 rounded-lg shadow-lg mb-8 cursor-pointer" onclick="window.location.href='{{ route('idea_board.index') }}'">
+            <h2 class="text-4xl font-bold mb-4">Explore Idea Board</h2>
+            <p class="text-xl">Discover and contribute to innovative ideas!</p>
+        </div>
+
         <!-- Activity Feed -->
         <h2 class="text-2xl font-bold mb-4">Activity Feed</h2>
         <div class="space-y-8">
