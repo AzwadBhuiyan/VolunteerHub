@@ -80,6 +80,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/favorites', [FavoriteController::class, 'update'])->name('favorites.update');
 
     //Follow organizations
+    Route::get('/following/manage', [FollowController::class, 'manageFollowing'])->name('following.manage');
     Route::post('/organizations/{organization}/follow', [FollowController::class, 'follow'])->name('organizations.follow');
     Route::delete('/organizations/{organization}/unfollow', [FollowController::class, 'unfollow'])->name('organizations.unfollow');
 

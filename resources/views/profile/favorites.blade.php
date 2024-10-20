@@ -27,6 +27,9 @@
                     <a href="{{ route('favorites.edit') }}" class="btn text-center mt-4">
                         <i class="fas fa-pen"></i>Edit Favorites
                     </a>
+                    <a href="{{ route('following.manage') }}" class="btn text-center mt-4 ml-4">
+                        <i class="fas fa-users"></i>Following
+                    </a>
                 </div>
             @endif
 

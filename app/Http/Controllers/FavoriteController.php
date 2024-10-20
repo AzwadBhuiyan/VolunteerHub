@@ -23,15 +23,13 @@ class FavoriteController extends Controller
         // Sort districts alphabetically
         $districts = collect(config('districts.districts'))->sort()->values()->all();
 
-        // Get followed organizations
-        $followedOrganizations = $volunteer->followedOrganizations;
     
         // If favorites exist, ensure we're passing only category names
         if ($favorites && $favorites->favorite_categories) {
             $favorites->favorite_categories = array_values($favorites->favorite_categories);
         }
     
-        return view('profile.edit-favorites', compact('favorites', 'categories', 'districts', 'user', 'followedOrganizations'));
+        return view('profile.edit-favorites', compact('favorites', 'categories', 'districts', 'user'));
     }
 
     public function update(Request $request)
@@ -67,7 +65,7 @@ class FavoriteController extends Controller
         $volunteer = $user->volunteer;
         $favorites = $volunteer->favorite;
         $followedOrganizations = $volunteer->followedOrganizations()->pluck('userid');
-    
+
         $ongoingActivitiesQuery = Activity::where('status', 'open')
             ->where(function ($q) use ($favorites, $followedOrganizations) {
                 $q->when($favorites && (!empty($favorites->favorite_categories) || !empty($favorites->favorite_districts)), function ($subQ) use ($favorites) {
@@ -81,9 +79,10 @@ class FavoriteController extends Controller
                     });
                 })
                 ->orWhereIn('userid', $followedOrganizations);
-            });
-    
-            $ongoingActivities = $ongoingActivitiesQuery->orderByRaw('
+            })
+            ->distinct();
+
+        $ongoingActivities = $ongoingActivitiesQuery->orderByRaw('
             CASE 
                 WHEN (SELECT COUNT(*) FROM activity_volunteers WHERE activity_volunteers.activityid = activities.activityid AND approval_status = "approved") >= activities.min_volunteers THEN -50
                 WHEN DATEDIFF(activities.deadline, NOW()) <= 7 THEN (7 - DATEDIFF(activities.deadline, NOW())) * 10
@@ -91,15 +90,10 @@ class FavoriteController extends Controller
             END - DATEDIFF(NOW(), activities.created_at) DESC
         ')->paginate(10);
 
-        $ongoingActivities->getCollection()->transform(function ($activity) {
-            $activity->priority_score = $activity->calculatePriorityScore();
-            return $activity;
-        });
-    
         $ideas = IdeaThread::whereIn('userid', $followedOrganizations)
             ->latest()
             ->paginate(10);
-    
+
         return view('profile.favorites', compact('ongoingActivities', 'ideas', 'favorites', 'user', 'volunteer'));
     }
 }

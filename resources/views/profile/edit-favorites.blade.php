@@ -63,21 +63,7 @@
                         @endif
                     </div>
                 </form>
-                <hr class="mt-8 mb-6">
-                <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center"
-                    style="border-bottom: 2px solid #8B9467; width: 50%; margin: 0 auto;">Following</h3>
-                <h3 class="text-lg font-medium text-gray-900 mt-4 mb-4">Organizations</h3>
-                <p class="text-sm text-gray-600 mb-4">
-                    Click on names to visit their profile. You can unfollow them anytime from their profile.
-                </p>
-                <div class="flex flex-wrap gap-2">
-                    @foreach ($followedOrganizations as $organization)
-                        <a href="{{ route('profile.public', $organization->url) }}"
-                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm hover:bg-blue-200">
-                            {{ $organization->org_name }}
-                        </a>
-                    @endforeach
-                </div>
+
             </div>
         </div>
     </div>
