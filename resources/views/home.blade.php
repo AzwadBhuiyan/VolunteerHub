@@ -11,28 +11,43 @@
             <p class="text-xl">Join our community and make a difference!</p>
         </div>
 
-        <!-- Stats -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            @php
-                $totalHours = \App\Models\Activity::where('status', 'completed')->sum('duration');
-                $totalVolunteers = \App\Models\Volunteer::whereHas('user', function($query) {
-                    $query->where('verified', true);
-                })->count();
-                $totalCompletedActivities = \App\Models\Activity::where('status', 'completed')->count();
-            @endphp
-            <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                <h2 class="text-3xl font-bold text-blue-600"><span id="totalHours" data-target="{{ $totalHours }}">0</span></h2>
-                <p class="text-gray-600">Total Hours of Activities</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                <h2 class="text-3xl font-bold text-green-600"><span id="totalVolunteers" data-target="{{ $totalVolunteers }}">0</span></h2>
-                <p class="text-gray-600">Registered Volunteers</p>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md text-center">
-                <h2 class="text-3xl font-bold text-purple-600"><span id="totalCompletedActivities" data-target="{{ $totalCompletedActivities }}">0</span></h2>
-                <p class="text-gray-600">Completed Activities</p>
-            </div>
-        </div>
+<!-- Stats -->
+<div class="flex justify-center gap-6 mb-8 relative">
+    @php
+        $totalHours = \App\Models\Activity::where('status', 'completed')->sum('duration');
+        $totalVolunteers = \App\Models\Volunteer::whereHas('user', function($query) {
+            $query->where('verified', true);
+        })->count();
+        $totalCompletedActivities = \App\Models\Activity::where('status', 'completed')->count();
+    @endphp
+
+    <!-- Total Hours -->
+    <div class="stat-item flex-1 text-center p-6 relative flex flex-col items-center">
+        <h2 class="text-3xl font-bold text-blue-600 mb-1">
+            <span id="totalHours" data-target="{{ $totalHours }}">0</span>
+        </h2>
+        <h3 class="text-lg font-bold mt-auto">Hours of Activity</h3>
+    </div>
+
+    <!-- Registered Volunteers -->
+    <div class="stat-item flex-1 text-center p-6 relative flex flex-col items-center border-l border-gray-300">
+        <h2 class="text-3xl font-bold text-green-600 mb-1">
+            <span id="totalVolunteers" data-target="{{ $totalVolunteers }}">0</span>
+        </h2>
+        <h3 class="text-lg font-bold mt-auto">Active Volunteers</h3>
+    </div>
+
+    <!-- Completed Activities -->
+    <div class="stat-item flex-1 text-center p-6 relative flex flex-col items-center border-l border-gray-300">
+        <h2 class="text-3xl font-bold text-purple-600 mb-1">
+            <span id="totalCompletedActivities" data-target="{{ $totalCompletedActivities }}">0</span>
+        </h2>
+        <h3 class="text-lg font-bold mt-auto">Successful Programs</h3>
+    </div>
+</div>
+
+
+
 
         <!-- Idea Board Link -->
         <div class="bg-gradient-to-r from-green-500 to-teal-600 text-white p-8 rounded-lg shadow-lg mb-8 cursor-pointer" onclick="window.location.href='{{ route('idea_board.index') }}'">
