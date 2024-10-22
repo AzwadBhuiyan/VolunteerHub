@@ -29,7 +29,27 @@
                     <a href="{{ route('profile.edit') }}" class="btn"> <!-- Link to edit profile -->
                         <i class="fas fa-pen"></i> Edit Profile <!-- Icon and text for editing profile -->
                     </a>
+                @else
+                    @if (Auth::check() && Auth::user()->volunteer)
+                        @if (Auth::user()->volunteer->followedVolunteers->contains($profile->userid))
+                            <form action="{{ route('volunteers.unfollow', $profile) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn">
+                                    <i class="fas fa-user-minus"></i> Unfollow
+                                </button>
+                            </form>
+                        @else
+                            <form action="{{ route('volunteers.follow', $profile) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn">
+                                    <i class="fas fa-user-plus"></i> Follow
+                                </button>
+                            </form>
+                        @endif
+                    @endif                    
                 @endif
+                
                 <div class="dropdown"> <!-- Dropdown for sharing options -->
                     <button class="btn"> <!-- Share profile button -->
                         <i class="fas fa-share-alt"></i> Share Profile <!-- Icon and text for sharing profile -->

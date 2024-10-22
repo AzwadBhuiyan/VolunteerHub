@@ -79,10 +79,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/favorites/edit', [FavoriteController::class, 'edit'])->name('favorites.edit');
     Route::patch('/favorites', [FavoriteController::class, 'update'])->name('favorites.update');
 
-    //Follow organizations
+    //Follow
     Route::get('/following/manage', [FollowController::class, 'manageFollowing'])->name('following.manage');
+    Route::get('/following', [FollowController::class, 'index'])->name('following.index');
+
     Route::post('/organizations/{organization}/follow', [FollowController::class, 'follow'])->name('organizations.follow');
     Route::delete('/organizations/{organization}/unfollow', [FollowController::class, 'unfollow'])->name('organizations.unfollow');
+
+    
+    Route::post('/volunteers/{volunteer}/follow', [FollowController::class, 'followVolunteer'])->name('volunteers.follow');
+    Route::delete('/volunteers/{volunteer}/unfollow', [FollowController::class, 'unfollowVolunteer'])->name('volunteers.unfollow');
 
 });
 

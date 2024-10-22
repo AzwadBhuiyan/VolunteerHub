@@ -79,7 +79,23 @@ class Volunteer extends Model
     // follow organizations
     public function followedOrganizations()
     {
-        return $this->belongsToMany(Organization::class, 'volunteer_follows', 'volunteer_userid', 'organization_userid')->withTimestamps();
+        return $this->belongsToMany(Organization::class, 'volunteer_follows', 'follower_id', 'followed_id')
+                    ->where('type', 'organization')
+                    ->withTimestamps();
+    }
+    
+    public function followedVolunteers()
+    {
+        return $this->belongsToMany(Volunteer::class, 'volunteer_follows', 'follower_id', 'followed_id')
+                    ->where('type', 'volunteer')
+                    ->withTimestamps();
+    }
+    
+    public function followers()
+    {
+        return $this->belongsToMany(Volunteer::class, 'volunteer_follows', 'followed_id', 'follower_id')
+                    ->where('type', 'volunteer')
+                    ->withTimestamps();
     }
 
     

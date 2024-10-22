@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2024 at 03:59 AM
+-- Generation Time: Oct 22, 2024 at 02:08 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -132,7 +132,8 @@ CREATE TABLE `activity_volunteers` (
 INSERT INTO `activity_volunteers` (`id`, `activityid`, `volunteer_userid`, `approval_status`, `created_at`, `updated_at`) VALUES
 (2, 1, '00002', 'approved', NULL, NULL),
 (3, 3, '00002', 'approved', '2024-09-26 15:53:14', '2024-09-26 15:58:02'),
-(4, 3, '00004', 'approved', '2024-09-26 15:54:10', '2024-09-26 15:58:02');
+(4, 3, '00004', 'approved', '2024-09-26 15:54:10', '2024-09-26 15:58:02'),
+(66, 3, '00003', 'approved', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -194,7 +195,7 @@ CREATE TABLE `favorites` (
 --
 
 INSERT INTO `favorites` (`id`, `volunteer_userid`, `favorite_categories`, `favorite_districts`, `created_at`, `updated_at`) VALUES
-(2, '00002', '[]', '[]', '2024-10-07 13:13:08', '2024-10-08 13:49:09');
+(1, '00002', '[]', '[\"Bagerhat\"]', '2024-10-22 04:33:35', '2024-10-22 04:33:35');
 
 -- --------------------------------------------------------
 
@@ -287,12 +288,13 @@ INSERT INTO `idea_votes` (`id`, `idea_thread_id`, `idea_comment_id`, `user_useri
 (18, 1, NULL, '00004', 1, '2024-10-03 16:48:41', '2024-10-03 16:48:41'),
 (20, 2, 3, '00004', 1, '2024-10-03 16:48:55', '2024-10-03 16:48:55'),
 (21, 2, NULL, '00003', 1, '2024-10-03 16:49:10', '2024-10-03 16:49:10'),
-(24, 1, NULL, '00002', 1, '2024-10-03 16:54:25', '2024-10-03 16:54:25'),
-(36, 2, 3, '00002', 1, '2024-10-05 08:55:18', '2024-10-05 08:55:18'),
-(37, 2, NULL, '00002', 1, '2024-10-05 08:55:23', '2024-10-05 08:55:23'),
 (39, 2, 3, 'org-001', 1, '2024-10-05 10:05:51', '2024-10-05 10:05:51'),
 (41, 2, 5, 'org-001', 1, '2024-10-07 06:34:02', '2024-10-07 06:34:02'),
-(42, 2, NULL, 'org-001', 1, '2024-10-07 06:34:04', '2024-10-07 06:34:04');
+(42, 2, NULL, 'org-001', 1, '2024-10-07 06:34:04', '2024-10-07 06:34:04'),
+(43, 2, 1, '00002', 1, '2024-10-19 02:38:55', '2024-10-19 02:38:55'),
+(44, 2, 3, '00002', 1, '2024-10-19 02:38:57', '2024-10-19 02:38:57'),
+(46, 1, NULL, '00002', 1, '2024-10-19 02:39:06', '2024-10-19 02:39:06'),
+(47, 2, NULL, '00002', 1, '2024-10-19 02:40:14', '2024-10-19 02:40:14');
 
 -- --------------------------------------------------------
 
@@ -365,8 +367,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (36, '2024_09_29_093438_create_poll_options_table', 6),
 (39, '2024_09_29_093458_create_idea_votes_table', 7),
 (41, '2024_10_03_221834_add_status_to_idea_threads_table', 8),
-(42, '2024_10_07_184918_create_favorites_table', 9),
-(43, '2024_10_08_193437_create_volunteer_follows_table', 10);
+(47, '2024_10_07_184918_create_favorites_table', 9),
+(48, '2024_10_08_193437_create_volunteer_follows_table', 9);
 
 -- --------------------------------------------------------
 
@@ -510,8 +512,9 @@ INSERT INTO `volunteers` (`userid`, `url`, `Name`, `Phone`, `NID`, `Gender`, `DO
 
 CREATE TABLE `volunteer_follows` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `volunteer_userid` varchar(255) NOT NULL,
-  `organization_userid` varchar(255) NOT NULL,
+  `follower_id` varchar(255) NOT NULL,
+  `followed_id` varchar(255) NOT NULL,
+  `type` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -520,8 +523,9 @@ CREATE TABLE `volunteer_follows` (
 -- Dumping data for table `volunteer_follows`
 --
 
-INSERT INTO `volunteer_follows` (`id`, `volunteer_userid`, `organization_userid`, `created_at`, `updated_at`) VALUES
-(2, '00002', 'org-001', '2024-10-08 14:07:36', '2024-10-08 14:07:36');
+INSERT INTO `volunteer_follows` (`id`, `follower_id`, `followed_id`, `type`, `created_at`, `updated_at`) VALUES
+(2, '00002', 'org-001', 'organization', '2024-10-22 04:50:54', '2024-10-22 04:50:54'),
+(3, '00002', '00004', 'volunteer', '2024-10-22 05:47:34', '2024-10-22 05:47:34');
 
 --
 -- Indexes for dumped tables
@@ -671,8 +675,8 @@ ALTER TABLE `volunteers`
 --
 ALTER TABLE `volunteer_follows`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `volunteer_follows_volunteer_userid_organization_userid_unique` (`volunteer_userid`,`organization_userid`),
-  ADD KEY `volunteer_follows_organization_userid_foreign` (`organization_userid`);
+  ADD UNIQUE KEY `vol_follows_unique` (`follower_id`,`followed_id`,`type`),
+  ADD KEY `volunteer_follows_followed_id_type_index` (`followed_id`,`type`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -694,7 +698,7 @@ ALTER TABLE `activity_categories`
 -- AUTO_INCREMENT for table `activity_volunteers`
 --
 ALTER TABLE `activity_volunteers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -706,7 +710,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `idea_comments`
@@ -730,7 +734,7 @@ ALTER TABLE `idea_threads`
 -- AUTO_INCREMENT for table `idea_votes`
 --
 ALTER TABLE `idea_votes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -742,7 +746,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `poll_options`
@@ -754,7 +758,7 @@ ALTER TABLE `poll_options`
 -- AUTO_INCREMENT for table `volunteer_follows`
 --
 ALTER TABLE `volunteer_follows`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -828,8 +832,7 @@ ALTER TABLE `volunteers`
 -- Constraints for table `volunteer_follows`
 --
 ALTER TABLE `volunteer_follows`
-  ADD CONSTRAINT `volunteer_follows_organization_userid_foreign` FOREIGN KEY (`organization_userid`) REFERENCES `organizations` (`userid`) ON DELETE CASCADE,
-  ADD CONSTRAINT `volunteer_follows_volunteer_userid_foreign` FOREIGN KEY (`volunteer_userid`) REFERENCES `volunteers` (`userid`) ON DELETE CASCADE;
+  ADD CONSTRAINT `volunteer_follows_follower_id_foreign` FOREIGN KEY (`follower_id`) REFERENCES `volunteers` (`userid`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

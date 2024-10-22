@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('volunteer_follows', function (Blueprint $table) {
             $table->id();
-            $table->string('volunteer_userid');
-            $table->string('organization_userid');
+            $table->string('follower_id');
+            $table->string('followed_id');
+            $table->string('type');
             $table->timestamps();
-    
-            $table->foreign('volunteer_userid')->references('userid')->on('volunteers')->onDelete('cascade');
-            $table->foreign('organization_userid')->references('userid')->on('organizations')->onDelete('cascade');
-    
-            $table->unique(['volunteer_userid', 'organization_userid']);
+        
+            $table->foreign('follower_id')->references('userid')->on('volunteers')->onDelete('cascade');
+            $table->index(['followed_id', 'type']);
+        
+            $table->unique(['follower_id', 'followed_id', 'type'], 'vol_follows_unique');
         });
     }
 
