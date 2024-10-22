@@ -62,6 +62,10 @@ class FollowController extends Controller
     // manage vol follow
     public function followVolunteer(Request $request, Volunteer $volunteer)
     {
+        if (!$volunteer->allow_follow) {
+            return back()->with('error', 'This volunteer is not accepting new followers.');
+        }
+    
         $request->user()->volunteer->followedVolunteers()->attach($volunteer, ['type' => 'volunteer']);
         return back()->with('status', 'Volunteer followed successfully.');
     }
@@ -70,6 +74,19 @@ class FollowController extends Controller
     {
         $request->user()->volunteer->followedVolunteers()->detach($volunteer);
         return back()->with('status', 'Volunteer unfollowed successfully.');
+    }
+
+    public function toggleFollow(Request $request, Volunteer $volunteer)
+    {
+        if ($request->user()->id !== $volunteer->userid) {
+            return back()->with('error', 'You are not authorized to perform this action.');
+        }
+
+        $volunteer->allow_follow = !$volunteer->allow_follow;
+        $volunteer->save();
+
+        $message = $volunteer->allow_follow ? 'Follow feature turned on.' : 'Follow feature turned off.';
+        return back()->with('status', $message);
     }
 
     
