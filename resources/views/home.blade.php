@@ -111,7 +111,7 @@
                         class="stat-item flex-1 text-center p-6 relative flex flex-col items-center border-l border-gray-300">
                         <h2 class="text-4xl font-bold text-green-600 mb-1 text-center">
                             <span id="totalVolunteers"
-                                data-target="{{ $totalVolunteers }}">{{ $totalVolunteers }}</span>
+                                data-target="{{ $totalOrganizations }}">{{ $totalOrganizations }}</span>
                         </h2>
                         <h3 class="text-sm font-bold mt-auto text-center">Active Organizations</h3>
                     </div>

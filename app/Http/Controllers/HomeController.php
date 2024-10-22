@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\View\View;
 use App\Models\Activity;
 use App\Models\Volunteer;
+use App\Models\Organization;
 
 class HomeController extends Controller
 {
@@ -20,7 +21,11 @@ class HomeController extends Controller
             ->orderBy('date', 'desc')
             ->paginate(10);
 
-        return view('home', compact('totalHours', 'totalVolunteers', 'totalCompletedActivities', 'activities'));
+        $totalOrganizations = Organization::whereHas('user', function($query) {
+            $query->where('verified', true);
+        })->count();
+
+        return view('home', compact('totalHours', 'totalVolunteers', 'totalOrganizations', 'totalCompletedActivities', 'activities'));
     }
     public function test(): View
     {
