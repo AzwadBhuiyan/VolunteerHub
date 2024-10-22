@@ -7,8 +7,8 @@
 <!-- this is for favorites blade -->
 <!-- ````````````````````````` -->
 
-
-<div class="p-3 flex items-center space-x-4 border-b border-gray-100">
+<div class="border border-gray-200 rounded-xl">
+<div class="p-3 flex items-center space-x-4">
     <img src="{{ asset($activity->organization->getLogoPath()) }}" alt="{{ $activity->organization->org_name }}" class="w-10 h-10 rounded-full object-cover">
     <div class="flex flex-col ml-2">
         <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}</h4>
@@ -45,4 +45,5 @@
             View Details
         </a>
     </div>
+</div>
 </div>
