@@ -13,12 +13,13 @@ class Volunteer extends Model
     protected $fillable = [
         'userid', 'Name', 'Phone', 'NID', 'Gender', 'DOB',
         'BloodGroup', 'PresentAddress', 'PermanentAddress', 'District',
-        'TrainedInEmergencyResponse', 'Points', 'Badges', 'bio', 'url', 'profession'
+        'TrainedInEmergencyResponse', 'Points', 'Badges', 'bio', 'url', 'allow_follow', 'profession'
     ];
 
     protected $casts = [
         'DOB' => 'date',
         'TrainedInEmergencyResponse' => 'boolean',
+        'allow_follow' => 'boolean',
         'Points' => 'integer',
         'Badges' => 'json',
     ];

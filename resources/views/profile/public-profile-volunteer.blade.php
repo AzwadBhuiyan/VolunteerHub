@@ -65,7 +65,19 @@
                         <!-- Copy link option -->
                     </div>
                 </div>
+                <!-- turn on/off followers -->
+                @if (Auth::id() == $profile->userid)
+                    <form action="{{ route('volunteers.toggle-follow', $profile) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit" class="btn">
+                            <i class="fas fa-{{ $profile->allow_follow ? 'lock' : 'unlock' }}"></i>
+                            {{ $profile->allow_follow ? 'Turn Off Follow' : 'Turn On Follow' }}
+                        </button>
+                    </form>
+                @endif
             </div>
+
             <div class="profile-stats"> <!-- Section for displaying profile statistics -->
                 <div class="stat-item"> <!-- Badges statistic -->
                     <h3>Badges</h3> <!-- Badges header -->
