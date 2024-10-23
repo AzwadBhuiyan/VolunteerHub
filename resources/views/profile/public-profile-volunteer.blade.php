@@ -4,7 +4,7 @@
 
     <!-- Link to Font Awesome for icon usage -->
 
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
         <!-- Centered container with responsive padding and vertical spacing -->
         <div class="p-1 sm:p-8 bg-white shadow sm:rounded-lg">
             <!-- Profile information card with padding, background color, shadow, and rounded corners -->

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 ">
         <!-- Centered container with responsive padding and vertical spacing -->
         <div class="p-4 sm:p-8 bg-white items-center shadow sm:rounded-lg">
             <!-- Profile information card with padding, background color, shadow, and rounded corners -->
