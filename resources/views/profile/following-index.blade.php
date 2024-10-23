@@ -13,6 +13,9 @@
                         Manage Following
                     </a>
                 </div>
+                <a href="{{ route('favorites.show') }}" class="btn text-center">
+                    <i class="fas fa-arrow-left"></i> Back to Favorites
+                </a>
             </div>
 
 
@@ -63,25 +66,14 @@
                                     </div>
                                     <div class="px-3 py-1">
                                         <p class="text-sm text-gray-700 leading-relaxed">
-                                            {{ Str::limit($activity->description, 150) }}</p>
+                                            {{ Str::limit($activity->accomplished_description, 150) }}</p>
                                     </div>
                                     <div class="px-2 py-2">
                                         <div class="aspect-w-1 aspect-h-1 w-full h-64">
                                             <x-activity-completed-images :activity="$activity" />
                                         </div>
                                     </div>
-                                    <div class="px-2 py-2 bg-gray-50 mt-auto">
-                                        <div class="flex justify-between items-center">
-                                            <div>
-                                                <span class="text-sm">Organized by:</span>
-                                                <a href="{{ route('profile.public', $activity->organization->url) }}"
-                                                    class="text-blue-500 hover:underline">{{ $activity->organization->org_name }}</a>
-                                            </div>
-                                            <a href="{{ route('activities.show', $activity) }}"
-                                                class="text-sm bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">View
-                                                Details</a>
-                                        </div>                                        
-                                    </div>
+                                    
                                 </div>
                             @endforeach
                         </div>
@@ -119,7 +111,7 @@
                                     </div>
                                     <div class="px-3 py-1">
                                         <p class="text-sm text-gray-700 leading-relaxed">
-                                            {{ Str::limit($activity->description, 150) }}</p>
+                                            {{ Str::limit($activity->accomplished_description, 150) }}</p>
                                     </div>
                                     <div class="px-2 py-2">
                                         <div class="aspect-w-1 aspect-h-1 w-full h-64">
@@ -127,16 +119,7 @@
                                         </div>
                                     </div>
                                     <div class="px-2 py-2 bg-gray-50 mt-auto">
-                                        <div class="flex justify-between items-center">
-                                            <div>
-                                                <span class="text-sm">Organized by:</span>
-                                                <a href="{{ route('profile.public', $activity->organization->url) }}"
-                                                    class="text-blue-500 hover:underline">{{ $activity->organization->org_name }}</a>
-                                            </div>
-                                            <a href="{{ route('activities.show', $activity) }}"
-                                                class="text-sm bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">View
-                                                Details</a>
-                                        </div>
+
                                         <!-- list of followed volunteers involved -->
                                         <div class="px-2 py-2 bg-gray-50">
                                             <h5 class="text-sm font-semibold text-gray-700 mb-2">Followed Volunteers Involved:</h5>

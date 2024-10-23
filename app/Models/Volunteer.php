@@ -29,6 +29,17 @@ class Volunteer extends Model
         return $this->belongsTo(User::class, 'userid');
     }
 
+    public function getProfilePicturePath()
+    {
+        $imagePath = 'images/profile_pictures/' . $this->userid . '.*';
+        $matchingFiles = glob(public_path($imagePath));
+        $profilePicture = !empty($matchingFiles) ? basename($matchingFiles[0]) : null;
+        
+        return $profilePicture 
+            ? asset('images/profile_pictures/' . $profilePicture) 
+            : asset('images/defaults/default-avatar.png');
+    }
+
     public function favorite()
     {
         return $this->hasOne(Favorite::class, 'volunteer_userid', 'userid');
