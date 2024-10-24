@@ -65,19 +65,26 @@
                         <!-- Copy link option -->
                     </div>
                 </div>
-                <!-- turn on/off followers -->
-                @if (Auth::id() == $profile->userid)
-                    <form action="{{ route('volunteers.toggle-follow', $profile) }}" method="POST">
-                        @csrf
-                        @method('PATCH')
-                        <button type="submit" class="btn">
-                            <i class="fas fa-{{ $profile->allow_follow ? 'lock' : 'unlock' }}"></i>
-                            {{ $profile->allow_follow ? 'Turn Off Follow' : 'Turn On Follow' }}
-                        </button>
-                    </form>
-                @endif
+               
             </div>
 
+             <!-- turn on/off followers -->
+             @if (Auth::id() == $profile->userid)
+             <div class="flex justify-center mt-4">
+                 <form action="{{ route('volunteers.toggle-follow', $profile) }}" method="POST">
+                     @csrf
+                     @method('PATCH')
+                     <label class="inline-flex items-center cursor-pointer">
+                         <span class="mr-3 text-gray-900 font-medium">Allow Followers</span>
+                         <input type="checkbox" class="sr-only" onchange="this.form.submit()" {{ $profile->allow_follow ? 'checked' : '' }}>
+                         <div class="w-16 h-8 bg-gray-200 rounded-full relative peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 peer dark:bg-gray-700 peer-checked:bg-green-500">
+                             <span class="absolute left-1 top-1 w-6 h-6 bg-white rounded-full transition-transform transform peer-checked:translate-x-full"></span>
+                         </div>
+                     </label>
+                 </form>
+             </div>
+         @endif
+         
             <div class="profile-stats"> <!-- Section for displaying profile statistics -->
                 <div class="stat-item"> <!-- Badges statistic -->
                     <h3>Badges</h3> <!-- Badges header -->
@@ -104,12 +111,16 @@
             </div>
             {{-- </div> --}}
 
+
+            
             {{-- <div class="bg-white shadow sm:rounded-lg"> --}}
             <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center"
                 style="border-bottom: 2px solid #8B9467; width: 50%; margin: 0 auto;">Accomplishments</h3>
             <div class="max-w-3xl mx-auto  mt-4 mb-0 pb-0">
                 @foreach ($completedActivities as $activity)
-                    <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
+                    {{-- <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200"> --}}
+                        <div class="border border-gray-300 shadow-lg rounded-lg overflow-hidden mb-4 ">
+
                         <!-- Activity Header -->
                         <div class="p-3 flex items-center space-x-4 border-b  border-gray-100">
                             <img src="{{ asset($activity->organization->getLogoPath()) }}"

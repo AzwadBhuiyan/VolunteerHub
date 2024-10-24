@@ -5,9 +5,9 @@
         <div class="px-1">
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-8"> --}}
 
-    <div class="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 min-h-screen">
+    <div class="max-w-7xl mx-auto  sm:px-6 lg:px-8 min-h-screen">
         <!-- Centered container with responsive padding and vertical spacing -->
-        <div class="p-1 sm:p-8 bg-white items-center shadow sm:rounded-lg h-full bg-red-500">
+        <div class="p-1 sm:p-8 bg-white items-center sm:rounded-lg h-full">
             @if (
                 !$favorites ||
                     (empty($favorites->favorite_categories) &&
@@ -24,26 +24,10 @@
                 </div>
             @else
 
-            <div class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center mt-4 bg-gray-800 text-white">
+            <div class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white">
                 {{-- <h1 class="text-3xl font-bold mb-4">Explore Idea Board</h1> --}}
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                    fill="{{ request()->routeIs('idea_board.index') ? '#007bff' : '#34C759' }}"
-                    class="h-7 w-7 nav-icon {{ request()->routeIs('idea_board.index') ? 'active-icon' : '' }}"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12.93A5.93 5.93 0 1 1 8 2.07 5.93 5.93 0 0 1 8 13.93z"
-                        fill="{{ request()->routeIs('idea_board.index') ? '#007bff' : '#34C759' }}"
-                        stroke="{{ request()->routeIs('idea_board.index') ? '#007bff' : '#34C759' }}"
-                        stroke-width="0.5" />
-                    <path
-                        d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"
-                        fill="{{ request()->routeIs('idea_board.index') ? '#007bff' : '#34C759' }}"
-                        stroke="{{ request()->routeIs('idea_board.index') ? '#007bff' : '#34C759' }}"
-                        stroke-width="0.5" />
-                </svg>
-
-
-
+           <i class="fas fa-heart text-lg text-green-500"></i>
+           
 
                 <h2
                     class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2 ">
@@ -54,23 +38,25 @@
                     <i class="fas fa-users"></i> View Following Organizations & Volunteers
                 </a>
 
+                <a href="{{ route('favorites.edit') }}" class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
+                    <i class="fas fa-pen"></i> Edit Your Favorites Filters
+                </a>
+
+                
             </div>
-                <div class="text-center">
-                    <a href="{{ route('favorites.edit') }}" class="btn text-center mt-4">
-                        <i class="fas fa-pen"></i>Edit Favorites
-                    </a>
-                    <a href="{{ route('following.index') }}" class="btn text-center mt-4 ml-4">
-                        <i class="fas fa-users"></i>Following
-                    </a>
-                </div>
+        
             @endif
+
+            <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center"
+            style="border-bottom: 2px solid #8B9467; width: 70%; margin: 0 auto;">Favorite Activities & Ideas</h3>
+
 
             <div x-data="{ tab: 'ongoing' }" class="mb-6 mt-6">
                 <div class="flex justify-center space-x-2 mb-4 w-full">
                     <button @click="tab = 'ongoing'"
                         :class="{ 'bg-gray-800': tab === 'ongoing', 'bg-gray-400': tab !== 'ongoing', 'shadow-lg': tab === 'ongoing', 'border-2 border-black': tab === 'ongoing' }"
                         class="w-1/2 px-4 py-2 text-white rounded flex items-center justify-center">
-                        <i class="fas fa-check mr-2" x-show="tab === 'ongoing'"></i> Ongoing
+                        <i class="fas fa-check mr-2" x-show="tab === 'ongoing'"></i> Activities
                     </button>
                     <button @click="tab = 'ideas'"
                         :class="{ 'bg-gray-800': tab === 'ideas', 'bg-gray-400': tab !== 'ideas', 'shadow-lg': tab === 'ideas', 'border-2 border-black': tab === 'ideas' }"
@@ -81,7 +67,7 @@
 
                 <div x-show="tab === 'ongoing'">
                     @if ($ongoingActivities->isEmpty())
-                        <div class="bg-white rounded-xl shadow-lg p-6">
+                        <div class="bg-white rounded-xl  p-6">
                             <p class="text-gray-700">There are no ongoing activities that match your favorites.</p>
                         </div>
                     @else
