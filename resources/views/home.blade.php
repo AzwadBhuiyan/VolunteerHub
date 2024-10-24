@@ -88,7 +88,7 @@
                     </h1>
                     <h2 class="text-2xl font-bold mt-auto italic ">Hours of Volunteer Work</h2>
                 </div>
-                <div class="flex justify-center gap-6 mb-4 relative mx-auto" style="max-width: 50vw;">
+                <div class="flex justify-center gap-3 mb-4 relative mx-auto" style="max-width: 50vw;">
                     @php
                         $totalHours = \App\Models\Activity::where('status', 'completed')->sum('duration');
                         $totalVolunteers = \App\Models\Volunteer::whereHas('user', function ($query) {
