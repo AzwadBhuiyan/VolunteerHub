@@ -29,8 +29,6 @@
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
-
-
             <!-- Volunteer Fields -->
             <div id="volunteer-fields" style="display: none;">
                 <!-- Name -->
@@ -45,13 +43,6 @@
                     <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone"
                         :value="old('phone')" data-required placeholder="Phone" />
                     <x-input-error :messages="$errors->get('phone')" class="mt-2" />
-                </div>
-
-                <!-- NID -->
-                <div class="mt-4">
-                    <x-text-input id="nid" class="block mt-1 w-full" type="text" name="nid"
-                        :value="old('nid')" placeholder="NID (optional)" />
-                    <x-input-error :messages="$errors->get('nid')" class="mt-2" />
                 </div>
 
                 <!-- Gender -->
@@ -74,44 +65,12 @@
                     <x-input-error :messages="$errors->get('dob')" class="mt-2" />
                 </div>
 
-                <!-- Profession -->
-                {{-- <div class="mt-4">
-                <x-input-label for="profession" :value="__('Profession')" />
-                <x-text-input id="profession" class="block mt-1 w-full" type="text" name="profession" :value="old('profession')" />
-            </div> --}}
-
-                <!-- Blood Group -->
-                <div class="mt-4">
-                    <x-input-label for="blood_group" :value="__('Blood Group')" />
-                    <select id="blood_group" name="blood_group"
-                        class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        data-required>
-                        <option value="A+">A+</option>
-                        <option value="A-">A-</option>
-                        <option value="B+">B+</option>
-                        <option value="B-">B-</option>
-                        <option value="AB+">AB+</option>
-                        <option value="AB-">AB-</option>
-                        <option value="O+">O+</option>
-                        <option value="O-">O-</option>
-                    </select>
-                    <x-input-error :messages="$errors->get('blood_group')" class="mt-2" />
-                </div>
-
                 <!-- Present Address -->
                 <div class="mt-4">
                     <textarea id="present_address" name="present_address" rows="3"
                         class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                         data-required placeholder="Present Address">{{ old('present_address') }}</textarea>
                     <x-input-error :messages="$errors->get('present_address')" class="mt-2" />
-                </div>
-
-                <!-- Permanent Address -->
-                <div class="mt-4">
-                    <textarea id="permanent_address" name="permanent_address" rows="3"
-                        class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        data-required placeholder="Permanent Address">{{ old('permanent_address') }}</textarea>
-                    <x-input-error :messages="$errors->get('permanent_address')" class="mt-2" />
                 </div>
 
                 <!-- District -->
@@ -126,16 +85,6 @@
                         @endforeach
                     </select>
                     <x-input-error :messages="$errors->get('district')" class="mt-2" />
-                </div>
-
-                <!-- Trained in Emergency Response -->
-                <div class="mt-4">
-                    <label for="trained_in_emergency_response" class="inline-flex items-center">
-                        <input id="trained_in_emergency_response" type="checkbox"
-                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500"
-                            name="trained_in_emergency_response" value="1">
-                        <span class="ms-2 text-sm text-gray-600">{{ __('Trained in Emergency Response') }}</span>
-                    </label>
                 </div>
 
                 <!-- Password -->
@@ -153,7 +102,6 @@
                     <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
             </div>
-
         </div>
 
         <!-- Organization Fields -->
@@ -217,7 +165,6 @@
         </div>
     </form>
    
-
     <p>Already registered?
         <a class="login-link text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             href="{{ route('login') }}">

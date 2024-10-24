@@ -40,8 +40,6 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // \Log::info('Registration attempt', $request->all());
-
         $commonRules = [
             'user_type' => ['required', 'in:volunteer,organization'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -52,16 +50,10 @@ class RegisteredUserController extends Controller
             'userid' => ['required', 'string', 'max:255', 'unique:users'],
             'name' => ['required', 'string', 'max:50'],
             'phone' => ['required', 'string', 'max:11'],
-            'nid' => ['nullable', 'numeric', 'digits:10'],
             'gender' => ['required', 'in:M,F,O'],
             'dob' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
-            'profession' => ['nullable|string|max:255'],
-            'blood_group' => ['required', 'string', 'max:5'],
             'present_address' => ['required', 'string', 'max:300'],
-            'permanent_address' => ['required', 'string', 'max:300'],
             'district' => ['required', 'string'],
-            'trained_in_emergency_response' => ['nullable', 'boolean'],
-            'bio' => ['nullable', 'string' , 'max:150']
         ];
         
         $organizationRules = [
@@ -99,14 +91,10 @@ class RegisteredUserController extends Controller
                     'url' => $user->userid,
                     'Name' => $request->name,
                     'Phone' => $request->phone,
-                    'NID' => $request->nid,
                     'Gender' => $request->gender,
                     'DOB' => $request->dob,
-                    'BloodGroup' => $request->blood_group,
                     'PresentAddress' => $request->present_address,
-                    'PermanentAddress' => $request->permanent_address,
                     'District' => $request->district,
-                    'TrainedInEmergencyResponse' => $request->has('trained_in_emergency_response'),
                 ]);
             } else {
                 Organization::create([
