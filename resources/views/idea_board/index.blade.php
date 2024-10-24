@@ -1,4 +1,6 @@
 <x-app-layout>
+    <link href="{{ asset('css/volunteer-profile.css') }}" rel="stylesheet">
+
     <div class="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 ">
         <!-- Centered container with responsive padding and vertical spacing -->
         <div class="p-4 sm:p-8 bg-white items-center shadow sm:rounded-lg">
@@ -8,12 +10,17 @@
           <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg"> --}}
             <div class="p-6 bg-white border-b border-gray-200">
-                @if (Auth::user()->organization)
-                    <a href="{{ route('idea_board.create') }}"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        Create New Idea Thread
+                <div class="text-center">
+                    @if (Auth::user()->organization)
+                        <a href="{{ route('idea_board.create') }}" class="btn">
+                            <i class="fas fa-plus"></i>Create New Idea Thread
+                        </a>
+                    @endif
+
+                    <a href="{{ route('idea_board.create') }}" class="btn">
+                        <i class="fas fa-pen"></i>My Idea Threads
                     </a>
-                @endif
+                </div>
 
                 <div class="mt-6">
                     @foreach ($ideaThreads as $thread)

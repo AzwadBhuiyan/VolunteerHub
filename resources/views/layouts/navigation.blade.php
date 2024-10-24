@@ -18,7 +18,7 @@
                          stroke="currentColor" 
                          class="h-7 w-7 nav-icon {{ request()->routeIs('home') ? 'active-icon' : '' }}" 
                          viewBox="0 0 24 24">
-                        <path stroke-width="2" d="M3 9.75L12 3l9 6.75V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z"/>
+                        <path stroke-width="2.5" d="M3 9.75L12 3l9 6.75V21a1 1 0 01-1 1H4a1 1 0 01-1-1V9.75z"/>
                     </svg>
                     <span class="tooltip">{{ __('Home') }}</span>
                 </div>
@@ -74,7 +74,7 @@
                             stroke="currentColor" 
                             class="h-7 w-7 nav-icon {{ request()->routeIs('favorites.show') ? 'active-icon' : '' }}" 
                             viewBox="0 0 24 24">
-                            <path stroke-width="2" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                            <path stroke-width="2.5" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                         </svg>
                         <span class="tooltip">{{ __('Favorites') }}</span>
                     </div>

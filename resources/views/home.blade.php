@@ -88,7 +88,7 @@
                     </h1>
                     <h2 class="text-2xl font-bold mt-auto italic ">Hours of Volunteer Work</h2>
                 </div>
-                <div class="flex justify-center gap-6 mb-4 relative mx-auto" style="max-width: 50vw;">
+                <div class="flex justify-center gap-3 mb-4 relative mx-auto" style="max-width: 50vw;">
                     @php
                         $totalHours = \App\Models\Activity::where('status', 'completed')->sum('duration');
                         $totalVolunteers = \App\Models\Volunteer::whereHas('user', function ($query) {
@@ -152,9 +152,9 @@
 
 
 
-                    <h1
+                    <h2
                         class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2 ">
-                        Discover & Contribute Innovative Ideas!</h1>
+                        Discover & Contribute Innovative Ideas!</h2>
                         <p class="text-base">Join our community and make a difference! Lorem Ipsum is simply dummy text of
                             the printing and typesetting industry.</p>
 
