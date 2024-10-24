@@ -152,9 +152,9 @@
 
 
 
-                    <h1
+                    <h2
                         class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2 ">
-                        Discover & Contribute Innovative Ideas!</h1>
+                        Discover & Contribute Innovative Ideas!</h2>
                         <p class="text-base">Join our community and make a difference! Lorem Ipsum is simply dummy text of
                             the printing and typesetting industry.</p>
 
