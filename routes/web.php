@@ -11,6 +11,7 @@ use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\IdeaThreadController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/connection', function () {
     try {
@@ -26,9 +27,9 @@ Route::get('/connection', function () {
 //     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware('auth')->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
