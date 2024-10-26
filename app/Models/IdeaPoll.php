@@ -17,4 +17,19 @@ class IdeaPoll extends Model
     {
         return $this->hasMany(PollOption::class);
     }
+
+    public function getTotalVotes()
+    {
+        return $this->options->sum('votes');
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(PollVote::class, 'idea_thread_id', 'idea_thread_id');
+    }
+
+    public function hasVotedBy($userId)
+    {
+        return $this->votes()->where('user_id', $userId)->exists();
+    }
 }

@@ -22,6 +22,19 @@
                             <textarea name="description" id="description" rows="4" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required></textarea>
                         </div>
 
+                        <div class="mb-4">
+                            <label for="poll_question" class="block text-gray-700 text-sm font-bold mb-2">Poll Question (optional):</label>
+                            <input type="text" name="poll_question" id="poll_question" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                        </div>
+
+                        <div id="poll_options" class="mb-4">
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Poll Options:</label>
+                            <div class="poll-option">
+                                <input type="text" name="poll_options[]" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">
+                            </div>
+                            <button type="button" id="add_option" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Option</button>
+                        </div>
+
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button class="ml-4">
                                 {{ __('Create Idea Thread') }}
@@ -32,4 +45,26 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const addOptionButton = document.getElementById('add_option');
+            const pollOptionsContainer = document.getElementById('poll_options');
+            let optionCount = 1;
+
+            addOptionButton.addEventListener('click', function() {
+                if (optionCount < 10) {
+                    optionCount++;
+                    const newOption = document.createElement('div');
+                    newOption.className = 'poll-option';
+                    newOption.innerHTML = `<input type="text" name="poll_options[]" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2">`;
+                    pollOptionsContainer.insertBefore(newOption, addOptionButton);
+
+                    if (optionCount === 10) {
+                        addOptionButton.style.display = 'none';
+                    }
+                }
+            });
+        });
+    </script>
 </x-app-layout>

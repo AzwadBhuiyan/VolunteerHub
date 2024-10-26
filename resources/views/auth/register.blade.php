@@ -29,6 +29,21 @@
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
+            <!-- Password -->
+            <div class="mt-4">
+                    <x-text-input id="password" class="block mt-1 w-full" type="password" name="password"
+                        data-required autocomplete="new-password" placeholder="Password" />
+                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="mt-4">
+                    <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
+                        name="password_confirmation" data-required autocomplete="new-password"
+                        placeholder="Confirm Password" />
+                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                </div>
+
             <!-- Volunteer Fields -->
             <div id="volunteer-fields" style="display: none;">
                 <!-- Name -->
@@ -87,20 +102,7 @@
                     <x-input-error :messages="$errors->get('district')" class="mt-2" />
                 </div>
 
-                <!-- Password -->
-                <div class="mt-4">
-                    <x-text-input id="password" class="block mt-1 w-full" type="password" name="password"
-                        data-required autocomplete="new-password" placeholder="Password" />
-                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                </div>
-
-                <!-- Confirm Password -->
-                <div class="mt-4">
-                    <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
-                        name="password_confirmation" data-required autocomplete="new-password"
-                        placeholder="Confirm Password" />
-                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-                </div>
+                
             </div>
         </div>
 

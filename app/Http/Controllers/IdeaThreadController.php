@@ -9,6 +9,7 @@ use App\Models\PollOption;
 use App\Models\IdeaVote;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\PollVote;
 
 class IdeaThreadController extends Controller
 {
@@ -54,7 +55,7 @@ class IdeaThreadController extends Controller
                 'idea_thread_id' => $ideaThread->id,
                 'question' => $request->poll_question,
             ]);
-
+    
             foreach ($request->poll_options as $option) {
                 PollOption::create([
                     'idea_poll_id' => $poll->id,
@@ -132,10 +133,33 @@ class IdeaThreadController extends Controller
         ]);
     }
 
-    public function pollVote(Request $request, PollOption $pollOption)
+    public function pollVote(Request $request, IdeaPoll $poll)
     {
-        $pollOption->increment('votes');
-        return back()->with('success', 'Poll vote recorded successfully.');
+        $request->validate([
+            'option_id' => 'required|exists:poll_options,id'
+        ]);
+
+        $userId = Auth::id();
+
+        if ($poll->hasVotedBy($userId)) {
+            $existingVote = $poll->votes()->where('user_id', $userId)->first();
+            if ($existingVote->poll_option_id == $request->option_id) {
+                $existingVote->delete();
+                $poll->options()->where('id', $request->option_id)->decrement('votes');
+                return back()->with('success', 'Your vote has been removed.');
+            } else {
+                return back()->with('error', 'You have already voted for a different option.');
+            }
+        } else {
+            $pollVote = new PollVote();
+            $pollVote->user_id = $userId;
+            $pollVote->poll_option_id = $request->option_id;
+            $pollVote->idea_thread_id = $poll->idea_thread_id;
+            $pollVote->save();
+
+            $poll->options()->where('id', $request->option_id)->increment('votes');
+            return back()->with('success', 'Your vote has been recorded.');
+        }
     }
 
     public function loadMoreComments(IdeaThread $thread, Request $request)
