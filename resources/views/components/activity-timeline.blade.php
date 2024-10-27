@@ -14,26 +14,25 @@
 
     <div class="relative">
         <!-- Timeline line -->
-        <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gray-300 transform -translate-x-1/2"></div>
+        <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-300"></div>
 
         <!-- Timeline items -->
-        <div class="space-y-8">
+        <div class="space-y-6 ml-12">
             @forelse ($activity->milestones as $milestone)
-                <div class="relative flex items-center justify-center">
+                <div class="relative">
                     <!-- Timeline dot -->
-                    <div class="absolute left-1/2 w-4 h-4 rounded-full border-2 border-blue-500 bg-white transform -translate-x-1/2"></div>
+                    <div class="absolute -left-10 mt-1.5 w-4 h-4 rounded-full border-2 border-blue-500 bg-white"></div>
                     
                     <!-- Content -->
-                    <div class="w-5/12 pr-8 text-right">
-                        <p class="text-gray-700 whitespace-pre-wrap">{{ $milestone->message }}</p>
-                    </div>
-                    
-                    <div class="w-5/12 pl-8">
-                        <span class="text-sm text-gray-500">{{ $milestone->created_at->format('M d, Y H:i') }}</span>
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="flex justify-between items-start mb-2">
+                            <p class="text-gray-700 whitespace-pre-wrap">{{ $milestone->message }}</p>
+                            <span class="text-sm text-gray-500 ml-4">{{ $milestone->created_at->format('M d, Y H:i') }}</span>
+                        </div>
                     </div>
                 </div>
             @empty
-                <p class="text-center text-gray-500 italic">No milestones yet.</p>
+                <p class="text-gray-500 italic">No milestones yet.</p>
             @endforelse
         </div>
     </div>
