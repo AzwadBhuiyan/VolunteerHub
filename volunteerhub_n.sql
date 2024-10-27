@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 22, 2024 at 02:08 PM
+-- Generation Time: Oct 27, 2024 at 09:11 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -113,6 +113,30 @@ INSERT INTO `activity_categories` (`id`, `name`, `created_at`, `updated_at`) VAL
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `activity_milestones`
+--
+
+CREATE TABLE `activity_milestones` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `activity_id` bigint(20) UNSIGNED NOT NULL,
+  `message` text NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `activity_milestones`
+--
+
+INSERT INTO `activity_milestones` (`id`, `activity_id`, `message`, `created_at`, `updated_at`) VALUES
+(1, 7, 'Startooo', '2024-10-27 13:34:45', '2024-10-27 13:34:45'),
+(2, 7, 'Startooo', '2024-10-27 13:34:50', '2024-10-27 13:34:50'),
+(3, 7, 'Endooooooo', '2024-10-27 13:35:15', '2024-10-27 13:35:15'),
+(4, 7, 'surprise not end!!', '2024-10-27 13:57:25', '2024-10-27 13:57:25');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `activity_volunteers`
 --
 
@@ -133,7 +157,8 @@ INSERT INTO `activity_volunteers` (`id`, `activityid`, `volunteer_userid`, `appr
 (2, 1, '00002', 'approved', NULL, NULL),
 (3, 3, '00002', 'approved', '2024-09-26 15:53:14', '2024-09-26 15:58:02'),
 (4, 3, '00004', 'approved', '2024-09-26 15:54:10', '2024-09-26 15:58:02'),
-(66, 3, '00003', 'approved', NULL, NULL);
+(66, 3, '00003', 'approved', NULL, NULL),
+(67, 7, '00002', 'approved', '2024-10-27 13:33:29', '2024-10-27 13:33:50');
 
 -- --------------------------------------------------------
 
@@ -195,7 +220,8 @@ CREATE TABLE `favorites` (
 --
 
 INSERT INTO `favorites` (`id`, `volunteer_userid`, `favorite_categories`, `favorite_districts`, `created_at`, `updated_at`) VALUES
-(1, '00002', '[]', '[\"Bagerhat\"]', '2024-10-22 04:33:35', '2024-10-22 04:33:35');
+(1, '00002', '[]', '[\"Bagerhat\"]', '2024-10-22 04:33:35', '2024-10-22 04:33:35'),
+(2, '00004', '[\"Advocacy\"]', '[]', '2024-10-22 06:18:12', '2024-10-22 06:18:12');
 
 -- --------------------------------------------------------
 
@@ -236,6 +262,13 @@ CREATE TABLE `idea_polls` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `idea_polls`
+--
+
+INSERT INTO `idea_polls` (`id`, `idea_thread_id`, `question`, `created_at`, `updated_at`) VALUES
+(1, 3, 'Do you like big booties or small booties', '2024-10-26 04:17:59', '2024-10-26 04:17:59');
+
 -- --------------------------------------------------------
 
 --
@@ -259,7 +292,8 @@ CREATE TABLE `idea_threads` (
 
 INSERT INTO `idea_threads` (`id`, `userid`, `title`, `description`, `status`, `votes`, `created_at`, `updated_at`) VALUES
 (1, 'org-001', 'how to stop corruption', 'lets hear it', 'open', 0, '2024-10-03 01:58:52', '2024-10-03 01:58:55'),
-(2, 'org-001', 'How would you rob a bank?', 'Best idea maker will be taken to jail\r\n\r\nNo bombs allowed', 'open', 0, '2024-10-03 12:20:24', '2024-10-03 12:20:24');
+(2, 'org-001', 'How would you rob a bank?', 'Best idea maker will be taken to jail\r\n\r\nNo bombs allowed', 'open', 0, '2024-10-03 12:20:24', '2024-10-03 12:20:24'),
+(3, 'org-001', 'Do you like big booties or small booties', 'say it', 'open', 0, '2024-10-26 04:17:59', '2024-10-26 04:17:59');
 
 -- --------------------------------------------------------
 
@@ -293,8 +327,9 @@ INSERT INTO `idea_votes` (`id`, `idea_thread_id`, `idea_comment_id`, `user_useri
 (42, 2, NULL, 'org-001', 1, '2024-10-07 06:34:04', '2024-10-07 06:34:04'),
 (43, 2, 1, '00002', 1, '2024-10-19 02:38:55', '2024-10-19 02:38:55'),
 (44, 2, 3, '00002', 1, '2024-10-19 02:38:57', '2024-10-19 02:38:57'),
-(46, 1, NULL, '00002', 1, '2024-10-19 02:39:06', '2024-10-19 02:39:06'),
-(47, 2, NULL, '00002', 1, '2024-10-19 02:40:14', '2024-10-19 02:40:14');
+(50, 1, NULL, '00002', 1, '2024-10-25 07:18:59', '2024-10-25 07:18:59'),
+(51, 2, NULL, '00002', 1, '2024-10-26 04:08:25', '2024-10-26 04:08:25'),
+(52, 3, NULL, 'org-001', 1, '2024-10-26 04:18:02', '2024-10-26 04:18:02');
 
 -- --------------------------------------------------------
 
@@ -368,7 +403,35 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (39, '2024_09_29_093458_create_idea_votes_table', 7),
 (41, '2024_10_03_221834_add_status_to_idea_threads_table', 8),
 (47, '2024_10_07_184918_create_favorites_table', 9),
-(48, '2024_10_08_193437_create_volunteer_follows_table', 9);
+(48, '2024_10_08_193437_create_volunteer_follows_table', 9),
+(49, '2024_10_22_121517_add_allow_follow_to_volunteers_table', 10),
+(52, '2024_10_27_191728_create_activity_milestones_table', 11);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `milestone_reads`
+--
+
+CREATE TABLE `milestone_reads` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `milestone_id` bigint(20) UNSIGNED NOT NULL,
+  `volunteer_userid` varchar(255) NOT NULL,
+  `is_read` tinyint(1) NOT NULL DEFAULT 0,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `milestone_reads`
+--
+
+INSERT INTO `milestone_reads` (`id`, `milestone_id`, `volunteer_userid`, `is_read`, `read_at`, `created_at`, `updated_at`) VALUES
+(1, 1, '00002', 0, NULL, '2024-10-27 13:34:45', '2024-10-27 13:34:45'),
+(2, 2, '00002', 0, NULL, '2024-10-27 13:34:50', '2024-10-27 13:34:50'),
+(3, 3, '00002', 0, NULL, '2024-10-27 13:35:15', '2024-10-27 13:35:15'),
+(4, 4, '00002', 0, NULL, '2024-10-27 13:57:25', '2024-10-27 13:57:25');
 
 -- --------------------------------------------------------
 
@@ -425,6 +488,14 @@ CREATE TABLE `poll_options` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `poll_options`
+--
+
+INSERT INTO `poll_options` (`id`, `idea_poll_id`, `option_text`, `votes`, `created_at`, `updated_at`) VALUES
+(1, 1, 'big', 0, '2024-10-26 04:17:59', '2024-10-26 14:18:56'),
+(2, 1, 'small', 0, '2024-10-26 04:17:59', '2024-10-26 04:17:59');
 
 -- --------------------------------------------------------
 
@@ -492,17 +563,18 @@ CREATE TABLE `volunteers` (
   `Badges` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`Badges`)),
   `bio` text DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `allow_follow` tinyint(1) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `volunteers`
 --
 
-INSERT INTO `volunteers` (`userid`, `url`, `Name`, `Phone`, `NID`, `Gender`, `DOB`, `BloodGroup`, `PresentAddress`, `PermanentAddress`, `District`, `TrainedInEmergencyResponse`, `Points`, `profession`, `Badges`, `bio`, `created_at`, `updated_at`) VALUES
-('00002', 'TheGreatestVolunteerWhoLived', 'Abbas ali', '01990376524', NULL, 'M', '2024-09-25', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 33, NULL, NULL, 'I am TheGreatestVolunteerWhoLived. Bow down before me', '2024-09-20 07:54:58', '2024-10-07 06:57:26'),
-('00003', '00003', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-11', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02'),
-('00004', '00004', 'asdf', '01990376524', NULL, 'M', '1992-06-09', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Gopalganj', 0, 6, NULL, NULL, NULL, '2024-09-26 15:50:49', '2024-09-26 16:11:07');
+INSERT INTO `volunteers` (`userid`, `url`, `Name`, `Phone`, `NID`, `Gender`, `DOB`, `BloodGroup`, `PresentAddress`, `PermanentAddress`, `District`, `TrainedInEmergencyResponse`, `Points`, `profession`, `Badges`, `bio`, `created_at`, `updated_at`, `allow_follow`) VALUES
+('00002', 'TheGreatestVolunteerWhoLived', 'Abbas ali', '01990376524', NULL, 'M', '2024-09-25', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 33, NULL, NULL, 'I am TheGreatestVolunteerWhoLived. Bow down before me', '2024-09-20 07:54:58', '2024-10-07 06:57:26', 1),
+('00003', '00003', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-11', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 1),
+('00004', '00004', 'asdf', '01990376524', NULL, 'M', '1992-06-09', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Gopalganj', 0, 6, NULL, NULL, NULL, '2024-09-26 15:50:49', '2024-09-26 16:11:07', 1);
 
 -- --------------------------------------------------------
 
@@ -525,7 +597,7 @@ CREATE TABLE `volunteer_follows` (
 
 INSERT INTO `volunteer_follows` (`id`, `follower_id`, `followed_id`, `type`, `created_at`, `updated_at`) VALUES
 (2, '00002', 'org-001', 'organization', '2024-10-22 04:50:54', '2024-10-22 04:50:54'),
-(3, '00002', '00004', 'volunteer', '2024-10-22 05:47:34', '2024-10-22 05:47:34');
+(5, '00002', '00004', 'volunteer', '2024-10-23 09:50:29', '2024-10-23 09:50:29');
 
 --
 -- Indexes for dumped tables
@@ -543,6 +615,13 @@ ALTER TABLE `activities`
 --
 ALTER TABLE `activity_categories`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `activity_milestones`
+--
+ALTER TABLE `activity_milestones`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `activity_milestones_activity_id_foreign` (`activity_id`);
 
 --
 -- Indexes for table `activity_volunteers`
@@ -629,6 +708,14 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `milestone_reads`
+--
+ALTER TABLE `milestone_reads`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `milestone_reads_milestone_id_volunteer_userid_unique` (`milestone_id`,`volunteer_userid`),
+  ADD KEY `milestone_reads_volunteer_userid_foreign` (`volunteer_userid`);
+
+--
 -- Indexes for table `organizations`
 --
 ALTER TABLE `organizations`
@@ -695,10 +782,16 @@ ALTER TABLE `activity_categories`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
+-- AUTO_INCREMENT for table `activity_milestones`
+--
+ALTER TABLE `activity_milestones`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT for table `activity_volunteers`
 --
 ALTER TABLE `activity_volunteers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -710,7 +803,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `idea_comments`
@@ -722,19 +815,19 @@ ALTER TABLE `idea_comments`
 -- AUTO_INCREMENT for table `idea_polls`
 --
 ALTER TABLE `idea_polls`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `idea_threads`
 --
 ALTER TABLE `idea_threads`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `idea_votes`
 --
 ALTER TABLE `idea_votes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -746,19 +839,25 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
+--
+-- AUTO_INCREMENT for table `milestone_reads`
+--
+ALTER TABLE `milestone_reads`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `poll_options`
 --
 ALTER TABLE `poll_options`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `volunteer_follows`
 --
 ALTER TABLE `volunteer_follows`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -769,6 +868,12 @@ ALTER TABLE `volunteer_follows`
 --
 ALTER TABLE `activities`
   ADD CONSTRAINT `activities_userid_foreign` FOREIGN KEY (`userid`) REFERENCES `organizations` (`userid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `activity_milestones`
+--
+ALTER TABLE `activity_milestones`
+  ADD CONSTRAINT `activity_milestones_activity_id_foreign` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`activityid`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `activity_volunteers`
@@ -809,6 +914,13 @@ ALTER TABLE `idea_votes`
   ADD CONSTRAINT `idea_votes_idea_comment_id_foreign` FOREIGN KEY (`idea_comment_id`) REFERENCES `idea_comments` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `idea_votes_idea_thread_id_foreign` FOREIGN KEY (`idea_thread_id`) REFERENCES `idea_threads` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `idea_votes_user_userid_foreign` FOREIGN KEY (`user_userid`) REFERENCES `users` (`userid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `milestone_reads`
+--
+ALTER TABLE `milestone_reads`
+  ADD CONSTRAINT `milestone_reads_milestone_id_foreign` FOREIGN KEY (`milestone_id`) REFERENCES `activity_milestones` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `milestone_reads_volunteer_userid_foreign` FOREIGN KEY (`volunteer_userid`) REFERENCES `volunteers` (`userid`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `organizations`
