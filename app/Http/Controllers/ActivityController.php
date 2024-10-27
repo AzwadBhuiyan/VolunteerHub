@@ -341,4 +341,30 @@ class ActivityController extends Controller
     }
 
 
+
+    public function timeline(Activity $activity)
+    {
+        // Check if user is authorized to view timeline
+        if (!Auth::user()->volunteer && Auth::id() !== $activity->userid) {
+            return redirect()->route('activities.show', $activity)
+                ->with('error', 'Unauthorized access.');
+        }
+
+        // If user is a volunteer, check if they're approved for this activity
+        if (Auth::user()->volunteer) {
+            $isApproved = $activity->volunteers()
+                ->wherePivot('volunteer_userid', Auth::user()->volunteer->userid)
+                ->wherePivot('approval_status', 'approved')
+                ->exists();
+
+            if (!$isApproved) {
+                return redirect()->route('activities.show', $activity)
+                    ->with('error', 'Only approved volunteers can view the timeline.');
+            }
+        }
+
+        return view('activities.timeline', compact('activity'));
+    }
+
+
 }

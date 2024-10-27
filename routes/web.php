@@ -12,6 +12,7 @@ use App\Http\Controllers\IdeaThreadController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ActivityMilestoneController;
 
 Route::get('/connection', function () {
     try {
@@ -60,6 +61,12 @@ Route::middleware('auth')->group(function () {
         // volunteer->activities
     Route::post('/activities/{activity}/register', [ActivityController::class, 'register'])->name('activities.register')->middleware('auth');
     Route::delete('/activities/{activity}/cancel-registration', [ActivityController::class, 'cancelRegistration'])->name('activities.cancel_registration');
+        // View timeline
+    Route::get('/activities/{activity}/timeline', [ActivityController::class, 'timeline'])->name('activities.timeline');
+        // Create new milestone
+    Route::post('/activities/{activity}/milestones', [ActivityMilestoneController::class, 'store'])->name('activities.milestones.store');
+        // Mark milestone as read
+    Route::post('/milestones/{milestone}/read', [ActivityMilestoneController::class, 'markAsRead'])->name('milestones.mark-as-read');
 
 
     // Idea Board
@@ -91,6 +98,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/volunteers/{volunteer}/follow', [FollowController::class, 'followVolunteer'])->name('volunteers.follow');
     Route::delete('/volunteers/{volunteer}/unfollow', [FollowController::class, 'unfollowVolunteer'])->name('volunteers.unfollow');
     Route::patch('/volunteers/{volunteer}/toggle-follow', [FollowController::class, 'toggleFollow'])->name('volunteers.toggle-follow');
+
+    
 
 });
 

@@ -39,6 +39,13 @@ class Activity extends Model
                     ->withTimestamps();
     }
 
+    // Activity timeline milestones
+    public function milestones()
+    {
+        return $this->hasMany(ActivityMilestone::class, 'activity_id', 'activityid')
+                    ->orderBy('created_at', 'asc');
+    }
+
     public function pendingVolunteers()
     {
         return $this->volunteers()->wherePivot('approval_status', 'pending');

@@ -38,6 +38,18 @@
                         <p><strong>Deadline:</strong> {{ $activity->deadline->format('M d, Y H:i') }}</p>
                         <p><strong>Volunteers Needed:</strong> {{ $activity->min_volunteers }} - {{ $activity->max_volunteers ?? 'No limit' }}</p>
                     </div>
+                    @auth
+                        @if(Auth::id() === $activity->userid || 
+                            (Auth::user()->volunteer && $activity->volunteers()
+                                ->wherePivot('volunteer_userid', Auth::user()->volunteer->userid)
+                                ->wherePivot('approval_status', 'approved')
+                                ->exists()))
+                            <a href="{{ route('activities.timeline', $activity) }}" 
+                            class="inline-block bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded-md text-sm mb-4">
+                                View Activity Timeline
+                            </a>
+                        @endif
+                    @endauth
                     <div class="mb-4">
                         Organized by:
                         <a href="{{ route('profile.public', $activity->organization->url) }}" class="text-blue-500 hover:underline">
