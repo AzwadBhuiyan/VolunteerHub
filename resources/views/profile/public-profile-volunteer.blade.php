@@ -68,22 +68,12 @@
                
             </div>
 
-             <!-- turn on/off followers -->
-             @if (Auth::id() == $profile->userid)
-             <div class="flex justify-center mt-4">
-                 <form action="{{ route('volunteers.toggle-follow', $profile) }}" method="POST">
-                     @csrf
-                     @method('PATCH')
-                     <label class="inline-flex items-center cursor-pointer">
-                         <span class="mr-3 text-gray-900 font-medium">Allow Followers</span>
-                         <input type="checkbox" class="sr-only" onchange="this.form.submit()" {{ $profile->allow_follow ? 'checked' : '' }}>
-                         <div class="w-16 h-8 bg-gray-200 rounded-full relative peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 peer dark:bg-gray-700 peer-checked:bg-green-500">
-                             <span class="absolute left-1 top-1 w-6 h-6 bg-white rounded-full transition-transform transform peer-checked:translate-x-full"></span>
-                         </div>
-                     </label>
-                 </form>
-             </div>
-         @endif
+             @if (session('status'))
+                 <div class="mt-2 text-center text-sm text-gray-600">
+                     {{ session('status') }}
+                 </div>
+             @endif
+
          
             <div class="profile-stats"> <!-- Section for displaying profile statistics -->
                 <div class="stat-item"> <!-- Badges statistic -->

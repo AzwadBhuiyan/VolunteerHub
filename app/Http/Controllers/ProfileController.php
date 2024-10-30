@@ -26,7 +26,7 @@ class ProfileController extends Controller
             'user' => $user,
             'profile' => $profile,
             'activities' => $activities,
-            'logMessages' => $logMessages,
+            // 'logMessages' => $logMessages,
         ]);
     }
 
@@ -62,6 +62,7 @@ class ProfileController extends Controller
             $profile->bio = $request->bio;
             $profile->Phone = $request->phone;
             $profile->BloodGroup = $request->blood_group;
+            $profile->allow_follow = $request->allow_follow;
         }
 
         // Handle new fields for organization

@@ -76,18 +76,8 @@ class FollowController extends Controller
         return back()->with('status', 'Volunteer unfollowed successfully.');
     }
 
-    public function toggleFollow(Request $request, Volunteer $volunteer)
-    {
-        if ($request->user()->id !== $volunteer->userid) {
-            return back()->with('error', 'You are not authorized to perform this action.');
-        }
-
-        $volunteer->allow_follow = !$volunteer->allow_follow;
-        $volunteer->save();
-
-        $message = $volunteer->allow_follow ? 'Follow feature turned on.' : 'Follow feature turned off.';
-        return back()->with('status', $message);
-    }
+    // TOGGLE FOLLOW FUNCTION MOVED TO PROFILE CONTROLLER
+   
 
     
 

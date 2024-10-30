@@ -65,6 +65,30 @@
         </div>
         <x-input-error class="mt-2" :messages="$errors->get('blood_group')" />
 
+        <!-- FOLLOWER CONTROL ALLOW/DISALLOW -->
+        <div class="flex items-center mt-4">
+            <x-input-label for="allow_follow" :value="__('Follow Settings')" class="w-1/4 mr-2 text-left" />
+            <div class="flex flex-col space-y-2">
+                <label class="inline-flex items-center">
+                    <input type="radio" 
+                        name="allow_follow" 
+                        value="1" 
+                        class="form-radio" 
+                        {{ $profile->allow_follow ? 'checked' : '' }}>
+                    <span class="ml-2">Allow other volunteers to follow me</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" 
+                        name="allow_follow" 
+                        value="0" 
+                        class="form-radio" 
+                        {{ !$profile->allow_follow ? 'checked' : '' }}>
+                    <span class="ml-2">Don't allow new followers</span>
+                </label>
+                <p class="text-sm text-gray-500">Note: Existing followers will remain even if you disable new follows</p>
+            </div>
+        </div>
+
         <div class="flex items-center justify-center gap-4"> <!-- Centered the button group -->
             <x-primary-button>{{ __('Save Primary Details') }}</x-primary-button>
 
