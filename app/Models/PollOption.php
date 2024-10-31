@@ -13,6 +13,11 @@ class PollOption extends Model
         return $this->belongsTo(IdeaPoll::class);
     }
 
+    public function votes()
+    {
+        return $this->hasMany(PollVote::class);
+    }
+
     public function getPercentage()
     {
         $totalVotes = $this->ideaPoll->getTotalVotes();
@@ -21,8 +26,6 @@ class PollOption extends Model
 
     public function hasVotedBy($userId)
     {
-        return $this->ideaPoll->votes()->where('user_id', $userId)
-            ->where('poll_option_id', $this->id)
-            ->exists();
+        return $this->votes()->where('user_id', $userId)->exists();
     }
 }

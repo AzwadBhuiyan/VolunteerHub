@@ -27,6 +27,16 @@
 
                     @if($ideaThread->poll)
                         <div class="mt-6 bg-blue-50 p-4 rounded-lg">
+                        @if(session('success'))
+                            <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        @if(session('error'))
+                            <div class="mb-4 p-4 bg-red-100 text-red-700 rounded">
+                                {{ session('error') }}
+                            </div>
+                        @endif
                             <h4 class="text-lg font-semibold mb-2">Poll: {{ $ideaThread->poll->question }}</h4>
                             <form action="{{ route('idea_board.poll_vote', $ideaThread->poll) }}" method="POST">
                                 @csrf

@@ -8,7 +8,7 @@ class PollVote extends Model
 {
     protected $guarded = [];
 
-    protected $fillable = ['idea_thread_id', 'poll_option_id', 'user_id'];
+    protected $fillable = ['idea_poll_id', 'poll_option_id', 'user_id'];
     
 
     public function ideaPoll()

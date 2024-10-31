@@ -25,7 +25,7 @@ class IdeaPoll extends Model
 
     public function votes()
     {
-        return $this->hasMany(PollVote::class, 'idea_thread_id', 'idea_thread_id');
+        return $this->hasMany(PollVote::class);
     }
 
     public function hasVotedBy($userId)
