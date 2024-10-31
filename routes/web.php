@@ -24,6 +24,10 @@ Route::get('/connection', function () {
 });
 
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
+
 // Route::get('/', function () {
 //     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // });
@@ -109,11 +113,8 @@ Route::get('/activities-feed', [ActivityController::class, 'feed'])->name('activ
 // Public profile route (accessible without authentication)
 Route::get('/profile/{url}', [PublicProfileController::class, 'show'])->name('profile.public');
 
-Route::middleware(['web'])->group(function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
-});
+
+
 
 // Route::get('/home', function () {
 //     return view('home');

@@ -109,7 +109,7 @@
                             <p class="text-sm text-gray-600 mt-1">Maximum file size: 5MB</p>
                         </div>
                         
-
+                        <div><p class=italic sm>Activity will automatically change status to "closed" when date or deadline is reached</p></div>
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button class="ml-4">
                                 {{ __('Create Activity') }}

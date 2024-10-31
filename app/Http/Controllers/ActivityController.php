@@ -192,24 +192,6 @@ class ActivityController extends Controller
         return view('activities.show_accomplished', compact('activity', 'accomplishedPhotos'));
     }
 
-    
-    // public function updateVolunteerStatus(Request $request, Activity $activity, Volunteer $volunteer)
-    // {
-    //     if (Auth::id() != $activity->userid) {
-    //         return redirect()->route('activities.show', $activity)->with('error', 'Unauthorized access.');
-    //     }
-
-    //     $validatedData = $request->validate([
-    //         'approval_status' => 'required|in:pending,approved,rejected',
-    //     ]);
-
-    //     $activity->volunteers()->updateExistingPivot($volunteer->userid, [
-    //         'approval_status' => $validatedData['approval_status']
-    //     ]);
-
-    //     return redirect()->route('activities.show_signups', $activity)->with('success', 'Volunteer status updated successfully.');
-    // }
-
     public function updateMultipleVolunteerStatus(Request $request, Activity $activity)
     {
         if (Auth::id() != $activity->userid) {
