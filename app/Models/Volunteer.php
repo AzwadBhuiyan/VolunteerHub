@@ -50,6 +50,14 @@ class Volunteer extends Model
         return $this->belongsToMany(Activity::class, 'activity_volunteers', 'volunteer_userid', 'activityid');
     }
 
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class, 'activity_volunteers', 'volunteer_userid', 'activityid')
+                    ->withPivot('approval_status')
+                    ->withTimestamps();
+    }
+    
+
     public function badges()
     {
         return $this->belongsToMany(Badge::class);
