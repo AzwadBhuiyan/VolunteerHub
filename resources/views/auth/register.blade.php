@@ -6,10 +6,10 @@
         @csrf
 
         <!-- User Type -->
-        <div>
-            <x-input-label for="user_type" :value="__('Select User Type')" />
+        <div class="mt-4 flex items-center" style="min-width: 300px">
+            <label for="user_type" class="mr-2 whitespace-nowrap" style="min-width: 80px">User Type:</label>
             <select id="user_type" name="user_type"
-                class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 data-required onchange="toggleUserType()">
                 <option value="volunteer">Volunteer</option>
                 <option value="organization">Organization</option>
@@ -29,20 +29,7 @@
                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
             </div>
 
-            <!-- Password -->
-            <div class="mt-4">
-                    <x-text-input id="password" class="block mt-1 w-full" type="password" name="password"
-                        data-required autocomplete="new-password" placeholder="Password" />
-                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
-                </div>
-
-                <!-- Confirm Password -->
-                <div class="mt-4">
-                    <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
-                        name="password_confirmation" data-required autocomplete="new-password"
-                        placeholder="Confirm Password" />
-                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-                </div>
+         
 
             <!-- Volunteer Fields -->
             <div id="volunteer-fields" style="display: none;">
@@ -60,47 +47,63 @@
                     <x-input-error :messages="$errors->get('phone')" class="mt-2" />
                 </div>
 
-                <!-- Gender -->
-                <div class="mt-4">
-                    <x-input-label for="gender" :value="__('Gender')" />
-                    <select id="gender" name="gender"
-                        class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        data-required>
-                        <option value="M">Male</option>
-                        <option value="F">Female</option>
-                        <option value="O">Other</option>
-                    </select>
-                    <x-input-error :messages="$errors->get('gender')" class="mt-2" />
-                </div>
+                      <!-- Gender -->
+                      <div class="mt-4 flex items-center">
+                        <label for="gender" class="mr-2 whitespace-nowrap">Gender:</label>
+                        <select id="gender" name="gender" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" data-required>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                            <option value="O">Other</option>
+                        </select>
+                        <x-input-error :messages="$errors->get('gender')" class="mt-2" />
+                    </div>
+    
+                    <!-- Date of Birth -->
+                    <div class="mt-4 flex items-center">
+                        <label for="dob" class="mr-2 whitespace-nowrap" style="min-width: 100px;">Date of Birth:</label>
+                        <x-text-input id="dob" class="block w-full" type="date" name="dob"
+                            :value="old('dob')" data-required placeholder="Date of Birth" />
+                        <x-input-error :messages="$errors->get('dob')" class="mt-2" />
+                    </div>
+    
+                
 
-                <!-- Date of Birth -->
-                <div class="mt-4">
-                    <x-text-input id="dob" class="block mt-1 w-full" type="date" name="dob"
-                        :value="old('dob')" data-required placeholder="Date of Birth" />
-                    <x-input-error :messages="$errors->get('dob')" class="mt-2" />
-                </div>
+                    <!-- Present Address -->
+                    <div class="mt-4">
+                        <textarea id="present_address" name="present_address" rows="3"
+                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            data-required placeholder="Present Address">{{ old('present_address') }}</textarea>
+                        <x-input-error :messages="$errors->get('present_address')" class="mt-2" />
+                    </div>
+    
+                    <!-- District -->
+                    @php
+                        $districts = config('districts.districts');
+                    @endphp
+                    <div class="mt-4 flex items-center">
+                        <label for="district" class="mr-2 whitespace-nowrap">District:</label>
+                        <select id="district" name="district" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" data-required>
+                            @foreach ($districts as $district)
+                                <option value="{{ $district }}">{{ $district }}</option>
+                            @endforeach
+                        </select>
+                        <x-input-error :messages="$errors->get('district')" class="mt-2" />
+                    </div>
 
-                <!-- Present Address -->
-                <div class="mt-4">
-                    <textarea id="present_address" name="present_address" rows="3"
-                        class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                        data-required placeholder="Present Address">{{ old('present_address') }}</textarea>
-                    <x-input-error :messages="$errors->get('present_address')" class="mt-2" />
-                </div>
+             <!-- Password -->
+             <div class="mt-4">
+                <x-text-input id="password" class="block mt-1 w-full" type="password" name="password"
+                    data-required autocomplete="new-password" placeholder="Password" />
+                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+            </div>
 
-                <!-- District -->
-                @php
-                    $districts = config('districts.districts');
-                @endphp
-                <div class="mt-4">
-                    <x-input-label for="district" :value="__('District')" />
-                    <select id="district" name="district" class="mt-1 block w-full" required>
-                        @foreach ($districts as $district)
-                            <option value="{{ $district }}">{{ $district }}</option>
-                        @endforeach
-                    </select>
-                    <x-input-error :messages="$errors->get('district')" class="mt-2" />
-                </div>
+            <!-- Confirm Password -->
+            <div class="mt-4">
+                <x-text-input id="password_confirmation" class="block mt-1 w-full" type="password"
+                    name="password_confirmation" data-required autocomplete="new-password"
+                    placeholder="Confirm Password" />
+                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+            </div>
 
                 
             </div>
