@@ -22,7 +22,6 @@ class DashboardController extends Controller
             $recentActivities = $user->volunteer->activities()
             ->wherePivot('approval_status', 'approved')
             ->orderBy('date', 'desc')
-            ->take(5)
             ->get();
                 
             return view('dashboard', compact('recentActivities'));

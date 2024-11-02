@@ -38,14 +38,13 @@
                             </div>
                         @endif
                             <h4 class="text-lg font-semibold mb-2">Poll: {{ $ideaThread->poll->question }}</h4>
-                            <form action="{{ route('idea_board.poll_vote', $ideaThread->poll) }}" method="POST">
+                            <form action="{{ route('idea_board.poll_vote', ['poll' => $ideaThread->poll->id]) }}" method="POST">
                                 @csrf
                                 @foreach($ideaThread->poll->options as $option)
                                     <div class="mb-2">
                                         <button type="submit" name="option_id" value="{{ $option->id }}" 
                                             class="w-full text-left p-2 bg-white hover:bg-blue-100 border border-blue-200 rounded 
-                                            {{ $option->hasVotedBy(Auth::id()) ? 'bg-blue-200' : '' }}"
-                                            {{ $ideaThread->poll->hasVotedBy(Auth::id()) ? 'disabled' : '' }}>
+                                            {{ $option->hasVotedBy(Auth::id()) ? 'bg-blue-200' : '' }}">
                                             {{ $option->option_text }}
                                             <span class="float-right">{{ $option->votes }} votes ({{ number_format($option->getPercentage(), 1) }}%)</span>
                                         </button>
@@ -54,7 +53,7 @@
                             </form>
                             <p class="mt-2 text-sm text-gray-600">Total votes: {{ $ideaThread->poll->getTotalVotes() }}</p>
                             @if($ideaThread->poll->hasVotedBy(Auth::id()))
-                                <p class="mt-2 text-sm text-blue-600">You have already voted in this poll.</p>
+                                <p class="mt-2 text-sm text-blue-600">You have voted in this poll. You can change your vote by selecting a different option.</p>
                             @endif
                         </div>
                     @else

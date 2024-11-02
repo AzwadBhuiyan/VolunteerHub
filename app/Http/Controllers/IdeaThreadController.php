@@ -136,11 +136,6 @@ class IdeaThreadController extends Controller
 
     public function pollVote(Request $request, IdeaPoll $poll)
     {
-        \Log::info('Poll Vote Request:', [
-            'poll_id' => $poll->id,
-            'option_id' => $request->option_id,
-            'user_id' => Auth::id()
-        ]);
         $request->validate([
             'option_id' => [
                 'required',
@@ -152,30 +147,37 @@ class IdeaThreadController extends Controller
                 },
             ]
         ]);
-    
+
         $userId = Auth::id();
-    
-        if ($poll->hasVotedBy($userId)) {
-            $existingVote = $poll->votes()->where('user_id', $userId)->first();
-            if ($existingVote->poll_option_id == $request->option_id) {
-                $existingVote->delete();
-                $poll->options()->where('id', $request->option_id)->decrement('votes');
-                return back()->with('success', 'Your vote has been removed.');
-            } else {
-                return back()->with('error', 'You have already voted for a different option.');
-            }
-        }
-    
+
         DB::transaction(function () use ($poll, $userId, $request) {
+            // First check for existing vote
+            $existingVote = $poll->votes()->where('user_id', $userId)->first();
+            
+            if ($existingVote) {
+                // If voting for the same option, do nothing
+                if ($existingVote->poll_option_id == $request->option_id) {
+                    return;
+                }
+                
+                // Decrement votes count for the old option
+                $poll->options()->where('id', $existingVote->poll_option_id)->decrement('votes');
+                
+                // Delete the old vote
+                $existingVote->delete();
+            }
+
+            // Create new vote
             PollVote::create([
                 'user_id' => $userId,
                 'poll_option_id' => $request->option_id,
                 'idea_poll_id' => $poll->id
             ]);
-    
+
+            // Increment votes for the new option
             $poll->options()->where('id', $request->option_id)->increment('votes');
         });
-    
+
         return back()->with('success', 'Your vote has been recorded.');
     }
 
