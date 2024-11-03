@@ -3,9 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\HasMilestoneReads;
 
 class Volunteer extends Model
 {
+    // milestone notifications
+    use HasMilestoneReads;
+
     protected $primaryKey = 'userid';
     public $incrementing = false;
     protected $keyType = 'string';

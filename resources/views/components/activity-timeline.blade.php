@@ -19,7 +19,7 @@
         <!-- Timeline items -->
         <div class="space-y-6 ml-12">
             @forelse ($activity->milestones as $milestone)
-                <div class="relative">
+                <div class="relative" data-milestone-id="{{ $milestone->id }}">
                     <!-- Timeline dot -->
                     <div class="absolute -left-10 mt-1.5 w-4 h-4 rounded-full border-2 border-blue-500 bg-white"></div>
                     
@@ -68,3 +68,34 @@
         </div>
     </div>
 @endif
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const milestones = document.querySelectorAll('[data-milestone-id]');
+    
+    const markAsRead = async (milestoneId) => {
+        try {
+            await fetch(`/activities/milestones/${milestoneId}/mark-as-read`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                }
+            });
+        } catch (error) {
+            console.error('Error marking milestone as read:', error);
+        }
+    };
+
+    // Mark milestones as read when they become visible
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const milestoneId = entry.target.dataset.milestoneId;
+                markAsRead(milestoneId);
+            }
+        });
+    });
+
+    milestones.forEach(milestone => observer.observe(milestone));
+});
+</script>

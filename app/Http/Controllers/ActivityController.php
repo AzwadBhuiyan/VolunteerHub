@@ -344,6 +344,13 @@ class ActivityController extends Controller
                     ->with('error', 'Only approved volunteers can view the timeline.');
             }
         }
+        
+        if (Auth::user()->volunteer) {
+            // Mark all milestones as read for this volunteer
+            foreach ($activity->milestones as $milestone) {
+                $milestone->markAsReadByVolunteer(Auth::user()->volunteer->userid);
+            }
+        }
 
         return view('activities.timeline', compact('activity'));
     }

@@ -17,4 +17,14 @@ class ActivityMilestone extends Model
     {
         return $this->hasMany(MilestoneRead::class, 'milestone_id');
     }
+
+    public function markAsReadByVolunteer($volunteerUserId)
+    {
+        return $this->reads()
+            ->where('volunteer_userid', $volunteerUserId)
+            ->update([
+                'is_read' => true,
+                'read_at' => now()
+            ]);
+    }
 }

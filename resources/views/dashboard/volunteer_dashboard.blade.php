@@ -126,10 +126,18 @@
                                             <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
                                         </svg>
                                     </a>
-                                    @if($activity->status === 'completed' && $activity->pivot->approval_status === 'approved')
+                                    @if($activity->pivot->approval_status === 'approved')
                                         <a href="{{ route('activities.timeline', $activity) }}" 
                                            class="inline-flex items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded text-indigo-700 bg-indigo-100 hover:bg-indigo-200">
                                             Timeline
+                                            @php
+                                                $unreadCount = Auth::user()->volunteer->getUnreadMilestonesCount($activity->activityid);
+                                            @endphp
+                                            @if($unreadCount > 0)
+                                                <span class="ml-1.5 px-2 py-0.5 text-xs font-medium bg-red-100 text-red-800 rounded-full">
+                                                    {{ $unreadCount }}
+                                                </span>
+                                            @endif
                                         </a>
                                     @endif
                                 </div>
