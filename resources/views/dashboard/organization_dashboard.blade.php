@@ -15,6 +15,38 @@
     </a>
 </div>
 
+<!-- Stats Section -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white p-4 rounded-lg shadow">
+        <h3 class="text-lg font-semibold">Total Activities</h3>
+        <p class="text-2xl font-bold text-blue-600">
+            {{ Auth::user()->organization->activities()->count() }}
+        </p>
+    </div>
+    <div class="bg-white p-4 rounded-lg shadow">
+        <h3 class="text-lg font-semibold">Accomplished Activities</h3>
+        <p class="text-2xl font-bold text-green-600">
+            {{ Auth::user()->organization->activities()->where('status', '!=', 'completed')->count() }}
+        </p>
+    </div>
+    <div class="bg-white p-4 rounded-lg shadow">
+        <h3 class="text-lg font-semibold">Total Unique Volunteers</h3>
+        <p class="text-2xl font-bold text-purple-600">
+            {{ Auth::user()->organization->activities()
+                ->join('activity_volunteers', 'activities.activityid', '=', 'activity_volunteers.activityid')
+                ->where('activity_volunteers.approval_status', 'approved')
+                ->distinct('activity_volunteers.volunteer_userid')
+                ->count('activity_volunteers.volunteer_userid') }}
+        </p>
+    </div>
+    <div class="bg-white p-4 rounded-lg shadow">
+        <h3 class="text-lg font-semibold">Idea Threads</h3>
+        <p class="text-2xl font-bold text-orange-600">
+            {{ Auth::user()->organization->ideaThreads()->count() }}
+        </p>
+    </div>
+</div>
+
 <div class="my-2 px-4 rounded-lg shadow-lg border border-gray-200">
     <div class="w-full p-8 mb-4">
         @php

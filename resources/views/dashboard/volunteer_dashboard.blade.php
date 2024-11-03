@@ -19,6 +19,10 @@
             <h3 class="text-lg font-semibold">Organizations Following</h3>
             <p class="text-2xl font-bold text-purple-600">{{ Auth::user()->volunteer->followedOrganizations->count() }}</p>
         </div>
+        <div class="bg-white p-4 rounded-lg shadow">
+            <h3 class="text-lg font-semibold">Idea Interactions</h3>
+            <p class="text-2xl font-bold text-orange-600">{{ Auth::user()->volunteer->idea_interactions_count }}</p>
+        </div>      
     </div>
 
 

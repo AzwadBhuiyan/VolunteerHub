@@ -122,6 +122,19 @@ class Volunteer extends Model
                     ->withTimestamps();
     }
 
-    
+    public function comments()
+    {
+        return $this->hasMany(IdeaComment::class, 'volunteer_userid', 'userid');
+    }
+
+    public function pollVotes()
+    {
+        return $this->hasMany(PollVote::class, 'user_id', 'userid');
+    }
+
+    public function getIdeaInteractionsCountAttribute()
+    {
+        return $this->comments()->count() + $this->pollVotes()->count();
+    }
 
 }

@@ -50,4 +50,9 @@ class Organization extends Model
         // Return the default logo path if no matching file is found
         return 'images/defaults/default-logo.png';
     }
+
+    public function ideaThreads()
+    {
+        return $this->hasMany(IdeaThread::class, 'userid', 'userid');
+    }
 }
