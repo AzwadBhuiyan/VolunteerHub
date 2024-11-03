@@ -7,19 +7,25 @@
 <!-- this is for favorites blade -->
 <!-- ````````````````````````` -->
 
-<div class="border border-gray-300 shadow-lg rounded-lg overflow-hidden mb-4 ">
-    <div class="p-3 flex items-center space-x-4">
+<div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
+
+    <div class="p-3 flex items-center space-x-4 border-b border-gray-100">
         <img src="{{ asset($activity->organization->getLogoPath()) }}" alt="{{ $activity->organization->org_name }}"
             class="w-10 h-10 rounded-full object-cover">
-        <div class="flex flex-col ml-2">
-            <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}</h4>
-            <div class="text-xs text-gray-500">
-                <a href="{{ route('profile.public', $activity->organization->url) }}"
-                    class="text-blue-500 hover:underline">
-                    {{ $activity->organization->org_name }}
-                </a>
-                <span>.</span>
-                <span>{{ $activity->date->format('M d, Y') }}</span>
+        <div class="flex flex-col ml-4 flex-grow">
+            <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}
+            </h4>
+            <div class="text-xs text-gray-500 flex justify-between">
+                <div>
+                    <a href="{{ route('profile.public', $activity->organization->url) }}"
+                        class="text-blue-500 hover:underline">{{ $activity->organization->org_name }}</a>
+                    <span>.</span>
+                    <span>{{ $activity->date->format('M d, Y') }}</span>
+                </div>
+                <span>
+                    <i class="fas fa-map-marker-alt mr-1"></i>
+                    {{ $activity->district }}
+                </span>
             </div>
         </div>
     </div>

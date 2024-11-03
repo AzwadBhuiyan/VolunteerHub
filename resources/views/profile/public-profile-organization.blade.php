@@ -41,7 +41,7 @@
 
                 </div>
 
-               
+
                 <div class="btn-group"> <!-- Button group for profile actions -->
                     @auth
                         @if (Auth::user()->volunteer)
@@ -96,8 +96,8 @@
                         </div>
                     </div>
                 </div>
-                 <!-- Action Buttons -->
-                 <div class="flex space-x-2 my-2 justify-center p-2">
+                <!-- Action Buttons -->
+                <div class="flex space-x-2 my-2 justify-center p-2">
                     <a href="#" class="btn-rounded custom-btn">About</a>
                     <a href="#" class="btn-rounded custom-btn">Contact</a>
                     <a href="{{ $profile->website }}" class="btn-rounded custom-btn">Website</a>
@@ -123,23 +123,27 @@
                     <div x-show="tab === 'ongoing'" class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-4">
                         <!-- Match the same container structure -->
                         @foreach ($ongoingActivities as $activity)
-                        <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
-                            <!-- Activity Header -->
-                            <div class="p-3 flex items-center space-x-4 border-b  border-gray-100">
+                            <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
+                                <!-- Activity Header -->
+                                <div class="p-3 flex items-center space-x-4 border-b  border-gray-100">
                                     <!-- Adjusted padding-bottom -->
                                     <img src="{{ asset($activity->organization->getLogoPath()) }}"
                                         alt="{{ $activity->organization->org_name }}"
                                         class="w-10 h-10 rounded-full object-cover">
-                                    <div class="flex flex-col ml-2"> <!-- Adjusted margin -->
-                                        <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}</h4>
-                                        <!-- Adjusted font size -->
-                                        <div class="text-xs text-gray-500">
-                                            <a href="{{ route('profile.public', $activity->organization->url) }}"
-                                                class="text-blue-500 hover:underline">
-                                                {{ $activity->organization->org_name }}
-                                            </a>
-                                            <span>.</span>
-                                            <span>{{ $activity->date->format('M d, Y') }}</span>
+                                    <div class="flex flex-col ml-4 flex-grow">
+                                        <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}
+                                        </h4>
+                                        <div class="text-xs text-gray-500 flex justify-between">
+                                            <div>
+                                                <a href="{{ route('profile.public', $activity->organization->url) }}"
+                                                    class="text-blue-500 hover:underline">{{ $activity->organization->org_name }}</a>
+                                                <span>.</span>
+                                                <span>{{ $activity->date->format('M d, Y') }}</span>
+                                            </div>
+                                            <span>
+                                                <i class="fas fa-map-marker-alt mr-1"></i>
+                                                {{ $activity->district }}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -159,23 +163,12 @@
                                 </div>
 
                                 <!-- Activity Footer -->
-                                <div class="px-2 py-2 bg-gray-50 mt-auto"> <!-- Adjusted padding -->
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <span class="text-sm ">
-                                                Organized by:
-                                            </span>
-                                            <a href="{{ route('profile.public', $activity->organization->url) }}"
-                                                class="text-blue-500 hover:underline">
-                                                {{ $activity->organization->org_name }}
-                                            </a>
-                                        </div>
-                                        <a href="{{ route('activities.show', $activity) }}"
-                                            class="text-sm bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">
-                                            <!-- Adjusted padding -->
-                                            View Details
-                                        </a>
-                                    </div>
+                                <!-- Activity Footer -->
+                                <div class="px-2 py-2 bg-gray-50 mt-auto">
+                                    <a href="{{ route('activities.show', $activity) }}"
+                                        class="block text-center text-sm bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 text-white font-bold py-2 px-4 rounded">
+                                        View Details
+                                    </a>
                                 </div>
                             </div>
                         @endforeach
@@ -183,11 +176,12 @@
 
                     <div x-show="tab === 'completed'" class="space-y-8">
                         <!-- Activities Section -->
-                          <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 mt-4 mb-0 pb-0">
+                        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 mt-4 mb-0 pb-0">
                             @foreach ($completedActivities as $activity)
-                            <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
-                                <!-- Activity Header -->
-                                <div class="p-3 flex items-center space-x-4 border-b  border-gray-100">
+                                <div
+                                    class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
+                                    <!-- Activity Header -->
+                                    <div class="p-3 flex items-center space-x-4 border-b  border-gray-100">
                                         <img src="{{ asset($activity->organization->getLogoPath()) }}"
                                             alt="{{ $activity->organization->org_name }}"
                                             class="w-10 h-10 rounded-full object-cover">

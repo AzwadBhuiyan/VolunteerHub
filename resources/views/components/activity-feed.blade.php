@@ -6,9 +6,7 @@
     @endif
     <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-8">
         @foreach($activities as $activity)
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col">
-                <x-activity-card :activity="$activity" />
-            </div>
+            <x-activity-card :activity="$activity" />
         @endforeach
 
         <div class="mt-8">

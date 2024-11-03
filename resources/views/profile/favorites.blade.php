@@ -74,8 +74,8 @@
                         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-4">
                             <!-- Match the same container structure -->
                             @foreach ($ongoingActivities as $activity)
-                                <div
-                                    class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
+                            <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
+
                                     <!-- Activity Header -->
                                     <div class="p-3 flex items-center space-x-4 border-b border-gray-100">
                                         <img src="{{ asset($activity->organization->getLogoPath()) }}"
@@ -114,16 +114,10 @@
 
                                     <!-- Activity Footer -->
                                     <div class="px-2 py-2 bg-gray-50 mt-auto">
-                                        <div class="flex justify-between items-center">
-                                            <div>
-                                                <span class="text-sm ">Organized by:</span>
-                                                <a href="{{ route('profile.public', $activity->organization->url) }}"
-                                                    class="text-blue-500 hover:underline">{{ $activity->organization->org_name }}</a>
-                                            </div>
-                                            <a href="{{ route('activities.show', $activity) }}"
-                                                class=" text-sm bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded">View
-                                                Details</a>
-                                        </div>
+                                        <a href="{{ route('activities.show', $activity) }}"
+                                            class="block text-center text-sm bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 text-white font-bold py-2 px-4 rounded">
+                                            View Details
+                                        </a>
                                     </div>
 
                                     <!-- Priority Score -->
