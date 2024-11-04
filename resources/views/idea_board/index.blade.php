@@ -54,7 +54,7 @@
                             <div class="px-4 py-1">
                                 @if($thread->poll)
                                     <div class="bg-blue-50 p-4 rounded-lg">
-                                        <h4 class="text-lg font-semibold mb-2">Poll: {{ $thread->poll->question }}</h4>
+                                        <h4 class="text-lg font-semibold mb-2 py-2">{{ $thread->description }}</h4>
                                         <form action="{{ route('idea_board.poll_vote', ['poll' => $thread->poll->id]) }}" method="POST">
                                             @csrf
                                             @foreach($thread->poll->options as $option)
@@ -87,7 +87,20 @@
                                     <svg class="w-5 h-5 vote-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                                 </button>
                                 <span class="mx-2 vote-count">{{ $thread->getVoteCount() }}</span>
+
+                                
                             </div>
+                            @if($thread->status === 'closed' && $thread->winnerComment)
+                                    <div class="px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
+                                        <p class="text-sm font-semibold text-green-800">Winner Comment:</p>
+                                        <p class="mt-1">{{ $thread->winnerComment->comment }}</p>
+                                        <div class="mt-2 text-xs text-green-600">
+                                            <span>By: {{ $thread->winnerComment->volunteer->Name }}</span>
+                                            <span>•</span>
+                                            <span>{{ $thread->winnerComment->created_at->diffForHumans() }}</span>
+                                        </div>
+                                    </div>
+                            @endif
 
                             <!-- Thread Footer (Comments Section) -->
                             @if ($thread->comments->isNotEmpty())
@@ -196,17 +209,7 @@
                                 <p class="text-sm text-gray-600">Priority Score: {{ $thread->priority_score }}</p>
                             </div> --}}
 
-                            @if($thread->status === 'closed' && $thread->winnerComment)
-                                <div class="px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
-                                    <p class="text-sm font-semibold text-green-800">Winner Comment:</p>
-                                    <p class="mt-1">{{ $thread->winnerComment->comment }}</p>
-                                    <div class="mt-2 text-xs text-green-600">
-                                        <span>By: {{ $thread->winnerComment->volunteer->Name }}</span>
-                                        <span>•</span>
-                                        <span>{{ $thread->winnerComment->created_at->diffForHumans() }}</span>
-                                    </div>
-                                </div>
-                            @endif
+                            
                         </div>
                     @endforeach
 

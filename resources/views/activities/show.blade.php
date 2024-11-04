@@ -58,12 +58,24 @@
                     </div>
                     @auth
                         @if(Auth::user()->volunteer)
-                            <form action="{{ route('activities.register', $activity) }}" method="POST">
-                                @csrf
-                                <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                    Register for this Activity
+                            @php
+                                $isRegistered = $activity->volunteers()
+                                    ->wherePivot('volunteer_userid', Auth::user()->volunteer->userid)
+                                    ->exists();
+                            @endphp
+                            
+                            @if($isRegistered)
+                                <button disabled class="bg-gray-400 text-white font-bold py-2 px-4 rounded cursor-not-allowed">
+                                    Already Registered
                                 </button>
-                            </form>
+                            @else
+                                <form action="{{ route('activities.register', $activity) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                        Register for this Activity
+                                    </button>
+                                </form>
+                            @endif
                         @endif
                     @else
                         <a href="{{ route('login') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

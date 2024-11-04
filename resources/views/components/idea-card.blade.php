@@ -11,7 +11,7 @@
         alt="{{ $activity->organization->org_name }}"
         class="w-10 h-10 rounded-full object-cover">
     <div class="flex flex-col ml-4 flex-grow">
-        <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}
+        <h4 class="text-base font-semibold text-gray-800">{{ $idea->title }}
         </h4>
         <div class="text-xs text-gray-500 flex justify-between">
             <div>

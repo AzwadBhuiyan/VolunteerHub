@@ -26,7 +26,7 @@
 
             <div class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white">
                 {{-- <h1 class="text-3xl font-bold mb-4">Explore Idea Board</h1> --}}
-           <i class="fas fa-heart text-lg text-green-500"></i>
+                <i class="fas fa-heart text-lg text-green-500"></i>
            
 
                 <h2
