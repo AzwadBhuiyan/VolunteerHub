@@ -82,8 +82,8 @@ Route::middleware('auth')->group(function () {
     // Route::post('/idea-board/{ideaThread}/vote', [IdeaThreadController::class, 'vote'])->name('idea_board.vote');
     Route::post('/idea-board/polls/{poll}/vote', [IdeaThreadController::class, 'pollVote'])->name('idea_board.poll_vote');
     Route::post('/idea-board/vote', [IdeaThreadController::class, 'vote'])->name('idea_board.vote');
-
     Route::get('/idea-board/{thread}/comments', [IdeaThreadController::class, 'loadMoreComments'])->name('idea_board.load_more_comments');
+    Route::post('/idea-board/{ideaThread}/close', [IdeaThreadController::class, 'close'])->name('idea_board.close');
 
 
     // Favorites

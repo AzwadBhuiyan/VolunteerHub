@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class IdeaThread extends Model
 {
-    protected $fillable = ['userid', 'title', 'description', 'votes', 'status'];
+    protected $fillable = ['userid', 'title', 'description', 'votes', 'status', 'winner_comment_id'];
 
     public function organization()
     {
@@ -31,5 +31,10 @@ class IdeaThread extends Model
     public function getVoteCount()
     {
         return $this->votes()->whereNull('idea_comment_id')->sum('vote');
+    }
+
+    public function winnerComment()
+    {
+        return $this->belongsTo(IdeaComment::class, 'winner_comment_id');
     }
 }

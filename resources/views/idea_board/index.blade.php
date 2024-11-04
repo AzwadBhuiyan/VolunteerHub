@@ -44,13 +44,38 @@
                                         </a>
                                         <span>.</span>
                                         <span>{{ ucfirst($thread->status) }}</span>
+                                        <span>.</span>
+                                        <span>{{ $thread->created_at->diffForHumans() }}</span>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Thread Description -->
                             <div class="px-4 py-1">
-                                <p class="text-gray-700 leading-relaxed">{{ Str::limit($thread->description, 150) }}</p>
+                                @if($thread->poll)
+                                    <div class="bg-blue-50 p-4 rounded-lg">
+                                        <h4 class="text-lg font-semibold mb-2">Poll: {{ $thread->poll->question }}</h4>
+                                        <form action="{{ route('idea_board.poll_vote', ['poll' => $thread->poll->id]) }}" method="POST">
+                                            @csrf
+                                            @foreach($thread->poll->options as $option)
+                                                <div class="mb-2">
+                                                    <button type="submit" name="option_id" value="{{ $option->id }}" 
+                                                        class="w-full text-left p-2 bg-white hover:bg-blue-100 border border-blue-200 rounded 
+                                                        {{ $option->hasVotedBy(Auth::id()) ? 'bg-blue-200' : '' }}">
+                                                        {{ $option->option_text }}
+                                                        <span class="float-right">{{ $option->votes }} votes ({{ number_format($option->getPercentage(), 1) }}%)</span>
+                                                    </button>
+                                                </div>
+                                            @endforeach
+                                        </form>
+                                        <p class="mt-2 text-sm text-gray-600">Total votes: {{ $thread->poll->getTotalVotes() }}</p>
+                                        @if($thread->poll->hasVotedBy(Auth::id()))
+                                            <p class="mt-2 text-sm text-blue-600">You have voted in this poll. You can change your vote by selecting a different option.</p>
+                                        @endif
+                                    </div>
+                                @else
+                                    <p class="text-gray-700 leading-relaxed">{{ Str::limit($thread->description, 150) }}</p>
+                                @endif
                             </div>
                             <!-- upvote buttone for thread -->
                             @php
@@ -66,14 +91,7 @@
 
                             <!-- Thread Footer (Comments Section) -->
                             @if ($thread->comments->isNotEmpty())
-                                @php
-                                    $lastComment = $thread->comments->sortByDesc('created_at')->first();
-                                @endphp
-                                <div class="px-4 py-2 bg-gray-50">
-                                    <p class="text-sm"><strong>Latest Comment:</strong></p>
-                                    <p>{{ Str::limit($lastComment->comment, 200) }}</p>
-                                    <p class="text-xs text-gray-500">By: {{ $lastComment->volunteer->Name }}</p>
-                                </div>
+                                
                                 <!-- sorting -->
                                 <div class="mt-2 flex justify-end">
                                     <button class="sort-comments mr-2 {{ $sort === 'recent' ? 'text-blue-500 font-bold' : '' }}" data-thread-id="{{ $thread->id }}" data-sort="recent">Most Recent</button>
@@ -89,16 +107,27 @@
                                         @foreach($thread->comments->take(5) as $comment)
                                             <div class="mb-2 p-2 border rounded">
                                                 <p>{{ $comment->comment }}</p>
-                                                <p class="text-sm text-gray-600">By: {{ $comment->volunteer->Name }}</p>
-                                                @php
-                                                    $votableType = 'comment';
-                                                    $votable = $comment;
-                                                @endphp
+                                                <div class="flex justify-between items-center">
+                                                    <div class="text-sm text-gray-600">
+                                                        <span>By: {{ $comment->volunteer->Name }}</span>
+                                                        <span>•</span>
+                                                        <span>{{ $comment->created_at->diffForHumans() }}</span>
+                                                    </div>
+                                                    @if(Auth::id() === $thread->userid && $thread->status === 'open')
+                                                        <button 
+                                                            type="button"
+                                                            class="select-winner-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
+                                                            data-thread-id="{{ $thread->id }}"
+                                                            data-comment-id="{{ $comment->id }}">
+                                                            Select as Winner
+                                                        </button>
+                                                    @endif
+                                                </div>
                                                 <div class="mt-2 flex items-center">
-                                                    <button type="button" class="vote-button text-gray-500 hover:text-blue-500" data-votable-type="{{ $votableType }}" data-votable-id="{{ $votable->id }}">
+                                                    <button type="button" class="vote-button text-gray-500 hover:text-blue-500" data-votable-type="comment" data-votable-id="{{ $comment->id }}">
                                                         <svg class="w-5 h-5 vote-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                                                     </button>
-                                                    <span class="mx-2 vote-count">{{ $votable->getVoteCount() }}</span>
+                                                    <span class="mx-2 vote-count">{{ $comment->getVoteCount() }}</span>
                                                 </div>
                                             </div>
                                         @endforeach
@@ -166,6 +195,18 @@
                             {{-- <div class="px-4 py-2 bg-gray-100">
                                 <p class="text-sm text-gray-600">Priority Score: {{ $thread->priority_score }}</p>
                             </div> --}}
+
+                            @if($thread->status === 'closed' && $thread->winnerComment)
+                                <div class="px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
+                                    <p class="text-sm font-semibold text-green-800">Winner Comment:</p>
+                                    <p class="mt-1">{{ $thread->winnerComment->comment }}</p>
+                                    <div class="mt-2 text-xs text-green-600">
+                                        <span>By: {{ $thread->winnerComment->volunteer->Name }}</span>
+                                        <span>•</span>
+                                        <span>{{ $thread->winnerComment->created_at->diffForHumans() }}</span>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     @endforeach
 
@@ -173,6 +214,22 @@
                 </div>
 
                 {{ $ideaThreads->links() }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Winner Selection Modal -->
+    <div id="winner-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-md w-full mx-4">
+            <h3 class="text-lg font-semibold mb-4">Confirm Winner Selection</h3>
+            <p class="mb-4">Select the chosen comment as winner? This will close the current thread.</p>
+            <div class="flex justify-end space-x-3">
+                <button type="button" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded" onclick="closeWinnerModal()">
+                    Cancel
+                </button>
+                <button type="button" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded" onclick="confirmWinnerSelection()">
+                    Confirm
+                </button>
             </div>
         </div>
     </div>
@@ -290,7 +347,22 @@ document.addEventListener('DOMContentLoaded', function() {
         div.className = 'mb-2 p-2 border rounded';
         div.innerHTML = `
             <p>${comment.comment}</p>
-            <p class="text-sm text-gray-600">By: ${comment.volunteer_name}</p>
+            <div class="flex justify-between items-center">
+                <div class="text-sm text-gray-600">
+                    <span>By: ${comment.volunteer_name}</span>
+                    <span>•</span>
+                    <span>${comment.created_at}</span>
+                </div>
+                ${comment.can_select_winner ? `
+                    <button 
+                        type="button"
+                        class="select-winner-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
+                        data-thread-id="${comment.thread_id}"
+                        data-comment-id="${comment.id}">
+                        Select as Winner
+                    </button>
+                ` : ''}
+            </div>
             <div class="mt-2 flex items-center">
                 <button type="button" class="vote-button text-gray-500 hover:text-blue-500" data-votable-type="comment" data-votable-id="${comment.id}">
                     <svg class="w-5 h-5 vote-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
@@ -301,4 +373,62 @@ document.addEventListener('DOMContentLoaded', function() {
         return div;
     }
 });
+
+let currentThreadId = null;
+let currentCommentId = null;
+
+document.addEventListener('click', function(event) {
+    if (event.target.matches('.select-winner-btn')) {
+        currentThreadId = event.target.dataset.threadId;
+        currentCommentId = event.target.dataset.commentId;
+        document.getElementById('winner-modal').style.display = 'flex';
+    }
+});
+
+function closeWinnerModal() {
+    document.getElementById('winner-modal').style.display = 'none';
+}
+
+function confirmWinnerSelection() {
+    fetch(`/idea-board/${currentThreadId}/close`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({
+            winner_comment_id: currentCommentId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Replace the comments section with winner display
+            const threadElement = document.querySelector(`[data-thread-id="${currentThreadId}"]`).closest('.rounded-xl');
+            const commentsSection = threadElement.querySelector('.comments-container').closest('.mt-4');
+            
+            // Create winner display
+            const winnerDisplay = document.createElement('div');
+            winnerDisplay.className = 'px-4 py-2 bg-green-50 border border-green-200 rounded-lg';
+            winnerDisplay.innerHTML = `
+                <p class="text-sm font-semibold text-green-800">Winner Comment:</p>
+                <p class="mt-1">${data.winner_comment.comment}</p>
+                <div class="mt-2 text-xs text-green-600">
+                    <span>By: ${data.winner_comment.volunteer_name}</span>
+                    <span>•</span>
+                    <span>${data.winner_comment.created_at}</span>
+                </div>
+            `;
+            
+            commentsSection.replaceWith(winnerDisplay);
+            closeWinnerModal();
+            
+            // Update thread status in the header
+            const statusElement = threadElement.querySelector('.text-sm.text-gray-500 span:nth-child(2)');
+            if (statusElement) {
+                statusElement.textContent = 'Closed';
+            }
+        }
+    });
+}
 </script>

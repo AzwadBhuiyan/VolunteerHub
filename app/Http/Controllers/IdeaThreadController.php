@@ -204,8 +204,41 @@ class IdeaThreadController extends Controller
                     'comment' => $comment->comment,
                     'volunteer_name' => $comment->volunteer->Name,
                     'vote_count' => $comment->getVoteCount(),
+                    'created_at' => $comment->created_at->diffForHumans(),
                 ];
             })
+        ]);
+    }
+
+    public function close(Request $request, IdeaThread $ideaThread)
+    {
+        // Verify the authenticated user owns the thread
+        if ($ideaThread->userid !== Auth::id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $request->validate([
+            'winner_comment_id' => 'required|exists:idea_comments,id'
+        ]);
+
+        // Verify the comment belongs to this thread
+        $comment = IdeaComment::where('id', $request->winner_comment_id)
+            ->where('idea_thread_id', $ideaThread->id)
+            ->firstOrFail();
+
+        $ideaThread->update([
+            'status' => 'closed',
+            'winner_comment_id' => $request->winner_comment_id
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Thread closed successfully',
+            'winner_comment' => [
+                'comment' => $comment->comment,
+                'volunteer_name' => $comment->volunteer->Name,
+                'created_at' => $comment->created_at->diffForHumans()
+            ]
         ]);
     }
 }
