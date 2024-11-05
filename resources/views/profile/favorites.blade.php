@@ -5,9 +5,9 @@
         <div class="px-1">
             <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-8"> --}}
 
-    <div class="max-w-7xl mx-auto  sm:px-6 lg:px-8 min-h-screen">
+ <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
         <!-- Centered container with responsive padding and vertical spacing -->
-        <div class="p-1 sm:p-8 bg-white items-center sm:rounded-lg h-full">
+        <div class="p-1 sm:p-8 bg-white shadow sm:rounded-lg">
             @if (
                 !$favorites ||
                     (empty($favorites->favorite_categories) &&
