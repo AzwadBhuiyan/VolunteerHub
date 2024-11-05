@@ -31,7 +31,10 @@ body {
     border-radius: 50%;
     object-fit: cover;
     object-position: center;
-    border: 3px solid #e0e0e0;
+    background: linear-gradient(to right, #00ff9d, #00b7ff);
+  
+    outline-offset: -4px;
+    padding: 3px;
     margin-bottom: 15px;
 }
 

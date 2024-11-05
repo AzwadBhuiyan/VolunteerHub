@@ -1,56 +1,51 @@
 <div class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white">
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#34C759" class="h-7 w-7" viewBox="0 0 16 16">
-        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" fill="#34C759" stroke="#34C759" stroke-width="0.5"/>
-        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12.93A5.93 5.93 0 1 1 8 2.07 5.93 5.93 0 0 1 8 13.93z" fill="#34C759" stroke="#34C759" stroke-width="0.5"/>
+        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+            fill="#34C759" stroke="#34C759" stroke-width="0.5" />
+        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12.93A5.93 5.93 0 1 1 8 2.07 5.93 5.93 0 0 1 8 13.93z"
+            fill="#34C759" stroke="#34C759" stroke-width="0.5" />
     </svg>
 
-    <h2 class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2">
+    <h2
+        class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2">
         Create New Volunteer Activities!</h2>
     <p class="text-base">Start organizing impactful volunteer activities and make a difference in your community.</p>
 
     <a href="{{ route('activities.create') }}">
-        <button type="button" class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
+        <button type="button"
+            class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
             Create Activity
         </button>
     </a>
 </div>
 
 <!-- Stats Section -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-    <div class="bg-white p-4 rounded-lg shadow">
-        <h3 class="text-lg font-semibold">Total Activities</h3>
-        <p class="text-2xl font-bold text-blue-600">
-            {{ Auth::user()->organization->activities()->count() }}
-        </p>
+<div class="flex flex-row gap-4 mb-6 mx-1 overflow-x-hidden">
+    <div
+        class="flex-1 min-w-[200px] bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg shadow hover:from-blue-100 hover:to-blue-200 transition-all duration-300">
+        <h3 class="text-lg font-semibold text-black">Completed Activities</h3>
+        <p class="text-2xl font-bold text-black">
+            {{ Auth::user()->organization->activities()->where('status', 'completed')->count() }}</p>
     </div>
-    <div class="bg-white p-4 rounded-lg shadow">
-        <h3 class="text-lg font-semibold">Completed Activities</h3>
-        <p class="text-2xl font-bold text-green-600">
-            {{ Auth::user()->organization->activities()->where('status', 'completed')->count() }}
-        </p>
+    <div
+        class="flex-1 min-w-[200px] bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg shadow hover:from-green-100 hover:to-green-200 transition-all duration-300">
+        <h3 class="text-lg font-semibold text-black">Hours of Work</h3>
+        <p class="text-2xl font-bold text-black">
+            {{ Auth::user()->organization->activities()->where('status', 'completed')->sum('duration') }}</p>
     </div>
-    <div class="bg-white p-4 rounded-lg shadow">
-        <h3 class="text-lg font-semibold">Total Hours Completed</h3>
-        <p class="text-2xl font-bold text-purple-600">
-            {{ Auth::user()->organization->activities()->where('status', 'completed')->sum('duration') }}
-        </p>
+    <div
+        class="flex-1 min-w-[200px] bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg shadow hover:from-purple-100 hover:to-purple-200 transition-all duration-300">
+        <h3 class="text-lg font-semibold text-black">Idea Threads</h3>
+        <p class="text-2xl font-bold text-black">{{ Auth::user()->organization->ideaThreads()->count() }}</p>
     </div>
-    <div class="bg-white p-4 rounded-lg shadow">
-        <h3 class="text-lg font-semibold">Total Idea Threads</h3>
-        <p class="text-2xl font-bold text-orange-600">
-            {{ Auth::user()->organization->ideaThreads()->count() }}
-        </p>
-    </div>
-    <div class="bg-white p-4 rounded-lg shadow">
-        <h3 class="text-lg font-semibold">Total Unique Volunteers</h3>
-        <p class="text-2xl font-bold text-yellow-600">
-            {{ Auth::user()->organization->activities()
+    {{-- <div class="flex-1 min-w-[200px] bg-gradient-to-br from-indigo-50 to-indigo-100 p-4 rounded-lg shadow hover:from-indigo-100 hover:to-indigo-200 transition-all duration-300">
+        <h3 class="text-lg font-semibold text-black">Volunteers Involved</h3>
+        <p class="text-2xl font-bold text-black">{{ Auth::user()->organization->activities()
                 ->join('activity_volunteers', 'activities.activityid', '=', 'activity_volunteers.activityid')
                 ->where('activity_volunteers.approval_status', 'approved')
                 ->distinct('activity_volunteers.volunteer_userid')
-                ->count('activity_volunteers.volunteer_userid') }}
-        </p>
-    </div>
+                ->count('activity_volunteers.volunteer_userid') }}</p>
+    </div> --}}
 </div>
 
 <div class="my-2 px-4 rounded-lg shadow-lg border border-gray-200">
@@ -60,33 +55,33 @@
         @endphp
 
         <div class="flex items-center justify-center gap-4 mb-4">
-                <!-- Year selector button -->
-            <button id="yearSelectorBtn" 
+            <!-- Year selector button -->
+            <button id="yearSelectorBtn"
                 class="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors flex items-center gap-2 shadow-md">
                 <span>Select Year: {{ $currentYear }}</span>
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
             </button>
         </div>
 
         <!-- Modal for year selection -->
-        <div id="yearPickerModal" class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center z-50 backdrop-blur-sm">
+        <div id="yearPickerModal"
+            class="fixed inset-0 bg-black bg-opacity-70 hidden items-center justify-center z-50 backdrop-blur-sm">
             <div class="bg-gray-900 rounded-2xl p-6 w-64 shadow-2xl border border-gray-700">
                 <div class="text-center mb-4">
                     <h3 class="text-lg font-semibold text-white">Select Year</h3>
                 </div>
-                
+
                 <div class="relative h-48 overflow-hidden rounded-xl bg-gray-800">
                     <div id="yearPicker" class="absolute inset-0 overflow-y-scroll hide-scrollbar">
-                        <div class="absolute inset-0 pointer-events-none" 
+                        <div class="absolute inset-0 pointer-events-none"
                             style="background: linear-gradient(180deg, rgba(31,41,55,0.9) 0%, rgba(31,41,55,0) 20%, rgba(31,41,55,0) 80%, rgba(31,41,55,0.9) 100%);">
                         </div>
                         <div class="py-20">
                             @for ($year = 2024; $year >= 1990; $year--)
                                 <div class="year-option h-12 flex items-center justify-center text-lg cursor-pointer transition-all duration-200 {{ $currentYear == $year ? 'text-blue-400 font-bold bg-gray-700' : 'text-gray-300 hover:bg-gray-700' }}"
-                                    data-year="{{ $year }}"
-                                    onclick="selectYear({{ $year }})">
+                                    data-year="{{ $year }}" onclick="selectYear({{ $year }})">
                                     {{ $year }}
                                 </div>
                             @endfor
@@ -95,7 +90,8 @@
                 </div>
 
                 <div class="mt-4 flex justify-end">
-                    <button id="closeYearPicker" class="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">
+                    <button id="closeYearPicker"
+                        class="px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors">
                         Done
                     </button>
                 </div>
@@ -159,8 +155,7 @@
                         @php
                             $percentage = 100 - ($value / $maxValue) * 100;
                         @endphp
-                        <div class="absolute w-full border-b border-gray-200"
-                            style="top: {{ $percentage }}%">
+                        <div class="absolute w-full border-b border-gray-200" style="top: {{ $percentage }}%">
                             <span
                                 class="absolute -left-8 -translate-y-1/2 text-sm text-gray-600">{{ $value }}</span>
                         </div>
@@ -174,8 +169,7 @@
                 @foreach ($monthlyData as $month => $count)
                     <div class="relative flex flex-col items-center group" style="height: 100%;">
                         <!-- Bar -->
-                        <div class="absolute bottom-0 w-12"
-                            style="height: {{ ($count / $maxValue) * 100 }}%">
+                        <div class="absolute bottom-0 w-12" style="height: {{ ($count / $maxValue) * 100 }}%">
                             <div
                                 class="w-full h-full {{ $count > 0 ? 'bg-gradient-to-t from-green-600 to-green-400' : 'bg-gray-200' }} 
                                     rounded-t-lg transition-all duration-300 hover:opacity-80">
@@ -205,8 +199,7 @@
                         @php
                             $percentage = 100 - ($value / $maxValue) * 100;
                         @endphp
-                        <div class="absolute w-full border-b border-gray-200"
-                            style="top: {{ $percentage }}%">
+                        <div class="absolute w-full border-b border-gray-200" style="top: {{ $percentage }}%">
                             <span
                                 class="absolute -left-8 -translate-y-1/2 text-xs text-gray-600">{{ $value }}</span>
                         </div>
@@ -220,8 +213,7 @@
                 @foreach ($monthlyData as $month => $count)
                     <div class="relative flex flex-col items-center group" style="height: 100%;">
                         <!-- Bar -->
-                        <div class="absolute bottom-0 w-6"
-                            style="height: {{ ($count / $maxValue) * 100 }}%">
+                        <div class="absolute bottom-0 w-6" style="height: {{ ($count / $maxValue) * 100 }}%">
                             <div
                                 class="w-full h-full {{ $count > 0 ? 'bg-gradient-to-t from-green-600 to-green-400' : 'bg-gray-200' }} 
                                     rounded-t transition-all duration-300 hover:opacity-80">
@@ -239,7 +231,8 @@
         <!-- Activity Counts Legend -->
         <div class="flex justify-between mt-2 px-1 md:hidden">
             @foreach ($monthlyData as $month => $count)
-                <div class="text-sm font-bold {{ $count > 0 ? 'text-green-600' : 'text-gray-400' }} w-6 text-center" style="margin-top: 20px;">
+                <div class="text-sm font-bold {{ $count > 0 ? 'text-green-600' : 'text-gray-400' }} w-6 text-center"
+                    style="margin-top: 20px;">
                     {{ $count }}
                 </div>
             @endforeach
@@ -256,7 +249,8 @@
                 <p class="text-center">No activities found.</p>
             @else
                 <!-- Container with responsive width -->
-                <div class="h-[200px] overflow-scroll border border-gray-300 shadow-inner sm:w-full md:w-4/5 lg:w-3/4 mx-auto">
+                <div
+                    class="h-[200px] overflow-scroll border border-gray-300 shadow-inner sm:w-full md:w-4/5 lg:w-3/4 mx-auto">
                     <table class="border-collapse w-full">
                         <thead class="bg-gray-100">
                             <tr>
@@ -290,19 +284,14 @@
 
                                                 foreach ($words as $word) {
                                                     if (strlen($currentLine . ' ' . $word) <= 20) {
-                                                        $currentLine .=
-                                                            ($currentLine ? ' ' : '') . $word;
+                                                        $currentLine .= ($currentLine ? ' ' : '') . $word;
                                                     } else {
                                                         $currentLine = &$line2;
-                                                        $currentLine .=
-                                                            ($currentLine ? ' ' : '') . $word;
+                                                        $currentLine .= ($currentLine ? ' ' : '') . $word;
                                                     }
                                                 }
 
-                                                $line2 =
-                                                    strlen($line2) > 20
-                                                        ? substr($line2, 0, 22) . '...'
-                                                        : $line2;
+                                                $line2 = strlen($line2) > 20 ? substr($line2, 0, 22) . '...' : $line2;
                                             @endphp
                                             <div>{{ $line1 }}</div>
                                             <div>{{ $line2 }}</div>
@@ -314,8 +303,7 @@
                                         @if ($activity->status === 'completed')
                                             <span class="text-green-600 font-medium">Completed</span>
                                         @else
-                                            <form
-                                                action="{{ route('activities.updateStatus', $activity) }}"
+                                            <form action="{{ route('activities.updateStatus', $activity) }}"
                                                 method="POST" class="flex items-center">
                                                 @csrf
                                                 @method('PATCH')
@@ -343,9 +331,8 @@
                                         <div class="relative inline-block">
                                             <a href="{{ route('activities.show', $activity) }}"
                                                 class="text-blue-500 hover:underline inline-flex items-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                    height="24" fill="currentColor"
-                                                    class="bi bi-eye translate-y-[2px]"
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    fill="currentColor" class="bi bi-eye translate-y-[2px]"
                                                     viewBox="0 0 16 16">
                                                     <path
                                                         d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z" />
@@ -360,9 +347,8 @@
                                         <div class="relative inline-block ml-8">
                                             <a href="{{ route('activities.edit', $activity) }}"
                                                 class="hover:underline inline-flex items-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                    height="24" fill="black"
-                                                    class="bi bi-pencil-square translate-y-[2px]"
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    fill="black" class="bi bi-pencil-square translate-y-[2px]"
                                                     viewBox="0 0 16 16">
                                                     <path
                                                         d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
@@ -378,9 +364,8 @@
                                         <div class="relative inline-block ml-8">
                                             <a href="{{ route('activities.show_signups', $activity) }}"
                                                 class="text-purple-500 hover:underline inline-flex items-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                    height="24" fill="purple"
-                                                    class="bi bi-people-fill translate-y-[2px]"
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    fill="purple" class="bi bi-people-fill translate-y-[2px]"
                                                     viewBox="0 0 16 16">
                                                     <path
                                                         d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
@@ -392,15 +377,20 @@
                                         </div>
 
                                         <div class="relative inline-block ml-8">
-                                            <a href="{{ route('activities.timeline', $activity) }}" 
-                                               class="text-indigo-700 hover:underline inline-flex items-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" 
-                                                     class="bi bi-clock-history translate-y-[2px]" viewBox="0 0 16 16">
-                                                    <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
-                                                    <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
-                                                    <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
+                                            <a href="{{ route('activities.timeline', $activity) }}"
+                                                class="text-indigo-700 hover:underline inline-flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                    fill="currentColor" class="bi bi-clock-history translate-y-[2px]"
+                                                    viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z" />
+                                                    <path
+                                                        d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z" />
+                                                    <path
+                                                        d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z" />
                                                 </svg>
-                                                <span class="tooltip-text absolute invisible bg-black text-white text-xs rounded py-1 px-2 -mt-16 -ml-8 whitespace-nowrap opacity-0 transition-opacity duration-300 hover:opacity-100">
+                                                <span
+                                                    class="tooltip-text absolute invisible bg-black text-white text-xs rounded py-1 px-2 -mt-16 -ml-8 whitespace-nowrap opacity-0 transition-opacity duration-300 hover:opacity-100">
                                                     View Timeline
                                                 </span>
                                             </a>
@@ -410,9 +400,8 @@
                                             <div class="relative inline-block ml-8">
                                                 <a href="{{ route('activities.complete', $activity) }}"
                                                     class="inline-flex items-center px-2 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                        width="20" height="20"
-                                                        fill="currentColor" class="bi bi-check mr-1"
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                        height="20" fill="currentColor" class="bi bi-check mr-1"
                                                         viewBox="0 0 16 16">
                                                         <path
                                                             d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z" />
@@ -446,49 +435,52 @@
 
 
 <style>
-.hide-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-.hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .hide-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
 </style>
 
 <script>
-function selectYear(year) {
-    window.location.href = '?year=' + year;
-}
+    function selectYear(year) {
+        window.location.href = '?year=' + year;
+    }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('yearPickerModal');
-    const picker = document.getElementById('yearPicker');
-    const openBtn = document.getElementById('yearSelectorBtn');
-    const closeBtn = document.getElementById('closeYearPicker');
-    
-    // Show modal
-    openBtn.addEventListener('click', function() {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        // Center the current year
-        const currentYearElement = picker.querySelector('.year-option[data-year="{{ $currentYear }}"]');
-        if (currentYearElement) {
-            picker.scrollTop = currentYearElement.offsetTop - (picker.offsetHeight / 2) + (currentYearElement.offsetHeight / 2);
-        }
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('yearPickerModal');
+        const picker = document.getElementById('yearPicker');
+        const openBtn = document.getElementById('yearSelectorBtn');
+        const closeBtn = document.getElementById('closeYearPicker');
 
-    // Hide modal
-    closeBtn.addEventListener('click', function() {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    });
+        // Show modal
+        openBtn.addEventListener('click', function() {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            // Center the current year
+            const currentYearElement = picker.querySelector(
+                '.year-option[data-year="{{ $currentYear }}"]');
+            if (currentYearElement) {
+                picker.scrollTop = currentYearElement.offsetTop - (picker.offsetHeight / 2) + (
+                    currentYearElement.offsetHeight / 2);
+            }
+        });
 
-    // Close modal when clicking outside
-    modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
+        // Hide modal
+        closeBtn.addEventListener('click', function() {
             modal.classList.add('hidden');
             modal.classList.remove('flex');
-        }
+        });
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        });
     });
-});
 </script>
