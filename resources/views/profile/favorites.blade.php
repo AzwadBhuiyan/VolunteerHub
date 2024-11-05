@@ -74,7 +74,9 @@
                         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-4">
                             <!-- Match the same container structure -->
                             @foreach ($ongoingActivities as $activity)
-                            <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
+                            <x-activity-card :activity="$activity" />
+
+                            {{-- <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
 
                                     <!-- Activity Header -->
                                     <div class="p-3 flex items-center space-x-4 border-b border-gray-100">
@@ -124,7 +126,7 @@
                                     {{-- <div class="px-4 py-2 bg-gray-100">
                                             <p class="text-sm text-gray-600">Priority Score: {{ $activity->priority_score }}</p>
                                         </div> --}}
-                                </div>
+                                {{-- </div>  --}}
                             @endforeach
                         </div>
                         {{ $ongoingActivities->links() }}
