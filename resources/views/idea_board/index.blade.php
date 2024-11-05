@@ -43,9 +43,9 @@
                                     class="w-12 h-12 rounded-full object-cover">
                                 <div class="flex flex-col ml-2 flex-grow">
                                     <div class="flex items-center justify-between">
-                                        <h4 class="text-lg font-semibold text-gray-800">
+                                        <h4 class="text-lg font-semibold">
                                             <a href="{{ route('idea_board.show', $thread) }}"
-                                                class="text-blue-500 hover:underline">
+                                                class="text-gray-900 hover:text-gray-700">
                                                 {{ $thread->title }}
                                             </a>
                                         </h4>
@@ -189,20 +189,20 @@
 
                                 <div class="mt-4">
                                     <h4 class="text-lg font-semibold mb-2">Comments</h4>
-                                    <div class="comments-container" data-thread-id="{{ $thread->id }}"
-                                        style="max-height: 300px; overflow-y: auto;">
+                                    <div class="comments-container border border-gray-200 rounded-lg" data-thread-id="{{ $thread->id }}"
+                                        style="max-height: 300px; overflow-y: auto; scrollbar-width: thin;">
                                         @foreach ($thread->comments->take(5) as $comment)
-                                            <div class="mb-2 p-2 border rounded">
-                                                <p>{{ $comment->comment }}</p>
-                                                <div class="flex justify-between items-center">
+                                            <div class="p-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition duration-150">
+                                                <p class="text-gray-800">{{ $comment->comment }}</p>
+                                                <div class="flex justify-between items-center mt-2">
                                                     <div class="text-sm text-gray-600">
-                                                        <span>By: {{ $comment->volunteer->Name }}</span>
-                                                        <span>•</span>
+                                                        <span class="font-medium">{{ $comment->volunteer->Name }}</span>
+                                                        <span class="mx-1">•</span>
                                                         <span>{{ $comment->created_at->diffForHumans() }}</span>
                                                     </div>
                                                     @if (Auth::id() === $thread->userid && $thread->status === 'open')
                                                         <button type="button"
-                                                            class="select-winner-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
+                                                            class="select-winner-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full text-sm transition duration-150"
                                                             data-thread-id="{{ $thread->id }}"
                                                             data-comment-id="{{ $comment->id }}">
                                                             Select as Winner
@@ -211,7 +211,7 @@
                                                 </div>
                                                 <div class="mt-2 flex items-center">
                                                     <button type="button"
-                                                        class="vote-button text-gray-500 hover:text-blue-500"
+                                                        class="vote-button text-gray-500 hover:text-blue-500 transition duration-150"
                                                         data-votable-type="comment"
                                                         data-votable-id="{{ $comment->id }}">
                                                         <svg class="w-5 h-5 vote-icon" fill="none"
@@ -227,11 +227,16 @@
                                         @endforeach
                                     </div>
                                     @if ($thread->comments->count() > 1)
-                                        <button
-                                            class="view-more-comments mt-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded text-sm"
-                                            data-thread-id="{{ $thread->id }}" data-offset="5">
-                                            View More Comments
-                                        </button>
+                                        <div class="text-center mt-2">
+                                            <button
+                                                class="view-more-comments inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium transition duration-150"
+                                                data-thread-id="{{ $thread->id }}" data-offset="5">
+                                                <span>View more comments</span>
+                                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
                                     @endif
                                 </div>
 
@@ -414,35 +419,47 @@
         function vote() {
             const votableType = this.dataset.votableType;
             const votableId = this.dataset.votableId;
-            const voteCount = this.nextElementSibling;
-            const voteIcon = this.querySelector('.vote-icon');
+            const likeText = this.querySelector('span');
+            const countContainer = this.closest('.text-xs').querySelector('.flex.items-center');
 
             fetch('/idea-board/vote', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content')
-                    },
-                    body: JSON.stringify({
-                        votable_type: votableType,
-                        votable_id: votableId,
-                        vote: 1
-                    })
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({
+                    votable_type: votableType,
+                    votable_id: votableId,
+                    vote: 1
                 })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        voteCount.textContent = data.newVoteCount;
-                        if (data.voted) {
-                            voteIcon.setAttribute('fill', 'currentColor');
-                            this.classList.add('text-blue-500');
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Toggle like text color
+                    likeText.classList.toggle('text-blue-600', data.voted);
+                    
+                    // Update or create like count
+                    if (data.newVoteCount > 0) {
+                        if (!countContainer) {
+                            const newCount = document.createElement('div');
+                            newCount.className = 'flex items-center';
+                            newCount.innerHTML = `
+                                <span class="inline-flex items-center justify-center bg-blue-500 rounded-full w-4 h-4">
+                                    <i class="fas fa-thumbs-up text-[10px] text-white"></i>
+                                </span>
+                                <span class="ml-1">${data.newVoteCount}</span>
+                            `;
+                            this.closest('.text-xs').appendChild(newCount);
                         } else {
-                            voteIcon.setAttribute('fill', 'none');
-                            this.classList.remove('text-blue-500');
+                            countContainer.querySelector('span:last-child').textContent = data.newVoteCount;
                         }
+                    } else if (countContainer) {
+                        countContainer.remove();
                     }
-                });
+                }
+            });
         }
 
         function createCommentElement(comment) {
