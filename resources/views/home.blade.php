@@ -6,10 +6,10 @@
 
     <div class="max-w-full overflow-x-hidden">
         <div class="bg-gray-800 py-1 px-3">
-            <form class="max-w-lg mx-auto my-4">
+            <form action="{{ route('search') }}" method="GET" class="max-w-lg mx-auto my-4">
+                <input type="hidden" name="category" id="selected-category" value="organizations">
                 <div class="flex">
-                    <label for="search-dropdown"
-                        class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email</label>
+                    
                     <button id="dropdown-button" data-dropdown-toggle="dropdown"
                         class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
                         type="button">Categories <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true"
@@ -22,25 +22,34 @@
                         <ul class="py-2 text-sm text-gray-700 dark:text-gray-200"
                             aria-labelledby="dropdown-button">
                             <li>
-                                <button type="button"
-                                    class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Organizations</button>
+                                <button type="button" data-category="organizations"
+                                    class="category-btn inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    Organizations
+                                </button>
                             </li>
                             <li>
-                                <button type="button"
-                                    class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Volunteers</button>
+                                <button type="button" data-category="volunteers"
+                                    class="category-btn inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    Volunteers
+                                </button>
                             </li>
                             <li>
-                                <button type="button"
-                                    class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Activities</button>
+                                <button type="button" data-category="activities"
+                                    class="category-btn inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    Activities
+                                </button>
                             </li>
                             <li>
-                                <button type="button"
-                                    class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ideas</button>
+                                <button type="button" data-category="ideas"
+                                    class="category-btn inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                    Ideas
+                                </button>
                             </li>
                         </ul>
                     </div>
                     <div class="relative w-full">
                         <input type="search" id="search-dropdown"
+                            name="query"
                             class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
                             placeholder="Search" required />
                         <button type="submit"
@@ -219,4 +228,22 @@
 
     // Add scroll event listener
     window.addEventListener('scroll', handleScroll);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const dropdownButton = document.getElementById('dropdown-button');
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const selectedCategoryInput = document.getElementById('selected-category');
+
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const category = this.dataset.category;
+            dropdownButton.textContent = this.textContent.trim();
+            selectedCategoryInput.value = category;
+            
+            // Close dropdown (Flowbite handles this automatically)
+        });
+    });
+});
 </script>
