@@ -94,7 +94,6 @@
                             <div class="px-4 py-1">
                                 @if ($thread->poll)
                                     <div class="bg-white p-4 rounded-lg border border-gray-200">
-                                        <h4 class="text-lg font-semibold mb-4">{{ $thread->description }}</h4>
                                         <p class="text-sm text-gray-600 mb-3">{{ $thread->poll->question }}</p>
                                         <form
                                             action="{{ route('idea_board.poll_vote', ['poll' => $thread->poll->id]) }}"
@@ -173,22 +172,77 @@
                             @endif
 
                             <!-- Thread Footer (Comments Section) -->
+                            
                             @if ($thread->comments->isNotEmpty())
                                 <!-- sorting -->
-                                <div class="mt-2 flex justify-end">
-                                    <button
-                                        class="sort-comments mr-2 {{ $sort === 'recent' ? 'text-blue-500 font-bold' : '' }}"
-                                        data-thread-id="{{ $thread->id }}" data-sort="recent">Most Recent</button>
-                                    <button
-                                        class="sort-comments {{ $sort === 'likes' ? 'text-blue-500 font-bold' : '' }}"
-                                        data-thread-id="{{ $thread->id }}" data-sort="likes">Most Liked</button>
+                                <div class="mt-4 flex justify-between items-center">
+                                    <h4 class="text-lg font-semibold">Comments</h4>
+                                <div class=" flex justify-end" x-data="{ activeSort: '{{ $sort }}' }">
+                                    <div class="relative inline-flex rounded-full bg-gray-800 p-0.5 shadow-md" style="width: fit-content;">
+                                        <button
+                                            @click="activeSort = 'recent'"
+                                            class="sort-comments relative z-10 px-3 py-1 text-xs font-medium transition-all duration-300 ease-in-out rounded-full"
+                                            :class="activeSort === 'recent' ? 'text-white transform scale-105' : 'text-gray-400 hover:text-gray-200'"
+                                            data-thread-id="{{ $thread->id }}" 
+                                            data-sort="recent">
+                                            <i class="fas fa-clock mr-1 text-xs"></i>
+                                            Recent
+                                        </button>
+                                        
+                                        <div class="h-4 w-px bg-gray-600 my-auto mx-0.5"></div>
+                                        
+                                        <button
+                                            @click="activeSort = 'likes'"
+                                            class="sort-comments relative z-10 px-3 py-1 text-xs font-medium transition-all duration-300 ease-in-out rounded-full"
+                                            :class="activeSort === 'likes' ? 'text-white transform scale-105' : 'text-gray-400 hover:text-gray-200'"
+                                            data-thread-id="{{ $thread->id }}" 
+                                            data-sort="likes">
+                                            <i class="fas fa-heart mr-1 text-xs"></i>
+                                            Likes
+                                        </button>
+                                        
+                                        <div 
+                                            class="absolute inset-y-0 w-[45%] rounded-full shadow-md transition-all duration-300 ease-in-out"
+                                            :class="{'translate-x-0': activeSort === 'recent', 'translate-x-[120%]': activeSort === 'likes'}"
+                                            :style="{ 
+                                                'background': 'linear-gradient(135deg, #3B82F6 0%, #10B981 50%, #3B82F6 100%)',
+                                                'z-index': '1'
+                                            }">
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+
+                                <script>
+                                document.addEventListener('DOMContentLoaded', function() {
+                                    const buttons = document.querySelectorAll('.sort-comments');
+                                    
+                                    buttons.forEach(button => {
+                                        button.addEventListener('click', function() {
+                                            // Remove active class from all buttons
+                                            buttons.forEach(btn => {
+                                                btn.classList.remove('text-white', 'scale-105');
+                                                btn.classList.add('text-gray-400');
+                                            });
+                                            
+                                            // Add active class to clicked button with animation
+                                            this.classList.remove('text-gray-400');
+                                            this.classList.add('text-white');
+                                            
+                                            // Add subtle pop animation
+                                            this.style.transform = 'scale(1.05)';
+                                            setTimeout(() => {
+                                                this.style.transform = 'scale(1)';
+                                            }, 200);
+                                        });
+                                    });
+                                });
+                                </script>
 
 
                                 <!-- view more comments -->
 
                                 <div class="mt-4">
-                                    <h4 class="text-lg font-semibold mb-2">Comments</h4>
                                     <div class="comments-container border border-gray-200 rounded-lg" data-thread-id="{{ $thread->id }}"
                                         style="max-height: 300px; overflow-y: auto; scrollbar-width: thin;">
                                         @foreach ($thread->comments->take(5) as $comment)
