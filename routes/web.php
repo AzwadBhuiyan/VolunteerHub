@@ -32,6 +32,11 @@ Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name(
 //     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // });
 
+// Search routes
+Route::get('/search', [App\Http\Controllers\SearchController::class, 'search'])->name('search');
+Route::get('/search/suggestions', [App\Http\Controllers\SearchController::class, 'suggestions'])
+    ->name('search.suggestions');
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
