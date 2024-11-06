@@ -82,7 +82,7 @@
 
 
                 <!-- Welcome Message -->
-                <div style="background: linear-gradient(to right, #3b82f6, #8b5cf6);"
+                <div style="background: linear-gradient(to right, #10b981, #1e40af);"
                     class="text-white px-5 py-10 rounded-lg shadow-lg mb-4">
                     <h1 class="text-4xl font-bold mb-3 italic">Welcome to {{ config('app.name', 'Laravel') }}</h1>
                     <p class="text-base">Join our community and make a difference! Lorem Ipsum is simply dummy text of
@@ -92,7 +92,7 @@
                 <!-- Stats -->
                 <!-- Total Hours -->
                 <div class="stat-item flex-1 text-center p-6 relative flex flex-col items-center">
-                    <h1 class="text-6xl font-extrabold italic  mb-1">
+                    <h1 class="text-6xl font-extrabold italic mb-1 bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 text-transparent bg-clip-text">
                         <span id="totalHours" data-target="{{ $totalHours }}">0</span>
                     </h1>
                     <h2 class="text-2xl font-bold mt-auto italic ">Hours of Volunteer Work</h2>
@@ -108,7 +108,7 @@
 
                     <!-- Total volunteers -->
                     <div class="stat-item flex-1 text-center p-6 relative flex flex-col items-center">
-                        <h2 class="text-4xl font-bold text-blue-600 mb-1 text-center">
+                        <h2 class="text-4xl font-bold mb-1 text-center bg-gradient-to-r from-green-500 to-blue-600 text-transparent bg-clip-text">
                             <span id="totalVolunteers"
                                 data-target="{{ $totalVolunteers }}">{{ $totalVolunteers }}</span>
                         </h2>
@@ -118,7 +118,7 @@
                     <!-- Registered organizations -->
                     <div
                         class="stat-item flex-1 text-center p-6 relative flex flex-col items-center border-l border-gray-300">
-                        <h2 class="text-4xl font-bold text-green-600 mb-1 text-center">
+                        <h2 class="text-4xl font-bold mb-1 text-center bg-gradient-to-r from-green-500 to-green-700 text-transparent bg-clip-text">
                             <span id="totalVolunteers"
                                 data-target="{{ $totalOrganizations }}">{{ $totalOrganizations }}</span>
                         </h2>
@@ -128,7 +128,7 @@
                     <!-- Completed Activities -->
                     <div
                         class="stat-item flex-1 text-center p-6 relative flex flex-col items-center border-l border-gray-300">
-                        <h2 class="text-4xl font-bold text-purple-600 mb-1 text-center">
+                        <h2 class="text-4xl font-bold mb-1 text-center bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 text-transparent bg-clip-text">
                             <span id="totalCompletedActivities"
                                 data-target="{{ $totalCompletedActivities }}">{{ $totalCompletedActivities }}</span>
                         </h2>
@@ -163,7 +163,7 @@
                 {{-- <h1 class="text-3xl font-bold mb-4">Explore Idea Board</h1> --}}
 
                 <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center"
-                    style="border-bottom: 2px solid #8B9467; width: 50%; margin: 0 auto;">Latest Activities</h3>
+                    style="border-bottom: 2px solid transparent; border-image: linear-gradient(to right, #3B82F6, #10B981, #3B82F6); border-image-slice: 1; width: 50%; margin: 0 auto;">Latest Activities</h3>
 
                 <div class="space-y-8 mt-4">
                     <x-activity-feed :activities="$activities" />

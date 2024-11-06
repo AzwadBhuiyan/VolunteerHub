@@ -20,7 +20,7 @@
                 <!-- Use object-cover to maintain aspect ratio -->
             </div>
             <h2 class="text-2xl sm:text-2xl font-bold text-center">{{ $profile->Name }}</h2>
-            <p class="text-base sm:text-xl text-center">{{ $profile->bio }}</p>
+            <p class="text-base sm:text-xl px-3 text-center">{{ $profile->bio }}</p>
             <!-- Display profile name directly under the picture -->
 
             <div class="btn-group"> <!-- Button group for profile actions -->
@@ -76,7 +76,11 @@
 
          
             <div class="profile-stats"> <!-- Section for displaying profile statistics -->
-                <div class="stat-item"> <!-- Badges statistic -->
+                <div class="stat-item"> <!-- Projects statistic -->
+                    <h3>Projects</h3> <!-- Projects header -->
+                    <p>{{ $completedActivities->count() }}</p> <!-- Display number of completed projects -->
+                </div>
+                {{-- <div class="stat-item"> <!-- Badges statistic -->
                     <h3>Badges</h3> <!-- Badges header -->
                     <div class="badges-list"> <!-- Container for badges -->
                         @if ($profile->Badges && is_array(json_decode($profile->Badges, true)) && count(json_decode($profile->Badges, true)) > 0)
@@ -89,7 +93,7 @@
                             <span class="no-badge">No badges yet</span> <!-- Message if no badges -->
                         @endif
                     </div>
-                </div>
+                </div> --}}
                 <div class="stat-item"> <!-- Points statistic -->
                     <h3>Points</h3> <!-- Points header -->
                     <p>{{ $profile->Points }}</p> <!-- Display points -->

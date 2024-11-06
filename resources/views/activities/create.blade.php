@@ -1,51 +1,74 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Create Activity') }}
-        </h2>
-    </x-slot>
+    <div class="min-h-screen bg-gray-50">
+        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 py-8">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+                    <h2 class="font-semibold text-xl text-white">
+                        {{ __('Create Activity') }}
+                    </h2>
+                </div>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    <form method="POST" action="{{ route('activities.store') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
+                <div class="p-6">
+                    <form method="POST" action="{{ route('activities.store') }}" class="space-y-4" enctype="multipart/form-data">
                         @csrf
 
-                        <div class="mb-4">
-                            <x-input-label for="title" :value="__('Title')" />
-                            <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')" required autofocus />
-                            <x-input-error :messages="$errors->get('title')" class="mt-2" />
+                        <div class="mb-6">
+                            <div class="flex items-center justify-center w-full">
+                                <div class="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
+                                    <img id="imagePreview" src="{{ asset('images/defaults/default-activity.jpg') }}" 
+                                         class="w-full h-full object-cover">
+                                    <label for="image" class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-center cursor-pointer hover:bg-opacity-60 transition">
+                                        <span class="text-sm font-medium">{{ __('Change Project Photo') }}</span>
+                                        <input id="image" name="image" type="file" class="hidden" accept="image/*" onchange="previewImage(this, 'imagePreview')" />
+                                    </label>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">Maximum file size: 5MB</p>
+                            <x-input-error class="mt-1" :messages="$errors->get('image')" />
                         </div>
 
-                        <div class="mb-4">
-                            <x-input-label for="description" :value="__('Description')" />
-                            <textarea id="description" name="description" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="4" required>{{ old('description') }}</textarea>
-                            <x-input-error :messages="$errors->get('description')" class="mt-2" />
-                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="col-span-2">
+                                <x-text-input 
+                                    id="title" 
+                                    class="block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 transition" 
+                                    type="text" 
+                                    name="title" 
+                                    :value="old('title')" 
+                                    placeholder="Enter Project Title"
+                                    required 
+                                    autofocus 
+                                />
+                            </div>
 
-                        <div class="mb-4">
-                            <x-input-label for="date" :value="__('Date')" />
-                            <x-text-input id="date" class="block mt-1 w-full" type="date" name="date" :value="old('date')" required />
-                            <x-input-error :messages="$errors->get('date')" class="mt-2" />
-                        </div>
+                            <div class="mb-4">
+                                <x-input-label for="description" :value="__('Description')" />
+                                <textarea id="description" name="description" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="4" required>{{ old('description') }}</textarea>
+                                <x-input-error :messages="$errors->get('description')" class="mt-2" />
+                            </div>
 
-                        <div class="mb-4">
-                            <x-input-label for="time" :value="__('Time')" />
-                            <x-text-input id="time" class="block mt-1 w-full" type="time" name="time" :value="old('time')" required />
-                            <x-input-error :messages="$errors->get('time')" class="mt-2" />
-                        </div>
+                            <div class="mb-4">
+                                <x-input-label for="date" :value="__('Date')" />
+                                <x-text-input id="date" class="block mt-1 w-full" type="date" name="date" :value="old('date')" required />
+                                <x-input-error :messages="$errors->get('date')" class="mt-2" />
+                            </div>
 
-                        <div class="mb-4">
-                            <x-input-label for="category" :value="__('Category')" />
-                            <select id="category" name="category" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                <option value="">Select a category</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->name }}">{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-input-error :messages="$errors->get('category')" class="mt-2" />
-                        </div>
+                            <div class="mb-4">
+                                <x-input-label for="time" :value="__('Time')" />
+                                <x-text-input id="time" class="block mt-1 w-full" type="time" name="time" :value="old('time')" required />
+                                <x-input-error :messages="$errors->get('time')" class="mt-2" />
+                            </div>
+
+                            <div class="mb-4">
+                                <x-input-label for="category" :value="__('Category')" />
+                                <select id="category" name="category" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                    <option value="">Select a category</option>
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->name }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                                <x-input-error :messages="$errors->get('category')" class="mt-2" />
+                            </div>
 
 
                         @php
@@ -62,56 +85,52 @@
                             <x-input-error class="mt-2" :messages="$errors->get('district')" />
                         </div>
 
-                        <div class="mb-4">
-                            <x-input-label for="difficulty" :value="__('Difficulty')" />
-                            <select id="difficulty" name="difficulty" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                <option value="">Select difficulty level</option>
-                                <option value="easy">Easy</option>
-                                <option value="medium">Medium</option>
-                                <option value="hard">Hard</option>
-                                <option value="severe">Severe</option>
-                            </select>
-                            <x-input-error :messages="$errors->get('difficulty')" class="mt-2" />
-                        </div>
-
-                        <div class="mb-4">
-                            <x-input-label for="address" :value="__('Address')" />
-                            <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
-                            <x-input-error :messages="$errors->get('address')" class="mt-2" />
-                        </div>
-
-                        <div class="mb-4">
-                            <x-input-label for="deadline" :value="__('Registration Deadline')" />
-                            <x-text-input id="deadline" class="block mt-1 w-full" type="datetime-local" name="deadline" :value="old('deadline')" required />
-                            <x-input-error :messages="$errors->get('deadline')" class="mt-2" />
-                        </div>
-
-                        <div class="mb-4">
-                            <x-input-label for="min_volunteers" :value="__('Minimum Volunteers')" />
-                            <x-text-input id="min_volunteers" class="block mt-1 w-full" type="number" name="min_volunteers" :value="old('min_volunteers')" required min="1" />
-                            <x-input-error :messages="$errors->get('min_volunteers')" class="mt-2" />
-                        </div>
-
-                        <div class="mb-4">
-                            <x-input-label for="max_volunteers" :value="__('Maximum Volunteers (optional)')" />
-                            <x-text-input id="max_volunteers" class="block mt-1 w-full" type="number" name="max_volunteers" :value="old('max_volunteers')" min="1" />
-                            <x-input-error :messages="$errors->get('max_volunteers')" class="mt-2" />
-                        </div>
-                        <div class="mb-4">
-                            <x-input-label for="image" :value="__('Activity Image')" />
-                            <div class="flex items-center space-x-4">                            
-                                <div class="flex items-center">
-                                    <img id="imagePreview" src="{{ asset('images/defaults/default-activity.jpg') }}" class="w-32 h-16 object-cover mr-2 hidden">
-                                    <input id="image" name="image" type="file" class="mt-1 block" accept="image/*" onchange="previewImage(this, 'imagePreview')" />
-                                </div>
-                                <x-input-error class="mt-2" :messages="$errors->get('image')" />
+                            <div class="mb-4">
+                                <x-input-label for="difficulty" :value="__('Difficulty')" />
+                                <select id="difficulty" name="difficulty" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                                    <option value="">Select difficulty level</option>
+                                    <option value="easy">Easy</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="hard">Hard</option>
+                                    <option value="severe">Severe</option>
+                                </select>
+                                <x-input-error :messages="$errors->get('difficulty')" class="mt-2" />
                             </div>
-                            <p class="text-sm text-gray-600 mt-1">Maximum file size: 5MB</p>
+
+                            <div class="mb-4">
+                                <x-input-label for="address" :value="__('Address')" />
+                                <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
+                                <x-input-error :messages="$errors->get('address')" class="mt-2" />
+                            </div>
+
+                            <div class="mb-4">
+                                <x-input-label for="deadline" :value="__('Registration Deadline')" />
+                                <x-text-input id="deadline" class="block mt-1 w-full" type="datetime-local" name="deadline" :value="old('deadline')" required />
+                                <x-input-error :messages="$errors->get('deadline')" class="mt-2" />
+                            </div>
+
+                            <div class="mb-4">
+                                <x-input-label for="min_volunteers" :value="__('Minimum Volunteers')" />
+                                <x-text-input id="min_volunteers" class="block mt-1 w-full" type="number" name="min_volunteers" :value="old('min_volunteers')" required min="1" />
+                                <x-input-error :messages="$errors->get('min_volunteers')" class="mt-2" />
+                            </div>
+
+                            <div class="mb-4">
+                                <x-input-label for="max_volunteers" :value="__('Maximum Volunteers (optional)')" />
+                                <x-text-input id="max_volunteers" class="block mt-1 w-full" type="number" name="max_volunteers" :value="old('max_volunteers')" min="1" />
+                                <x-input-error :messages="$errors->get('max_volunteers')" class="mt-2" />
+                            </div>
                         </div>
-                        
-                        <div><p class=italic sm>Activity will automatically change status to "closed" when date or deadline is reached</p></div>
-                        <div class="flex items-center justify-end mt-4">
-                            <x-primary-button class="ml-4">
+
+                        <div class="mt-6 bg-blue-50 rounded-lg p-4">
+                            <p class="text-sm text-blue-600">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Activity will automatically change status to "closed" when date or deadline is reached
+                            </p>
+                        </div>
+
+                        <div class="mt-6">
+                            <x-primary-button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-150 ease-in-out">
                                 {{ __('Create Activity') }}
                             </x-primary-button>
                         </div>
