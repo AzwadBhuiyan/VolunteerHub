@@ -142,21 +142,7 @@
                 <!-- Idea Board Link -->
                 <div class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center mt-4 bg-gray-800 text-white">
                     {{-- <h1 class="text-3xl font-bold mb-4">Explore Idea Board</h1> --}}
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                        fill="{{ request()->routeIs('idea_board.index') ? '#007bff' : '#34C759' }}"
-                        class="h-7 w-7 nav-icon {{ request()->routeIs('idea_board.index') ? 'active-icon' : '' }}"
-                        viewBox="0 0 16 16">
-                        <path
-                            d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12.93A5.93 5.93 0 1 1 8 2.07 5.93 5.93 0 0 1 8 13.93z"
-                            fill="{{ request()->routeIs('idea_board.index') ? '#007bff' : '#34C759' }}"
-                            stroke="{{ request()->routeIs('idea_board.index') ? '#007bff' : '#34C759' }}"
-                            stroke-width="0.5" />
-                        <path
-                            d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"
-                            fill="{{ request()->routeIs('idea_board.index') ? '#007bff' : '#34C759' }}"
-                            stroke="{{ request()->routeIs('idea_board.index') ? '#007bff' : '#34C759' }}"
-                            stroke-width="0.5" />
-                    </svg>
+                    <i class="fas fa-lightbulb text-lg text-yellow-600"></i>
 
 
 
@@ -164,14 +150,11 @@
                     <h2
                         class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2 ">
                         Discover & Contribute Innovative Ideas!</h2>
-                        <p class="text-base">Join our community and make a difference! Lorem Ipsum is simply dummy text of
-                            the printing and typesetting industry.</p>
+                        <p class="text-base">Join our community where you can share innovative ideas, participate in polls, and engage in meaningful discussions to shape positive change together!</p>
 
-                    <a href="{{ route('idea_board.index') }}">
-                        <button type="button"
-                            class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
-                            Explore Now
-                        </button>
+                    <a href="{{ route('idea_board.index') }}"
+                        class="mt-8 inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-blue-800 hover:from-green-900 hover:to-blue-900 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-lg hover:shadow-xl">
+                        Explore Now
                     </a>
 
 

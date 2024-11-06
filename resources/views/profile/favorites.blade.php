@@ -34,13 +34,15 @@
                     Explore Your Favorite Activities!</h2>
                     <p class="text-base">Here you can check out the latest accomplishments of the organizations and volunteers that you follow.</p>
 
-                <a href="{{ route('following.index') }}" class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
-                    <i class="fas fa-users"></i> View Following Organizations & Volunteers
-                </a>
+                <div class="flex flex-col sm:flex-row gap-4 mt-4">
+                    <a href="{{ route('following.index') }}" class="inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-blue-800 hover:from-green-900 hover:to-blue-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-lg hover:shadow-xl">
+                        <i class="fas fa-users mr-2"></i> View Following
+                    </a>
 
-                <a href="{{ route('favorites.edit') }}" class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
-                    <i class="fas fa-pen"></i> Edit Your Favorites Filters
-                </a>
+                    <a href="{{ route('favorites.edit') }}" class="inline-flex items-center justify-center px-6 py-2.5 border border-gray-300 text-sm font-medium rounded-md text-gray-200 bg-gray-700 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200 shadow hover:shadow-md">
+                        <i class="fas fa-pen mr-2"></i> Edit Favorites
+                    </a>
+                </div>
 
                 
             </div>

@@ -5,7 +5,8 @@
 
 
     {{-- <div class=" sm:py-12 bg-blue-500 h-full">  <!-- Main container with vertical padding --> --}}
-    <div class="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 space-y-6">
+    <div class="max-w-7xl mx-auto px-1 sm:px-6 lg:px-8 space-y-6 min-h-screen">
+        
         <!-- Centered container with responsive padding and vertical spacing -->
         {{-- <div class=" h-screen"> --}}
         <!-- Profile information card with padding, background color, shadow, and rounded corners, and full height of the website -->
@@ -102,9 +103,15 @@
                     <a href="#" class="btn-rounded custom-btn">Contact</a>
                     <a href="{{ $profile->website }}" class="btn-rounded custom-btn">Website</a>
                 </div>
+                <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center" 
+                style="border-bottom: 2px solid #8B9467; width: 70%; margin: 0 auto;">
+                Volunteer Projects
+            </h3>
                 <hr class="mt-2  mb-4">
 
+              
                 <!-- Activities Section -->
+                
                 <div x-data="{ tab: 'ongoing' }" class="mb-6">
                     <div class="flex justify-center space-x-2 mb-4 w-full">
                         <button @click="tab = 'ongoing'"
