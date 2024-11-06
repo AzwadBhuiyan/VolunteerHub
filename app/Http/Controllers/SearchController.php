@@ -16,6 +16,10 @@ class SearchController extends Controller
         $category = $request->input('category', 'organizations');
         $perPage = 8;
 
+        if (empty($category)) {
+            return redirect()->back()->with('error', 'Please select a category before searching');
+        }
+
         if (empty($query)) {
             return view('search.results', compact('results', 'category', 'query'))->with('results', collect([]));
         }

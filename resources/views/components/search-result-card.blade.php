@@ -1,31 +1,35 @@
-<div class="rounded-lg overflow-hidden shadow-sm border border-gray-200 p-4">
-    <div class="flex flex-col items-center">
+<div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
+    <div class="p-3 flex items-center space-x-4">
         @if($category === 'organizations')
-            <img src="{{ asset($user->getLogoPath()) }}" 
-                 alt="{{ $user->org_name }}" 
-                 class="w-16 h-16 rounded-full object-cover mb-2">
-            <a href="{{ route('profile.public', $user->url) }}" 
-               class="text-blue-500 hover:underline text-center font-medium">
-                {{ $user->organization->org_name }}
+            <a href="{{ route('profile.public', $user->url) }}" class="flex-shrink-0">
+                <img src="{{ asset($user->getLogoPath()) }}" 
+                     alt="{{ $user->org_name }}" 
+                     class="w-10 h-10 rounded-full object-cover">
             </a>
-            @if($user->organization->description)
-                <p class="text-sm text-gray-600 mt-2 text-center">
-                    {{ Str::limit($user->organization->description, 100) }}
-                </p>
-            @endif
+            <div class="flex flex-col flex-grow">
+                <a href="{{ route('profile.public', $user->url) }}" 
+                   class="text-base font-semibold text-gray-800 hover:text-blue-600">
+                    {{ $user->org_name }}
+                </a>
+                <div class="text-sm text-gray-500">
+                    {{ $user->website ?? 'No website provided' }}
+                </div>
+            </div>
         @else
-            <img src="{{ asset($user->getProfilePicturePath()) }}" 
-                 alt="{{ $user->Name }}" 
-                 class="w-16 h-16 rounded-full object-cover mb-2">
-            <a href="{{ route('profile.public', $user->url) }}" 
-               class="text-blue-500 hover:underline text-center font-medium">
-                {{ $user->Name }}
+            <a href="{{ route('profile.public', $user->url) }}" class="flex-shrink-0">
+                <img src="{{ asset($user->getProfilePicturePath()) }}" 
+                     alt="{{ $user->Name }}" 
+                     class="w-10 h-10 rounded-full object-cover">
             </a>
-            @if($user->bio)
-                <p class="text-sm text-gray-600 mt-2 text-center">
-                    {{ Str::limit($user->bio, 100) }}
-                </p>
-            @endif
+            <div class="flex flex-col flex-grow">
+                <a href="{{ route('profile.public', $user->url) }}" 
+                   class="text-base font-semibold text-gray-800 hover:text-blue-600">
+                    {{ $user->Name }}
+                </a>
+                <div class="text-sm text-gray-500">
+                    Level: {{ $user->level ?? 'Beginner' }}
+                </div>
+            </div>
         @endif
     </div>
 </div>

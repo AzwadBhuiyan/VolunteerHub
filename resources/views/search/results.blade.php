@@ -5,25 +5,17 @@
                 <h2 class="text-2xl font-semibold mb-4">Search Results for "{{ $query }}"</h2>
                 
                 <div class="mb-6">
-                    @if($category === 'activities')
-                        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-4">
-                            @foreach($results as $result)
+                    <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-4">
+                        @foreach($results as $result)
+                            @if($category === 'activities')
                                 <x-activity-card :activity="$result" />
-                            @endforeach
-                        </div>
-                    @elseif($category === 'ideas')
-                        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-4">
-                            @foreach($results as $result)
+                            @elseif($category === 'ideas')
                                 <x-idea-card :idea="$result" :category="$category" />
-                            @endforeach
-                        </div>
-                    @else
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="search-results">
-                            @foreach($results as $result)
-                                <x-search-result-card :user="$result" :category="$category" />                                
-                            @endforeach
-                        </div>
-                    @endif
+                            @else
+                                <x-search-result-card :user="$result" :category="$category" />
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
 
                 <div class="flex justify-center my-4">
