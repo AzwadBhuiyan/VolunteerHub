@@ -40,6 +40,11 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        \Log::info('Registration attempt', [
+            'user_type' => $request->user_type,
+            'all_data' => $request->all()
+        ]);
+
         $commonRules = [
             'user_type' => ['required', 'in:volunteer,organization'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -86,6 +91,11 @@ class RegisteredUserController extends Controller
             ]);
         
             if ($request->user_type === 'volunteer') {
+                \Log::info('Creating volunteer', [
+                    'userid' => $userid,
+                    'data' => $request->only(['name', 'phone', 'gender', 'dob', 'present_address', 'district'])
+                ]);
+                
                 Volunteer::create([
                     'userid' => $user->userid,
                     'url' => $user->userid,
@@ -95,6 +105,13 @@ class RegisteredUserController extends Controller
                     'DOB' => $request->dob,
                     'PresentAddress' => $request->present_address,
                     'District' => $request->district,
+                    'BloodGroup' => 'Not Set',  // Default value
+                    'PermanentAddress' => $request->present_address,  // Use present address as default
+                    'TrainedInEmergencyResponse' => false,
+                    'Points' => 0,
+                    'Badges' => null,
+                    'bio' => null,
+                    'allow_follow' => true  // Default to allowing follows
                 ]);
             } else {
                 Organization::create([
@@ -117,8 +134,11 @@ class RegisteredUserController extends Controller
             // Instead of logging in the user, redirect them to a page asking to verify email
             return redirect()->route('verification.notice')->with('status', 'Please check your email for a verification link.');
         } catch (\Exception $e) {
-            \Log::error('Registration failed: ' . $e->getMessage());
-            return redirect()->back()->withInput()->withErrors(['error' => 'Registration failed. Please try again.']);
+            \Log::error('Registration failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
         }
     }
 }

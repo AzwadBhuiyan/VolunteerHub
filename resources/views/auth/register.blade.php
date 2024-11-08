@@ -229,15 +229,23 @@
 
             const form = document.querySelector('form');
             form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default submission
+                
                 const userType = document.getElementById('user_type').value;
                 const volunteerFields = document.getElementById('volunteer-fields');
                 const organizationFields = document.getElementById('organization-fields');
 
+                // Enable all fields in the active section before submission
                 if (userType === 'volunteer') {
+                    enableFields(volunteerFields);
                     disableFields(organizationFields);
                 } else {
+                    enableFields(organizationFields);
                     disableFields(volunteerFields);
                 }
+
+                // Now submit the form
+                this.submit();
             });
         });
     </script>
