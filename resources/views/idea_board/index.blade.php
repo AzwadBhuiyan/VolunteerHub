@@ -277,6 +277,18 @@
                                                     </button>
                                                     <span class="mx-2 vote-count">{{ $comment->getVoteCount() }}</span>
                                                 </div>
+                                                @if (Auth::user()->is_admin)
+                                                    <form action="{{ route('admin.comments.delete', $comment) }}" 
+                                                        method="POST" 
+                                                        class="inline-block ml-2"
+                                                        onsubmit="return confirm('Are you sure you want to delete this comment?')">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="text-red-600 hover:text-red-900">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
                                             </div>
                                         @endforeach
                                     </div>
@@ -359,9 +371,9 @@
 
 
                             <!-- Priority Score -->
-                            {{-- <div class="px-4 py-2 bg-gray-100">
+                            <!-- {{-- <div class="px-4 py-2 bg-gray-100">
                                 <p class="text-sm text-gray-600">Priority Score: {{ $thread->priority_score }}</p>
-                            </div> --}}
+                            </div> --}} -->
 
 
                         </div>

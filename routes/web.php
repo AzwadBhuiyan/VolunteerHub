@@ -13,6 +13,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityMilestoneController;
+use App\Http\Controllers\AdminController;
 
 Route::get('/connection', function () {
     try {
@@ -31,6 +32,13 @@ Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name(
 // Route::get('/', function () {
 //     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // });
+
+
+// Public activities feed
+Route::get('/activities-feed', [ActivityController::class, 'feed'])->name('activities.feed');
+
+// Public profile route (accessible without authentication)
+Route::get('/profile/{url}', [PublicProfileController::class, 'show'])->name('profile.public');
 
 // Search routes
 Route::get('/search', [App\Http\Controllers\SearchController::class, 'search'])->name('search');
@@ -112,11 +120,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
-// Public activities feed
-Route::get('/activities-feed', [ActivityController::class, 'feed'])->name('activities.feed');
 
-// Public profile route (accessible without authentication)
-Route::get('/profile/{url}', [PublicProfileController::class, 'show'])->name('profile.public');
 
 
 
@@ -129,6 +133,8 @@ Route::get('/profile/{url}', [PublicProfileController::class, 'show'])->name('pr
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
 })->middleware('auth')->name('verification.notice');
+
+
 
 Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
     ->middleware(['auth', 'signed', 'throttle:6,1'])
