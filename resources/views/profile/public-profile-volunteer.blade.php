@@ -19,6 +19,32 @@
                     alt="{{ $profile->name }}" class=" profile-picture ">
                 <!-- Use object-cover to maintain aspect ratio -->
             </div>
+            @if($profile->getProfileCompletionPercentage() < 100)
+                <div class="mt-4 w-full max-w-xs mx-auto">
+                    <div class="bg-gray-100 rounded-full h-4 overflow-hidden">
+                        <div class="bg-blue-500 h-full rounded-full transition-all duration-500" 
+                             style="width: {{ $profile->getProfileCompletionPercentage() }}%">
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 text-center mt-1">
+                        Profile {{ $profile->getProfileCompletionPercentage() }}% Complete
+                    </p>
+                    @if(Auth::id() == $profile->userid)
+                        <div class="mt-2">
+                            <p class="text-sm text-gray-500 text-center">Complete your profile by adding:</p>
+                            <ul class="text-sm text-gray-500 list-disc list-inside mt-1">
+                                @foreach($profile->getIncompleteFields() as $field)
+                                    <li>{{ $field }}</li>
+                                @endforeach
+                            </ul>
+                            <a href="{{ route('profile.edit') }}" 
+                               class="block w-full text-center mt-2 text-sm text-blue-500 hover:text-blue-700">
+                                Complete Profile
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            @endif
             <h2 class="text-2xl sm:text-2xl font-bold text-center">{{ $profile->Name }}</h2>
             <p class="text-base sm:text-xl px-3 text-center">{{ $profile->bio }}</p>
             <!-- Display profile name directly under the picture -->

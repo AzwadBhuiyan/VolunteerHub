@@ -137,4 +137,47 @@ class Volunteer extends Model
         return $this->comments()->count() + $this->pollVotes()->count();
     }
 
+
+    public function getProfileCompletionPercentage()
+    {
+        $total = 5; // Total number of optional fields
+        $completed = 0;
+        $fields = [
+            'PermanentAddress',
+            'NID',
+            'BloodGroup',
+            'profession',
+            'bio'
+        ];
+
+        foreach ($fields as $field) {
+            if (!empty($this->$field)) {
+                $completed++;
+            }
+        }
+
+        $percentage = 50 + ($completed * 10); // Start at 50% and add 10% for each completed field
+        return $percentage >= 100 ? 100 : $percentage;
+    }
+
+    public function getIncompleteFields()
+    {
+        $incomplete = [];
+        $fields = [
+            'PermanentAddress' => 'Permanent Address',
+            'NID' => 'NID',
+            'BloodGroup' => 'Blood Group',
+            'Profession' => 'Profession',
+            'bio' => 'Bio'
+        ];
+
+        foreach ($fields as $field => $label) {
+            if (empty($this->$field)) {
+                $incomplete[] = $label;
+            }
+        }
+
+        return $incomplete;
+    }
+
 }
