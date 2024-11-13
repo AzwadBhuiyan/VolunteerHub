@@ -39,6 +39,12 @@
         </div>
         <x-input-error class="mt-2" :messages="$errors->get('district')" />
 
+        <div class="flex items-center">
+            <x-input-label for="profession" :value="__('Profession')" class="w-1/4 mr-2 text-left" />
+            <x-text-input id="profession" name="profession" type="text" class="mt-1 block w-full" :value="old('profession', $profile->Profession)" required />
+        </div>
+        <x-input-error class="mt-2" :messages="$errors->get('profession')" />
+
         <div class="flex items-center"> <!-- Adjusted flex container for checkbox -->
             <label for="trained_in_emergency" class="inline-flex items-center">
                 <input id="trained_in_emergency" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="trained_in_emergency" value="1" {{ old('trained_in_emergency', $profile->TrainedInEmergencyResponse) ? 'checked' : '' }}>

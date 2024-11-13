@@ -61,6 +61,14 @@
             {{ Str::limit($activity->description, 150) }}
         </p>
     </div>
+    @if($activity->required_profession)
+        <div class="mt-2 flex items-center">
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                <i class="fas fa-briefcase mr-1"></i>
+                Required Profession: {{ $activity->required_profession }}
+            </span>
+        </div>
+    @endif
     <div class="px-2 py-2">
         <div class="aspect-w-4 aspect-h-3">
             <x-activity-ongoing-image :activity="$activity" />

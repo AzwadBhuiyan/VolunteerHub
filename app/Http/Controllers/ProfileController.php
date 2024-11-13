@@ -170,11 +170,12 @@ class ProfileController extends Controller
         $profile = $user->volunteer;
 
         $validated = $request->validate([
-            'nid' => 'nullable', 'numeric', 'digits:10',
+            'nid' => 'nullable|numeric|digits:10',
             'present_address' => 'required|string|max:300',
             'permanent_address' => 'required|string|max:300',
             'district' => 'required|string',
             'trained_in_emergency' => 'boolean',
+            'profession' => 'required|string|max:100',
         ]);
 
         $profile->NID = $validated['nid'];
@@ -182,6 +183,7 @@ class ProfileController extends Controller
         $profile->PermanentAddress = $validated['permanent_address'];
         $profile->District = $validated['district'];
         $profile->TrainedInEmergencyResponse = $validated['trained_in_emergency'] ?? false;
+        $profile->Profession = $validated['profession'];
 
         $profile->save();
 

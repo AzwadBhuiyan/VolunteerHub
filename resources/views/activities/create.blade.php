@@ -120,6 +120,12 @@
                                 <x-text-input id="max_volunteers" class="block mt-1 w-full" type="number" name="max_volunteers" :value="old('max_volunteers')" min="1" />
                                 <x-input-error :messages="$errors->get('max_volunteers')" class="mt-2" />
                             </div>
+
+                            <div class="mb-4">
+                                <x-input-label for="required_profession" :value="__('Required Profession (optional)')" />
+                                <x-text-input id="required_profession" name="required_profession" type="text" class="block mt-1 w-full" :value="old('required_profession')" placeholder="e.g., Doctor, Engineer, Teacher" />
+                                <x-input-error :messages="$errors->get('required_profession')" class="mt-2" />
+                            </div>
                         </div>
 
                         <div class="mt-6 bg-blue-50 rounded-lg p-4">

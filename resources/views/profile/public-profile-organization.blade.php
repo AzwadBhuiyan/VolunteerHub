@@ -161,6 +161,14 @@
                                         {{ Str::limit($activity->description, 150) }} <!-- Limit description length -->
                                     </p>
                                 </div>
+                                @if($activity->required_profession)
+                                    <div class="mt-1">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            <i class="fas fa-briefcase mr-1"></i>
+                                            Required Profession: {{ $activity->required_profession }}
+                                        </span>
+                                    </div>
+                                @endif
 
                                 <!-- Activity Images -->
                                 <div class="px-2 py-2">
