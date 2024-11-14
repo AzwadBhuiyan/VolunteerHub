@@ -4,7 +4,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
 
-    <div class="max-w-full overflow-x-hidden">
+    <div class="max-w-full overflow-x-hidden mt-20">
         {{-- @include('search.search-bar') --}}
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 ">
             <!-- Centered container with responsive padding and vertical spacing -->

@@ -98,8 +98,9 @@
                 <div class=" active-underline {{ request()->routeIs('idea_board.index') ? 'active' : '' }}"></div>
             </a>
 
-            <!-- Search Icon - Add this first -->
-            <a href="#" class="relative text-gray-500 hover:text-gray-700 icon-link" id="search-toggle">
+            <!-- Search Icon - Updated with conditional display -->
+            <a href="#" class="relative text-gray-500 hover:text-gray-700 icon-link" id="search-toggle" 
+               style="{{ Request::is('search*') || Request::is('/') ? 'display: none;' : '' }}">
                 <div class="icon-container">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
                          fill="none" 
@@ -146,15 +147,24 @@
     </div>
 </nav>
 
-<!-- Add this right after the nav element -->
-<div id="search-container" class="w-full bg-white shadow-md absolute left-0 right-0 z-50" style="display: none; transform: translateY(-100%); transition: transform 0.3s ease-out;">
+<!-- Updated search container div -->
+<div id="search-container" class="w-full bg-white shadow-md absolute left-0 right-0 z-50" 
+    style="display: {{ Request::is('search*') || Request::is('/') ? 'block' : 'none' }}; 
+           transform: {{ Request::is('search*') || Request::is('/') ? 'translateY(0)' : 'translateY(-100%)' }}; 
+           transition: transform 0.3s ease-out;">
     @include('search.search-bar')
 </div>
 
-<!-- Add this script at the bottom of your file -->
+<!-- Updated script -->
 <script>
 document.getElementById('search-toggle').addEventListener('click', function(e) {
     e.preventDefault();
+    
+    // Skip the animation if we're on the search or home page
+    if (window.location.pathname.includes('/search') || window.location.pathname === '/') {
+        return;
+    }
+    
     const searchContainer = document.getElementById('search-container');
     
     if (searchContainer.style.display === 'none') {
