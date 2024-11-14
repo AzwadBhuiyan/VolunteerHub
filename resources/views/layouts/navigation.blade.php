@@ -1,4 +1,4 @@
-<nav class="flex justify-between items-center">
+<nav class="flex justify-between items-center relative">
     <div class="site-logo">
         <!-- Site logo linked to the home page -->
         <a href="{{ route('home') }}">
@@ -98,7 +98,20 @@
                 <div class=" active-underline {{ request()->routeIs('idea_board.index') ? 'active' : '' }}"></div>
             </a>
 
-           
+            <!-- Search Icon - Add this first -->
+            <a href="#" class="relative text-gray-500 hover:text-gray-700 icon-link" id="search-toggle">
+                <div class="icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" 
+                         fill="none" 
+                         stroke="currentColor" 
+                         class="h-7 w-7 nav-icon" 
+                         viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                    <span class="tooltip">{{ __('Search') }}</span>
+                </div>
+            </a>
+
         @endauth
     </div>
 
@@ -132,3 +145,29 @@
         @endauth
     </div>
 </nav>
+
+<!-- Add this right after the nav element -->
+<div id="search-container" class="w-full bg-white shadow-md absolute left-0 right-0 z-50" style="display: none; transform: translateY(-100%); transition: transform 0.3s ease-out;">
+    @include('search.search-bar')
+</div>
+
+<!-- Add this script at the bottom of your file -->
+<script>
+document.getElementById('search-toggle').addEventListener('click', function(e) {
+    e.preventDefault();
+    const searchContainer = document.getElementById('search-container');
+    
+    if (searchContainer.style.display === 'none') {
+        searchContainer.style.display = 'block';
+        // Force a reflow
+        searchContainer.offsetHeight;
+        searchContainer.style.transform = 'translateY(0)';
+    } else {
+        searchContainer.style.transform = 'translateY(-100%)';
+        setTimeout(() => {
+            searchContainer.style.display = 'none';
+        }, 300);
+    }
+});
+</script>
+

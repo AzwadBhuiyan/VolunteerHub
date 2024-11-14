@@ -1,25 +1,44 @@
 <x-app-layout>
-    <div class="min-h-screen bg-gray-50">
-        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8 py-8">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
+        <div class="p-1 sm:p-8 bg-white ">
+    {{-- <div class="min-h-screen bg-gray-50"> --}}
+        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
-                    <h2 class="font-semibold text-xl text-white">
-                        {{ __('Create Activity') }}
+                <div class="bg-gradient-to-r from-gray-800 via-gray-900 to-black px-6 py-4 rounded-t-lg shadow-lg">
+                    <h2 class="font-semibold text-2xl bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text tracking-wide animate-gradient">
+                        {{ __('Create a Volunteer Project') }}
                     </h2>
                 </div>
+                <style>
+                    @keyframes gradient {
+                        0% {
+                            background-position: 0% 50%;
+                        }
+                        100% {
+                            background-position: 100% 50%;
+                        }
+                    }
+                    .animate-gradient {
+                        background-size: 200% 200%;
+                        animation: gradient 3s linear infinite;
+                    }
+                </style>
 
-                <div class="p-6">
-                    <form method="POST" action="{{ route('activities.store') }}" class="space-y-4" enctype="multipart/form-data">
+                <div class="p-3">
+                    <form method="POST" action="{{ route('activities.store') }}" class="space-y-4"
+                        enctype="multipart/form-data">
                         @csrf
 
                         <div class="mb-6">
                             <div class="flex items-center justify-center w-full">
                                 <div class="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
-                                    <img id="imagePreview" src="{{ asset('images/defaults/default-activity.jpg') }}" 
-                                         class="w-full h-full object-cover">
-                                    <label for="image" class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-center cursor-pointer hover:bg-opacity-60 transition">
+                                    <img id="imagePreview" src="{{ asset('images/defaults/default-activity.jpg') }}"
+                                        class="w-full h-full object-cover">
+                                    <label for="image"
+                                        class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-center cursor-pointer hover:bg-opacity-60 transition">
                                         <span class="text-sm font-medium">{{ __('Change Project Photo') }}</span>
-                                        <input id="image" name="image" type="file" class="hidden" accept="image/*" onchange="previewImage(this, 'imagePreview')" />
+                                        <input id="image" name="image" type="file" class="hidden"
+                                            accept="image/*" onchange="previewImage(this, 'imagePreview')" />
                                     </label>
                                 </div>
                             </div>
@@ -27,67 +46,106 @@
                             <x-input-error class="mt-1" :messages="$errors->get('image')" />
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="col-span-2">
-                                <x-text-input 
-                                    id="title" 
-                                    class="block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 transition" 
-                                    type="text" 
-                                    name="title" 
-                                    :value="old('title')" 
-                                    placeholder="Enter Project Title"
-                                    required 
-                                    autofocus 
-                                />
+                        <div class="space-y-6">
+                            <!-- Title -->
+                            <div>
+                                <x-text-input id="title"
+                                    class="block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 transition"
+                                    type="text" name="title" :value="old('title')" placeholder="Enter Project Title"
+                                    required autofocus />
                             </div>
 
-                            <div class="mb-4">
-                                <x-input-label for="description" :value="__('Description')" />
-                                <textarea id="description" name="description" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="4" required>{{ old('description') }}</textarea>
+                            <!-- Description -->
+                            <div>
+                                <textarea id="description" name="description"
+                                    class="block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    rows="4" required placeholder="Enter Project Description">{{ old('description') }}</textarea>
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
                             </div>
 
-                            <div class="mb-4">
-                                <x-input-label for="date" :value="__('Date')" />
-                                <x-text-input id="date" class="block mt-1 w-full" type="date" name="date" :value="old('date')" required />
-                                <x-input-error :messages="$errors->get('date')" class="mt-2" />
+                            <!-- Date and Time -->
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <div class="relative">
+                                        <input type="text" id="date" name="date"
+                                            class="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                            :value="old('date')" required
+                                            placeholder="Select Date" />
+                                    </div>
+                                    <link rel="stylesheet"
+                                        href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+                                    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                                    <script>
+                                        flatpickr("#date", {
+                                            enableTime: false,
+                                            dateFormat: "d/m/Y",
+                                            onChange: function(selectedDates, dateStr, instance) {
+                                                document.getElementById('date').value = dateStr;
+                                            },
+                                            theme: "material_blue"
+                                        });
+                                    </script>
+                                    <x-input-error :messages="$errors->get('date')" class="mt-2" />
+                                </div>
+
+                                <div>
+                                    <div class="relative">
+                                        <input type="text" id="time" name="time"
+                                            class="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                            :value="old('time')" required
+                                            placeholder="Select Time" />
+                                    </div>
+                                    <link rel="stylesheet"
+                                        href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+                                    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                                    <script>
+                                        flatpickr("#time", {
+                                            enableTime: true,
+                                            noCalendar: true,
+                                            dateFormat: "h:i K",
+                                            time_24hr: false,
+                                            onChange: function(selectedDates, timeStr, instance) {
+                                                document.getElementById('time').value = timeStr;
+                                            },
+                                            theme: "material_blue"
+                                        });
+                                    </script>
+                                    <x-input-error :messages="$errors->get('time')" class="mt-2" />
+                                </div>
                             </div>
 
-                            <div class="mb-4">
-                                <x-input-label for="time" :value="__('Time')" />
-                                <x-text-input id="time" class="block mt-1 w-full" type="time" name="time" :value="old('time')" required />
-                                <x-input-error :messages="$errors->get('time')" class="mt-2" />
+                            <!-- Category and District -->
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <select id="category" name="category"
+                                        class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        required>
+                                        <option value="">Select a category</option>
+                                        @foreach ($categories as $category)
+                                            <option value="{{ $category->name }}">{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-input-error :messages="$errors->get('category')" class="mt-2" />
+                                </div>
+
+                                <div>
+                                    <select id="district" name="district"
+                                        class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                        required>
+                                        <option value="">Select district</option>
+                                        @foreach (config('districts.districts') as $district)
+                                            <option value="{{ $district }}">{{ $district }}</option>
+                                        @endforeach
+                                    </select>
+                                    <x-input-error :messages="$errors->get('district')" class="mt-2" />
+                                </div>
                             </div>
 
-                            <div class="mb-4">
-                                <x-input-label for="category" :value="__('Category')" />
-                                <select id="category" name="category" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
-                                    <option value="">Select a category</option>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->name }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                                <x-input-error :messages="$errors->get('category')" class="mt-2" />
-                            </div>
-
-
-                        @php
-                            $districts = config('districts.districts');
-                        @endphp
-
-                        <div>
-                            <x-input-label for="district" :value="__('District')" />
-                            <select id="district" name="district" class="mt-1 block w-full" required>
-                                @foreach($districts as $district)
-                                    <option value="{{ $district }}">{{ $district }}</option>
-                                @endforeach
-                            </select>
-                            <x-input-error class="mt-2" :messages="$errors->get('district')" />
-                        </div>
-
-                            <div class="mb-4">
-                                <x-input-label for="difficulty" :value="__('Difficulty')" />
-                                <select id="difficulty" name="difficulty" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required>
+                            <!-- Difficulty -->
+                            <div>
+                                <select id="difficulty" name="difficulty"
+                                    class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                                    required>
                                     <option value="">Select difficulty level</option>
                                     <option value="easy">Easy</option>
                                     <option value="medium">Medium</option>
@@ -97,46 +155,91 @@
                                 <x-input-error :messages="$errors->get('difficulty')" class="mt-2" />
                             </div>
 
-                            <div class="mb-4">
-                                <x-input-label for="address" :value="__('Address')" />
-                                <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
+                            <!-- Address -->
+                            <div>
+                                <x-text-input id="address" class="block w-full" type="text" name="address"
+                                    :value="old('address')" required placeholder="Enter Project Address" />
                                 <x-input-error :messages="$errors->get('address')" class="mt-2" />
                             </div>
 
-                            <div class="mb-4">
-                                <x-input-label for="deadline" :value="__('Registration Deadline')" />
-                                <x-text-input id="deadline" class="block mt-1 w-full" type="datetime-local" name="deadline" :value="old('deadline')" required />
-                                <x-input-error :messages="$errors->get('deadline')" class="mt-2" />
+                            <!-- Volunteers -->
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <x-text-input id="min_volunteers" class="block w-full" type="number"
+                                        name="min_volunteers" :value="old('min_volunteers')" required min="1"
+                                        placeholder="Enter Minimum Number of Volunteers" />
+                                    <x-input-error :messages="$errors->get('min_volunteers')" class="mt-2" />
+                                </div>
+
+                                <div>
+                                    <x-text-input id="max_volunteers" class="block w-full" type="number"
+                                        name="max_volunteers" :value="old('max_volunteers')" min="1"
+                                        placeholder="Enter Maximum Number of Volunteers (Optional)" />
+                                    <x-input-error :messages="$errors->get('max_volunteers')" class="mt-2" />
+                                </div>
                             </div>
 
-                            <div class="mb-4">
-                                <x-input-label for="min_volunteers" :value="__('Minimum Volunteers')" />
-                                <x-text-input id="min_volunteers" class="block mt-1 w-full" type="number" name="min_volunteers" :value="old('min_volunteers')" required min="1" />
-                                <x-input-error :messages="$errors->get('min_volunteers')" class="mt-2" />
-                            </div>
+                            <!-- Deadline and Profession -->
+                            <div class="grid grid-cols-2 gap-6">
+                                <div>
+                                    <div class="relative">
+                                        <input type="text" id="deadline" name="deadline"
+                                            class="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                            :value="old('deadline')" required
+                                            placeholder="Select Registration Deadline" />
+                                    </div>
+                                    <link rel="stylesheet"
+                                        href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+                                    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                                    <script>
+                                        flatpickr("#deadline", {
+                                            enableTime: true,
+                                            dateFormat: "Y-m-d h:i K",
+                                            onChange: function(selectedDates, dateStr, instance) {
+                                                document.getElementById('deadline').value = dateStr;
+                                            },
+                                            theme: "material_blue"
+                                        });
+                                    </script>
+                                    <x-input-error :messages="$errors->get('deadline')" class="mt-2" />
+                                </div>
 
-                            <div class="mb-4">
-                                <x-input-label for="max_volunteers" :value="__('Maximum Volunteers (optional)')" />
-                                <x-text-input id="max_volunteers" class="block mt-1 w-full" type="number" name="max_volunteers" :value="old('max_volunteers')" min="1" />
-                                <x-input-error :messages="$errors->get('max_volunteers')" class="mt-2" />
-                            </div>
-
-                            <div class="mb-4">
-                                <x-input-label for="required_profession" :value="__('Required Profession (optional)')" />
-                                <x-text-input id="required_profession" name="required_profession" type="text" class="block mt-1 w-full" :value="old('required_profession')" placeholder="e.g., Doctor, Engineer, Teacher" />
-                                <x-input-error :messages="$errors->get('required_profession')" class="mt-2" />
+                                <div>
+                                    {{-- <x-input-label for="required_profession" :value="__('Required Profession (optional)')" /> --}}
+                                    <select id="required_profession" name="required_profession"
+                                        class="block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                        <option value="">Select a profession (optional)</option>
+                                        <option value="Accountant">Accountant</option>
+                                        <option value="Architect">Architect</option>
+                                        <option value="Carpenter">Carpenter</option>
+                                        <option value="Chef">Chef</option>
+                                        <option value="Doctor">Doctor</option>
+                                        <option value="Electrician">Electrician</option>
+                                        <option value="Engineer">Engineer</option>
+                                        <option value="IT Professional">IT Professional</option>
+                                        <option value="Lawyer">Lawyer</option>
+                                        <option value="Nurse">Nurse</option>
+                                        <option value="Plumber">Plumber</option>
+                                        <option value="Psychologist">Psychologist</option>
+                                        <option value="Social Worker">Social Worker</option>
+                                        <option value="Student">Student</option>
+                                        <option value="Teacher">Teacher</option>
+                                    </select>
+                                    <x-input-error :messages="$errors->get('required_profession')" class="mt-2" />
+                                </div>
                             </div>
                         </div>
-
+                        
                         <div class="mt-6 bg-blue-50 rounded-lg p-4">
-                            <p class="text-sm text-blue-600">
+                            <p class="text-sm text-blue-600 flex items-center">
                                 <i class="fas fa-info-circle mr-2"></i>
-                                Activity will automatically change status to "closed" when date or deadline is reached
+                                <span>Note: The activity status will automatically update to "closed" once the specified date or deadline is reached.</span>
                             </p>
                         </div>
 
                         <div class="mt-6">
-                            <x-primary-button class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition duration-150 ease-in-out">
+                            <x-primary-button
+                                class="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-3 px-4 rounded-lg shadow-lg transition duration-150 ease-in-out transform hover:scale-105">
                                 {{ __('Create Activity') }}
                             </x-primary-button>
                         </div>
@@ -144,7 +247,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    {{-- </div> --}}
+</div>
+</div>
 
     <script>
         function previewImage(input, previewId) {
@@ -162,5 +267,4 @@
             }
         }
     </script>
-
 </x-app-layout>
