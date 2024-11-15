@@ -31,7 +31,7 @@
                         $imageExists = !empty($imageFiles);
                         $imageSrc = $imageExists ? asset($imagePath . basename($imageFiles[0])) : asset('images/defaults/default-activity.jpg');
                     @endphp
-                    @if($imageExists)
+                    @if($imageSrc)
                         <div class="aspect-w-1 aspect-h-1">
                             <img src="{{ $imageSrc }}" 
                                 alt="{{ $activity->title }}" 
