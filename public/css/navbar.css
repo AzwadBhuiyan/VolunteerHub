@@ -7,7 +7,7 @@ nav {
     height: 60px; /* Height of the navbar */
     display: flex; /* Flexbox for alignment */
     align-items: center; /* Center items vertically */
-    padding: 0 5px; /* Horizontal padding for the navbar */
+    padding: 0 2px; /* Reduced horizontal padding */
     position: sticky; /* Make the navbar sticky */
     top: 0; /* Stick to the top of the viewport */
     z-index: 1000; /* Ensure it stays above other content */
@@ -17,8 +17,36 @@ nav {
 
 /* Logo styles */
 .site-logo {
-    display: flex; /* Flexbox for alignment */
-    align-items: center; /* Center items vertically */
+    display: flex;
+    align-items: center;
+    margin-left: 0; /* Remove left margin */
+    padding-left: 0; /* Remove left padding */
+}
+
+/* Logo image size */
+.logo {
+    height: 40px;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+/* Mobile adjustments */
+@media only screen and (max-width: 600px) {
+    nav {
+        padding: 0 1px; /* Even less padding for mobile */
+    }
+
+    .site-logo {
+        margin-left: 0;
+    }
+
+    .logout-button {
+        margin-right: 0;
+    }
+    
+    .logo {
+        height: 35px; /* Slightly smaller logo for mobile if needed */
+    }
 }
 
 /* Styles for the navigation links */
@@ -33,6 +61,8 @@ nav {
 .logout-button {
     display: flex; /* Flexbox for alignment */
     align-items: center; /* Center items vertically */
+    margin-right: 0; /* Remove right margin */
+    padding-right: 0; /* Remove right padding */
 }
 
 /* Logout and Login button styles */
@@ -159,7 +189,6 @@ nav a div {
     .logout-button {
         display: flex; /* Ensure logout button is displayed as flex */
         justify-content: center; /* Center the logout button */
-        margin-top: 10px; /* Add some space above */
     }
 
     .logout-button a {
