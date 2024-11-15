@@ -235,22 +235,56 @@ class ActivityController extends Controller
     {
         $user = Auth::user();
         if (!$user->volunteer) {
-            return redirect()->route('activities.feed')->with('error', 'Only volunteers can register for activities.');
+            return redirect()->route('activities.show', $activity)->with('error', 'Only volunteers can register for activities.');
         }
 
         if ($activity->status !== 'open') {
-            return redirect()->route('activities.feed')->with('error', 'This activity is no longer open for registration.');
+            return redirect()->route('activities.show', $activity)->with('error', 'This activity is no longer open for registration.');
         }
 
         // Check if the volunteer is already registered
         if ($activity->volunteers()->where('volunteer_userid', $user->volunteer->userid)->exists()) {
-            return redirect()->route('activities.feed')->with('error', 'You are already registered for this activity.');
+            return redirect()->route('activities.show', $activity)->with('error', 'You are already registered for this activity.');
+        }
+
+        // Check profession requirement if it exists
+        if ($activity->required_profession) {
+            $volunteerProfession = strtolower($user->volunteer->profession);
+            $requiredProfession = strtolower($activity->required_profession);
+            
+            if ($volunteerProfession !== $requiredProfession) {
+                return redirect()->route('activities.show', $activity)
+                    ->with('error', "This activity requires volunteers with {$activity->required_profession} profession. Your profession ({$user->volunteer->profession}) does not match.");
+            }
         }
 
         // Register the volunteer
         $activity->volunteers()->attach($user->volunteer->userid, ['approval_status' => 'pending']);
 
-        return redirect()->route('activities.feed')->with('success', 'You have registered for this activity. Wait for approval from the organization.');
+        return redirect()->route('activities.show', $activity)->with('success', 'You have registered for this activity. Wait for approval from the organization.');
+    }
+
+    public function cancelRegistration(Activity $activity)
+    {
+        $user = Auth::user();
+        if (!$user->volunteer) {
+            return redirect()->route('activities.show', $activity)->with('error', 'Unable to cancel registration.');
+        }
+    
+        // Check if volunteer is approved
+        $isApproved = $activity->volunteers()
+            ->wherePivot('volunteer_userid', $user->volunteer->userid)
+            ->wherePivot('approval_status', 'approved')
+            ->exists();
+    
+        if ($isApproved) {
+            return redirect()->route('activities.show', $activity)
+                ->with('error', 'You cannot cancel your registration after being approved. Please contact the organization.');
+        }
+    
+        $activity->volunteers()->detach($user->volunteer->userid);
+        return redirect()->route('activities.show', $activity)
+            ->with('success', 'Your registration has been cancelled.');
     }
 
 // ````````````````````````````````````
@@ -312,18 +346,6 @@ class ActivityController extends Controller
 
         return redirect()->route('activities.index')->with('success', 'Activity completed successfully.');
     }
-
-    public function cancelRegistration(Activity $activity)
-    {
-        $user = Auth::user();
-        if ($user->volunteer) {
-            $activity->volunteers()->detach($user->volunteer->userid);
-            return redirect()->route('activities.feed')->with('success', 'Your registration has been cancelled.');
-        }
-        return redirect()->route('activities.feed')->with('error', 'Unable to cancel registration.');
-    }
-
-
 
     public function timeline(Activity $activity)
     {
