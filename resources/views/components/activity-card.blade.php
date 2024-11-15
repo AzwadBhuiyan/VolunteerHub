@@ -49,10 +49,10 @@
                     <span>.</span>
                     <span>{{ $activity->date->format('M d, Y') }}</span>
                 </div>
-                <span class="mr-4">
+                <div class="flex items-center">
                     <i class="fas fa-map-marker-alt mr-1"></i>
-                    {{ $activity->district }}
-                </span>
+                    <span>{{ $activity->district }}</span>
+                </div>
             </div>
         </div>
     </div>
@@ -62,9 +62,9 @@
         </p>
     </div>
     @if($activity->required_profession)
-        <div class="mt-2 flex items-center">
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                <i class="fas fa-briefcase mr-1"></i>
+        <div class="mt-2 flex justify-center">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-blue-200 text-blue-900">
+                <i class="fas fa-briefcase mr-2"></i>
                 Required Profession: {{ $activity->required_profession }}
             </span>
         </div>

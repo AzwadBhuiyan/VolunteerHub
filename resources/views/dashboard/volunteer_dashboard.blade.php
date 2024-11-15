@@ -1,7 +1,7 @@
 <div class="space-y-6">
     <!-- Welcome Section -->
-    <div
-        class="w-full p-6 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white min-h-[200px]">
+  
+    <div class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white">
         {{-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#34C759" class="h-10 w-10"
             viewBox="0 0 16 16">
             <path
@@ -9,16 +9,15 @@
                 fill="#34C759" stroke="#34C759" stroke-width="0.5" />
         </svg> --}}
 
-        <h2
-            class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-2xl font-bold mt-4 mb-4 animate-pulse">
+        <h2 class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2">
             Welcome, {{ Auth::user()->volunteer->Name }}!
         </h2>
-        <p class="text-lg text-center transform hover:scale-105 transition-transform duration-300 max-w-2xl">
-            Your commitment to volunteering creates ripples of positive change in our community. Every hour you dedicate
-            builds a stronger, more compassionate world.
+        <p class="text-base text-center">
+            Your commitment to volunteering creates ripples of positive change in our community. </p>
+            <p class="text-base text-center">
+                On this page, you can view your stats, completed projects, and more.
         </p>
     </div>
-
     <!-- Stats Section -->
     <div class="flex flex-row gap-4 mb-6 mx-1 overflow-x-hidden">
         <div

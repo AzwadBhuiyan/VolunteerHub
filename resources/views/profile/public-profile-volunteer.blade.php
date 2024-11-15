@@ -19,35 +19,44 @@
                     alt="{{ $profile->name }}" class=" profile-picture ">
                 <!-- Use object-cover to maintain aspect ratio -->
             </div>
-            @if($profile->getProfileCompletionPercentage() < 100)
-                <div class="mt-4 w-full max-w-xs mx-auto">
-                    <div class="bg-gray-100 rounded-full h-4 overflow-hidden">
-                        <div class="bg-blue-500 h-full rounded-full transition-all duration-500" 
+            <h2 class="text-2xl sm:text-2xl font-bold text-center">{{ $profile->Name }}</h2>
+            <p class="text-base sm:text-xl px-3 text-center">{{ $profile->bio }}</p>
+            <!-- Display profile name directly under the picture -->
+
+            @if(Auth::id() == $profile->userid && $profile->getProfileCompletionPercentage() < 100)
+                <div class="mt-2 w-full max-w-xs mx-auto">
+                    <div class="bg-gray-600 rounded-full h-4 overflow-hidden relative shadow-md">
+                        <div class="bg-gradient-to-r from-green-400 to-blue-500 h-full rounded-full transition-all duration-700" 
                              style="width: {{ $profile->getProfileCompletionPercentage() }}%">
+                            <span class="absolute inset-0 flex items-center justify-center text-white text-xs font-semibold">
+                                Profile {{ $profile->getProfileCompletionPercentage() }}% Complete
+                            </span>
                         </div>
                     </div>
-                    <p class="text-sm text-gray-600 text-center mt-1">
-                        Profile {{ $profile->getProfileCompletionPercentage() }}% Complete
-                    </p>
-                    @if(Auth::id() == $profile->userid)
-                        <div class="mt-2">
-                            <p class="text-sm text-gray-500 text-center">Complete your profile by adding:</p>
-                            <ul class="text-sm text-gray-500 list-disc list-inside mt-1">
+                    <div class="relative mt-2 text-center">
+                        <div class="hidden absolute bg-white shadow-lg rounded-lg p-4 text-sm text-gray-700 w-full z-50 transform transition-transform duration-300" id="incomplete-fields" style="left: 50%; transform: translateX(-50%) translateY(-10px);">
+                            <p class="font-bold mb-2">Complete your profile by adding:</p>
+                            <ul class="list-disc list-outside pl-5 mb-2 text-left">
                                 @foreach($profile->getIncompleteFields() as $field)
                                     <li>{{ $field }}</li>
                                 @endforeach
                             </ul>
-                            <a href="{{ route('profile.edit') }}" 
-                               class="block w-full text-center mt-2 text-sm text-blue-500 hover:text-blue-700">
-                                Complete Profile
-                            </a>
+                            <p class="">
+                                Go to <strong>Edit Profile</strong> to add more information.
+                            </p>
                         </div>
-                    @endif
+                    </div>
+                    <script>
+                        document.querySelector('.bg-gradient-to-r').addEventListener('mouseenter', function() {
+                            document.getElementById('incomplete-fields').classList.remove('hidden');
+                        });
+                        document.querySelector('.bg-gradient-to-r').addEventListener('mouseleave', function() {
+                            document.getElementById('incomplete-fields').classList.add('hidden');
+                        });
+                    </script>
                 </div>
             @endif
-            <h2 class="text-2xl sm:text-2xl font-bold text-center">{{ $profile->Name }}</h2>
-            <p class="text-base sm:text-xl px-3 text-center">{{ $profile->bio }}</p>
-            <!-- Display profile name directly under the picture -->
+           
 
             <div class="btn-group"> <!-- Button group for profile actions -->
                 @if (Auth::id() == $profile->userid)
