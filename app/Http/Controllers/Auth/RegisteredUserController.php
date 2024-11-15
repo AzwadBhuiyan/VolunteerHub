@@ -88,6 +88,7 @@ class RegisteredUserController extends Controller
                 'userid' => $userid,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'role' => $request->user_type,
             ]);
         
             if ($request->user_type === 'volunteer') {

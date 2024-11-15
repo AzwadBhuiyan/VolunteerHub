@@ -180,4 +180,9 @@ class Volunteer extends Model
         return $incomplete;
     }
 
+    public function isProfileIncomplete()
+    {
+        return $this->getProfileCompletionPercentage() < 100;
+    }
+
 }

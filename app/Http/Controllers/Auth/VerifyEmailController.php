@@ -13,13 +13,16 @@ class VerifyEmailController extends Controller
 
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        \Log::info('Verification attempt', ['user' => $request->user()->userid]);
-
-        if ($request->user()->verified) {
+        if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
         }
 
-        $request->user()->update(['verified' => true]);
+        if ($request->user()->markEmailAsVerified()) {
+            event(new Verified($request->user()));
+            
+            // Update the legacy verified column too
+            $request->user()->update(['verified' => true]);
+        }
 
         return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
     }
