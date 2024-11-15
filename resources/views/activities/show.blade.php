@@ -9,6 +9,18 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
+                    <!-- Alert Messages -->
+                    @if (session('success'))
+                        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <span class="block sm:inline">{{ session('success') }}</span>
+                        </div>
+                    @endif
+
+                    @if (session('error'))
+                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <span class="block sm:inline">{{ session('error') }}</span>
+                        </div>
+                    @endif
 
                     <p class="text-gray-700 mb-4">{{ $activity->description }}</p>
                     
@@ -19,7 +31,7 @@
                         $imageExists = !empty($imageFiles);
                         $imageSrc = $imageExists ? asset($imagePath . basename($imageFiles[0])) : asset('images/defaults/default-activity.jpg');
                     @endphp
-                    @if($imageExists)
+                    @if($imageSrc)
                         <div class="aspect-w-1 aspect-h-1">
                             <img src="{{ $imageSrc }}" 
                                 alt="{{ $activity->title }}" 
@@ -68,6 +80,13 @@
                                 <button disabled class="bg-gray-400 text-white font-bold py-2 px-4 rounded cursor-not-allowed">
                                     Already Registered
                                 </button>
+                                <form action="{{ route('activities.cancel_registration', $activity) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                        Cancel Registration
+                                    </button>
+                                </form>
                             @else
                                 <form action="{{ route('activities.register', $activity) }}" method="POST">
                                     @csrf

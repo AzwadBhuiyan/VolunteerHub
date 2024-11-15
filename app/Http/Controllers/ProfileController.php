@@ -65,16 +65,6 @@ class ProfileController extends Controller
             $profile->allow_follow = $request->allow_follow;
         }
 
-        // Handle new fields for organization
-        if ($user->organization) {
-            $profile->description = $request->description;
-            $profile->website = $request->website;
-            $profile->primary_address = $request->primary_address;
-            $profile->secondary_address = $request->secondary_address;
-            $profile->org_mobile = $request->org_mobile;
-            $profile->org_telephone = $request->org_telephone;
-        }
-
         $user->save();
         $profile->save();
 
@@ -155,7 +145,7 @@ class ProfileController extends Controller
         $request->validate([
             'primary_address' => ['required', 'string', 'max:300'],
             'secondary_address' => ['nullable', 'string', 'max:300'],
-            'org_mobile' => ['required', 'string', 'max:11'],
+            'org_mobile' => ['required', 'string', 'size:11'],
             'org_telephone' => ['nullable', 'string', 'between:7,11'],
         ]);
 

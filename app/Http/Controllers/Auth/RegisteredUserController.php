@@ -54,7 +54,7 @@ class RegisteredUserController extends Controller
         $volunteerRules = [
             'userid' => ['required', 'string', 'max:255', 'unique:users'],
             'name' => ['required', 'string', 'max:50'],
-            'phone' => ['required', 'string', 'max:11'],
+            'phone' => ['required', 'string', 'size:11'],
             'gender' => ['required', 'in:M,F,O'],
             'dob' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
             'present_address' => ['required', 'string', 'max:300'],
