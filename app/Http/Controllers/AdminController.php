@@ -10,6 +10,7 @@ use App\Models\Activity;
 use App\Models\IdeaThread;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -186,6 +187,131 @@ class AdminController extends Controller
                 'error' => $e->getMessage()
             ]);
             return back()->with('error', 'Failed to delete idea thread');
+        }
+    }
+
+    public function volunteers()
+    {
+        $this->checkAdminAccess();
+        
+        $volunteers = Volunteer::with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        
+        return view('admin.volunteers.index', compact('volunteers'));
+    }
+
+    public function organizations()
+    {
+        $this->checkAdminAccess();
+        
+        $organizations = Organization::with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        
+        return view('admin.organizations.index', compact('organizations'));
+    }
+
+    public function editVolunteer(Volunteer $volunteer)
+    {
+        $this->checkAdminAccess();
+        return view('admin.volunteers.edit', compact('volunteer'));
+    }
+
+    public function editOrganization(Organization $organization)
+    {
+        $this->checkAdminAccess();
+        return view('admin.organizations.edit', compact('organization'));
+    }
+
+    public function updateVolunteer(Request $request, Volunteer $volunteer)
+    {
+        $this->checkAdminAccess();
+        
+        $validated = $request->validate([
+            'Name' => 'required|string|max:255',
+            'Phone' => 'required|string|max:11',
+            'NID' => 'nullable|string|max:20',
+            'Gender' => 'required|string|in:Male,Female,Other',
+            'DOB' => 'required|date',
+            'BloodGroup' => 'required|string|in:A+,A-,B+,B-,AB+,AB-,O+,O-',
+            'PresentAddress' => 'required|string|max:300',
+            'PermanentAddress' => 'required|string|max:300',
+            'District' => 'required|string',
+            'TrainedInEmergencyResponse' => 'boolean',
+            'bio' => 'nullable|string|max:150',
+            'profession' => 'required|string|max:100',
+            'url' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('volunteers', 'url')->ignore($volunteer->userid, 'userid')
+            ],
+        ]);
+
+        try {
+            DB::beginTransaction();
+            
+            Log::info('Admin Action: Volunteer update', [
+                'admin_id' => auth()->id(),
+                'volunteer_id' => $volunteer->userid,
+                'timestamp' => now()
+            ]);
+
+            $volunteer->update($validated);
+            DB::commit();
+            return redirect()->route('admin.volunteers.index')->with('success', 'Volunteer updated successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Admin Action Failed: Volunteer update', [
+                'admin_id' => auth()->id(),
+                'volunteer_id' => $volunteer->userid,
+                'error' => $e->getMessage()
+            ]);
+            return back()->with('error', 'Failed to update volunteer');
+        }
+    }
+
+    public function updateOrganization(Request $request, Organization $organization)
+    {
+        $this->checkAdminAccess();
+        
+        $validated = $request->validate([
+            'org_name' => 'required|string|max:255',
+            'primary_address' => 'required|string|max:300',
+            'secondary_address' => 'nullable|string|max:300',
+            'website' => 'nullable|url|max:255',
+            'org_mobile' => 'required|string|max:11',
+            'org_telephone' => 'nullable|string|between:7,11',
+            'description' => 'required|string|max:150',
+            'url' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('organizations', 'url')->ignore($organization->userid, 'userid')
+            ],
+        ]);
+
+        try {
+            DB::beginTransaction();
+            
+            Log::info('Admin Action: Organization update', [
+                'admin_id' => auth()->id(),
+                'organization_id' => $organization->userid,
+                'timestamp' => now()
+            ]);
+
+            $organization->update($validated);
+            DB::commit();
+            return redirect()->route('admin.organizations.index')->with('success', 'Organization updated successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Admin Action Failed: Organization update', [
+                'admin_id' => auth()->id(),
+                'organization_id' => $organization->userid,
+                'error' => $e->getMessage()
+            ]);
+            return back()->with('error', 'Failed to update organization');
         }
     }
     
