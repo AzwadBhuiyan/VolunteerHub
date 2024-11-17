@@ -39,6 +39,7 @@
             <a href="{{ Auth::check() ? route('profile.public', $profileUrl) : route('login') }}" class="relative text-gray-500 hover:text-gray-700 icon-link">
                 <div class="icon-container">
                     <!-- Profile icon -->
+                    <x-profile-notification-dot />
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
                          fill="none" 
                          stroke="currentColor" 
@@ -46,7 +47,9 @@
                          viewBox="0 0 24 24">
                         <path stroke-width="1.8" d="M12 11a4 4 0 100-8 4 4 0 000 8zM6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/>
                     </svg>
+                    
                     <span class="tooltip">{{ __('Profile') }}</span>
+                    
                 </div>
                 <div class="active-underline {{ request()->routeIs('profile.public', $profileUrl) ? 'active' : '' }}"></div>
             </a>

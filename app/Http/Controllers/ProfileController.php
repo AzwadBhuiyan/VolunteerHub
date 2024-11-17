@@ -41,6 +41,8 @@ class ProfileController extends Controller
 
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
+            $user->verified = false;
+            $user->sendEmailVerificationNotification();
         }
 
         if ($request->hasFile('profile_picture') && $user->volunteer) {

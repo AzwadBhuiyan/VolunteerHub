@@ -34,6 +34,35 @@ Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name(
 // });
 
 
+// Admin Routes
+Route::middleware(['auth'])->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/users', [AdminController::class, 'users'])->name('users.index');
+        Route::patch('/users/{user}/toggle-status', [AdminController::class, 'toggleUserStatus'])->name('users.toggle-status');
+        Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('users.delete');
+                
+        // Activity routes
+        Route::get('/activities', [AdminController::class, 'activities'])->name('activities.index');
+        Route::delete('/activities/{activity}', [AdminController::class, 'deleteActivity'])->name('activities.delete');
+        
+        // Idea Thread routes
+        Route::get('/idea-threads', [AdminController::class, 'ideaThreads'])->name('idea-threads.index');
+        Route::delete('/idea-threads/{ideaThread}', [AdminController::class, 'deleteIdeaThread'])->name('idea-threads.delete');
+
+        // Volunteer Management
+        Route::get('/volunteers', [AdminController::class, 'volunteers'])->name('volunteers.index');
+        Route::get('/volunteers/{volunteer}/edit', [AdminController::class, 'editVolunteer'])->name('volunteers.edit');
+        Route::patch('/volunteers/{volunteer}', [AdminController::class, 'updateVolunteer'])->name('volunteers.update');
+        
+        // Organization Management
+        Route::get('/organizations', [AdminController::class, 'organizations'])->name('organizations.index');
+        Route::get('/organizations/{organization}/edit', [AdminController::class, 'editOrganization'])->name('organizations.edit');
+        Route::patch('/organizations/{organization}', [AdminController::class, 'updateOrganization'])->name('organizations.update');
+    });
+});
+
+
 // Public activities feed
 Route::get('/activities-feed', [ActivityController::class, 'feed'])->name('activities.feed');
 
