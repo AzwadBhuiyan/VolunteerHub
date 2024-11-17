@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2024 at 06:46 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Generation Time: Nov 17, 2024 at 01:00 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -508,8 +508,8 @@ CREATE TABLE `poll_options` (
 --
 
 INSERT INTO `poll_options` (`id`, `idea_poll_id`, `option_text`, `votes`, `created_at`, `updated_at`) VALUES
-(6, 3, 'yes', 1, '2024-10-31 04:53:13', '2024-11-05 13:32:13'),
-(7, 3, 'no', 1, '2024-10-31 04:53:13', '2024-11-05 13:32:13'),
+(6, 3, 'yes', 1, '2024-10-31 04:53:13', '2024-11-16 17:28:43'),
+(7, 3, 'no', 2, '2024-10-31 04:53:13', '2024-11-16 17:28:43'),
 (8, 3, 'it wasn\'t tried correctly!! boohooo I CRYYY', 0, '2024-10-31 04:53:13', '2024-11-04 03:43:07');
 
 -- --------------------------------------------------------
@@ -533,7 +533,8 @@ CREATE TABLE `poll_votes` (
 
 INSERT INTO `poll_votes` (`id`, `idea_poll_id`, `poll_option_id`, `user_id`, `created_at`, `updated_at`) VALUES
 (2, 3, 6, '00004', '2024-10-31 05:16:52', '2024-10-31 05:16:52'),
-(20, 3, 7, '00002', '2024-11-05 13:32:13', '2024-11-05 13:32:13');
+(20, 3, 7, '00002', '2024-11-05 13:32:13', '2024-11-05 13:32:13'),
+(26, 3, 7, '00006', '2024-11-16 17:28:43', '2024-11-16 17:28:43');
 
 -- --------------------------------------------------------
 
@@ -576,8 +577,8 @@ INSERT INTO `users` (`userid`, `email`, `role`, `password`, `remember_token`, `c
 ('00002', 'volunteer@gmail.com', 'volunteer', '$2y$12$UoCj2BpNB1JrgIt52cSfzOMdn08Wk/HJj6ro8Gv6jB7vtw5GSEWLC', NULL, '2024-09-20 07:54:58', '2024-09-20 07:54:58', 1, NULL),
 ('00003', 'rht.krt@gmail.com', 'volunteer', '$2y$12$V7A2GOSUdQgSk.EwzPdE.elMi29NAzgkxYZdVpfdhepWW86LsmCSa', NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 1, NULL),
 ('00004', 'as2@gmail.com', 'volunteer', '$2y$12$jVXp.L4xCT/eGMS1mvziT.RyvbmZ57Rqx9L9gCBP/lOyXs8B34ucO', NULL, '2024-09-26 15:50:49', '2024-09-26 15:50:49', 0, NULL),
-('00005', 'real@gmail.com', 'admin', '$2y$12$6K3SsBVUR/cfj.pZhCJr/O3cMTtm.qVlP6kc7H6S1VJDyfzxhMqpa', NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1, NULL),
-('00006', 'test@test.com', 'admin', '$2y$12$dssRKs9UNPiGSt/x2O2tsuehVld8jmZ1xXXEvRRx5vsvc1p5g0r8C', NULL, '2024-11-15 11:43:06', '2024-11-15 11:43:06', 0, NULL),
+('00005', 'real@gmail.com', 'volunteer', '$2y$12$6K3SsBVUR/cfj.pZhCJr/O3cMTtm.qVlP6kc7H6S1VJDyfzxhMqpa', NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1, NULL),
+('00006', 'test@test.com', 'admin', '$2y$12$QGwn3t/.ezDJOy28KOWKIOSuuOqvL45e8OWBVWhDB3kM/bKzkZhyW', NULL, '2024-11-16 16:48:03', '2024-11-16 16:48:03', 1, NULL),
 ('org-001', 'organization@gmail.com', 'organization', '$2y$12$eohVVZ72P3qUd9MFC/eKFOmQIHraB1FLZsIS3bLKuc5Gdk31p3I8a', NULL, '2024-09-20 07:52:52', '2024-09-20 07:52:52', 1, NULL),
 ('org-002', 'org2@gmail.com', 'organization', '$2y$12$R1fNsPbwj5ZicKAPcZPnDe6XoqPKjfmkOl6mYNFBxGMoQW4Mif9gO', NULL, '2024-09-20 10:18:14', '2024-09-20 10:18:14', 1, NULL),
 ('org-003', 'org@gmail.com', 'organization', '$2y$12$iebVwhgixO161EblQEmMruTLsMtLZnrmvjeA42AgCXPLIJm/bojCC', NULL, '2024-11-07 13:34:29', '2024-11-07 13:34:29', 0, NULL);
@@ -618,8 +619,7 @@ INSERT INTO `volunteers` (`userid`, `url`, `Name`, `Phone`, `NID`, `Gender`, `DO
 ('00002', 'TheGreatestVolunteerWhoLived', 'Abbas ali', '01990376524', '1293847561', 'M', '2024-09-25', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 33, 'Lawyer', NULL, 'I am TheGreatestVolunteerWhoLived. Bow down before me', '2024-09-20 07:54:58', '2024-11-13 13:33:44', 1),
 ('00003', '00003', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-11', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 1),
 ('00004', 'fatherTeresa', 'asdf', '01990376524', NULL, 'M', '1992-06-09', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Gopalganj', 0, 6, NULL, NULL, NULL, '2024-09-26 15:50:49', '2024-10-30 07:30:12', 0),
-('00005', '00005', 'Real Person', '01234567891', NULL, 'M', '2002-01-30', 'Not Set', 'Real Address', 'Real Address', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1),
-('00006', '00006', 'Test', '12345678999', NULL, 'M', '1990-06-11', 'Not Set', 'aa', 'aa', 'Madaripur', 0, 0, NULL, NULL, NULL, '2024-11-15 11:43:06', '2024-11-15 11:43:06', 1);
+('00005', '00005', 'Real Person', '01234567891', NULL, 'M', '2002-01-30', 'Not Set', 'Real Address', 'Real Address', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1);
 
 -- --------------------------------------------------------
 
@@ -880,7 +880,7 @@ ALTER TABLE `idea_threads`
 -- AUTO_INCREMENT for table `idea_votes`
 --
 ALTER TABLE `idea_votes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -910,7 +910,7 @@ ALTER TABLE `poll_options`
 -- AUTO_INCREMENT for table `poll_votes`
 --
 ALTER TABLE `poll_votes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `volunteer_follows`
