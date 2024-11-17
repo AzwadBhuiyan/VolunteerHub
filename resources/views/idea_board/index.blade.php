@@ -27,10 +27,10 @@
                         </a>
                     @endif
 
-                    <a href="{{ route('idea_board.create') }}"
+                    {{-- <a href="{{ route('idea_board.create') }}"
                         class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
                         <i class="fas fa-list"></i> My Ideas
-                    </a>
+                    </a> --}}
                 </div>
 
                 <div class="mt-6">
@@ -186,7 +186,7 @@
                                             data-thread-id="{{ $thread->id }}" 
                                             data-sort="recent">
                                             <i class="fas fa-clock mr-1 text-xs"></i>
-                                            Recent
+                                           Most Recent
                                         </button>
                                         
                                         <div class="h-4 w-px bg-gray-600 my-auto mx-0.5"></div>
@@ -198,7 +198,7 @@
                                             data-thread-id="{{ $thread->id }}" 
                                             data-sort="likes">
                                             <i class="fas fa-heart mr-1 text-xs"></i>
-                                            Likes
+                                            Most Likeed
                                         </button>
                                         
                                         <div 
@@ -249,8 +249,9 @@
                                             <div class="p-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition duration-150">
                                                 <p class="text-gray-800">{{ $comment->comment }}</p>
                                                 <div class="flex justify-between items-center mt-2">
-                                                    <div class="text-sm text-gray-600">
-                                                        <span class="font-medium">{{ $comment->volunteer->Name }}</span>
+                                                    <div class="text-xs text-gray-600">
+                                                        <span>By: </span>
+                                                        <span>{{ $comment->volunteer->Name }}</span>
                                                         <span class="mx-1">•</span>
                                                         <span>{{ $comment->created_at->diffForHumans() }}</span>
                                                     </div>
@@ -532,30 +533,31 @@
             const div = document.createElement('div');
             div.className = 'mb-2 p-2 border rounded';
             div.innerHTML = `
-            <p>${comment.comment}</p>
-            <div class="flex justify-between items-center">
-                <div class="text-sm text-gray-600">
-                    <span>By: ${comment.volunteer_name}</span>
-                    <span>•</span>
-                    <span>${comment.created_at}</span>
+                <p>${comment.comment}</p>
+                <div class="flex justify-between items-center">
+                    <div class="text-xs text-gray-400">
+                        <span>By: </span>
+                        <span class="text-gray-500">${comment.volunteer_name}</span>
+                        <span class="mx-1">•</span>
+                        <span>${comment.created_at}</span>
+                    </div>
+                    ${comment.can_select_winner ? `
+                        <button 
+                            type="button"
+                            class="select-winner-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
+                            data-thread-id="${comment.thread_id}"
+                            data-comment-id="${comment.id}">
+                            Select as Winner
+                        </button>
+                    ` : ''}
                 </div>
-                ${comment.can_select_winner ? `
-                    <button 
-                        type="button"
-                        class="select-winner-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
-                        data-thread-id="${comment.thread_id}"
-                        data-comment-id="${comment.id}">
-                        Select as Winner
+                <div class="mt-2 flex items-center">
+                    <button type="button" class="vote-button text-gray-500 hover:text-blue-500" data-votable-type="comment" data-votable-id="${comment.id}">
+                        <svg class="w-5 h-5 vote-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
                     </button>
-                ` : ''}
-            </div>
-            <div class="mt-2 flex items-center">
-                <button type="button" class="vote-button text-gray-500 hover:text-blue-500" data-votable-type="comment" data-votable-id="${comment.id}">
-                    <svg class="w-5 h-5 vote-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
-                </button>
-                <span class="mx-2 vote-count">${comment.vote_count}</span>
-            </div>
-        `;
+                    <span class="mx-2 vote-count">${comment.vote_count}</span>
+                </div>
+            `;
             return div;
         }
     });
