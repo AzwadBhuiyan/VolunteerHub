@@ -120,6 +120,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Idea Board
     Route::get('/idea-board', [IdeaThreadController::class, 'index'])->name('idea_board.index');
     Route::get('/idea-board/create', [IdeaThreadController::class, 'create'])->name('idea_board.create');
+    Route::get('/idea-board/my-ideas', [IdeaThreadController::class, 'myIdeas'])->name('idea_board.my-ideas');
     Route::post('/idea-board', [IdeaThreadController::class, 'store'])->name('idea_board.store');
     Route::get('/idea-board/{ideaThread}', [IdeaThreadController::class, 'show'])->name('idea_board.show');
     Route::post('/idea-board/{ideaThread}/comment', [IdeaThreadController::class, 'comment'])->name('idea_board.comment');
@@ -128,6 +129,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/idea-board/vote', [IdeaThreadController::class, 'vote'])->name('idea_board.vote');
     Route::get('/idea-board/{thread}/comments', [IdeaThreadController::class, 'loadMoreComments'])->name('idea_board.load_more_comments');
     Route::post('/idea-board/{ideaThread}/close', [IdeaThreadController::class, 'close'])->name('idea_board.close');
+    
 
 
     // Favorites

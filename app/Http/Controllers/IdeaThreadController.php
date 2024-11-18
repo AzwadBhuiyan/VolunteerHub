@@ -18,7 +18,7 @@ class IdeaThreadController extends Controller
     {
         $sort = $request->query('sort', 'recent');
     
-        $ideaThreads = IdeaThread::with(['organization', 'comments'])
+        $ideaThreads = IdeaThread::with(['organization', 'comments', 'poll.options'])
             ->when($sort === 'recent', function ($query) {
                 return $query->orderBy('created_at', 'desc');
             })
@@ -241,4 +241,31 @@ class IdeaThreadController extends Controller
             ]
         ]);
     }
+
+    public function myIdeas()
+    {
+        $user = Auth::user();
+        $query = IdeaThread::with(['organization', 'comments.volunteer', 'poll.options', 'winnerComment']);
+
+        if ($user->organization) {
+            // For organizations: show threads they created
+            $ideaThreads = $query->where('userid', $user->userid)
+                                ->orderBy('created_at', 'desc')
+                                ->paginate(10);
+        } else {
+            // For volunteers: show threads they've commented on or voted on
+            $ideaThreads = $query->where(function($q) use ($user) {
+                $q->whereHas('comments', function($q) use ($user) {
+                    $q->where('volunteer_userid', $user->userid);
+                })->orWhereHas('votes', function($q) use ($user) {
+                    $q->where('user_userid', $user->userid);
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        }
+
+        return view('idea_board.my-ideas', compact('ideaThreads'));
+    }
+
 }

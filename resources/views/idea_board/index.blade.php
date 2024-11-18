@@ -5,11 +5,7 @@
         <!-- Centered container with responsive padding and vertical spacing -->
         <div class="p-1 sm:p-8 bg-white shadow sm:rounded-lg">
             <!-- Profile information card with padding, background color, shadow, and rounded corners -->
-
-            {{-- <div class="py-12">
-          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg"> --}}
-            {{-- <div class="p-6 bg-white border-b border-gray-200"> --}}
+           
                 <div
                     class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white">
                     <i class="fas fa-lightbulb text-lg text-yellow-500"></i>
@@ -27,10 +23,10 @@
                         </a>
                     @endif
 
-                    {{-- <a href="{{ route('idea_board.create') }}"
+                    <a href="{{ route('idea_board.my-ideas') }}"
                         class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
                         <i class="fas fa-list"></i> My Ideas
-                    </a> --}}
+                    </a>
                 </div>
 
                 <div class="mt-6">
@@ -144,6 +140,7 @@
                                 @endif
                             </div>
                             <!-- upvote buttone for thread -->
+                            @if (!$thread->poll)
                             @php
                                 $votableType = 'thread';
                                 $votable = $thread;
@@ -159,6 +156,7 @@
                                 </button>
                                 <span class="mx-2 vote-count">{{ $thread->getVoteCount() }}</span>
                             </div>
+                            @endif
                             @if ($thread->status === 'closed' && $thread->winnerComment)
                                 <div class="px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
                                     <p class="text-sm font-semibold text-green-800">Winner Comment:</p>
@@ -212,33 +210,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                                <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    const buttons = document.querySelectorAll('.sort-comments');
-                                    
-                                    buttons.forEach(button => {
-                                        button.addEventListener('click', function() {
-                                            // Remove active class from all buttons
-                                            buttons.forEach(btn => {
-                                                btn.classList.remove('text-white', 'scale-105');
-                                                btn.classList.add('text-gray-400');
-                                            });
-                                            
-                                            // Add active class to clicked button with animation
-                                            this.classList.remove('text-gray-400');
-                                            this.classList.add('text-white');
-                                            
-                                            // Add subtle pop animation
-                                            this.style.transform = 'scale(1.05)';
-                                            setTimeout(() => {
-                                                this.style.transform = 'scale(1)';
-                                            }, 200);
-                                        });
-                                    });
-                                });
-                                </script>
-
 
                                 <!-- view more comments -->
 
@@ -369,14 +340,6 @@
                                     @endif
                                 @endauth
                             @endif
-
-
-                            <!-- Priority Score -->
-                            <!-- {{-- <div class="px-4 py-2 bg-gray-100">
-                                <p class="text-sm text-gray-600">Priority Score: {{ $thread->priority_score }}</p>
-                            </div> --}} -->
-
-
                         </div>
                     @endforeach
 
@@ -405,7 +368,34 @@
             </div>
         </div>
     </div>
-</x-app-layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('.sort-comments');
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            buttons.forEach(btn => {
+                btn.classList.remove('text-white', 'scale-105');
+                btn.classList.add('text-gray-400');
+            });
+            
+            // Add active class to clicked button with animation
+            this.classList.remove('text-gray-400');
+            this.classList.add('text-white');
+            
+            // Add subtle pop animation
+            this.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 200);
+        });
+    });
+});
+</script>
+
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -621,3 +611,4 @@
             });
     }
 </script>
+</x-app-layout>

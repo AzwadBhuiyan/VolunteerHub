@@ -37,4 +37,9 @@ class IdeaThread extends Model
     {
         return $this->belongsTo(IdeaComment::class, 'winner_comment_id');
     }
+
+    public function allowsVoting()
+    {
+        return !$this->poll()->exists();
+    }
 }
