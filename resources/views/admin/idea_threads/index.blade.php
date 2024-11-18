@@ -5,6 +5,38 @@
                 <div class="p-6 text-gray-900">
                     <h2 class="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text">Idea Thread Management</h2>
 
+                    <!-- search and filer -->
+                    <form action="" method="GET" class="mb-6">
+                    <div class="mb-6 flex flex-col sm:flex-row gap-4">
+                        <div class="flex-1">
+                            <input type="text" 
+                                name="search"
+                                placeholder="Search idea threads..." 
+                                value="{{ request('search') }}"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="flex gap-4">
+                            <select name="organization" class="rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                <option value="">Filter by Organization</option>
+                                @foreach($organizations as $org)
+                                    <option value="{{ $org->userid }}" {{ request('organization') == $org->userid ? 'selected' : '' }}>
+                                        {{ $org->org_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <select name="date" class="rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                <option value="">Filter by Date</option>
+                                <option value="today" {{ request('date') == 'today' ? 'selected' : '' }}>Today</option>
+                                <option value="week" {{ request('date') == 'week' ? 'selected' : '' }}>This Week</option>
+                                <option value="month" {{ request('date') == 'month' ? 'selected' : '' }}>This Month</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                            Apply Filters
+                        </button>
+                    </form>
+                    </div>
+
                     <div class="overflow-x-auto">
                         <table class="min-w-full table-auto">
                             <thead>

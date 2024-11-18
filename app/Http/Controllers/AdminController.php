@@ -21,10 +21,33 @@ class AdminController extends Controller
         }
     }
 
-    public function users()
+    public function users(Request $request)
     {
         $this->checkAdminAccess();
-        $users = User::with(['volunteer', 'organization'])->paginate(10);
+        
+        $query = User::query();
+
+        // Search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('userid', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter by Role
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
+        }
+
+        // Filter by Status
+        if ($request->filled('status')) {
+            $status = $request->status === 'active' ? 1 : 0;
+            $query->where('verified', $status);
+        }
+
+        $users = $query->orderBy('created_at', 'desc')->paginate(10);
         return view('admin.users.index', compact('users'));
     }
 
@@ -110,15 +133,35 @@ class AdminController extends Controller
         }
     }
 
-    public function activities()
+    public function activities(Request $request)
     {
         $this->checkAdminAccess();
         
-        $activities = Activity::with(['organization', 'volunteers'])
-            ->orderBy('date', 'desc')
-            ->paginate(10);
+        $query = Activity::with('organization', 'volunteers');
+
+        // Search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter by Status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Filter by Organization
+        if ($request->filled('organization')) {
+            $query->where('userid', $request->organization);
+        }
+
+        $activities = $query->orderBy('date', 'desc')->paginate(10);
+        $organizations = Organization::orderBy('org_name')->get();
         
-        return view('admin.activities.index', compact('activities'));
+        return view('admin.activities.index', compact('activities', 'organizations'));
     }
 
     public function deleteActivity(Activity $activity)
@@ -150,15 +193,48 @@ class AdminController extends Controller
         }
     }
 
-    public function ideaThreads()
+    public function ideaThreads(Request $request)
     {
         $this->checkAdminAccess();
         
-        $ideaThreads = IdeaThread::with(['organization', 'comments'])
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $query = IdeaThread::with(['organization', 'comments']);
+
+        // Search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('title', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        // Filter by Organization
+        if ($request->filled('organization')) {
+            $query->where('organization_userid', $request->organization);
+        }
+
+        // Filter by Date
+        if ($request->filled('date')) {
+            $date = $request->date;
+            $query->where(function($q) use ($date) {
+                switch($date) {
+                    case 'today':
+                        $q->whereDate('created_at', today());
+                        break;
+                    case 'week':
+                        $q->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+                        break;
+                    case 'month':
+                        $q->whereMonth('created_at', now()->month);
+                        break;
+                }
+            });
+        }
+
+        $ideaThreads = $query->orderBy('created_at', 'desc')->paginate(10);
+        $organizations = Organization::orderBy('org_name')->get();
         
-        return view('admin.idea_threads.index', compact('ideaThreads'));
+        return view('admin.idea_threads.index', compact('ideaThreads', 'organizations'));
     }
 
     public function deleteIdeaThread(IdeaThread $ideaThread)
@@ -190,25 +266,72 @@ class AdminController extends Controller
         }
     }
 
-    public function volunteers()
+    public function volunteers(Request $request)
     {
         $this->checkAdminAccess();
         
-        $volunteers = Volunteer::with('user')
-            ->orderBy('name', 'asc')
-            ->paginate(10);
-        
+        $query = Volunteer::with('user', 'activities', 'followedOrganizations');
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('Name', 'like', "%{$search}%")
+                  ->orWhere('Phone', 'like', "%{$search}%")
+                  ->orWhereHas('user', function($q) use ($search) {
+                      $q->where('email', 'like', "%{$search}%")
+                        ->orWhere('userid', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        if ($request->filled('district')) {
+            $query->where('District', $request->district);
+        }
+
+        if ($request->filled('status')) {
+            $status = $request->status === 'active' ? 1 : 0;
+            $query->whereHas('user', function($q) use ($status) {
+                $q->where('verified', $status);
+            });
+        }
+
+        $volunteers = $query->orderBy('name', 'asc')->paginate(10);
         return view('admin.volunteers.index', compact('volunteers'));
     }
 
-    public function organizations()
+    public function organizations(Request $request)
     {
         $this->checkAdminAccess();
         
-        $organizations = Organization::with('user')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-        
+        $query = Organization::with('user', 'activities', 'followers');
+
+        // Search
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('org_name', 'like', "%{$search}%")
+                  ->orWhere('org_mobile', 'like', "%{$search}%")
+                  ->orWhereHas('user', function($q) use ($search) {
+                      $q->where('email', 'like', "%{$search}%")
+                        ->orWhere('userid', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        // Filter by Verification Status
+        if ($request->filled('verification')) {
+            $query->where('verification_status', $request->verification);
+        }
+
+        // Filter by Account Status
+        if ($request->filled('status')) {
+            $status = $request->status === 'active' ? 1 : 0;
+            $query->whereHas('user', function($q) use ($status) {
+                $q->where('verified', $status);
+            });
+        }
+
+        $organizations = $query->orderBy('org_name', 'asc')->paginate(10);
         return view('admin.organizations.index', compact('organizations'));
     }
 
@@ -312,6 +435,39 @@ class AdminController extends Controller
                 'error' => $e->getMessage()
             ]);
             return back()->with('error', 'Failed to update organization');
+        }
+    }
+
+    // verify organization documents
+    public function toggleOrganizationVerification(Organization $organization)
+    {
+        $this->checkAdminAccess();
+        
+        try {
+            DB::beginTransaction();
+            
+            $newStatus = $organization->verification_status === 'verified' ? 'unverified' : 'verified';
+            $organization->verification_status = $newStatus;
+            $organization->save();
+            
+            Log::info('Admin Action: Organization verification status changed', [
+                'admin_id' => auth()->id(),
+                'organization_id' => $organization->userid,
+                'old_status' => $organization->verification_status,
+                'new_status' => $newStatus,
+                'timestamp' => now()
+            ]);
+            
+            DB::commit();
+            return back()->with('success', 'Organization verification status updated successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Admin Action Failed: Organization verification toggle', [
+                'admin_id' => auth()->id(),
+                'organization_id' => $organization->userid,
+                'error' => $e->getMessage()
+            ]);
+            return back()->with('error', 'Failed to update organization verification status');
         }
     }
     

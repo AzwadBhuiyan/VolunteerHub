@@ -59,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/organizations', [AdminController::class, 'organizations'])->name('organizations.index');
         Route::get('/organizations/{organization}/edit', [AdminController::class, 'editOrganization'])->name('organizations.edit');
         Route::patch('/organizations/{organization}', [AdminController::class, 'updateOrganization'])->name('organizations.update');
+        Route::patch('/organizations/{organization}/toggle-verification', [AdminController::class, 'toggleOrganizationVerification'])
+            ->name('organizations.toggle-verification');
     });
 });
 

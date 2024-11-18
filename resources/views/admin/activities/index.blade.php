@@ -5,6 +5,38 @@
                 <div class="p-6 text-gray-900">
                     <h2 class="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text">Activity Management</h2>
 
+                    <!-- search and filter -->
+                    <form action="" method="GET" class="mb-6">
+                    <div class="mb-6 flex flex-col sm:flex-row gap-4">
+                        <div class="flex-1">
+                            <input type="text" 
+                                name="search"
+                                placeholder="Search activities..." 
+                                value="{{ request('search') }}"
+                                class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                        </div>
+                        <div class="flex gap-4">
+                            <select name="status" class="rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                <option value="">Filter by Status</option>
+                                <option value="upcoming" {{ request('status') == 'upcoming' ? 'selected' : '' }}>Upcoming</option>
+                                <option value="ongoing" {{ request('status') == 'ongoing' ? 'selected' : '' }}>Ongoing</option>
+                                <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Completed</option>
+                            </select>
+                            <select name="organization" class="rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                <option value="">Filter by Organization</option>
+                                @foreach($organizations as $org)
+                                    <option value="{{ $org->userid }}" {{ request('organization') == $org->userid ? 'selected' : '' }}>
+                                        {{ $org->org_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                            Apply Filters
+                        </button>
+                    </form>
+                    </div>
+
                     <div class="overflow-x-auto">
                         <table class="min-w-full table-auto">
                             <thead>

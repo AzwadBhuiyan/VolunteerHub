@@ -3,7 +3,37 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <h2 class="text-2xl font-bold mb-4">User Management</h2>
+                    <h2 class="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text">
+                        User Management
+                    </h2>
+
+                    <!-- Search and Filter Section -->
+                    <form action="" method="GET" class="mb-6">
+                        <div class="mb-6 flex flex-col sm:flex-row gap-4">
+                            <div class="flex-1">
+                                <input type="text" 
+                                       name="search"
+                                       placeholder="Search users..." 
+                                       value="{{ request('search') }}"
+                                       class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            </div>
+                            <div class="flex gap-4">
+                                <select name="role" class="rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                    <option value="">Filter by Role</option>
+                                    <option value="volunteer" {{ request('role') == 'volunteer' ? 'selected' : '' }}>Volunteer</option>
+                                    <option value="organization" {{ request('role') == 'organization' ? 'selected' : '' }}>Organization</option>
+                                </select>
+                                <select name="status" class="rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                                    <option value="">Filter by Status</option>
+                                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                    <option value="disabled" {{ request('status') == 'disabled' ? 'selected' : '' }}>Disabled</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                                Apply Filters
+                            </button>
+                        </div>
+                    </form>
 
                     <div class="overflow-x-auto">
                         <table class="min-w-full table-auto">
@@ -33,7 +63,7 @@
                                             @csrf
                                             @method('PATCH')
                                             <button type="submit" class="text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded">
-                                                {{ $user->verified ? 'Disable' : 'Enable' }}
+                                                {{ $user->verified ? 'Suspend Account' : 'Activate Account' }}
                                             </button>
                                         </form>
                                         

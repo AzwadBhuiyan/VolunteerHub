@@ -8,24 +8,31 @@
                     </h2>
 
                     <!-- Search and Filter Section -->
+                    <form action="" method="GET" class="mb-6">
                     <div class="mb-6 flex flex-col sm:flex-row gap-4">
                         <div class="flex-1">
                             <input type="text" 
+                                   name="search"
                                    placeholder="Search organizations..." 
+                                   value="{{ request('search') }}"
                                    class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                         </div>
                         <div class="flex gap-4">
-                            <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            <select name="verification" class="rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                                 <option value="">Filter by Verification</option>
-                                <option value="verified">Verified</option>
-                                <option value="unverified">Unverified</option>
+                                <option value="verified" {{ request('verification') == 'verified' ? 'selected' : '' }}>Verified</option>
+                                <option value="unverified" {{ request('verification') == 'unverified' ? 'selected' : '' }}>Unverified</option>
                             </select>
-                            <select class="rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            <select name="status" class="rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                                 <option value="">Filter by Status</option>
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
+                                <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+                                <option value="suspended" {{ request('status') == 'suspended' ? 'selected' : '' }}>Suspended</option>
                             </select>
                         </div>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">
+                            Apply Filters
+                        </button>
+                    </form>
                     </div>
 
                     <!-- Table Section -->
@@ -81,18 +88,29 @@
                                         <td class="px-4 py-2">
                                             <div class="flex flex-col gap-2">
                                                 <span class="px-2 py-1 text-xs rounded-full {{ $organization->user->verified ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                                    {{ $organization->user->verified ? 'Active' : 'Inactive' }}
+                                                    {{ $organization->user->verified ? 'Active' : 'Suspended' }}
                                                 </span>
-                                                <span class="px-2 py-1 text-xs rounded-full {{ $organization->verification_status === 'verified' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                                    {{ ucfirst($organization->verification_status) }}
-                                                </span>
+                                                <form action="{{ route('admin.users.toggle-status', $organization->user) }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="text-sm text-blue-600 hover:text-blue-900">
+                                                        {{ $organization->user->verified ? 'Suspend Account' : 'Activate Account' }}
+                                                    </button>
+                                                </form>
+                                                <form action="{{ route('admin.organizations.toggle-verification', $organization) }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <button type="submit" class="text-sm text-blue-600 hover:text-blue-900">
+                                                        {{ $organization->verification_status === 'verified' ? 'Revoke Verification' : 'Verify Documents' }}
+                                                    </button>
+                                                </form>
                                             </div>
                                         </td>
                                         <td class="px-4 py-2">
                                             <div class="flex flex-col gap-2">
                                                 <a href="{{ route('admin.organizations.edit', $organization) }}" 
                                                    class="text-blue-600 hover:text-blue-900">
-                                                    View Details
+                                                    Edit Details
                                                 </a>
                                                 <a href="{{ route('profile.public', $organization->url) }}" 
                                                    class="text-green-600 hover:text-green-900"
