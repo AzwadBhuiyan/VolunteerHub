@@ -64,7 +64,62 @@ class AdminController extends Controller
             ->count();
         $totalIdeaThreads = IdeaThread::count();
 
-        return view('admin.dashboard', compact('totalUsers', 'activeVolunteers', 'activeOrganizations', 'totalIdeaThreads'));
+        // Get current year
+        $currentYear = now()->year;
+        
+        // Volunteer growth data
+        $volunteerData = User::where('role', 'volunteer')
+            ->whereYear('created_at', $currentYear)
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->groupBy('month')
+            ->pluck('count', 'month')
+            ->toArray();
+
+        // Organization growth data
+        $organizationData = User::where('role', 'organization')
+            ->whereYear('created_at', $currentYear)
+            ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->groupBy('month')
+            ->pluck('count', 'month')
+            ->toArray();
+
+        // Activities data
+        $activityData = [
+            'created' => Activity::whereYear('created_at', $currentYear)
+                ->selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+                ->groupBy('month')
+                ->pluck('count', 'month')
+                ->toArray(),
+            'completed' => Activity::whereYear('date', $currentYear)
+                ->where('status', 'completed')
+                ->selectRaw('MONTH(date) as month, COUNT(*) as count')
+                ->groupBy('month')
+                ->pluck('count', 'month')
+                ->toArray()
+        ];
+
+        // Fill in missing months with zeros
+        $months = range(1, 12);
+        foreach ($months as $month) {
+            $volunteerData[$month] = $volunteerData[$month] ?? 0;
+            $organizationData[$month] = $organizationData[$month] ?? 0;
+            $activityData['created'][$month] = $activityData['created'][$month] ?? 0;
+            $activityData['completed'][$month] = $activityData['completed'][$month] ?? 0;
+        }
+        ksort($volunteerData);
+        ksort($organizationData);
+        ksort($activityData['created']);
+        ksort($activityData['completed']);
+
+        return view('admin.dashboard', compact(
+            'totalUsers', 
+            'activeVolunteers', 
+            'activeOrganizations', 
+            'totalIdeaThreads',
+            'volunteerData',
+            'organizationData',
+            'activityData'
+        ));
     }
 
     public function toggleUserStatus(Request $request, User $user)

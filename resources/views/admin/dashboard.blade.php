@@ -4,7 +4,34 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <h2 class="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text">Admin Dashboard</h2>
+                    <!-- graphs -->
+                    <div class="my-2 px-4 rounded-lg shadow-lg border border-gray-200">
+                        <div class="w-full p-8 mb-4">
+                            <h2 class="text-xl font-bold text-gray-800 text-center mb-6">Volunteer Growth in {{ date('Y') }}</h2>
+                            <div class="relative h-96">
+                                <canvas id="volunteerChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="my-2 px-4 rounded-lg shadow-lg border border-gray-200">
+                        <div class="w-full p-8 mb-4">
+                            <h2 class="text-xl font-bold text-gray-800 text-center mb-6">Organization Growth in {{ date('Y') }}</h2>
+                            <div class="relative h-96">
+                                <canvas id="organizationChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="my-2 px-4 rounded-lg shadow-lg border border-gray-200">
+                        <div class="w-full p-8 mb-4">
+                            <h2 class="text-xl font-bold text-gray-800 text-center mb-6">Activities Overview in {{ date('Y') }}</h2>
+                            <div class="relative h-96">
+                                <canvas id="activityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- cards -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <!-- User Management Card -->
                         <div class="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow">
@@ -110,8 +137,124 @@
                             </a>
                         </div>
                     </div>
+
+                    
                 </div>
             </div>
         </div>
     </div>
+
+
+    @push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    
+    // Volunteer Chart
+    new Chart(document.getElementById('volunteerChart'), {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'New Volunteers',
+                data: @json(array_values($volunteerData)),
+                borderColor: 'rgb(59, 130, 246)',
+                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    // Organization Chart
+    new Chart(document.getElementById('organizationChart'), {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'New Organizations',
+                data: @json(array_values($organizationData)),
+                borderColor: 'rgb(34, 197, 94)',
+                backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    // Activity Chart
+    new Chart(document.getElementById('activityChart'), {
+        type: 'line',
+        data: {
+            labels: months,
+            datasets: [{
+                label: 'Activities Created',
+                data: @json(array_values($activityData['created'])),
+                borderColor: 'rgb(99, 102, 241)',
+                backgroundColor: 'rgba(99, 102, 241, 0.1)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Activities Completed',
+                data: @json(array_values($activityData['completed'])),
+                borderColor: 'rgb(234, 179, 8)',
+                backgroundColor: 'rgba(234, 179, 8, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+</script>
+@endpush
 </x-app-layout>
