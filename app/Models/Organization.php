@@ -33,7 +33,9 @@ class Organization extends Model
     // volunteer followers
     public function followers()
     {
-        return $this->belongsToMany(Volunteer::class, 'volunteer_follows', 'organization_userid', 'volunteer_userid')->withTimestamps();
+        return $this->belongsToMany(Volunteer::class, 'volunteer_follows', 'followed_id', 'follower_id')
+                    ->where('type', 'organization')
+                    ->withTimestamps();
     }
 
     public function getLogoPath()

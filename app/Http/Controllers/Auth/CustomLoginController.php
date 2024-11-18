@@ -14,7 +14,7 @@ class CustomLoginController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if (!$user->verified) {
+            if (!$user->hasVerifiedEmail() || !$user->verified) {
                 return redirect()->route('verification.notice');
             }
             return redirect()->intended(route('dashboard'));

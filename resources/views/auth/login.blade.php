@@ -70,4 +70,17 @@
             @endif
         </div>
     </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const emailError = document.querySelector('.text-red-600');
+            if (emailError) {
+                const errorMessage = emailError.textContent.toLowerCase();
+                if (errorMessage.includes('verify') || errorMessage.includes('unverified')) {
+                    const email = document.querySelector('#email').value;
+                    sessionStorage.setItem('email_for_verification', email);
+                    window.location.href = '/verify-email';
+                }
+            }
+        });
+    </script>
 </x-guest-layout>

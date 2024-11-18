@@ -195,7 +195,7 @@ class AdminController extends Controller
         $this->checkAdminAccess();
         
         $volunteers = Volunteer::with('user')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('name', 'asc')
             ->paginate(10);
         
         return view('admin.volunteers.index', compact('volunteers'));
