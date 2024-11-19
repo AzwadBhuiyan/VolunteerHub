@@ -76,10 +76,16 @@ Route::get('/search', [App\Http\Controllers\SearchController::class, 'search'])-
 Route::get('/search/suggestions', [App\Http\Controllers\SearchController::class, 'suggestions'])
     ->name('search.suggestions');
 
+// Individual Activity view
+Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
+
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth','verified'])
     ->name('dashboard');
 
+
+//main routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/edit-profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -94,7 +100,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/activities/create', [ActivityController::class, 'create'])->name('activities.create');
     Route::post('/activities', [ActivityController::class, 'store'])->name('activities.store');
     Route::get('/activities-list', [ActivityController::class, 'index'])->name('activities.index');
-    Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
+    // TURNED PUBLIC // Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
     Route::get('/activities/{activity}/edit', [ActivityController::class, 'edit'])->name('activities.edit');
     Route::put('/activities/{activity}', [ActivityController::class, 'update'])->name('activities.update');
     Route::get('/activities/{activity}/accomplished', [ActivityController::class, 'showAccomplished'])->name('activities.show_accomplished');
@@ -109,11 +115,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // volunteer->activities
     Route::post('/activities/{activity}/register', [ActivityController::class, 'register'])->name('activities.register')->middleware('auth');
     Route::delete('/activities/{activity}/cancel-registration', [ActivityController::class, 'cancelRegistration'])->name('activities.cancel_registration');
-        // View timeline
+        // timeline & milestone
     Route::get('/activities/{activity}/timeline', [ActivityController::class, 'timeline'])->name('activities.timeline');
-        // Create new milestone
     Route::post('/activities/{activity}/milestones', [ActivityMilestoneController::class, 'store'])->name('activities.milestones.store');
-        // Mark milestone as read
     Route::post('/milestones/{milestone}/read', [ActivityMilestoneController::class, 'markAsRead'])->name('milestones.mark-as-read');
 
 

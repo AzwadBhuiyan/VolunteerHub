@@ -128,6 +128,7 @@ class ActivityController extends Controller
         return redirect()->route('activities.show', $activity)->with('success', 'Activity updated successfully.');
     }
 
+    //change activity status 'open','closed' & 'cancel' [complete handled seperately]
     public function updateStatus(Request $request, Activity $activity)
     {
         // $this->authorize('update', $activity);
@@ -138,7 +139,7 @@ class ActivityController extends Controller
 
         $activity->update($validatedData);
 
-        return redirect()->route('activities.index')->with('success', 'Activity status updated successfully.');
+        return redirect()->route('dashboard')->with('success', 'Activity status updated successfully.');
     }
 
     public function showSignups(Request $request, Activity $activity)
@@ -215,6 +216,11 @@ class ActivityController extends Controller
             if ($activity->max_volunteers && $totalApprovedCount > $activity->max_volunteers) {
                 return redirect()->route('activities.show_signups', $activity)
                     ->with('error', "Cannot approve {$newApprovedCount} volunteers. It would exceed the maximum limit of {$activity->max_volunteers} volunteers.");
+            }
+
+            // Close activity if max volunteers reached
+            if ($activity->max_volunteers && $totalApprovedCount == $activity->max_volunteers) {
+                $activity->update(['status' => 'closed']);
             }
         }
 

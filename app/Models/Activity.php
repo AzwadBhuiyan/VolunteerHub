@@ -66,18 +66,6 @@ class Activity extends Model
         return $this->volunteers()->wherePivot('approval_status', 'approved')->count();
     }
 
-    public function shouldBeClosed()
-    {
-        \Log::info('Checking activity: ' . $this->activityid);
-        \Log::info('Date check: ' . ($this->date && now()->startOfDay() > $this->date ? 'true' : 'false'));
-        \Log::info('Deadline check: ' . ($this->deadline && now() > $this->deadline ? 'true' : 'false'));
-        \Log::info('Max volunteers check: ' . ($this->max_volunteers && $this->confirmed_volunteers_count >= $this->max_volunteers ? 'true' : 'false'));
-
-        
-        return ($this->max_volunteers && $this->confirmed_volunteers_count >= $this->max_volunteers) ||
-               ($this->deadline && now() > $this->deadline) ||
-               ($this->date && now()->startOfDay() > $this->date);
-    }
 
     public function close()
     {
