@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -40,18 +41,43 @@ class LoginRequest extends FormRequest
     public function authenticate(): void
     {
         $this->ensureIsNotRateLimited();
-
-        $credentials = $this->only('email', 'password');
-
-        if (! Auth::attempt($credentials, $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
-
-            throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
-            ]);
+    
+        $user = User::where('email', $this->email)->first();
+    
+        if ($user) {
+            // Check if account is locked
+            if ($user->locked_until && $user->locked_until > now()) {
+                $minutes = now()->diffInMinutes($user->locked_until);
+                throw ValidationException::withMessages([
+                    'email' => __('This account is locked. Please try again in :minutes minutes.', ['minutes' => $minutes])
+                ]);
+            }
+    
+            if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+                $user->increment('login_attempts');
+    
+                if ($user->login_attempts >= $user->max_attempts) {
+                    $user->update([
+                        'locked_until' => now()->addMinutes(30),
+                        'login_attempts' => 0
+                    ]);
+    
+                    throw ValidationException::withMessages([
+                        'email' => __('Too many login attempts. Your account has been locked for 30 minutes.')
+                    ]);
+                }
+    
+                RateLimiter::hit($this->throttleKey());
+                throw ValidationException::withMessages([
+                    'email' => __('These credentials do not match our records. :attempts attempts remaining.', 
+                        ['attempts' => $user->max_attempts - $user->login_attempts])
+                ]);
+            }
+    
+            // Reset attempts on successful login
+            $user->update(['login_attempts' => 0]);
+            RateLimiter::clear($this->throttleKey());
         }
-
-        RateLimiter::clear($this->throttleKey());
     }
 
     /**

@@ -49,7 +49,8 @@ class Kernel extends HttpKernel
 
     protected $routeMiddleware = [
         // ... other middlewares
-        'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
+        // 'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
+        // '2fa' => \App\Http\Middleware\TwoFactorMiddleware::class,
     ];
 
     /**
@@ -71,5 +72,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'verify.rate.limit' => \App\Http\Middleware\VerificationRateLimiter::class,
+        '2fa' => \App\Http\Middleware\TwoFactorMiddleware::class,
     ];
 }

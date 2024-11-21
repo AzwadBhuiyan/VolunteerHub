@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Volunteer;
 use App\Models\Organization;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -200,6 +201,32 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-
+    public function updateSecurity(Request $request)
+    {
+        $validated = $request->validate([
+            'max_attempts' => ['required', 'integer', 'min:3', 'max:10'],
+            'allow_follow' => ['sometimes', 'boolean'],
+            'two_factor_enabled' => ['required', 'boolean'],
+        ]);
+    
+        $user = $request->user();
+        
+        // Check if email is verified before enabling 2FA
+        if ($validated['two_factor_enabled'] && !$user->hasVerifiedEmail()) {
+            return back()->withErrors(['two_factor_enabled' => 'Please verify your email address before enabling 2FA.']);
+        }
+        
+        $user->max_attempts = $validated['max_attempts'];
+        $user->two_factor_enabled = $validated['two_factor_enabled'];
+        
+        if ($user->volunteer) {
+            $user->volunteer->allow_follow = $validated['allow_follow'] ?? false;
+            $user->volunteer->save();
+        }
+        
+        $user->save();
+    
+        return back()->with('status', 'security-updated');
+    }
 
 }

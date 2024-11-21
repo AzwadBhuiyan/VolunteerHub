@@ -7,6 +7,7 @@ use App\Notifications\VerifyEmailNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\TwoFactorCode;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -22,12 +23,22 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 
         'verified',
         'email_verified_at',
-        'role'
+        'role',
+        'login_attempts',
+        'locked_until',
+        'max_attempts',
+        'name',
+        'two_factor_enabled',
+        'two_factor_code',
+        'two_factor_expires_at'
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
         'verified' => 'boolean',
+        'locked_until' => 'datetime',
+        'two_factor_expires_at' => 'datetime',
+        'two_factor_enabled' => 'boolean'
     ];
 
     protected $hidden = [

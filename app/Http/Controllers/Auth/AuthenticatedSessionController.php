@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\Notifications\TwoFactorCode;
+use App\Services\TwoFactorAuthService;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -40,15 +42,19 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // Explicitly set the user ID in the session
-        $request->session()->put('auth.id', Auth::id());
+        // Set login session flag for 2FA
+        if ($user->two_factor_enabled) {
+            if (app(TwoFactorAuthService::class)->generateAndSendCode($user)) {
+                session(['auth.login' => true]);
+                session()->forget('two_factor_verified');
+                return redirect()->route('2fa.verify');
+            }
+            
+            auth()->logout();
+            return back()->withErrors(['email' => 'Failed to send verification code']);
+        }
 
-        // Store user type in session
-        $user = Auth::user();
-        $userType = $user->volunteer ? 'volunteer' : 'organization';
-        session(['user_type' => $userType]);
-
-        return redirect()->route('home');
+        return redirect()->route('dashboard');
     }
 
     /**

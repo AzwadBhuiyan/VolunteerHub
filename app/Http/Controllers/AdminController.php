@@ -525,5 +525,35 @@ class AdminController extends Controller
             return back()->with('error', 'Failed to update organization verification status');
         }
     }
+
+    public function closeExpiredActivities()
+    {
+        $this->checkAdminAccess();
+        
+        try {
+            DB::beginTransaction();
+            
+            $count = Activity::where('status', 'open')
+                ->whereDate('deadline', '<=', now())
+                ->update(['status' => 'closed']);
+            
+            // Log the action
+            Log::info('Admin Action: Bulk close expired activities', [
+                'admin_id' => auth()->id(),
+                'activities_closed' => $count,
+                'timestamp' => now()
+            ]);
+            
+            DB::commit();
+            return back()->with('success', "{$count} expired activities have been closed.");
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Admin Action Failed: Bulk close expired activities', [
+                'admin_id' => auth()->id(),
+                'error' => $e->getMessage()
+            ]);
+            return back()->with('error', 'Failed to close expired activities.');
+        }
+    }
     
 }

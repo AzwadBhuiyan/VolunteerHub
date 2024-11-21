@@ -12,6 +12,11 @@ class ActivityController extends Controller
 {
     public function create()
     {
+        if (!Auth::user()->organization) {
+            return redirect()->route('dashboard')
+                ->with('error', 'Only organizations can create activities.');
+        }
+        
         $categories = ActivityCategory::all();
         return view('activities.create', compact('categories'));
     }

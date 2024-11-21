@@ -66,7 +66,7 @@
         <x-input-error class="mt-2" :messages="$errors->get('blood_group')" />
 
         <!-- FOLLOWER CONTROL ALLOW/DISALLOW -->
-        <div class="flex items-center mt-4">
+        <!-- <div class="flex items-center mt-4">
             <x-input-label for="allow_follow" :value="__('Follow Settings')" class="w-1/4 mr-2 text-left" />
             <div class="flex flex-col space-y-2">
                 <label class="inline-flex items-center">
@@ -87,7 +87,7 @@
                 </label>
                 <p class="text-sm text-gray-500">Note: Existing followers will remain even if you disable new follows</p>
             </div>
-        </div>
+        </div> -->
 
         <div class="flex items-center justify-center gap-4"> <!-- Centered the button group -->
             <x-primary-button>{{ __('Save Primary Details') }}</x-primary-button>

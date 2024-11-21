@@ -13,6 +13,7 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityMilestoneController;
+use App\Http\Controllers\Auth\TwoFactorController;
 use App\Http\Controllers\AdminController;
 
 Route::get('/connection', function () {
@@ -34,6 +35,16 @@ Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name(
 // });
 
 
+// Two factor auth
+Route::middleware(['auth'])->group(function () {
+    Route::get('/2fa/verify', [TwoFactorController::class, 'show'])
+        ->name('2fa.verify');
+    Route::post('/2fa/verify', [TwoFactorController::class, 'verify']);
+    Route::post('/2fa/resend', [TwoFactorController::class, 'resend'])
+        ->name('2fa.resend');
+});
+
+
 // Admin Routes
 Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
@@ -45,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
         // Activity routes
         Route::get('/activities', [AdminController::class, 'activities'])->name('activities.index');
         Route::delete('/activities/{activity}', [AdminController::class, 'deleteActivity'])->name('activities.delete');
+        Route::post('/admin/activities/close-expired', [AdminController::class, 'closeExpiredActivities'])->name('activities.close-expired');
         
         // Idea Thread routes
         Route::get('/idea-threads', [AdminController::class, 'ideaThreads'])->name('idea-threads.index');
@@ -65,8 +77,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-// Public activities feed
-Route::get('/activities-feed', [ActivityController::class, 'feed'])->name('activities.feed');
+
 
 // Public profile route (accessible without authentication)
 Route::get('/profile/{url}', [PublicProfileController::class, 'show'])->name('profile.public');
@@ -76,13 +87,6 @@ Route::get('/search', [App\Http\Controllers\SearchController::class, 'search'])-
 Route::get('/search/suggestions', [App\Http\Controllers\SearchController::class, 'suggestions'])
     ->name('search.suggestions');
 
-// Individual Activity view
-Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
-
-
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth','verified'])
-    ->name('dashboard');
 
 
 //main routes
@@ -90,6 +94,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/edit-profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/edit-profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/edit-profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::patch('/profile/security', [ProfileController::class, 'updateSecurity'])->name('profile.update.security');
     
     
     // update organization information -- partials are independent
@@ -159,7 +164,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
+// Public activities feed
+Route::get('/activities-feed', [ActivityController::class, 'feed'])->name('activities.feed');
+
+// Individual Activity view
+Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
 
 
 // Route::get('/home', function () {

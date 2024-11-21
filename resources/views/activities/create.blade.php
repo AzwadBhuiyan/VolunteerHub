@@ -230,12 +230,6 @@
                             </div>
                         </div>
                         
-                        <div class="mt-6 bg-blue-50 rounded-lg p-4">
-                            <p class="text-sm text-blue-600 flex items-center">
-                                <i class="fas fa-info-circle mr-2"></i>
-                                <span>Note: The activity status will automatically update to "closed" once the specified date or deadline is reached.</span>
-                            </p>
-                        </div>
 
                         <div class="mt-6">
                             <x-primary-button
