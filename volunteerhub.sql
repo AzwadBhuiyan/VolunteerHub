@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2024 at 01:00 AM
+-- Generation Time: Nov 21, 2024 at 04:23 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -58,17 +58,17 @@ INSERT INTO `activities` (`activityid`, `userid`, `title`, `description`, `date`
 (1, 'org-001', 'Party on', 'lets go', '2024-10-04', '12:45:00', 'Agriculture', 'Dhaka', 'asdad', '2024-09-17 00:42:00', 1, 2, NULL, 'completed', '2024-09-20 12:42:20', '2024-10-06 04:12:39', 'it was great lets goooooooo', 4, NULL, 4),
 (2, 'org-001', 'Lets go', 'lets go', '2024-09-27', '06:21:00', 'Agriculture', 'Dhaka', '1aaf', '2024-10-02 03:22:00', 1, 5, NULL, 'completed', '2024-09-25 15:22:15', '2024-09-26 15:24:28', NULL, NULL, NULL, 0),
 (3, 'org-001', 'wall paint need artists', 'lets paint all the walls', '2024-09-30', '16:27:00', 'Agriculture', 'Dhaka', 'bashundhara', '2024-09-29 00:09:00', 3, 10, NULL, 'completed', '2024-09-26 15:52:59', '2024-09-26 16:11:06', 'all walls look beautiful', 6, 'easy', 0),
-(5, 'org-001', 'EMERGENCY FLOOD RESCUE OPERATION', 'need 10 brave volunteers who are good swimmers', '2024-10-08', '06:28:00', 'Disaster Management', 'Gazipur', 'flood, bangladesh', '2024-10-07 23:28:00', 10, NULL, NULL, 'open', '2024-10-04 18:29:14', '2024-10-07 08:16:11', NULL, NULL, 'easy', 0),
-(6, 'org-001', 'Activity 1', 'This is a description for Activity 1', '2024-10-12', '20:16:44', 'Fundraising', 'Barguna', 'Address for Activity 1', '2024-10-11 20:16:44', 5, 24, NULL, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'medium', 0),
-(7, 'org-001', 'Activity 2', 'This is a description for Activity 2', '2024-11-06', '20:16:44', 'Arts and Culture', 'Dhaka', 'Address for Activity 2', '2024-11-04 20:16:44', 7, 24, 'Lawyer', 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'medium', 0),
-(8, 'org-001', 'Activity 3', 'This is a description for Activity 3', '2024-10-20', '20:16:44', 'Advocacy', 'Dhaka', 'Address for Activity 3', '2024-10-15 20:16:44', 8, 15, NULL, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'medium', 0),
-(9, 'org-001', 'Activity 4', 'This is a description for Activity 4', '2024-11-03', '20:16:44', 'Agriculture', 'Gazipur', 'Address for Activity 4', '2024-11-01 20:16:44', 8, 24, NULL, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'easy', 0),
-(10, 'org-001', 'Activity 5', 'This is a description for Activity 5', '2024-10-23', '20:16:44', 'Agriculture', 'Faridpur', 'Address for Activity 5', '2024-10-19 20:16:44', 5, 23, NULL, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'easy', 0),
-(11, 'org-001', 'Activity 6', 'This is a description for Activity 6', '2024-11-02', '20:16:44', 'Arts and Culture', 'Bhola', 'Address for Activity 6', '2024-11-01 20:16:44', 7, 21, NULL, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'hard', 0),
-(12, 'org-001', 'Activity 7', 'This is a description for Activity 7', '2024-10-13', '20:16:44', 'Environment', 'Thakurgaon', 'Address for Activity 7', '2024-10-08 20:16:44', 8, 28, NULL, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'hard', 0),
-(13, 'org-001', 'Activity 8', 'This is a description for Activity 8', '2024-10-09', '20:16:44', 'Blood Donation', 'Manikganj', 'Address for Activity 8', '2024-10-05 20:16:44', 7, 18, NULL, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'severe', 0),
-(14, 'org-001', 'Activity 9', 'This is a description for Activity 9', '2024-10-20', '20:16:44', 'Advocacy', 'Nilphamari', 'Address for Activity 9', '2024-10-17 20:16:44', 6, 20, NULL, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'hard', 0),
-(15, 'org-001', 'Activity 10', 'This is a description for Activity 10', '2024-10-15', '20:16:44', 'Fundraising', 'Kurigram', 'Address for Activity 10', '2024-10-13 20:16:44', 7, 23, NULL, 'open', '2024-10-07 14:16:44', '2024-10-07 14:16:44', NULL, NULL, 'medium', 0);
+(5, 'org-001', 'EMERGENCY FLOOD RESCUE OPERATION', 'need 10 brave volunteers who are good swimmers', '2024-10-08', '06:28:00', 'Disaster Management', 'Gazipur', 'flood, bangladesh', '2024-10-07 23:28:00', 10, NULL, NULL, 'closed', '2024-10-04 18:29:14', '2024-11-20 15:07:32', NULL, NULL, 'easy', 0),
+(6, 'org-001', 'Activity 1', 'This is a description for Activity 1', '2024-10-12', '20:16:44', 'Fundraising', 'Barguna', 'Address for Activity 1', '2024-10-11 20:16:44', 5, 24, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'medium', 0),
+(7, 'org-001', 'Activity 2', 'This is a description for Activity 2', '2024-11-06', '20:16:44', 'Arts and Culture', 'Dhaka', 'Address for Activity 2', '2024-11-04 20:16:44', 7, 24, 'Lawyer', 'closed', '2024-10-07 14:16:44', '2024-11-18 17:01:17', NULL, NULL, 'medium', 0),
+(8, 'org-001', 'Activity 3', 'This is a description for Activity 3', '2024-10-20', '20:16:44', 'Advocacy', 'Dhaka', 'Address for Activity 3', '2024-10-15 20:16:44', 8, 15, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'medium', 0),
+(9, 'org-001', 'Activity 4', 'This is a description for Activity 4', '2024-11-03', '20:16:44', 'Agriculture', 'Gazipur', 'Address for Activity 4', '2024-11-01 20:16:44', 8, 24, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'easy', 0),
+(10, 'org-001', 'Activity 5', 'This is a description for Activity 5', '2024-10-23', '20:16:44', 'Agriculture', 'Faridpur', 'Address for Activity 5', '2024-10-19 20:16:44', 5, 23, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'easy', 0),
+(11, 'org-001', 'Activity 6', 'This is a description for Activity 6', '2024-11-02', '20:16:44', 'Arts and Culture', 'Bhola', 'Address for Activity 6', '2024-11-01 20:16:44', 7, 21, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'hard', 0),
+(12, 'org-001', 'Activity 7', 'This is a description for Activity 7', '2024-10-13', '20:16:44', 'Environment', 'Thakurgaon', 'Address for Activity 7', '2024-10-08 20:16:44', 8, 28, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'hard', 0),
+(13, 'org-001', 'Activity 8', 'This is a description for Activity 8', '2024-10-09', '20:16:44', 'Blood Donation', 'Manikganj', 'Address for Activity 8', '2024-10-05 20:16:44', 7, 18, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'severe', 0),
+(14, 'org-001', 'Activity 9', 'This is a description for Activity 9', '2024-10-20', '20:16:44', 'Advocacy', 'Nilphamari', 'Address for Activity 9', '2024-10-17 20:16:44', 6, 20, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'hard', 0),
+(15, 'org-001', 'Activity 10', 'This is a description for Activity 10', '2024-10-15', '20:16:44', 'Fundraising', 'Kurigram', 'Address for Activity 10', '2024-10-13 20:16:44', 7, 23, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'medium', 0);
 
 -- --------------------------------------------------------
 
@@ -335,7 +335,8 @@ INSERT INTO `idea_votes` (`id`, `idea_thread_id`, `idea_comment_id`, `user_useri
 (50, 1, NULL, '00002', 1, '2024-10-25 07:18:59', '2024-10-25 07:18:59'),
 (56, 2, 3, '00002', 1, '2024-11-05 13:32:52', '2024-11-05 13:32:52'),
 (57, 2, 1, '00002', 1, '2024-11-07 13:16:25', '2024-11-07 13:16:25'),
-(58, 2, NULL, '00002', 1, '2024-11-07 13:16:31', '2024-11-07 13:16:31');
+(61, 2, 5, '00002', 1, '2024-11-17 20:18:01', '2024-11-17 20:18:01'),
+(63, 2, NULL, '00002', 1, '2024-11-17 20:18:35', '2024-11-17 20:18:35');
 
 -- --------------------------------------------------------
 
@@ -416,7 +417,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (54, '2024_11_04_101626_create_add_winner_column_to_ideathread_table', 13),
 (57, '2024_11_10_184547_add_role_to_users_table', 14),
 (58, '2024_11_13_185436_add_required_profession_to_activities_table', 14),
-(59, '2024_11_15_173422_add_email_verified_at_to_users_table', 15);
+(59, '2024_11_15_173422_add_email_verified_at_to_users_table', 15),
+(60, '2024_11_21_005530_create_add_lockout_fields_to_users_table', 16),
+(61, '2024_11_21_012219_create_add_2fa_fields_to_users_table', 17);
 
 -- --------------------------------------------------------
 
@@ -472,7 +475,7 @@ CREATE TABLE `organizations` (
 --
 
 INSERT INTO `organizations` (`userid`, `url`, `org_name`, `primary_address`, `secondary_address`, `website`, `org_mobile`, `org_telephone`, `description`, `verification_status`, `created_at`, `updated_at`) VALUES
-('org-001', 'rahatinc', 'rahat inc', 'dh', 'dh', 'https://www.facebook.com/rht.krmO.o/', '123', '132', 'we believe in hella money $$$$$', 'unverified', '2024-09-20 07:52:52', '2024-10-30 08:12:08'),
+('org-001', 'rahatinc', 'rahat inc', 'dh', 'dh', 'https://www.facebook.com/rht.krmO.o/', '123', '132', 'we believe in hella money $$$$$', 'verified', '2024-09-20 07:52:52', '2024-10-30 08:12:08'),
 ('org-002', 'org-002', 'org', 'org', 'org', 'https://org@c.com', '91239', '123123', NULL, 'unverified', '2024-09-20 10:18:14', '2024-09-20 10:18:14'),
 ('org-003', 'org-003', 'Gift for good', 'bashundhara r/a', 'bashundhara r/a', 'https://www.netflix.com/', '01990385489', '01288841', NULL, 'unverified', '2024-11-07 13:34:29', '2024-11-07 13:34:29');
 
@@ -566,22 +569,28 @@ CREATE TABLE `users` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `verified` tinyint(1) NOT NULL DEFAULT 0,
-  `email_verified_at` timestamp NULL DEFAULT NULL
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `login_attempts` int(11) NOT NULL DEFAULT 0,
+  `locked_until` timestamp NULL DEFAULT NULL,
+  `max_attempts` int(11) NOT NULL DEFAULT 5,
+  `two_factor_enabled` tinyint(1) NOT NULL DEFAULT 0,
+  `two_factor_code` varchar(255) DEFAULT NULL,
+  `two_factor_expires_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userid`, `email`, `role`, `password`, `remember_token`, `created_at`, `updated_at`, `verified`, `email_verified_at`) VALUES
-('00002', 'volunteer@gmail.com', 'volunteer', '$2y$12$UoCj2BpNB1JrgIt52cSfzOMdn08Wk/HJj6ro8Gv6jB7vtw5GSEWLC', NULL, '2024-09-20 07:54:58', '2024-09-20 07:54:58', 1, NULL),
-('00003', 'rht.krt@gmail.com', 'volunteer', '$2y$12$V7A2GOSUdQgSk.EwzPdE.elMi29NAzgkxYZdVpfdhepWW86LsmCSa', NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 1, NULL),
-('00004', 'as2@gmail.com', 'volunteer', '$2y$12$jVXp.L4xCT/eGMS1mvziT.RyvbmZ57Rqx9L9gCBP/lOyXs8B34ucO', NULL, '2024-09-26 15:50:49', '2024-09-26 15:50:49', 0, NULL),
-('00005', 'real@gmail.com', 'volunteer', '$2y$12$6K3SsBVUR/cfj.pZhCJr/O3cMTtm.qVlP6kc7H6S1VJDyfzxhMqpa', NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1, NULL),
-('00006', 'test@test.com', 'admin', '$2y$12$QGwn3t/.ezDJOy28KOWKIOSuuOqvL45e8OWBVWhDB3kM/bKzkZhyW', NULL, '2024-11-16 16:48:03', '2024-11-16 16:48:03', 1, NULL),
-('org-001', 'organization@gmail.com', 'organization', '$2y$12$eohVVZ72P3qUd9MFC/eKFOmQIHraB1FLZsIS3bLKuc5Gdk31p3I8a', NULL, '2024-09-20 07:52:52', '2024-09-20 07:52:52', 1, NULL),
-('org-002', 'org2@gmail.com', 'organization', '$2y$12$R1fNsPbwj5ZicKAPcZPnDe6XoqPKjfmkOl6mYNFBxGMoQW4Mif9gO', NULL, '2024-09-20 10:18:14', '2024-09-20 10:18:14', 1, NULL),
-('org-003', 'org@gmail.com', 'organization', '$2y$12$iebVwhgixO161EblQEmMruTLsMtLZnrmvjeA42AgCXPLIJm/bojCC', NULL, '2024-11-07 13:34:29', '2024-11-07 13:34:29', 0, NULL);
+INSERT INTO `users` (`userid`, `email`, `role`, `password`, `remember_token`, `created_at`, `updated_at`, `verified`, `email_verified_at`, `login_attempts`, `locked_until`, `max_attempts`, `two_factor_enabled`, `two_factor_code`, `two_factor_expires_at`) VALUES
+('00002', 'volunteer@gmail.com', 'volunteer', '$2y$12$UoCj2BpNB1JrgIt52cSfzOMdn08Wk/HJj6ro8Gv6jB7vtw5GSEWLC', NULL, '2024-09-20 07:54:58', '2024-11-20 21:23:22', 1, '2024-11-11 02:01:23', 0, NULL, 5, 1, NULL, '2024-11-20 21:33:11'),
+('00003', 'rht.krt@gmail.com', 'volunteer', '$2y$12$V7A2GOSUdQgSk.EwzPdE.elMi29NAzgkxYZdVpfdhepWW86LsmCSa', NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 1, NULL, 0, NULL, 5, 0, NULL, NULL),
+('00004', 'as2@gmail.com', 'volunteer', '$2y$12$jVXp.L4xCT/eGMS1mvziT.RyvbmZ57Rqx9L9gCBP/lOyXs8B34ucO', NULL, '2024-09-26 15:50:49', '2024-09-26 15:50:49', 0, NULL, 0, NULL, 5, 0, NULL, NULL),
+('00005', 'real@gmail.com', 'volunteer', '$2y$12$6K3SsBVUR/cfj.pZhCJr/O3cMTtm.qVlP6kc7H6S1VJDyfzxhMqpa', NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1, NULL, 0, NULL, 5, 0, NULL, NULL),
+('00006', 'test@test.com', 'admin', '$2y$12$QGwn3t/.ezDJOy28KOWKIOSuuOqvL45e8OWBVWhDB3kM/bKzkZhyW', NULL, '2024-11-16 16:48:03', '2024-11-16 16:48:03', 1, NULL, 0, NULL, 5, 0, NULL, NULL),
+('org-001', 'organization@gmail.com', 'organization', '$2y$12$eohVVZ72P3qUd9MFC/eKFOmQIHraB1FLZsIS3bLKuc5Gdk31p3I8a', NULL, '2024-09-20 07:52:52', '2024-11-20 20:51:20', 1, '2024-11-05 02:24:37', 0, NULL, 5, 1, NULL, NULL),
+('org-002', 'org2@gmail.com', 'organization', '$2y$12$R1fNsPbwj5ZicKAPcZPnDe6XoqPKjfmkOl6mYNFBxGMoQW4Mif9gO', NULL, '2024-09-20 10:18:14', '2024-09-20 10:18:14', 1, '2024-11-19 19:56:25', 0, NULL, 5, 0, NULL, NULL),
+('org-003', 'org@gmail.com', 'organization', '$2y$12$iebVwhgixO161EblQEmMruTLsMtLZnrmvjeA42AgCXPLIJm/bojCC', NULL, '2024-11-07 13:34:29', '2024-11-07 13:34:29', 0, NULL, 0, NULL, 5, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -880,7 +889,7 @@ ALTER TABLE `idea_threads`
 -- AUTO_INCREMENT for table `idea_votes`
 --
 ALTER TABLE `idea_votes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -892,7 +901,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `milestone_reads`
