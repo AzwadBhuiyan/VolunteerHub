@@ -19,6 +19,28 @@
     </a>
 </div>
 
+<div class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#34C759" class="h-7 w-7" viewBox="0 0 24 24">
+        <path d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
+    </svg>
+
+    <h2 class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2">
+        View Activity Requests
+    </h2>
+    <p class="text-base">Check volunteer-initiated activity requests and create new activities.</p>
+
+    <a href="{{ route('activity-requests.index') }}" class="relative">
+        <button type="button" class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
+            View Requests
+            @if(Auth::user()->organization->getUnreadRequestsCount() > 0)
+                <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {{ Auth::user()->organization->getUnreadRequestsCount() }}
+                </span>
+            @endif
+        </button>
+    </a>
+</div>
+
 <!-- Stats Section -->
 <div class="flex flex-row gap-4 mb-6 mx-1 overflow-x-hidden">
     <div

@@ -12,7 +12,7 @@ class Organization extends Model
 
     protected $fillable = [
         'userid', 'org_name', 'primary_address', 'secondary_address', 'website',
-        'org_mobile', 'org_telephone', 'description', 'verification_status', 'url'
+        'org_mobile', 'org_telephone', 'description', 'verification_status', 'url','last_requests_read_at'
     ];
 
     public function user()
@@ -56,5 +56,17 @@ class Organization extends Model
     public function ideaThreads()
     {
         return $this->hasMany(IdeaThread::class, 'userid', 'userid');
+    }
+
+    public function getUnreadRequestsCount()
+    {
+        return ActivityRequest::where('status', 'pending')
+            ->where('created_at', '>', $this->last_requests_read_at ?? now()->subYears(10))
+            ->count();
+    }
+
+    public function markRequestsAsRead()
+    {
+        $this->update(['last_requests_read_at' => now()]);
     }
 }

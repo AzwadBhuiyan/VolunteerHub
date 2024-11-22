@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 21, 2024 at 04:23 AM
+-- Generation Time: Nov 22, 2024 at 07:52 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -135,7 +135,34 @@ INSERT INTO `activity_milestones` (`id`, `activity_id`, `message`, `created_at`,
 (3, 7, 'Endooooooo', '2024-10-27 13:35:15', '2024-10-27 13:35:15'),
 (4, 7, 'surprise not end!!', '2024-10-27 13:57:25', '2024-10-27 13:57:25'),
 (5, 11, 'meet up at bashundhara bus stand 8am', '2024-11-03 11:46:35', '2024-11-03 11:46:35'),
-(6, 7, 'ss', '2024-11-11 10:40:49', '2024-11-11 10:40:49');
+(6, 7, 'ss', '2024-11-11 10:40:49', '2024-11-11 10:40:49'),
+(7, 7, 'hope everyone is doing well\r\n\r\nwe will resume tomorrow', '2024-11-22 00:43:19', '2024-11-22 00:43:19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `activity_requests`
+--
+
+CREATE TABLE `activity_requests` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `volunteer_userid` varchar(255) NOT NULL,
+  `approved_by` varchar(255) DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `district` varchar(255) NOT NULL,
+  `status` varchar(255) NOT NULL DEFAULT 'pending',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `activity_id` bigint(20) UNSIGNED DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `activity_requests`
+--
+
+INSERT INTO `activity_requests` (`id`, `volunteer_userid`, `approved_by`, `title`, `description`, `district`, `status`, `created_at`, `updated_at`, `activity_id`) VALUES
+(1, '00002', 'org-001', 'Help our village', 'We live in a small village in the forest of sundarban. We\'ve been heavily affected by the flood please help us', 'Bhola', 'in_progress', '2024-11-22 03:36:21', '2024-11-22 12:23:35', NULL);
 
 -- --------------------------------------------------------
 
@@ -419,7 +446,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (58, '2024_11_13_185436_add_required_profession_to_activities_table', 14),
 (59, '2024_11_15_173422_add_email_verified_at_to_users_table', 15),
 (60, '2024_11_21_005530_create_add_lockout_fields_to_users_table', 16),
-(61, '2024_11_21_012219_create_add_2fa_fields_to_users_table', 17);
+(61, '2024_11_21_012219_create_add_2fa_fields_to_users_table', 17),
+(62, '2024_11_22_084012_add_show_posts_to_users_table', 18),
+(63, '2024_11_22_091501_create_activity_requests_table', 19),
+(64, '2024_11_22_093819_add_last_requests_read_to_organizations_table', 20),
+(65, '2024_11_22_181015_add_activity_id_to_requests_table', 21);
 
 -- --------------------------------------------------------
 
@@ -442,12 +473,13 @@ CREATE TABLE `milestone_reads` (
 --
 
 INSERT INTO `milestone_reads` (`id`, `milestone_id`, `volunteer_userid`, `is_read`, `read_at`, `created_at`, `updated_at`) VALUES
-(1, 1, '00002', 1, '2024-11-14 19:07:09', '2024-10-27 13:34:45', '2024-11-14 19:07:09'),
-(2, 2, '00002', 1, '2024-11-14 19:07:09', '2024-10-27 13:34:50', '2024-11-14 19:07:09'),
-(3, 3, '00002', 1, '2024-11-14 19:07:09', '2024-10-27 13:35:15', '2024-11-14 19:07:09'),
-(4, 4, '00002', 1, '2024-11-14 19:07:09', '2024-10-27 13:57:25', '2024-11-14 19:07:09'),
+(1, 1, '00002', 1, '2024-11-22 00:43:41', '2024-10-27 13:34:45', '2024-11-22 00:43:41'),
+(2, 2, '00002', 1, '2024-11-22 00:43:41', '2024-10-27 13:34:50', '2024-11-22 00:43:41'),
+(3, 3, '00002', 1, '2024-11-22 00:43:41', '2024-10-27 13:35:15', '2024-11-22 00:43:41'),
+(4, 4, '00002', 1, '2024-11-22 00:43:41', '2024-10-27 13:57:25', '2024-11-22 00:43:41'),
 (5, 5, '00002', 1, '2024-11-03 13:07:38', '2024-11-03 11:46:35', '2024-11-03 13:07:38'),
-(6, 6, '00002', 1, '2024-11-14 19:07:09', '2024-11-11 10:40:49', '2024-11-14 19:07:09');
+(6, 6, '00002', 1, '2024-11-22 00:43:41', '2024-11-11 10:40:49', '2024-11-22 00:43:41'),
+(7, 7, '00002', 1, '2024-11-22 00:43:41', '2024-11-22 00:43:19', '2024-11-22 00:43:41');
 
 -- --------------------------------------------------------
 
@@ -467,17 +499,18 @@ CREATE TABLE `organizations` (
   `description` text DEFAULT NULL,
   `verification_status` enum('unverified','verified') NOT NULL DEFAULT 'unverified',
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `last_requests_read_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `organizations`
 --
 
-INSERT INTO `organizations` (`userid`, `url`, `org_name`, `primary_address`, `secondary_address`, `website`, `org_mobile`, `org_telephone`, `description`, `verification_status`, `created_at`, `updated_at`) VALUES
-('org-001', 'rahatinc', 'rahat inc', 'dh', 'dh', 'https://www.facebook.com/rht.krmO.o/', '123', '132', 'we believe in hella money $$$$$', 'verified', '2024-09-20 07:52:52', '2024-10-30 08:12:08'),
-('org-002', 'org-002', 'org', 'org', 'org', 'https://org@c.com', '91239', '123123', NULL, 'unverified', '2024-09-20 10:18:14', '2024-09-20 10:18:14'),
-('org-003', 'org-003', 'Gift for good', 'bashundhara r/a', 'bashundhara r/a', 'https://www.netflix.com/', '01990385489', '01288841', NULL, 'unverified', '2024-11-07 13:34:29', '2024-11-07 13:34:29');
+INSERT INTO `organizations` (`userid`, `url`, `org_name`, `primary_address`, `secondary_address`, `website`, `org_mobile`, `org_telephone`, `description`, `verification_status`, `created_at`, `updated_at`, `last_requests_read_at`) VALUES
+('org-001', 'rahatinc', 'rahat inc', 'dh', 'dh', 'https://www.facebook.com/rht.krmO.o/', '123', '132', 'we believe in hella money $$$$$', 'verified', '2024-09-20 07:52:52', '2024-11-22 12:38:00', '2024-11-22 12:38:00'),
+('org-002', 'org-002', 'org', 'org', 'org', 'https://org@c.com', '91239', '123123', NULL, 'unverified', '2024-09-20 10:18:14', '2024-09-20 10:18:14', NULL),
+('org-003', 'org-003', 'Gift for good', 'bashundhara r/a', 'bashundhara r/a', 'https://www.netflix.com/', '01990385489', '01288841', NULL, 'unverified', '2024-11-07 13:34:29', '2024-11-07 13:34:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -574,6 +607,7 @@ CREATE TABLE `users` (
   `locked_until` timestamp NULL DEFAULT NULL,
   `max_attempts` int(11) NOT NULL DEFAULT 5,
   `two_factor_enabled` tinyint(1) NOT NULL DEFAULT 0,
+  `show_posts` tinyint(1) NOT NULL DEFAULT 1,
   `two_factor_code` varchar(255) DEFAULT NULL,
   `two_factor_expires_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -582,15 +616,15 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`userid`, `email`, `role`, `password`, `remember_token`, `created_at`, `updated_at`, `verified`, `email_verified_at`, `login_attempts`, `locked_until`, `max_attempts`, `two_factor_enabled`, `two_factor_code`, `two_factor_expires_at`) VALUES
-('00002', 'volunteer@gmail.com', 'volunteer', '$2y$12$UoCj2BpNB1JrgIt52cSfzOMdn08Wk/HJj6ro8Gv6jB7vtw5GSEWLC', NULL, '2024-09-20 07:54:58', '2024-11-20 21:23:22', 1, '2024-11-11 02:01:23', 0, NULL, 5, 1, NULL, '2024-11-20 21:33:11'),
-('00003', 'rht.krt@gmail.com', 'volunteer', '$2y$12$V7A2GOSUdQgSk.EwzPdE.elMi29NAzgkxYZdVpfdhepWW86LsmCSa', NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 1, NULL, 0, NULL, 5, 0, NULL, NULL),
-('00004', 'as2@gmail.com', 'volunteer', '$2y$12$jVXp.L4xCT/eGMS1mvziT.RyvbmZ57Rqx9L9gCBP/lOyXs8B34ucO', NULL, '2024-09-26 15:50:49', '2024-09-26 15:50:49', 0, NULL, 0, NULL, 5, 0, NULL, NULL),
-('00005', 'real@gmail.com', 'volunteer', '$2y$12$6K3SsBVUR/cfj.pZhCJr/O3cMTtm.qVlP6kc7H6S1VJDyfzxhMqpa', NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1, NULL, 0, NULL, 5, 0, NULL, NULL),
-('00006', 'test@test.com', 'admin', '$2y$12$QGwn3t/.ezDJOy28KOWKIOSuuOqvL45e8OWBVWhDB3kM/bKzkZhyW', NULL, '2024-11-16 16:48:03', '2024-11-16 16:48:03', 1, NULL, 0, NULL, 5, 0, NULL, NULL),
-('org-001', 'organization@gmail.com', 'organization', '$2y$12$eohVVZ72P3qUd9MFC/eKFOmQIHraB1FLZsIS3bLKuc5Gdk31p3I8a', NULL, '2024-09-20 07:52:52', '2024-11-20 20:51:20', 1, '2024-11-05 02:24:37', 0, NULL, 5, 1, NULL, NULL),
-('org-002', 'org2@gmail.com', 'organization', '$2y$12$R1fNsPbwj5ZicKAPcZPnDe6XoqPKjfmkOl6mYNFBxGMoQW4Mif9gO', NULL, '2024-09-20 10:18:14', '2024-09-20 10:18:14', 1, '2024-11-19 19:56:25', 0, NULL, 5, 0, NULL, NULL),
-('org-003', 'org@gmail.com', 'organization', '$2y$12$iebVwhgixO161EblQEmMruTLsMtLZnrmvjeA42AgCXPLIJm/bojCC', NULL, '2024-11-07 13:34:29', '2024-11-07 13:34:29', 0, NULL, 0, NULL, 5, 0, NULL, NULL);
+INSERT INTO `users` (`userid`, `email`, `role`, `password`, `remember_token`, `created_at`, `updated_at`, `verified`, `email_verified_at`, `login_attempts`, `locked_until`, `max_attempts`, `two_factor_enabled`, `show_posts`, `two_factor_code`, `two_factor_expires_at`) VALUES
+('00002', 'volunteer@gmail.com', 'volunteer', '$2y$12$UoCj2BpNB1JrgIt52cSfzOMdn08Wk/HJj6ro8Gv6jB7vtw5GSEWLC', NULL, '2024-09-20 07:54:58', '2024-11-22 02:58:56', 1, '2024-11-11 02:01:23', 0, NULL, 5, 0, 0, NULL, '2024-11-22 00:19:18'),
+('00003', 'rht.krt@gmail.com', 'volunteer', '$2y$12$V7A2GOSUdQgSk.EwzPdE.elMi29NAzgkxYZdVpfdhepWW86LsmCSa', NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 1, NULL, 0, NULL, 5, 0, 1, NULL, NULL),
+('00004', 'as2@gmail.com', 'volunteer', '$2y$12$jVXp.L4xCT/eGMS1mvziT.RyvbmZ57Rqx9L9gCBP/lOyXs8B34ucO', NULL, '2024-09-26 15:50:49', '2024-09-26 15:50:49', 0, NULL, 0, NULL, 5, 0, 1, NULL, NULL),
+('00005', 'real@gmail.com', 'volunteer', '$2y$12$6K3SsBVUR/cfj.pZhCJr/O3cMTtm.qVlP6kc7H6S1VJDyfzxhMqpa', NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1, NULL, 0, NULL, 5, 0, 1, NULL, NULL),
+('00006', 'test@test.com', 'admin', '$2y$12$QGwn3t/.ezDJOy28KOWKIOSuuOqvL45e8OWBVWhDB3kM/bKzkZhyW', NULL, '2024-11-16 16:48:03', '2024-11-16 16:48:03', 1, NULL, 0, NULL, 5, 0, 1, NULL, NULL),
+('org-001', 'organization@gmail.com', 'organization', '$2y$12$eohVVZ72P3qUd9MFC/eKFOmQIHraB1FLZsIS3bLKuc5Gdk31p3I8a', NULL, '2024-09-20 07:52:52', '2024-11-22 00:42:32', 1, '2024-11-05 02:24:37', 0, NULL, 5, 0, 1, NULL, '2024-11-22 00:52:20'),
+('org-002', 'org2@gmail.com', 'organization', '$2y$12$R1fNsPbwj5ZicKAPcZPnDe6XoqPKjfmkOl6mYNFBxGMoQW4Mif9gO', NULL, '2024-09-20 10:18:14', '2024-09-20 10:18:14', 1, '2024-11-19 19:56:25', 0, NULL, 5, 0, 1, NULL, NULL),
+('org-003', 'org@gmail.com', 'organization', '$2y$12$iebVwhgixO161EblQEmMruTLsMtLZnrmvjeA42AgCXPLIJm/bojCC', NULL, '2024-11-07 13:34:29', '2024-11-07 13:34:29', 0, NULL, 0, NULL, 5, 0, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -675,6 +709,14 @@ ALTER TABLE `activity_categories`
 ALTER TABLE `activity_milestones`
   ADD PRIMARY KEY (`id`),
   ADD KEY `activity_milestones_activity_id_foreign` (`activity_id`);
+
+--
+-- Indexes for table `activity_requests`
+--
+ALTER TABLE `activity_requests`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `activity_requests_volunteer_userid_foreign` (`volunteer_userid`),
+  ADD KEY `activity_requests_approved_by_foreign` (`approved_by`);
 
 --
 -- Indexes for table `activity_volunteers`
@@ -847,7 +889,13 @@ ALTER TABLE `activity_categories`
 -- AUTO_INCREMENT for table `activity_milestones`
 --
 ALTER TABLE `activity_milestones`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `activity_requests`
+--
+ALTER TABLE `activity_requests`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `activity_volunteers`
@@ -901,13 +949,13 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `milestone_reads`
 --
 ALTER TABLE `milestone_reads`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `poll_options`
@@ -942,6 +990,13 @@ ALTER TABLE `activities`
 --
 ALTER TABLE `activity_milestones`
   ADD CONSTRAINT `activity_milestones_activity_id_foreign` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`activityid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `activity_requests`
+--
+ALTER TABLE `activity_requests`
+  ADD CONSTRAINT `activity_requests_approved_by_foreign` FOREIGN KEY (`approved_by`) REFERENCES `organizations` (`userid`) ON DELETE SET NULL,
+  ADD CONSTRAINT `activity_requests_volunteer_userid_foreign` FOREIGN KEY (`volunteer_userid`) REFERENCES `volunteers` (`userid`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `activity_volunteers`

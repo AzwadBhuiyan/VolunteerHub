@@ -7,18 +7,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Volunteer;
 use App\Models\ActivityCategory;
+use Illuminate\Support\Facades\DB;
+use App\Models\ActivityRequest;
 
 class ActivityController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
         if (!Auth::user()->organization) {
-            return redirect()->route('dashboard')
-                ->with('error', 'Only organizations can create activities.');
+            return redirect()->route('dashboard')->with('error', 'Only organizations can create activities.');
         }
-        
-        $categories = ActivityCategory::all();
-        return view('activities.create', compact('categories'));
+    
+        $activityRequest = null;
+        if ($request->has('request_id')) {
+            $activityRequest = ActivityRequest::findOrFail($request->request_id);
+        }
+    
+        return view('activities.create', compact('activityRequest'));
     }
     
 
@@ -71,8 +76,6 @@ class ActivityController extends Controller
         $validatedData['userid'] = Auth::id();
         $validatedData['status'] = 'open';
 
-        $activity = Activity::create($validatedData);
-
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $extension = $image->getClientOriginalExtension();
@@ -86,7 +89,37 @@ class ActivityController extends Controller
             $image->move($path, $filename);
         }
 
-        return redirect()->route('dashboard')->with('success', 'Activity created successfully.');
+        DB::beginTransaction();
+        try {
+            if ($request->has('request_id')) {
+                // Lock the row for update to prevent race conditions
+                $activityRequest = ActivityRequest::where('id', $request->request_id)
+                    ->lockForUpdate()
+                    ->first();
+
+                if (!$activityRequest || $activityRequest->status === 'approved' || $activityRequest->activity_id) {
+                    DB::rollBack();
+                    return back()->with('error', 'This request has already been processed by another organization.');
+                }
+            }
+
+            $activity = Activity::create($validatedData);
+
+            if (isset($activityRequest)) {
+                $activityRequest->update([
+                    'status' => 'approved',
+                    'activity_id' => $activity->id,
+                    'approved_by' => Auth::user()->organization->userid
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->route('activities.show', $activity)
+                ->with('success', 'Activity created successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Failed to create activity. Please try again.');
+        }
     }
 
     public function edit(Activity $activity)

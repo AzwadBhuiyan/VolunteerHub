@@ -1,6 +1,5 @@
 <div class="space-y-6">
     <!-- Welcome Section -->
-  
     <div class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white">
         {{-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#34C759" class="h-10 w-10"
             viewBox="0 0 16 16">
@@ -17,6 +16,45 @@
             <p class="text-base text-center">
                 On this page, you can view your stats, completed projects, and more.
         </p>
+
+        @php
+            use App\Models\ActivityRequest;
+            $volunteerLevel = Auth::user()->volunteer->getLevel();
+            $monthlyLimit = match($volunteerLevel) {
+                '2' => 1,
+                '3', '4' => 3,
+                '5' => 5,
+                default => 0
+            };
+            
+            $usedRequests = ActivityRequest::getMonthlyRequestCount(Auth::user()->volunteer->userid);
+            $remainingRequests = max(0, $monthlyLimit - $usedRequests);
+            $canRequest = $remainingRequests > 0;
+        @endphp
+
+        @if($monthlyLimit >= 0)
+            <div class="mt-4">
+                @if($canRequest)
+                    <a href="{{ route('activity-requests.create') }}" 
+                       class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-lg hover:from-blue-600 hover:to-green-600 transition-all duration-300 shadow-lg">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                        </svg>
+                        Request New Activity
+                    </a>
+                    <p class="text-sm text-gray-300 mt-2">
+                        Monthly Requests Remaining: {{ $remainingRequests }} of {{ $monthlyLimit }}
+                    </p>
+                @else
+                    <div class="text-yellow-400 bg-yellow-900 px-4 py-2 rounded-lg">
+                        <p class="text-sm">
+                            You've reached your monthly limit of {{ $monthlyLimit }} requests. 
+                            New requests will be available next month.
+                        </p>
+                    </div>
+                @endif
+            </div>
+        @endif
     </div>
     <!-- Stats Section -->
     <div class="flex flex-row gap-4 mb-6 mx-1 overflow-x-hidden">

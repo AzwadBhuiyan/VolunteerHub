@@ -49,17 +49,24 @@
                         <div class="space-y-6">
                             <!-- Title -->
                             <div>
-                                <x-text-input id="title"
-                                    class="block w-full border-gray-300 rounded-lg shadow-sm focus:border-blue-500 focus:ring-blue-500 transition"
-                                    type="text" name="title" :value="old('title')" placeholder="Enter Project Title"
-                                    required autofocus />
+                                <x-input-label for="title" value="Title" />
+                                <x-text-input id="title" 
+                                              name="title" 
+                                              type="text" 
+                                              class="mt-1 block w-full" 
+                                              value="{{ isset($activityRequest) ? $activityRequest->title : old('title') }}"
+                                              required />
+                                <x-input-error :messages="$errors->get('title')" class="mt-2" />
                             </div>
 
                             <!-- Description -->
                             <div>
-                                <textarea id="description" name="description"
-                                    class="block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    rows="4" required placeholder="Enter Project Description">{{ old('description') }}</textarea>
+                                <x-input-label for="description" value="Description" />
+                                <textarea id="description" 
+                                          name="description" 
+                                          rows="4" 
+                                          class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                                          required>{{ isset($activityRequest) ? $activityRequest->description : old('description') }}</textarea>
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
                             </div>
 
@@ -129,12 +136,17 @@
                                 </div>
 
                                 <div>
-                                    <select id="district" name="district"
-                                        class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                        required>
-                                        <option value="">Select district</option>
-                                        @foreach (config('districts.districts') as $district)
-                                            <option value="{{ $district }}">{{ $district }}</option>
+                                    <x-input-label for="district" value="District" />
+                                    <select id="district" 
+                                            name="district" 
+                                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                                            required>
+                                        <option value="">Select District</option>
+                                        @foreach(config('districts.districts') as $district)
+                                            <option value="{{ $district }}" 
+                                                {{ (isset($activityRequest) && $activityRequest->district === $district) ? 'selected' : '' }}>
+                                                {{ $district }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <x-input-error :messages="$errors->get('district')" class="mt-2" />

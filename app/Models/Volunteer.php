@@ -137,7 +137,7 @@ class Volunteer extends Model
         return $this->comments()->count() + $this->pollVotes()->count();
     }
 
-
+    // Profile Completion
     public function getProfileCompletionPercentage()
     {
         $total = 5; // Total number of optional fields
@@ -185,4 +185,23 @@ class Volunteer extends Model
         return $this->getProfileCompletionPercentage() < 100;
     }
 
+    //Activity Request
+    public function activityRequests()
+    {
+        return $this->hasMany(ActivityRequest::class, 'volunteer_userid', 'userid');
+    }
+
+    public function canMakeRequest()
+    {
+        $level = $this->getLevel();
+        $monthlyLimit = match($level) {
+            '2' => 1,
+            '3', '4' => 3,
+            '5' => 5,
+            default => 0
+        };
+
+        $currentRequests = ActivityRequest::getMonthlyRequestCount($this->userid);
+        return $currentRequests < $monthlyLimit;
+    }
 }

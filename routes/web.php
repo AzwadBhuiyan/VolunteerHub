@@ -15,6 +15,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ActivityMilestoneController;
 use App\Http\Controllers\Auth\TwoFactorController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ActivityRequestController;
 
 Route::get('/connection', function () {
     try {
@@ -158,7 +159,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/volunteers/{volunteer}/unfollow', [FollowController::class, 'unfollowVolunteer'])->name('volunteers.unfollow');
     Route::patch('/volunteers/{volunteer}/toggle-follow', [FollowController::class, 'toggleFollow'])->name('volunteers.toggle-follow');
 
-    
+    //Activity Request
+    Route::get('/activity-requests', [ActivityRequestController::class, 'index'])->name('activity-requests.index');
+    Route::get('/activity-requests/create', [ActivityRequestController::class, 'create'])->name('activity-requests.create');
+    Route::post('/activity-requests', [ActivityRequestController::class, 'store'])->name('activity-requests.store');
+    Route::post('/activity-requests/{request}/approve', [ActivityRequestController::class, 'approve'])->name('activity-requests.approve');
+    Route::post('/activity-requests/{request}/reject', [ActivityRequestController::class, 'reject'])->name('activity-requests.reject');
+    Route::get('/activity-requests/{request}', [ActivityRequestController::class, 'show'])->name('activity-requests.show');
 
 });
 

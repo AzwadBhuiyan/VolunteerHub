@@ -113,6 +113,21 @@
                 </a>
             @endif
 
+            @if(Auth::user()->organization)
+            <a href="{{ route('activity-requests.index') }}" class="relative text-gray-500 hover:text-gray-700 icon-link">
+                <div class="flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
+                    </svg>
+                    @if(Auth::user()->organization && Auth::user()->organization->getUnreadRequestsCount() > 0)
+                        <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                            {{ Auth::user()->organization->getUnreadRequestsCount() }}
+                        </span>
+                    @endif
+                </div>
+            </a>
+            @endif
+
             <!-- Search Icon - Updated with conditional display -->
             <a href="#" class="relative text-gray-500 hover:text-gray-700 icon-link" id="search-toggle" 
                style="{{ Request::is('search*') || Request::is('/') ? 'display: none;' : '' }}">
