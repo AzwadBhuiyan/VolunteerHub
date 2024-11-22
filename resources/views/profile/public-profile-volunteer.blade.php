@@ -145,62 +145,66 @@
             {{-- <div class="bg-white shadow sm:rounded-lg"> --}}
             <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center"
                 style="border-bottom: 2px solid #8B9467; width: 50%; margin: 0 auto;">Accomplishments</h3>
-            <div class="max-w-3xl mx-auto  mt-4 mb-0 pb-0">
-                @foreach ($completedActivities as $activity)
-                    {{-- <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200"> --}}
-                        <div class="border border-gray-300 shadow-lg rounded-lg overflow-hidden mb-4 ">
-
-                        <!-- Activity Header -->
-                        <div class="p-3 flex items-center space-x-4 border-b  border-gray-100">
-                            <img src="{{ asset($activity->organization->getLogoPath()) }}"
-                                alt="{{ $activity->organization->org_name }}"
-                                class="w-10 h-10 rounded-full object-cover">
-                            <div class="flex flex-col ml-4">
-                                <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}</h4>
-                                <div class="text-xs text-gray-500">
-                                    <a href="{{ route('profile.public', $activity->organization->url) }}"
-                                        class="text-blue-500 hover:underline">
-                                        {{ $activity->organization->org_name }}
-                                    </a>
-                                    <span>.</span>
-                                    <span>{{ $activity->date->format('M d, Y') }}</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Activity Description -->
-                        <div class="px-3 py-1">
-                            <p class=" text-sm text-gray-700 leading-relaxed">
-                                {{ $activity->accomplished_description }}
-                            </p>
-                        </div>
-
-                        <!-- Activity Images -->
-                        <div class="px-2 py-2">
-                            <div class="aspect-w-1 aspect-h-1 w-full h-64">
-                                <x-activity-completed-images :activity="$activity" class="clickable-image"/>
-                            </div>
-                        </div>
-
-                        <!-- Activity Footer -->
-                        @if ($activity->status !== 'completed')
-                            <div class="px-6 py-4 bg-gray-500 mt-auto">
-                                <div class="flex justify-between items-center">
-
-                                    {{-- @if ($activity->status !== 'completed') --}}
-                                    <a href="{{ route('activities.show', $activity) }}"
-                                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-                                        View Details
-                                    </a>
-                                    {{-- @endif --}}
-                                </div>
-                            </div>
-                        @endif
-
-
+            
+                @if(!$profile->user->show_posts && Auth::id() !== $profile->userid)
+                    <div class="text-center py-8 bg-gray-50 rounded-lg shadow-inner my-4">
+                        <i class="fas fa-eye-slash text-gray-400 text-3xl mb-2"></i>
+                        <p class="text-gray-600">This user has chosen to keep their posts private</p>
                     </div>
-                @endforeach
-            </div>
+                @else
+                    <div class="max-w-3xl mx-auto  mt-4 mb-0 pb-0">
+                        @foreach ($completedActivities as $activity)
+                            {{-- <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200"> --}}
+                                <div class="border border-gray-300 shadow-lg rounded-lg overflow-hidden mb-4 ">
+
+                                <!-- Activity Header -->
+                                <div class="p-3 flex items-center space-x-4 border-b  border-gray-100">
+                                    <img src="{{ asset($activity->organization->getLogoPath()) }}"
+                                        alt="{{ $activity->organization->org_name }}"
+                                        class="w-10 h-10 rounded-full object-cover">
+                                    <div class="flex flex-col ml-4">
+                                        <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}</h4>
+                                        <div class="text-xs text-gray-500">
+                                            <a href="{{ route('profile.public', $activity->organization->url) }}"
+                                                class="text-blue-500 hover:underline">
+                                                {{ $activity->organization->org_name }}
+                                            </a>
+                                            <span>.</span>
+                                            <span>{{ $activity->date->format('M d, Y') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Activity Description -->
+                                <div class="px-3 py-1">
+                                    <p class=" text-sm text-gray-700 leading-relaxed">
+                                        {{ $activity->accomplished_description }}
+                                    </p>
+                                </div>
+
+                                <!-- Activity Images -->
+                                <div class="px-2 py-2">
+                                    <div class="aspect-w-1 aspect-h-1 w-full h-64">
+                                        <x-activity-completed-images :activity="$activity" class="clickable-image"/>
+                                    </div>
+                                </div>
+
+                                <!-- Activity Footer -->
+                                @if ($activity->status !== 'completed')
+                                    <div class="px-6 py-4 bg-gray-500 mt-auto">
+                                        <div class="flex justify-between items-center">
+                                            <a href="{{ route('activities.show', $activity) }}"
+                                                class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                                                View Details
+                                            </a>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+
+                @endif
         </div>
     </div>
 

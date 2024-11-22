@@ -74,7 +74,31 @@
                     min="3"
                     max="10"
                 />
-                <p class="text-xs text-gray-500 mt-1">Account will be temporarily locked after specified failed attempts (Coming soon)</p>
+                <p class="text-xs text-gray-500 mt-1">Account will be temporarily locked after specified failed attempts</p>
+            </div>
+        </div>
+
+        <!-- Post Visibility Settings -->
+        <div class="flex items-center">
+            <x-input-label for="show_posts" :value="__('Post Visibility')" class="w-1/4 mr-2 text-left" />
+            <div class="flex flex-col space-y-2">
+                <label class="inline-flex items-center">
+                    <input type="radio" 
+                        name="show_posts" 
+                        value="1" 
+                        class="form-radio" 
+                        {{ $user->show_posts ? 'checked' : '' }}>
+                    <span class="ml-2">Show my posts on profile</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" 
+                        name="show_posts" 
+                        value="0" 
+                        class="form-radio" 
+                        {{ !$user->show_posts ? 'checked' : '' }}>
+                    <span class="ml-2">Hide my posts from profile</span>
+                </label>
+                <p class="text-sm text-gray-500">When hidden, other users won't be able to see your posts on your profile. You will still see them.</p>
             </div>
         </div>
 

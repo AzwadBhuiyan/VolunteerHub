@@ -58,12 +58,22 @@
             <a href="{{ Auth::check() ? route('dashboard') : route('login') }}" class="relative text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('dashboard') ? 'text-blue-500' : '' }}">
                 <div class="icon-container">
                     <!-- Dashboard icon -->
-                 </svg>
-                    <svg class="h-7 w-7 {{ request()->routeIs('dashboard') ? 'fill-current text-blue-500' : 'fill-none' }}" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24" stroke="currentColor">
-                        <path d="M4 4h6v6H4V4zm0 10h6v6H4v-6zm10-10h6v6h-6V4zm0 10h6v6h-6v-6z"></path>
-                    </svg>
+                    <div class="relative">
+                        @if(Auth::check() && Auth::user()->volunteer)
+                            @php
+                                $totalUnreadMilestones = Auth::user()->volunteer->getUnreadMilestonesCount();
+                            @endphp
+                            @if($totalUnreadMilestones > 0)
+                                <span class="absolute -top-2 -right-2 px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full border border-red-700">
+                                    {{ $totalUnreadMilestones }}
+                                </span>
+                            @endif
+                        @endif
+                        <svg class="h-7 w-7 {{ request()->routeIs('dashboard') ? 'fill-current text-blue-500' : 'fill-none' }}" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24" stroke="currentColor">
+                            <path d="M4 4h6v6H4V4zm0 10h6v6H4v-6zm10-10h6v6h-6V4zm0 10h6v6h-6v-6z"></path>
+                        </svg>
+                    </div>
                     <span class="tooltip">{{ __('Dashboard') }}</span>
-
                 </div>
                 <div class="active-underline {{ request()->routeIs('dashboard') ? 'active' : '' }}"></div>
             </a>

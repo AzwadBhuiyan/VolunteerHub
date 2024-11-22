@@ -207,17 +207,18 @@ class ProfileController extends Controller
             'max_attempts' => ['required', 'integer', 'min:3', 'max:10'],
             'allow_follow' => ['sometimes', 'boolean'],
             'two_factor_enabled' => ['required', 'boolean'],
+            'show_posts' => ['required', 'boolean'],
         ]);
     
         $user = $request->user();
         
-        // Check if email is verified before enabling 2FA
         if ($validated['two_factor_enabled'] && !$user->hasVerifiedEmail()) {
             return back()->withErrors(['two_factor_enabled' => 'Please verify your email address before enabling 2FA.']);
         }
         
         $user->max_attempts = $validated['max_attempts'];
         $user->two_factor_enabled = $validated['two_factor_enabled'];
+        $user->show_posts = $validated['show_posts'];
         
         if ($user->volunteer) {
             $user->volunteer->allow_follow = $validated['allow_follow'] ?? false;
