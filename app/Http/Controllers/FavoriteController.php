@@ -82,13 +82,7 @@ class FavoriteController extends Controller
             })
             ->distinct();
 
-        $ongoingActivities = $ongoingActivitiesQuery->orderByRaw('
-            CASE 
-                WHEN (SELECT COUNT(*) FROM activity_volunteers WHERE activity_volunteers.activityid = activities.activityid AND approval_status = "approved") >= activities.min_volunteers THEN -50
-                WHEN DATEDIFF(activities.deadline, NOW()) <= 7 THEN (7 - DATEDIFF(activities.deadline, NOW())) * 10
-                ELSE 0
-            END - DATEDIFF(NOW(), activities.created_at) DESC
-        ')->paginate(10);
+        $ongoingActivities = $ongoingActivitiesQuery->orderByPriority()->paginate(10);
 
         $ideas = IdeaThread::whereIn('userid', $followedOrganizations)
             ->latest()

@@ -141,6 +141,7 @@
                     <x-activity-feed :activities="$activities" />
                 </div>
         </div>
+        <x-image-popup />
 </x-app-layout>
 
 <script>

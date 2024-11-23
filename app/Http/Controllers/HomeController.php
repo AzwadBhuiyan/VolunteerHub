@@ -18,8 +18,9 @@ class HomeController extends Controller
         $totalCompletedActivities = Activity::where('status', 'completed')->count();
 
         $activities = Activity::with('organization')
-            ->orderBy('date', 'desc')
-            ->paginate(10);
+        ->where('status', 'open')
+        ->orderByPriority()
+        ->paginate(10);
 
         $totalOrganizations = Organization::whereHas('user', function($query) {
             $query->where('verified', true);

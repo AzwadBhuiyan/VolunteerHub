@@ -106,5 +106,19 @@ class Activity extends Model
         // Higher scores indicate higher priority for display or notifications
         return $score;
     }
+
+    public function scopeOrderByPriority($query)
+    {
+        return $query->orderByRaw('
+            CASE 
+                WHEN (SELECT COUNT(*) FROM activity_volunteers 
+                    WHERE activity_volunteers.activityid = activities.activityid 
+                    AND approval_status = "approved") >= activities.min_volunteers THEN -50
+                WHEN DATEDIFF(activities.deadline, NOW()) <= 7 
+                    THEN (7 - DATEDIFF(activities.deadline, NOW())) * 10
+                ELSE 0
+            END - DATEDIFF(NOW(), activities.created_at) DESC
+        ');
+    }
     
 }
