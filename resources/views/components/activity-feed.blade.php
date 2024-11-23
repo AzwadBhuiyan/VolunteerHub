@@ -8,8 +8,8 @@
         @foreach($activities as $activity)
             <x-activity-card :activity="$activity" />
         @endforeach
-
-        <div class="mt-8">
+        <!-- Pagination Links -->
+        <div class="mt-6 px-4">
             {{ $activities->links() }}
         </div>
     </div>

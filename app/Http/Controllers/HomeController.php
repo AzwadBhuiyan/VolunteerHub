@@ -6,6 +6,7 @@ use Illuminate\View\View;
 use App\Models\Activity;
 use App\Models\Volunteer;
 use App\Models\Organization;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -16,18 +17,19 @@ class HomeController extends Controller
             $query->where('verified', true);
         })->count();
         $totalCompletedActivities = Activity::where('status', 'completed')->count();
-
+    
         $activities = Activity::with('organization')
-        ->where('status', 'open')
-        ->orderByPriority()
-        ->paginate(10);
-
+            ->where('status', 'open')
+            ->orderByPriority()
+            ->paginate(10);
+    
         $totalOrganizations = Organization::whereHas('user', function($query) {
             $query->where('verified', true);
         })->count();
-
+    
         return view('home', compact('totalHours', 'totalVolunteers', 'totalOrganizations', 'totalCompletedActivities', 'activities'));
     }
+    
     public function test(): View
     {
         return view('test');

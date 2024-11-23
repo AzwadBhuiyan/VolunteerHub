@@ -144,11 +144,14 @@
                 
                     
 
-                <div class="space-y-8 mt-4">
+                <div class="space-y-8 mt-4" id="activities-container">
                     <x-activity-feed :activities="$activities" />
                 </div>
+
         </div>
         <x-image-popup />
+
+
 </x-app-layout>
 
 <script>
