@@ -23,7 +23,9 @@ class ActivityController extends Controller
             $activityRequest = ActivityRequest::findOrFail($request->request_id);
         }
     
-        return view('activities.create', compact('activityRequest'));
+        $categories = ActivityCategory::all();
+
+        return view('activities.create', compact('activityRequest', 'categories'));
     }
     
 
