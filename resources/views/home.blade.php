@@ -127,7 +127,14 @@
                         class="mt-8 inline-flex items-center justify-center px-6 py-2.5 border border-transparent text-sm font-medium rounded-md text-white bg-gradient-to-r from-blue-600 to-blue-800 hover:from-green-900 hover:to-blue-900 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-lg hover:shadow-xl">
                         Explore Now
                     </a>
-
+                    
+                    <div class="flex justify-center mb-8">
+                        <a href="{{ route('activities.feed') }}" 
+                            class="inline-flex items-center px-6 py-3 bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl text-white font-bold rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
+                            <i class="fas fa-trophy mr-2"></i>
+                            View Accomplished Activities
+                        </a>
+                    </div>
 
 
                 </div>

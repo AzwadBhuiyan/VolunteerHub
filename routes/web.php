@@ -106,6 +106,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/activities/create', [ActivityController::class, 'create'])->name('activities.create');
     Route::post('/activities', [ActivityController::class, 'store'])->name('activities.store');
     Route::get('/activities-list', [ActivityController::class, 'index'])->name('activities.index');
+    Route::get('/activities/feed', [ActivityController::class, 'feed'])->name('activities.feed');
     // TURNED PUBLIC // Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
     Route::get('/activities/{activity}/edit', [ActivityController::class, 'edit'])->name('activities.edit');
     Route::put('/activities/{activity}', [ActivityController::class, 'update'])->name('activities.update');

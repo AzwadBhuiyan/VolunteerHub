@@ -31,11 +31,12 @@ class ActivityController extends Controller
 
     public function feed()
     {
-        $activities = Activity::with('organization')
+        $completedActivities = Activity::with('organization')
+            ->where('status', 'completed')
             ->orderBy('date', 'desc')
             ->paginate(10);
     
-        return view('activities.feed', compact('activities'));
+        return view('activities.feed', compact('completedActivities'));
     }
 
     public function show(Activity $activity)
