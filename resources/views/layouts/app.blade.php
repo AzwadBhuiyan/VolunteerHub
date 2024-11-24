@@ -23,6 +23,7 @@
         <link rel="icon" href="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" type="image/png"> <!-- Favicon -->
         
     </head>
+
     <body class="font-sans antialiased">
         <div class="min-h-full bg-white">
             @include('layouts.navigation')

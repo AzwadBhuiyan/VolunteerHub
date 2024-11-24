@@ -1,7 +1,13 @@
 <x-app-layout>
+    <!-- @auth
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <div data-user-type="{{ Auth::user()->role === 'organization' ? 'organization' : 'volunteer' }}">
+    @endauth -->
 
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <link href="{{ asset('css/tutorial.css') }}" rel="stylesheet" />
+
 
 
     <div class="max-w-full overflow-x-hidden mt-20">
@@ -139,9 +145,10 @@
 
                 </div>
                 {{-- <h1 class="text-3xl font-bold mb-4">Explore Idea Board</h1> --}}
-                <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center"
-                    style="border-bottom: 2px solid transparent; border-image: linear-gradient(to right, #3B82F6, #10B981, #3B82F6); border-image-slice: 1; width: 50%; margin: 0 auto;">Latest Activities</h3>
-                
+                <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center latest-activities"
+                    style="border-bottom: 2px solid transparent; border-image: linear-gradient(to right, #3B82F6, #10B981, #3B82F6); border-image-slice: 1; width: 50%; margin: 0 auto;">
+                    Latest Activities
+                </h3>
                     
 
                 <div class="space-y-8 mt-4" id="activities-container">
@@ -151,6 +158,9 @@
         </div>
         <x-image-popup />
 
+        <script src="{{ asset('js/tutorials.js') }}"></script>
+   
+</body>
 
 </x-app-layout>
 
