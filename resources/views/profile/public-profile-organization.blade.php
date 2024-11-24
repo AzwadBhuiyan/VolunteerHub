@@ -16,7 +16,8 @@
 
 
         <!-- Main Content -->
-        <main class="bg-white shadow-md ">
+        <main class="bg-white shadow-md mb-0">
+            
 
             <!-- // to check if image exists -->
             @php

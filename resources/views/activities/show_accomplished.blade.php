@@ -1,4 +1,5 @@
 <x-app-layout>
+    
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             Accomplished Activity: {{ $activity->title }}
@@ -10,7 +11,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
-                        <p class="font-bold">Accomplished Activity</p>
+                        <p class="font-bold">Accomplished Activitys</p>
                         <p>This activity has been successfully completed.</p>
                     </div>
 

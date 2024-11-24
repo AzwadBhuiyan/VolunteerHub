@@ -58,21 +58,19 @@
             <a href="{{ Auth::check() ? route('dashboard') : route('login') }}" class="relative text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('dashboard') ? 'text-blue-500' : '' }}">
                 <div class="icon-container">
                     <!-- Dashboard icon -->
-                    <div class="relative">
-                        @if(Auth::check() && Auth::user()->volunteer)
-                            @php
-                                $totalUnreadMilestones = Auth::user()->volunteer->getUnreadMilestonesCount();
-                            @endphp
-                            @if($totalUnreadMilestones > 0)
-                                <span class="absolute -top-2 -right-2 px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full border border-red-700">
-                                    {{ $totalUnreadMilestones }}
-                                </span>
-                            @endif
+                    @if(Auth::check() && Auth::user()->volunteer)
+                        @php
+                            $totalUnreadMilestones = Auth::user()->volunteer->getUnreadMilestonesCount();
+                        @endphp
+                        @if($totalUnreadMilestones > 0)
+                            <span class="absolute top-3 right-3.5 px-1 py-0.5 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full border border-red-700">
+                                {{ $totalUnreadMilestones }}
+                            </span>
                         @endif
-                        <svg class="h-7 w-7 {{ request()->routeIs('dashboard') ? 'fill-current text-blue-500' : 'fill-none' }}" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewBox="0 0 24 24" stroke="currentColor">
-                            <path d="M4 4h6v6H4V4zm0 10h6v6H4v-6zm10-10h6v6h-6V4zm0 10h6v6h-6v-6z"></path>
-                        </svg>
-                    </div>
+                    @endif
+                    <svg class="h-7 w-7 nav-icon {{ request()->routeIs('dashboard') ? 'active-icon' : '' }}" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M4 4h6v6H4V4zm0 10h6v6H4v-6zm10-10h6v6h-6V4zm0 10h6v6h-6v-6z"></path>
+                    </svg>
                     <span class="tooltip">{{ __('Dashboard') }}</span>
                 </div>
                 <div class="active-underline {{ request()->routeIs('dashboard') ? 'active' : '' }}"></div>
@@ -96,35 +94,21 @@
                 </a>
             @endif
 
-            <!-- New Idea Board Icon with updated visibility conditions -->
-            @if(Auth::user()->volunteer && (Request::is('/') || Request::is('search*')))
-                <a href="{{ route('idea_board.index') }}" class="relative text-gray-500 hover:text-gray-700 icon-link">
-                    <div class="icon-container">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-                             fill="{{ request()->routeIs('idea_board.index') ? 'currentColor' : 'none' }}" 
-                             class="h-7 w-7 nav-icon {{ request()->routeIs('idea_board.index') ? 'active-icon' : '' }}" 
-                             viewBox="0 0 16 16">
-                            <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12.93A5.93 5.93 0 1 1 8 2.07 5.93 5.93 0 0 1 8 13.93z" fill="{{ request()->routeIs('idea_board.index') ? '#007bff' : 'currentColor' }}" stroke="{{ request()->routeIs('idea_board.index') ? '#007bff' : 'currentColor' }}" stroke-width="0.1" />
-                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" fill="{{ request()->routeIs('idea_board.index') ? '#007bff' : 'currentColor' }}" stroke="{{ request()->routeIs('idea_board.index') ? '#007bff' : 'currentColor' }}" stroke-width="0.1" />
-                        </svg>
-                        <span class="tooltip">{{ __('Ideas') }}</span>
-                    </div>
-                    <div class="active-underline {{ request()->routeIs('idea_board.index') ? 'active' : '' }}"></div>
-                </a>
-            @endif
-
+            <!-- Activity Requests link (for organizations) -->
             @if(Auth::user()->organization)
             <a href="{{ route('activity-requests.index') }}" class="relative text-gray-500 hover:text-gray-700 icon-link">
-                <div class="flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20" />
-                    </svg>
+                <div class="icon-container">
+                    <div class="h-7 w-7 nav-icon flex items-center justify-center">
+                        <i class="fas fa-list text-lg {{ request()->routeIs('activity-requests.index') ? 'text-blue-500' : '' }}"></i>
+                    </div>
                     @if(Auth::user()->organization && Auth::user()->organization->getUnreadRequestsCount() > 0)
                         <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
                             {{ Auth::user()->organization->getUnreadRequestsCount() }}
                         </span>
                     @endif
+                    <span class="tooltip whitespace-nowrap">Activity Requests</span>
                 </div>
+                <div class="active-underline {{ request()->routeIs('activity-requests.index') ? 'active' : '' }}"></div>
             </a>
             @endif
 
@@ -142,6 +126,23 @@
                     <span class="tooltip">{{ __('Search') }}</span>
                 </div>
             </a>
+
+            <!-- New Idea Board Icon with updated visibility conditions -->
+            @if((Auth::user()->volunteer || Auth::user()->is_admin || Auth::user()->organization) && (Request::is('/') || Request::is('search*')))
+                <a href="{{ route('idea_board.index') }}" class="relative text-gray-500 hover:text-gray-700 icon-link">
+                    <div class="icon-container">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                             fill="{{ request()->routeIs('idea_board.index') ? 'currentColor' : 'none' }}" 
+                             class="h-7 w-7 nav-icon {{ request()->routeIs('idea_board.index') ? 'active-icon' : '' }}" 
+                             viewBox="0 0 16 16">
+                            <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 12.93A5.93 5.93 0 1 1 8 2.07 5.93 5.93 0 0 1 8 13.93z" fill="{{ request()->routeIs('idea_board.index') ? '#007bff' : 'currentColor' }}" stroke="{{ request()->routeIs('idea_board.index') ? '#007bff' : 'currentColor' }}" stroke-width="0.1" />
+                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" fill="{{ request()->routeIs('idea_board.index') ? '#007bff' : 'currentColor' }}" stroke="{{ request()->routeIs('idea_board.index') ? '#007bff' : 'currentColor' }}" stroke-width="0.1" />
+                        </svg>
+                        <span class="tooltip">{{ __('Ideas') }}</span>
+                    </div>
+                    <div class="active-underline {{ request()->routeIs('idea_board.index') ? 'active' : '' }}"></div>
+                </a>
+            @endif
 
         @endauth
     </div>
