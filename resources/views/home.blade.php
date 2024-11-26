@@ -113,6 +113,13 @@
                     </div>
                 </div>
 
+                <div class="flex justify-center mb-8">
+                    <a href="{{ route('activities.feed') }}" 
+                        class="inline-flex items-center px-6 py-3 bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl text-white font-bold rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
+                        <i class="fas fa-trophy mr-2"></i>
+                        View Accomplished Projects
+                    </a>
+                </div>
 
 
 
@@ -134,14 +141,7 @@
                         Explore Now
                     </a>
                     
-                    <div class="flex justify-center mb-8">
-                        <a href="{{ route('activities.feed') }}" 
-                            class="inline-flex items-center px-6 py-3 bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl text-white font-bold rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-                            <i class="fas fa-trophy mr-2"></i>
-                            View Accomplished Activities
-                        </a>
-                    </div>
-
+               
 
                 </div>
                 {{-- <h1 class="text-3xl font-bold mb-4">Explore Idea Board</h1> --}}
