@@ -24,17 +24,17 @@
 </head>
 
 <body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 ">
-        {{-- @include('layouts.navigation') --}}
-        <div>
+    <div class="min-h-screen flex flex-col">
+        <div class="flex-grow flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
+            <div>
+                <a href="/">
+                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                </a>
+            </div>
 
-        </div>
-
-        <div class="w-full  sm:max-w-md pt-8 px-8 bg-white shadow-lg overflow-hidden sm:rounded-lg">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-            {{ $slot }}
+            <div class="w-full sm:max-w-md pt-8 px-8 bg-white shadow-lg overflow-hidden sm:rounded-lg">
+                {{ $slot }}
+            </div>
         </div>
 
         @include('layouts.footer')

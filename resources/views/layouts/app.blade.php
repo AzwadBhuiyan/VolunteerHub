@@ -26,22 +26,23 @@
     </head>
 
     <body class="font-sans antialiased">
-        <div class="min-h-full bg-white">
+        <div class="min-h-screen flex flex-col bg-white">
             @include('layouts.navigation')
 
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 ">
+                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
             @endisset
 
             <!-- Page Content -->
-            <main>
+            <main class="flex-grow">
                 {{ $slot }}
             </main>
+            
             @include('layouts.footer')
         </div>
         @stack('scripts')
