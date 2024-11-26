@@ -2,13 +2,12 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
         <div
             class="w-full p-5 mx-auto shadow-lg flex flex-col items-center justify-center bg-gray-800 text-white text-center">
-            <i class="fas fa-list text-lg text-green-500"></i>
+            <i class="fas fa-trophy text-lg text-yellow-500"></i>
 
             <h2
                 class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2">
-                Volunteer Activity Requests</h2>
-            <p class="text-base">Explore volunteer activity requests from various regions across Bangladesh.
-                Transform these requests into impactful projects and contribute to community development.
+                Our Accomplishments</h2>
+            <p class="text-base">Organizations and volunteers from across Bangladesh have demonstrated their unwavering dedication and commitment to creating positive change through these remarkable projects.
             </p>
         </div>
 
