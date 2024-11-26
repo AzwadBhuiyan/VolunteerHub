@@ -156,7 +156,7 @@
                 </div>
 
         </div>
-        <x-image-popup />
+        <!-- <x-image-popup /> -->
 
         <script src="{{ asset('js/tutorials.js') }}"></script>
    

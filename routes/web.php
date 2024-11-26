@@ -111,7 +111,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // TURNED PUBLIC // Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
     Route::get('/activities/{activity}/edit', [ActivityController::class, 'edit'])->name('activities.edit');
     Route::put('/activities/{activity}', [ActivityController::class, 'update'])->name('activities.update');
-    Route::get('/activities/{activity}/accomplished', [ActivityController::class, 'showAccomplished'])->name('activities.show_accomplished');
+    // Route::get('/activities/{activity}/accomplished', [ActivityController::class, 'showAccomplished'])->name('activities.show_accomplished');
         // org->activities
     Route::patch('/activities/{activity}/update-status', [ActivityController::class, 'updateStatus'])->name('activities.updateStatus');
     Route::get('/activities/{activity}/complete', [ActivityController::class, 'complete'])->name('activities.complete');
@@ -180,8 +180,9 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 // Public activities feed
 Route::get('/activities-feed', [ActivityController::class, 'feed'])->name('activities.feed');
 
-// Individual Activity view
+// Individual Activity public view (ongoing & completed)
 Route::get('/activities/{activity}', [ActivityController::class, 'show'])->name('activities.show');
+Route::get('/activities/{activity}/accomplished', [ActivityController::class, 'showAccomplished'])->name('activities.show_accomplished');
 
 
 // Route::get('/home', function () {

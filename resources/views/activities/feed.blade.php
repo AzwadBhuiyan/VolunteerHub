@@ -28,7 +28,11 @@
                                     alt="{{ $activity->organization->org_name }}"
                                     class="w-10 h-10 rounded-full object-cover">
                                 <div class="flex flex-col ml-4">
-                                    <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}</h4>
+                                    <h4 class="text-base font-semibold text-gray-800">
+                                        <a href="{{ route('activities.show_accomplished', $activity) }}" class="hover:text-blue-600 transition-colors">
+                                            {{ $activity->title }}
+                                        </a>
+                                    </h4>
                                     <div class="text-xs text-gray-500">
                                         <a href="{{ route('profile.public', $activity->organization->url) }}"
                                             class="text-blue-500 hover:underline">
@@ -50,7 +54,9 @@
                             <!-- Activity Images -->
                             <div class="px-2 py-2">
                                 <div class="aspect-w-1 aspect-h-1 w-full h-64">
-                                    <x-activity-completed-images :activity="$activity" class="clickable-image" />
+                                    <a href="{{ route('activities.show_accomplished', $activity) }}" class="block w-full h-full">
+                                        <x-activity-completed-images :activity="$activity" class="clickable-image hover:opacity-90 transition-opacity" />
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -63,6 +69,4 @@
             </div>
         </div>
     </div>
-
-    <x-image-popup />
 </x-app-layout>

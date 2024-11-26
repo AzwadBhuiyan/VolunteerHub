@@ -9,6 +9,7 @@ use App\Models\Volunteer;
 use App\Models\ActivityCategory;
 use Illuminate\Support\Facades\DB;
 use App\Models\ActivityRequest;
+use Illuminate\Support\Facades\File;
 
 class ActivityController extends Controller
 {
@@ -28,7 +29,7 @@ class ActivityController extends Controller
         return view('activities.create', compact('activityRequest', 'categories'));
     }
     
-
+    // shows only completed activities
     public function feed()
     {
         $completedActivities = Activity::with('organization')

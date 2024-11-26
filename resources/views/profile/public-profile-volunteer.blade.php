@@ -163,7 +163,11 @@
                                         alt="{{ $activity->organization->org_name }}"
                                         class="w-10 h-10 rounded-full object-cover">
                                     <div class="flex flex-col ml-4">
-                                        <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}</h4>
+                                        <h4 class="text-base font-semibold text-gray-800">
+                                            <a href="{{ route('activities.show_accomplished', $activity) }}" class="hover:text-blue-600 transition-colors">
+                                                {{ $activity->title }}
+                                            </a>
+                                        </h4>
                                         <div class="text-xs text-gray-500">
                                             <a href="{{ route('profile.public', $activity->organization->url) }}"
                                                 class="text-blue-500 hover:underline">
@@ -176,16 +180,18 @@
                                 </div>
 
                                 <!-- Activity Description -->
-                                <div class="px-3 py-1">
-                                    <p class=" text-sm text-gray-700 leading-relaxed">
-                                        {{ $activity->accomplished_description }}
+                                <div class="px-4 py-1">
+                                    <p class="text-sm text-gray-700 leading-relaxed">
+                                        {{ $activity->description }}
                                     </p>
                                 </div>
 
                                 <!-- Activity Images -->
                                 <div class="px-2 py-2">
                                     <div class="aspect-w-1 aspect-h-1 w-full h-64">
-                                        <x-activity-completed-images :activity="$activity" class="clickable-image"/>
+                                        <a href="{{ route('activities.show_accomplished', $activity) }}" class="block w-full h-full">
+                                            <x-activity-completed-images :activity="$activity" class="clickable-image hover:opacity-90 transition-opacity"/>
+                                        </a>
                                     </div>
                                 </div>
 
@@ -208,7 +214,7 @@
         </div>
     </div>
 
-    <x-image-popup /> <!-- Component for image popup functionality -->
+    <!--<x-image-popup />--> <!-- Component for image popup functionality -->
 
     @push('scripts')
         @vite(['resources/js/popup.js']) <!-- Include JavaScript for popup functionality -->

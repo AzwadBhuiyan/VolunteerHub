@@ -70,8 +70,10 @@
         </div>
     @endif
     <div class="px-2 py-2">
-        <div class="aspect-w-4 aspect-h-3">
-            <x-activity-ongoing-image :activity="$activity" />
+        <div class="aspect-w-1 aspect-h-1">
+            <a href="{{ route('activities.show', $activity) }}" class="block w-full h-full">
+                <x-activity-ongoing-image :activity="$activity" class="hover:opacity-90 transition-opacity" />
+            </a>
         </div>
     </div>
     <div class="px-2 py-2 bg-gray-50 mt-auto">
