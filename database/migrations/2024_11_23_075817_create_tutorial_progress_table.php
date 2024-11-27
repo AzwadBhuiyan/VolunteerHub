@@ -12,16 +12,11 @@ return new class extends Migration
             $table->id();
             $table->string('userid');
             $table->string('page_name');
-            $table->boolean('completed')->default(false);
             $table->boolean('dont_show_again')->default(false);
             $table->integer('last_step_seen')->default(0);
             $table->timestamps();
 
-            // Foreign key constraint
-            $table->foreign('userid')->references('userid')->on('users')->onDelete('cascade');
-            
-            // Composite unique index
-            $table->unique(['userid', 'page_name']);
+            $table->foreign('userid')->references('userid')->on('volunteers')->onDelete('cascade');
         });
     }
 

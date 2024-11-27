@@ -16,6 +16,7 @@ use App\Http\Controllers\ActivityMilestoneController;
 use App\Http\Controllers\Auth\TwoFactorController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ActivityRequestController;
+use App\Http\Controllers\TutorialProgressController;
 
 Route::get('/connection', function () {
     try {
@@ -171,7 +172,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 });
 
-
+// tutorial progress
+// Route::get('/api/tutorial-progress/{path}', [TutorialProgressController::class, 'check'])
+//     ->middleware(['auth'])
+//     ->where('path', '.*');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])

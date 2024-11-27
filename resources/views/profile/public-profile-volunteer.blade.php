@@ -61,8 +61,8 @@
             <div class="btn-group"> <!-- Button group for profile actions -->
                 @if (Auth::id() == $profile->userid)
                     <!-- Check if the logged-in user is the profile owner -->
-                    <a href="{{ route('profile.edit') }}" class="btn"> <!-- Link to edit profile -->
-                        <i class="fas fa-pen"></i> Edit Profile <!-- Icon and text for editing profile -->
+                    <a href="{{ route('profile.edit') }}" class="btn" data-tutorial="edit-profile">
+                        <i class="fas fa-pen"></i> Edit Profile
                     </a>
                 @else
                     @if (Auth::check() && Auth::user()->volunteer)
@@ -85,19 +85,18 @@
                     @endif                    
                 @endif
                 
-                <div class="dropdown"> <!-- Dropdown for sharing options -->
-                    <button class="btn"> <!-- Share profile button -->
-                        <i class="fas fa-share-alt"></i> Share Profile <!-- Icon and text for sharing profile -->
+                <div class="dropdown" data-tutorial="share-profile">
+                    <button class="btn">
+                        <i class="fas fa-share-alt"></i> Share Profile
                     </button>
-                    <div class="dropdown-content"> <!-- Dropdown menu for sharing options -->
+                    <div class="dropdown-content">
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}"
-                            target="_blank">Facebook</a> <!-- Share on Facebook -->
+                            target="_blank">Facebook</a>
                         <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}"
-                            target="_blank">Twitter</a> <!-- Share on Twitter -->
+                            target="_blank">Twitter</a>
                         <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ urlencode(request()->url()) }}"
-                            target="_blank">LinkedIn</a> <!-- Share on LinkedIn -->
+                            target="_blank">LinkedIn</a>
                         <a href="#" class="copy-link" data-url="{{ request()->url() }}">Copy Link</a>
-                        <!-- Copy link option -->
                     </div>
                 </div>
                
@@ -110,41 +109,27 @@
              @endif
 
          
-            <div class="profile-stats"> <!-- Section for displaying profile statistics -->
-                <div class="stat-item"> <!-- Projects statistic -->
-                    <h3>Projects</h3> <!-- Projects header -->
-                    <p>{{ $completedActivities->count() }}</p> <!-- Display number of completed projects -->
+            <div class="profile-stats" data-tutorial="profile-stats">
+                <div class="stat-item">
+                    <h3>Projects</h3>
+                    <p>{{ $completedActivities->count() }}</p>
                 </div>
-                {{-- <div class="stat-item"> <!-- Badges statistic -->
-                    <h3>Badges</h3> <!-- Badges header -->
-                    <div class="badges-list"> <!-- Container for badges -->
-                        @if ($profile->Badges && is_array(json_decode($profile->Badges, true)) && count(json_decode($profile->Badges, true)) > 0)
-                            <!-- Check if there are badges -->
-                            @foreach (json_decode($profile->Badges, true) as $badge)
-                                <!-- Loop through each badge -->
-                                <span class="badge">{{ $badge }}</span> <!-- Display each badge -->
-                            @endforeach
-                        @else
-                            <span class="no-badge">No badges yet</span> <!-- Message if no badges -->
-                        @endif
-                    </div>
-                </div> --}}
-                <div class="stat-item"> <!-- Points statistic -->
-                    <h3>Points</h3> <!-- Points header -->
-                    <p>{{ $profile->Points }}</p> <!-- Display points -->
+                <div class="stat-item">
+                    <h3>Points</h3>
+                    <p>{{ $profile->Points }}</p>
                 </div>
-                <div class="stat-item"> <!-- Level statistic -->
-                    <h3>Level</h3> <!-- Level header -->
-                    <p>{{ $profile->getLevel() }}</p> <!-- Display user level -->
+                <div class="stat-item">
+                    <h3>Level</h3>
+                    <p>{{ $profile->getLevel() }}</p>
                 </div>
             </div>
-            {{-- </div> --}}
-
 
             
-            {{-- <div class="bg-white shadow sm:rounded-lg"> --}}
-            <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center"
-                style="border-bottom: 2px solid #8B9467; width: 50%; margin: 0 auto;">Accomplishments</h3>
+            <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center" 
+                data-tutorial="accomplishments"
+                style="border-bottom: 2px solid #8B9467; width: 50%; margin: 0 auto;">
+                Accomplishments
+            </h3>
             
                 @if(!$profile->user->show_posts && Auth::id() !== $profile->userid)
                     <div class="text-center py-8 bg-gray-50 rounded-lg shadow-inner my-4">
@@ -154,8 +139,7 @@
                 @else
                     <div class="max-w-3xl mx-auto  mt-4 mb-0 pb-0">
                         @foreach ($completedActivities as $activity)
-                            {{-- <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200"> --}}
-                                <div class="border border-gray-300 shadow-lg rounded-lg overflow-hidden mb-4 ">
+                            <div class="border border-gray-300 shadow-lg rounded-lg overflow-hidden mb-4 ">
 
                                 <!-- Activity Header -->
                                 <div class="p-3 flex items-center space-x-4 border-b  border-gray-100">
@@ -219,6 +203,12 @@
     @push('scripts')
         @vite(['resources/js/popup.js']) <!-- Include JavaScript for popup functionality -->
     @endpush
+    
+    @if (Auth::id() == $profile->userid)
+        <x-tutorial-popup/>
+    @endif
+
+
 </x-app-layout>
 
 <script>
@@ -237,3 +227,5 @@
         }
     });
 </script>
+
+

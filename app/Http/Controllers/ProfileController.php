@@ -11,6 +11,7 @@ use Illuminate\View\View;
 use App\Models\Volunteer;
 use App\Models\Organization;
 use App\Models\User;
+use App\Models\TutorialProgress;
 
 class ProfileController extends Controller
 {
@@ -20,14 +21,13 @@ class ProfileController extends Controller
         $profile = $user->volunteer ?? $user->organization;
         $activities = $user->activities()->latest()->take(5)->get();
 
-        $logMessages = session('profile_update_logs', []);
-        session()->forget('profile_update_logs');
+        $securityData = $this->getSecurityData();
         
         return view('profile.edit', [
             'user' => $user,
             'profile' => $profile,
             'activities' => $activities,
-            // 'logMessages' => $logMessages,
+            'anyTutorialDisabled' => $securityData['anyTutorialDisabled'],
         ]);
     }
 
@@ -208,6 +208,7 @@ class ProfileController extends Controller
             'allow_follow' => ['sometimes', 'boolean'],
             'two_factor_enabled' => ['required', 'boolean'],
             'show_posts' => ['required', 'boolean'],
+            'show_tutorials' => ['required', 'boolean'],
         ]);
     
         $user = $request->user();
@@ -225,9 +226,24 @@ class ProfileController extends Controller
             $user->volunteer->save();
         }
         
+        // Update tutorial settings
+        TutorialProgress::where('userid', $user->userid)
+            ->update(['dont_show_again' => !$validated['show_tutorials']]);
+        
         $user->save();
     
         return back()->with('status', 'security-updated');
+    }
+
+    private function getSecurityData()
+    {
+        $anyTutorialDisabled = TutorialProgress::where('userid', auth()->user()->userid)
+            ->where('dont_show_again', true)
+            ->exists();
+
+        return [
+            'anyTutorialDisabled' => $anyTutorialDisabled
+        ];
     }
 
 }

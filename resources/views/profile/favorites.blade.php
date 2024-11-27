@@ -8,12 +8,10 @@
  <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
         <!-- Centered container with responsive padding and vertical spacing -->
         <div class="p-1 sm:p-8 bg-white shadow sm:rounded-lg">
-            @if (
-                !$favorites ||
-                    (empty($favorites->favorite_categories) &&
-                        empty($favorites->favorite_districts) &&
-                        $volunteer->followedOrganizations->isEmpty()))
-                <div class="bg-yellow-100 border-yellow-500 text-yellow-700 p-4 mt-4 flex items-center" role="alert">
+            @if (!$favorites ||(empty($favorites->favorite_categories) &&
+                    empty($favorites->favorite_districts) &&
+                    $volunteer->followedOrganizations->isEmpty()))
+                <div  data-tutorial="add-favorites" class="bg-yellow-100 border-yellow-500 text-yellow-700 p-4 mt-4 flex items-center" role="alert">
                     <i class="bi bi-exclamation-triangle-fill text-2xl mr-4"></i>
                     <p>Please select your favorite categories and locations to see your favorite activities here.</p>
                 </div>
@@ -24,13 +22,12 @@
                 </div>
             @else
 
-            <div class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white">
+            <div  data-tutorial="add-favorites" class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white">
                 {{-- <h1 class="text-3xl font-bold mb-4">Explore Idea Board</h1> --}}
                 <i class="fas fa-heart text-lg text-green-500"></i>
            
 
-                <h2
-                    class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2 ">
+                <h2 class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2 ">
                     Explore Your Favorite Activities!</h2>
                     <p class="text-base">Here you can check out the latest accomplishments of the organizations and volunteers that you follow.</p>
 
@@ -50,7 +47,7 @@
             @endif
 
             <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center"
-            style="border-bottom: 2px solid #8B9467; width: 70%; margin: 0 auto;">Favorite Activities & Ideas</h3>
+            style="border-bottom: 2px solid #8B9467; width: 70%; margin: 0 auto;" data-tutorial="favorite-content">Favorite Activities & Ideas</h3>
 
 
             <div x-data="{ tab: 'ongoing' }" class="mb-6 mt-6">
@@ -156,4 +153,8 @@
         {{-- </div> --}}
     </div>
     <!-- <x-image-popup /> -->
+
+    <x-tutorial-popup/>
+
+
 </x-app-layout>

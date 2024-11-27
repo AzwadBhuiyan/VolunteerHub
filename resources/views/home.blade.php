@@ -6,9 +6,6 @@
 
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-    <link href="{{ asset('css/tutorial.css') }}" rel="stylesheet" />
-
-
 
     <div class="max-w-full overflow-x-hidden mt-20">
         {{-- @include('search.search-bar') --}}
@@ -113,7 +110,7 @@
                     </div>
                 </div>
 
-                <div class="flex justify-center mb-8">
+                <div class="flex justify-center mb-8" data-tutorial="accomplished-section">
                     <a href="{{ route('activities.feed') }}" 
                         class="inline-flex items-center px-6 py-3 bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl text-white font-bold rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
                         <i class="fas fa-trophy mr-2"></i>
@@ -124,7 +121,7 @@
 
 
                 <!-- Idea Board Link -->
-                <div class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center mt-4 bg-gray-800 text-white">
+                <div data-tutorial="idea-board-section" class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center mt-4 bg-gray-800 text-white">
                     {{-- <h1 class="text-3xl font-bold mb-4">Explore Idea Board</h1> --}}
                     <i class="fas fa-lightbulb text-lg text-yellow-600"></i>
 
@@ -145,7 +142,7 @@
 
                 </div>
                 {{-- <h1 class="text-3xl font-bold mb-4">Explore Idea Board</h1> --}}
-                <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center latest-activities"
+                <h3 data-tutorial="latest-activities" class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center latest-activities"
                     style="border-bottom: 2px solid transparent; border-image: linear-gradient(to right, #3B82F6, #10B981, #3B82F6); border-image-slice: 1; width: 50%; margin: 0 auto;">
                     Latest Activities
                 </h3>
@@ -156,11 +153,8 @@
                 </div>
 
         </div>
-        <!-- <x-image-popup /> -->
 
-        <script src="{{ asset('js/tutorials.js') }}"></script>
-   
-</body>
+        <x-tutorial-popup/>
 
 </x-app-layout>
 

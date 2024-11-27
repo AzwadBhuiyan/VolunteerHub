@@ -33,6 +33,26 @@ class RegisteredUserController extends Controller
         return User::generateUserid($userType);
     }
 
+    private function createTutorialProgress($userid)
+    {
+        // Page names from tutorial.js
+        $tutorialPages = [
+            'volunteer_dashboard',
+            'volunteer_profile',
+            'favorites',
+            'home'
+        ];
+
+        foreach ($tutorialPages as $pageName) {
+            \App\Models\TutorialProgress::create([
+                'userid' => $userid,
+                'page_name' => $pageName,
+                'dont_show_again' => false,
+                'last_step_seen' => 0
+            ]);
+        }
+    }
+
     /**
      * Handle an incoming registration request.
      *
@@ -114,6 +134,9 @@ class RegisteredUserController extends Controller
                     'bio' => null,
                     'allow_follow' => true  // Default to allowing follows
                 ]);
+
+                $this->createTutorialProgress($user->userid);
+
             } else {
                 Organization::create([
                     'userid' => $user->userid,

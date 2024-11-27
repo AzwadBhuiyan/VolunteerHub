@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TutorialProgressController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/tutorial-progress', [TutorialProgressController::class, 'check']);
-    Route::post('/tutorial-progress', [TutorialProgressController::class, 'save']);
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::post('/tutorial-progress', [TutorialProgressController::class, 'update']);
+    Route::get('/tutorial-progress/{path?}', [TutorialProgressController::class, 'check'])
+        ->where('path', '.*');
+    // Route::post('/tutorial-progress', [TutorialProgressController::class, 'save']);
 });

@@ -102,7 +102,32 @@
             </div>
         </div>
 
+        <!-- Tutorial Settings -->
+        <div class="flex items-center">
+            <x-input-label for="show_tutorials" :value="__('Tutorial Guidance')" class="w-1/4 mr-2 text-left" />
+            <div class="flex flex-col space-y-2">
+                <label class="inline-flex items-center">
+                    <input type="radio" 
+                        name="show_tutorials" 
+                        value="1" 
+                        class="form-radio" 
+                        {{ !$anyTutorialDisabled ? 'checked' : '' }}>
+                    <span class="ml-2">Enable all tutorials</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" 
+                        name="show_tutorials" 
+                        value="0" 
+                        class="form-radio" 
+                        {{ $anyTutorialDisabled ? 'checked' : '' }}>
+                    <span class="ml-2">Disable all tutorials</span>
+                </label>
+                <p class="text-sm text-gray-500">When enabled, tutorial guidance will be shown for all pages</p>
+            </div>
+        </div>
+
         <!-- Password Strength Indicator -->
+         <br><br>
         <div class="mt-6">
             <h3 class="text-sm font-medium text-gray-900 mb-2">{{ __('Current Password Strength') }}</h3>
             <div class="w-full bg-gray-200 rounded-full h-2.5">

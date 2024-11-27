@@ -35,7 +35,7 @@
         @endphp
 
    @if ($monthlyLimit >= 0)
-                <div class="flex flex-col items-center">
+                <div class="flex flex-col items-center" data-tutorial="request-activity">
                     @if ($canRequest)
                         <a href="{{ route('activity-requests.create') }}"
                             class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-full hover:from-blue-700 hover:to-green-700 transition-all duration-300 shadow-md">
@@ -66,7 +66,7 @@
     
 
         <!-- Stats Section -->
-        <div class="flex flex-row flex-wrap gap-2 mb-6 mx-1 overflow-x-hidden">
+        <div class="flex flex-row flex-wrap gap-2 mb-6 mx-1 overflow-x-hidden" data-tutorial="stats-section">
             <div
                 class="flex-1 min-w-[120px] max-w-[calc(50%-0.5rem)] bg-gradient-to-br from-blue-200 to-blue-300 p-3 rounded-lg shadow hover:from-blue-200 hover:to-blue-300 transition-all duration-300 border border-blue-100">
                 <h3 class="text-sm font-semibold text-black">Completed Projects</h3>
@@ -93,7 +93,7 @@
 
         <!-- Activity Graph Section -->
         <div class="my-2 px-4 rounded-lg shadow-lg border border-gray-200">
-            <div class="w-full p-8 mb-4">
+            <div class="w-full p-8 mb-4" data-tutorial="graph-section">
                 @php
                     $currentYear = request('year', date('Y'));
                 @endphp
@@ -342,7 +342,7 @@
         </script>
 
         <!-- Activities Table Section -->
-        <div class="bg-white overflow-hidden shadow-xl rounded-lg my-6">
+        <div class="bg-white overflow-hidden shadow-xl rounded-lg my-6" data-tutorial="activities-section">
             <div class="px-4 py-5 sm:px-6 border-b border-gray-700 bg-gray-800">
                 <h2 class="text-lg font-semibold text-white text-center">My Activities</h2>
             </div>
@@ -475,3 +475,5 @@
         </div>
     </div>
 {{-- </div> --}}
+
+<x-tutorial-popup/>

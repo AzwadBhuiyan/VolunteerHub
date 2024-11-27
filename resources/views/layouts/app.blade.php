@@ -22,6 +22,12 @@
         <!-- <link href="{{ asset('build/assets/app-X6JekhOX.css') }}" rel="stylesheet"> -->
         <script src="{{ asset('build/assets/app-BrtSY-Si.js') }}" defer></script>
         <link rel="icon" href="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" type="image/png"> <!-- Favicon -->
+
+        <!-- for tutorial popup -->
+        @if(auth()->check())
+            <link href="{{ asset('css/tutorial.css') }}" rel="stylesheet">
+            <script src="{{ asset('js/tutorial.js') }}" defer></script>
+        @endif
         
     </head>
 
