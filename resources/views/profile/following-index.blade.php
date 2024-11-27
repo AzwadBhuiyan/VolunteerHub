@@ -1,8 +1,7 @@
 <x-app-layout>
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
-        <!-- Centered container with responsive padding and vertical spacing -->
-        <div class="p-1 sm:p-8 bg-white shadow sm:rounded-lg">
+        
             <div class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white">
                 <i class="fas fa-users text-lg text-green-500"></i>
            
@@ -21,9 +20,10 @@
                     </a>
                 </div>
             </div>
-
+<!-- Centered container with responsive padding and vertical spacing -->
+<div class="p-1 sm:p-8 bg-white shadow sm:rounded-lg">
             <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center"
-            style="border-bottom: 2px solid #8B9467; width: 50%; margin: 0 auto;">Recent Accomplishments from your Following</h3>
+            style="border-bottom: 2px solid transparent; border-image: linear-gradient(to right, #3B82F6, #10B981, #3B82F6); border-image-slice: 1; width: 50%; margin: 0 auto;">Recent Accomplishments from your Following</h3>
             <div x-data="{ activityTab: 'organizations' }" class="border-t border-gray-200 mt-6">
              
                 <div class="flex justify-center space-x-2 mb-4 w-full">

@@ -127,7 +127,7 @@
             
             <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center" 
                 data-tutorial="accomplishments"
-                style="border-bottom: 2px solid #8B9467; width: 50%; margin: 0 auto;">
+                style="border-bottom: 2px solid transparent; border-image: linear-gradient(to right, #3B82F6, #10B981, #3B82F6); border-image-slice: 1; width: 50%; margin: 0 auto;">
                 Accomplishments
             </h3>
             

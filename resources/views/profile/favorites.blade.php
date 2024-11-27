@@ -7,7 +7,6 @@
 
  <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
         <!-- Centered container with responsive padding and vertical spacing -->
-        <div class="p-1 sm:p-8 bg-white shadow sm:rounded-lg">
             @if (!$favorites ||(empty($favorites->favorite_categories) &&
                     empty($favorites->favorite_districts) &&
                     $volunteer->followedOrganizations->isEmpty()))
@@ -46,8 +45,11 @@
         
             @endif
 
+            <div class="p-1 sm:p-8 bg-white shadow sm:rounded-lg">
+
+
             <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center"
-            style="border-bottom: 2px solid #8B9467; width: 70%; margin: 0 auto;" data-tutorial="favorite-content">Favorite Activities & Ideas</h3>
+            style="border-bottom: 2px solid transparent; border-image: linear-gradient(to right, #3B82F6, #10B981, #3B82F6); border-image-slice: 1; width: 70%; margin: 0 auto;" data-tutorial="favorite-content">Favorite Activities & Ideas</h3>
 
 
             <div x-data="{ tab: 'ongoing' }" class="mb-6 mt-6">
