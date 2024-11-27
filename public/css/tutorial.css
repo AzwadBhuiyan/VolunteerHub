@@ -7,48 +7,13 @@
                 0 2px 4px -1px rgba(0, 0, 0, 0.06),
                 0 0 0 1px rgba(0, 0, 0, 0.1);
     z-index: 99999;
+
+    margin-top: 35px;
+    margin-top: 35px;
+
+
 }
 
-.tutorial-arrow {
-    position: absolute;
-    width: 0;
-    height: 0;
-    border: 8px solid transparent;
-    z-index: 99999;
-}
-
-.tutorial-bubble[data-position="top"] .tutorial-arrow {
-    bottom: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-top-color: #000;
-}
-
-.tutorial-bubble[data-position="bottom"] .tutorial-arrow {
-    top: -16px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-bottom-color: #000;
-}
-
-/* Add a second arrow for the white fill */
-.tutorial-arrow::after {
-    content: '';
-    position: absolute;
-    border: 7px solid transparent;
-}
-
-.tutorial-bubble[data-position="top"] .tutorial-arrow::after {
-    border-top-color: white;
-    top: -9px;
-    left: -7px;
-}
-
-.tutorial-bubble[data-position="bottom"] .tutorial-arrow::after {
-    border-bottom-color: white;
-    top: -5px;
-    left: -7px;
-}
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
@@ -57,7 +22,11 @@
 
 @media (max-width: 640px) {
     .tutorial-bubble {
-        width: 250px;
+        width: 350px;
+        margin-top: 35px;
+        margin-top: 35px;
+
+
     }
 }
 
