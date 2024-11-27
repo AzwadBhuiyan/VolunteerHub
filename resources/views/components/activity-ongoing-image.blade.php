@@ -5,7 +5,7 @@
     $imageFullPath = public_path($imagePath);
     $imageFiles = File::exists($imageFullPath) ? File::files($imageFullPath) : [];
     $imageExists = !empty($imageFiles);
-    $imageSrc = $imageExists ? asset($imagePath . basename($imageFiles[0])) : asset('images/defaults/default-activity.jpg');
+    $imageSrc = $imageExists ? asset($imagePath . basename($imageFiles[0])) : asset('images/defaults/default-activity.webp');
 @endphp
 
 @if($imageExists)

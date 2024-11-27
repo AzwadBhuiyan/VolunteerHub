@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\TwoFactorCode;
 use App\Services\TwoFactorAuthService;
+use App\Models\User;
 
 class CustomLoginController extends Controller
 {
@@ -16,6 +17,14 @@ class CustomLoginController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
+
+        $user = User::where('email', $credentials['email'])->first();
+
+        if ($user && !$user->verified) {
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors(['email' => 'Your account is not verified. Please check your email for verification instructions.']);
+        }
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
@@ -36,8 +45,8 @@ class CustomLoginController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        return back()
+            ->withInput($request->only('email'))
+            ->withErrors(['email' => 'These credentials do not match our records.']);
     }
 }

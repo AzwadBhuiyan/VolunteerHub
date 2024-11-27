@@ -15,7 +15,9 @@
         <!-- Email -->
         <div class="mt-4">
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Email" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            @error('email')
+                <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
+            @enderror
         </div>
 
         <!-- Password -->
@@ -69,10 +71,12 @@
             const emailError = document.querySelector('.text-red-600');
             if (emailError) {
                 const errorMessage = emailError.textContent.toLowerCase();
-                if (errorMessage.includes('verify') || errorMessage.includes('unverified')) {
+                if (errorMessage.includes('not verified') || errorMessage.includes('verification')) {
                     const email = document.querySelector('#email').value;
-                    sessionStorage.setItem('email_for_verification', email);
-                    window.location.href = '/verify-email';
+                    if (email) {
+                        sessionStorage.setItem('email_for_verification', email);
+                        window.location.href = '/verify-email';
+                    }
                 }
             }
         });
