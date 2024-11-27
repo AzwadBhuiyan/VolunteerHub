@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        config(['app.name' => 'VolunteerHub']);
+        config(['app.name' => 'Kormonno']);
 
         if($this->app->environment('production')) {
             URL::forceScheme('https');
