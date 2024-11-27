@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 22, 2024 at 07:52 PM
+-- Generation Time: Nov 27, 2024 at 06:37 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -61,13 +61,13 @@ INSERT INTO `activities` (`activityid`, `userid`, `title`, `description`, `date`
 (5, 'org-001', 'EMERGENCY FLOOD RESCUE OPERATION', 'need 10 brave volunteers who are good swimmers', '2024-10-08', '06:28:00', 'Disaster Management', 'Gazipur', 'flood, bangladesh', '2024-10-07 23:28:00', 10, NULL, NULL, 'closed', '2024-10-04 18:29:14', '2024-11-20 15:07:32', NULL, NULL, 'easy', 0),
 (6, 'org-001', 'Activity 1', 'This is a description for Activity 1', '2024-10-12', '20:16:44', 'Fundraising', 'Barguna', 'Address for Activity 1', '2024-10-11 20:16:44', 5, 24, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'medium', 0),
 (7, 'org-001', 'Activity 2', 'This is a description for Activity 2', '2024-11-06', '20:16:44', 'Arts and Culture', 'Dhaka', 'Address for Activity 2', '2024-11-04 20:16:44', 7, 24, 'Lawyer', 'closed', '2024-10-07 14:16:44', '2024-11-18 17:01:17', NULL, NULL, 'medium', 0),
-(8, 'org-001', 'Activity 3', 'This is a description for Activity 3', '2024-10-20', '20:16:44', 'Advocacy', 'Dhaka', 'Address for Activity 3', '2024-10-15 20:16:44', 8, 15, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'medium', 0),
-(9, 'org-001', 'Activity 4', 'This is a description for Activity 4', '2024-11-03', '20:16:44', 'Agriculture', 'Gazipur', 'Address for Activity 4', '2024-11-01 20:16:44', 8, 24, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'easy', 0),
-(10, 'org-001', 'Activity 5', 'This is a description for Activity 5', '2024-10-23', '20:16:44', 'Agriculture', 'Faridpur', 'Address for Activity 5', '2024-10-19 20:16:44', 5, 23, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'easy', 0),
+(8, 'org-001', 'Activity 3', 'This is a description for Activity 3', '2024-10-20', '20:16:44', 'Advocacy', 'Dhaka', 'Address for Activity 3', '2024-10-15 20:16:44', 8, 15, NULL, 'open', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'medium', 0),
+(9, 'org-001', 'Activity 4', 'This is a description for Activity 4', '2024-11-03', '20:16:44', 'Agriculture', 'Gazipur', 'Address for Activity 4', '2024-11-01 20:16:44', 8, 24, NULL, 'open', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'easy', 0),
+(10, 'org-001', 'Activity 5', 'This is a description for Activity 5', '2024-10-23', '20:16:44', 'Agriculture', 'Faridpur', 'Address for Activity 5', '2024-10-19 20:16:44', 5, 23, NULL, 'open', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'easy', 0),
 (11, 'org-001', 'Activity 6', 'This is a description for Activity 6', '2024-11-02', '20:16:44', 'Arts and Culture', 'Bhola', 'Address for Activity 6', '2024-11-01 20:16:44', 7, 21, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'hard', 0),
-(12, 'org-001', 'Activity 7', 'This is a description for Activity 7', '2024-10-13', '20:16:44', 'Environment', 'Thakurgaon', 'Address for Activity 7', '2024-10-08 20:16:44', 8, 28, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'hard', 0),
+(12, 'org-001', 'Activity 7', 'This is a description for Activity 7', '2024-10-13', '20:16:44', 'Environment', 'Thakurgaon', 'Address for Activity 7', '2024-10-08 20:16:44', 8, 28, NULL, 'open', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'hard', 0),
 (13, 'org-001', 'Activity 8', 'This is a description for Activity 8', '2024-10-09', '20:16:44', 'Blood Donation', 'Manikganj', 'Address for Activity 8', '2024-10-05 20:16:44', 7, 18, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'severe', 0),
-(14, 'org-001', 'Activity 9', 'This is a description for Activity 9', '2024-10-20', '20:16:44', 'Advocacy', 'Nilphamari', 'Address for Activity 9', '2024-10-17 20:16:44', 6, 20, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'hard', 0),
+(14, 'org-001', 'Activity 9', 'This is a description for Activity 9', '2024-10-20', '20:16:44', 'Advocacy', 'Nilphamari', 'Address for Activity 9', '2024-10-17 20:16:44', 6, 20, NULL, 'open', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'hard', 0),
 (15, 'org-001', 'Activity 10', 'This is a description for Activity 10', '2024-10-15', '20:16:44', 'Fundraising', 'Kurigram', 'Address for Activity 10', '2024-10-13 20:16:44', 7, 23, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'medium', 0);
 
 -- --------------------------------------------------------
@@ -450,7 +450,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (62, '2024_11_22_084012_add_show_posts_to_users_table', 18),
 (63, '2024_11_22_091501_create_activity_requests_table', 19),
 (64, '2024_11_22_093819_add_last_requests_read_to_organizations_table', 20),
-(65, '2024_11_22_181015_add_activity_id_to_requests_table', 21);
+(65, '2024_11_22_181015_add_activity_id_to_requests_table', 21),
+(67, '2024_11_23_075817_create_tutorial_progress_table', 22);
 
 -- --------------------------------------------------------
 
@@ -473,13 +474,13 @@ CREATE TABLE `milestone_reads` (
 --
 
 INSERT INTO `milestone_reads` (`id`, `milestone_id`, `volunteer_userid`, `is_read`, `read_at`, `created_at`, `updated_at`) VALUES
-(1, 1, '00002', 1, '2024-11-22 00:43:41', '2024-10-27 13:34:45', '2024-11-22 00:43:41'),
-(2, 2, '00002', 1, '2024-11-22 00:43:41', '2024-10-27 13:34:50', '2024-11-22 00:43:41'),
-(3, 3, '00002', 1, '2024-11-22 00:43:41', '2024-10-27 13:35:15', '2024-11-22 00:43:41'),
-(4, 4, '00002', 1, '2024-11-22 00:43:41', '2024-10-27 13:57:25', '2024-11-22 00:43:41'),
+(1, 1, '00002', 1, '2024-11-26 19:09:27', '2024-10-27 13:34:45', '2024-11-26 19:09:27'),
+(2, 2, '00002', 1, '2024-11-26 19:09:27', '2024-10-27 13:34:50', '2024-11-26 19:09:27'),
+(3, 3, '00002', 1, '2024-11-26 19:09:27', '2024-10-27 13:35:15', '2024-11-26 19:09:27'),
+(4, 4, '00002', 1, '2024-11-26 19:09:27', '2024-10-27 13:57:25', '2024-11-26 19:09:27'),
 (5, 5, '00002', 1, '2024-11-03 13:07:38', '2024-11-03 11:46:35', '2024-11-03 13:07:38'),
-(6, 6, '00002', 1, '2024-11-22 00:43:41', '2024-11-11 10:40:49', '2024-11-22 00:43:41'),
-(7, 7, '00002', 1, '2024-11-22 00:43:41', '2024-11-22 00:43:19', '2024-11-22 00:43:41');
+(6, 6, '00002', 1, '2024-11-26 19:09:27', '2024-11-11 10:40:49', '2024-11-26 19:09:27'),
+(7, 7, '00002', 1, '2024-11-26 19:09:27', '2024-11-22 00:43:19', '2024-11-26 19:09:27');
 
 -- --------------------------------------------------------
 
@@ -508,7 +509,7 @@ CREATE TABLE `organizations` (
 --
 
 INSERT INTO `organizations` (`userid`, `url`, `org_name`, `primary_address`, `secondary_address`, `website`, `org_mobile`, `org_telephone`, `description`, `verification_status`, `created_at`, `updated_at`, `last_requests_read_at`) VALUES
-('org-001', 'rahatinc', 'rahat inc', 'dh', 'dh', 'https://www.facebook.com/rht.krmO.o/', '123', '132', 'we believe in hella money $$$$$', 'verified', '2024-09-20 07:52:52', '2024-11-22 12:38:00', '2024-11-22 12:38:00'),
+('org-001', 'rahatinc', 'rahat inc', 'dh', 'dh', 'https://www.facebook.com/rht.krmO.o/', '123', '132', 'we believe in hella money $$$$$', 'verified', '2024-09-20 07:52:52', '2024-11-22 23:41:32', '2024-11-22 23:41:32'),
 ('org-002', 'org-002', 'org', 'org', 'org', 'https://org@c.com', '91239', '123123', NULL, 'unverified', '2024-09-20 10:18:14', '2024-09-20 10:18:14', NULL),
 ('org-003', 'org-003', 'Gift for good', 'bashundhara r/a', 'bashundhara r/a', 'https://www.netflix.com/', '01990385489', '01288841', NULL, 'unverified', '2024-11-07 13:34:29', '2024-11-07 13:34:29', NULL);
 
@@ -590,6 +591,36 @@ CREATE TABLE `sessions` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tutorial_progress`
+--
+
+CREATE TABLE `tutorial_progress` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `userid` varchar(255) NOT NULL,
+  `page_name` varchar(255) NOT NULL,
+  `dont_show_again` tinyint(1) NOT NULL DEFAULT 0,
+  `last_step_seen` int(11) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `tutorial_progress`
+--
+
+INSERT INTO `tutorial_progress` (`id`, `userid`, `page_name`, `dont_show_again`, `last_step_seen`, `created_at`, `updated_at`) VALUES
+(1, '00002', 'volunteer_dashboard', 0, 0, NULL, NULL),
+(2, '00007', 'volunteer_dashboard', 0, 0, '2024-11-26 21:30:40', '2024-11-26 23:29:57'),
+(3, '00007', 'volunteer_profile', 0, 0, '2024-11-26 21:30:40', '2024-11-26 23:29:57'),
+(4, '00007', 'favorites', 1, 0, '2024-11-26 21:30:40', '2024-11-26 23:30:19'),
+(5, '00007', 'home', 0, 0, '2024-11-26 21:30:40', '2024-11-26 23:29:57'),
+(6, '00002', 'favorites', 0, 0, '2024-11-27 05:31:08', '2024-11-27 05:31:08'),
+(7, '00002', 'volunteer_profile', 0, 0, '2024-11-27 05:31:08', '2024-11-27 05:31:08'),
+(8, '00002', 'home', 0, 0, '2024-11-27 05:31:47', '2024-11-27 05:31:47');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -622,6 +653,7 @@ INSERT INTO `users` (`userid`, `email`, `role`, `password`, `remember_token`, `c
 ('00004', 'as2@gmail.com', 'volunteer', '$2y$12$jVXp.L4xCT/eGMS1mvziT.RyvbmZ57Rqx9L9gCBP/lOyXs8B34ucO', NULL, '2024-09-26 15:50:49', '2024-09-26 15:50:49', 0, NULL, 0, NULL, 5, 0, 1, NULL, NULL),
 ('00005', 'real@gmail.com', 'volunteer', '$2y$12$6K3SsBVUR/cfj.pZhCJr/O3cMTtm.qVlP6kc7H6S1VJDyfzxhMqpa', NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1, NULL, 0, NULL, 5, 0, 1, NULL, NULL),
 ('00006', 'test@test.com', 'admin', '$2y$12$QGwn3t/.ezDJOy28KOWKIOSuuOqvL45e8OWBVWhDB3kM/bKzkZhyW', NULL, '2024-11-16 16:48:03', '2024-11-16 16:48:03', 1, NULL, 0, NULL, 5, 0, 1, NULL, NULL),
+('00007', 'a@b.com', 'volunteer', '$2y$12$7savz3GUMPYzTDUWFMKxBuPvS.NxEPMVfLdT9ApGWit9W7u3N6Jzm', NULL, '2024-11-26 21:30:40', '2024-11-26 21:30:40', 1, '2024-11-27 03:31:31', 0, NULL, 5, 0, 1, NULL, NULL),
 ('org-001', 'organization@gmail.com', 'organization', '$2y$12$eohVVZ72P3qUd9MFC/eKFOmQIHraB1FLZsIS3bLKuc5Gdk31p3I8a', NULL, '2024-09-20 07:52:52', '2024-11-22 00:42:32', 1, '2024-11-05 02:24:37', 0, NULL, 5, 0, 1, NULL, '2024-11-22 00:52:20'),
 ('org-002', 'org2@gmail.com', 'organization', '$2y$12$R1fNsPbwj5ZicKAPcZPnDe6XoqPKjfmkOl6mYNFBxGMoQW4Mif9gO', NULL, '2024-09-20 10:18:14', '2024-09-20 10:18:14', 1, '2024-11-19 19:56:25', 0, NULL, 5, 0, 1, NULL, NULL),
 ('org-003', 'org@gmail.com', 'organization', '$2y$12$iebVwhgixO161EblQEmMruTLsMtLZnrmvjeA42AgCXPLIJm/bojCC', NULL, '2024-11-07 13:34:29', '2024-11-07 13:34:29', 0, NULL, 0, NULL, 5, 0, 1, NULL, NULL);
@@ -662,7 +694,8 @@ INSERT INTO `volunteers` (`userid`, `url`, `Name`, `Phone`, `NID`, `Gender`, `DO
 ('00002', 'TheGreatestVolunteerWhoLived', 'Abbas ali', '01990376524', '1293847561', 'M', '2024-09-25', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 33, 'Lawyer', NULL, 'I am TheGreatestVolunteerWhoLived. Bow down before me', '2024-09-20 07:54:58', '2024-11-13 13:33:44', 1),
 ('00003', '00003', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-11', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 1),
 ('00004', 'fatherTeresa', 'asdf', '01990376524', NULL, 'M', '1992-06-09', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Gopalganj', 0, 6, NULL, NULL, NULL, '2024-09-26 15:50:49', '2024-10-30 07:30:12', 0),
-('00005', '00005', 'Real Person', '01234567891', NULL, 'M', '2002-01-30', 'Not Set', 'Real Address', 'Real Address', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1);
+('00005', '00005', 'Real Person', '01234567891', NULL, 'M', '2002-01-30', 'Not Set', 'Real Address', 'Real Address', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1),
+('00007', '00007', 'abc', '12345689011', NULL, 'M', '1981-04-02', 'Not Set', 'abc', 'abc', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-11-26 21:30:40', '2024-11-26 21:30:40', 1);
 
 -- --------------------------------------------------------
 
@@ -848,6 +881,13 @@ ALTER TABLE `sessions`
   ADD KEY `sessions_last_activity_index` (`last_activity`);
 
 --
+-- Indexes for table `tutorial_progress`
+--
+ALTER TABLE `tutorial_progress`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tutorial_progress_userid_foreign` (`userid`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -913,7 +953,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `idea_comments`
@@ -949,7 +989,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `milestone_reads`
@@ -968,6 +1008,12 @@ ALTER TABLE `poll_options`
 --
 ALTER TABLE `poll_votes`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
+--
+-- AUTO_INCREMENT for table `tutorial_progress`
+--
+ALTER TABLE `tutorial_progress`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `volunteer_follows`
@@ -1064,6 +1110,12 @@ ALTER TABLE `poll_options`
 ALTER TABLE `poll_votes`
   ADD CONSTRAINT `poll_votes_idea_poll_id_foreign` FOREIGN KEY (`idea_poll_id`) REFERENCES `idea_polls` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `poll_votes_poll_option_id_foreign` FOREIGN KEY (`poll_option_id`) REFERENCES `poll_options` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `tutorial_progress`
+--
+ALTER TABLE `tutorial_progress`
+  ADD CONSTRAINT `tutorial_progress_userid_foreign` FOREIGN KEY (`userid`) REFERENCES `volunteers` (`userid`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `volunteers`
