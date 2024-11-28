@@ -1,6 +1,6 @@
 <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-<div class="bg-gray-700 py-0.5 px-3" style="box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);">
+<div class="bg-gray-700 py-0.5 px-3" style="box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); z-index: 9999;">
     <form action="{{ route('search') }}" method="GET" class="max-w-lg mx-auto my-1.5">
         <input type="hidden" name="category" id="selected-category" value="" required>
         <div class="flex">
