@@ -1,4 +1,4 @@
-<nav class="flex items-center relative sticky top-0 z-[99999] shadow-sm">
+<nav class="flex justify-between items-center">
     <div class="site-logo">
         <!-- Site logo linked to the home page -->
         <a href="{{ route('home') }}">
@@ -303,6 +303,23 @@ document.getElementById('search-toggle').addEventListener('click', function(e) {
 
     #dropdown-menu.hidden {
         display: none;
+    }
+
+    /* Add these new styles */
+    #search-container {
+        position: sticky;
+        top: 60px; /* Height of the navbar */
+        background-color: white;
+        z-index: 999; /* Just below the navbar's z-index */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 </style>
 
