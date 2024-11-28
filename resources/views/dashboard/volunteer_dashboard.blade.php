@@ -448,7 +448,7 @@
                                                 @endif
 
                                                 <div class="relative ml-8">
-                                                    <a href="{{ route('activities.show', $activity) }}"
+                                                    <a href="{{ route('activities.show_accomplished', $activity) }}"
                                                         class="text-purple-600 hover:text-purple-900">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                             height="24" fill="#3B82F6"

@@ -32,6 +32,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/load-more-activities', [HomeController::class, 'loadMore'])->name('activities.load-more');
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
+//footer links
+Route::view('/about', 'about')->name('about');
+Route::view('/contact', 'contact')->name('contact');
+Route::view('/terms', 'terms')->name('terms');
+Route::view('/privacy', 'privacy')->name('privacy');
 
 // Route::get('/', function () {
 //     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -84,8 +89,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-
-// Public profile route (accessible without authentication)
+// Public profile route
 Route::get('/profile/{url}', [PublicProfileController::class, 'show'])->name('profile.public');
 
 // Search routes
