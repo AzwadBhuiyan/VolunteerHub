@@ -25,6 +25,7 @@
                         <div class="mb-4">
                             <label for="poll_question" class="block text-gray-700 text-sm font-bold mb-2">Poll Question (optional):</label>
                             <input type="text" name="poll_question" id="poll_question" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <p class="text-sm text-gray-600 mt-1">If you want to create a poll instead of an idea thread copy your title here and add poll options which will appear below</p>
                         </div>
 
                         <div id="poll_options" class="mb-4">
@@ -48,9 +49,18 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const addOptionButton = document.getElementById('add_option');
+            const pollQuestion = document.getElementById('poll_question');
             const pollOptionsContainer = document.getElementById('poll_options');
+            const addOptionButton = document.getElementById('add_option');
             let optionCount = 1;
+
+            // Initially hide poll options
+            pollOptionsContainer.style.display = 'none';
+
+            // Show/hide poll options based on poll question
+            pollQuestion.addEventListener('input', function() {
+                pollOptionsContainer.style.display = this.value ? 'block' : 'none';
+            });
 
             addOptionButton.addEventListener('click', function() {
                 if (optionCount < 10) {

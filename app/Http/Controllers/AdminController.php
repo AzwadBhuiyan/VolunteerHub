@@ -11,6 +11,7 @@ use App\Models\IdeaThread;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -555,5 +556,84 @@ class AdminController extends Controller
             return back()->with('error', 'Failed to close expired activities.');
         }
     }
-    
+
+    public function createUser()
+    {
+        return view('admin.users.create_user');
+    }
+
+    public function storeUser(Request $request)
+    {
+        $this->checkAdminAccess();
+
+        $request->validate([
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:8',
+            'user_type' => 'required|in:volunteer,organization',
+            'verified' => 'required|boolean',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            // Create user
+            $user = User::create([
+                'userid' => 'U' . time() . rand(1000, 9999),
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => $request->user_type,
+                'verified' => $request->verified,
+            ]);
+
+            // Create volunteer or organization profile
+            if ($request->user_type === 'volunteer') {
+                $request->validate([
+                    'name' => 'required|string|max:255',
+                    'phone' => 'required|string|max:20',
+                    'gender' => 'required|in:M,F,O',
+                    'dob' => 'required|date',
+                    'present_address' => 'required|string',
+                    'district' => 'required|string',
+                ]);
+
+                Volunteer::create([
+                    'userid' => $user->userid,
+                    'name' => $request->name,
+                    'phone' => $request->phone,
+                    'gender' => $request->gender,
+                    'dob' => $request->dob,
+                    'present_address' => $request->present_address,
+                    'district' => $request->district,
+                ]);
+            } else {
+                $request->validate([
+                    'org_name' => 'required|string|max:255',
+                    'description' => 'nullable|string',
+                    'primary_address' => 'required|string',
+                    'secondary_address' => 'required|string',
+                    'website' => 'required|url',
+                    'org_mobile' => 'required|string|max:20',
+                    'org_telephone' => 'required|string|max:20',
+                ]);
+
+                Organization::create([
+                    'userid' => $user->userid,
+                    'org_name' => $request->org_name,
+                    'description' => $request->description,
+                    'primary_address' => $request->primary_address,
+                    'secondary_address' => $request->secondary_address,
+                    'website' => $request->website,
+                    'org_mobile' => $request->org_mobile,
+                    'org_telephone' => $request->org_telephone,
+                    'verification_status' => 'pending',
+                ]);
+            }
+
+            DB::commit();
+            return redirect()->route('admin.users.index')
+                ->with('success', 'User created successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->withInput()->withErrors(['error' => 'Failed to create user. ' . $e->getMessage()]);
+        }
+    }
 }

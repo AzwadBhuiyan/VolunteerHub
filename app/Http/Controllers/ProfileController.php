@@ -65,7 +65,7 @@ class ProfileController extends Controller
             $profile->bio = $request->bio;
             $profile->Phone = $request->phone;
             $profile->BloodGroup = $request->blood_group;
-            $profile->allow_follow = $request->allow_follow;
+            $profile->url = $request->url;
         }
 
         $user->save();
@@ -165,10 +165,10 @@ class ProfileController extends Controller
         $validated = $request->validate([
             'nid' => 'nullable|numeric|digits:10',
             'present_address' => 'required|string|max:300',
-            'permanent_address' => 'required|string|max:300',
+            'permanent_address' => 'nullable|string|max:300',
             'district' => 'required|string',
             'trained_in_emergency' => 'boolean',
-            'profession' => 'required|string|max:100',
+            'profession' => 'nullable|string|max:100',
         ]);
 
         $profile->NID = $validated['nid'];

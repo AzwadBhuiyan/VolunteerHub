@@ -19,13 +19,14 @@ class DashboardController extends Controller
                 ->get();
                 
             return view('dashboard', compact('activities'));
-        } else {
+        } else if ($user->volunteer){
             $recentActivities = $user->volunteer->activities()
-            ->wherePivot('approval_status', 'approved')
             ->orderBy('date', 'desc')
             ->get();
                 
             return view('dashboard', compact('recentActivities'));
+        } else if ($user->admin){
+            return view('admin');
         }
     }
 }

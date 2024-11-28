@@ -345,7 +345,7 @@
                                         </td>
                                         <td class="px-4 py-2 whitespace-nowrap border border-gray-300">
                                             <div class="relative inline-block">
-                                                <a href="{{ route('activities.show', $activity) }}"
+                                                <a href="{{ route('activities.show_accomplished', $activity) }}"
                                                     class="text-blue-500 hover:underline inline-flex items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                                         height="24" fill="currentColor"

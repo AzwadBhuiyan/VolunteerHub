@@ -92,9 +92,11 @@ const homeTutorial = {
 document.addEventListener('DOMContentLoaded', function() {
 
     // First check if tutorial should be shown
+    //DO NOT DELETE THIS PATH CANNOT BE EMPTY
+    // 'h' IS ACCOUNTED FOR IN THE CONTROLLER
     if(window.location.pathname == '' || window.location.pathname == '/') path = "h";
     else path = window.location.pathname.replace(/^\/+/, '');
-    console.log(path);
+    // console.log(path);
     fetch(`/api/tutorial-progress/${path}`)
         .then(response => {
             if (!response.ok) {
@@ -103,9 +105,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
-            console.log('Tutorial progress:', data);
+            // console.log('Tutorial progress:', data);
             if (data.dont_show_again) {
-                console.log('Tutorial disabled for this page');
+                // console.log('Tutorial disabled for this page');
                 return;
             }
             initializeTutorial();
@@ -114,10 +116,53 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error checking tutorial progress:', error);
         });
 
+    function updateTutorialProgress(data) {
+        // console.log('Updating tutorial progress:', data);
+        // console.log('CSRF Token:', document.querySelector('meta[name="csrf-token"]')?.content);
+        return fetch('/api/tutorial-progress', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                page_name: data.page_name,
+                dont_show_again: data.dont_show_again
+            }),
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    console.error('Response text:', text);
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                });
+            }
+            return response.json();
+        })
+        .catch(error => {
+            console.error('Error updating tutorial progress:', error);
+            popup.classList.add('hidden');
+        });
+    }
+    
+
     function initializeTutorial() {
         let currentTutorial;
         let currentStep = 0;
         const path = window.location.pathname;
+
+        // Check if tutorial popup elements exist
+        const popup = document.getElementById('tutorial-popup');
+        const content = document.getElementById('tutorial-content');
+        const nextBtn = document.getElementById('tutorial-next');
+        const dontShowBtn = document.getElementById('tutorial-dont-show');
+
+        if (!popup || !content || !nextBtn || !dontShowBtn) {
+            console.error('Tutorial popup elements not found');
+            return;
+        }
 
         // Determine which tutorial to use
         if (path === '/dashboard') {
@@ -133,11 +178,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!currentTutorial) {
             return;
         }
-
-        const popup = document.getElementById('tutorial-popup');
-        const content = document.getElementById('tutorial-content');
-        const nextBtn = document.getElementById('tutorial-next');
-        const dontShowBtn = document.getElementById('tutorial-dont-show');
 
         // Clean up function to remove highlight
         function cleanupHighlight(element) {
@@ -282,12 +322,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         dontShowBtn.addEventListener('click', function() {
             const currentElement = document.querySelector(currentTutorial.steps[currentStep].target);
-            cleanupHighlight(currentElement);
             updateTutorialProgress({
                 page_name: currentTutorial.pageName,
                 dont_show_again: true,
             }).finally(() => {
-                popup.classList.add('hidden');
+                closeTutorial();
             });
         });
 

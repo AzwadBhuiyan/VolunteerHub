@@ -37,35 +37,55 @@ class IdeaThreadController extends Controller
 
     public function store(Request $request)
     {
+        // First, let's validate the basic thread requirements
         $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
-            'poll_question' => 'nullable|string|max:255',
-            'poll_options' => 'nullable|array|min:2',
-            'poll_options.*' => 'required|string|max:100',
         ]);
 
-        $ideaThread = IdeaThread::create([
-            'userid' => Auth::id(),
-            'title' => $request->title,
-            'description' => $request->description,
-        ]);
-
-        if ($request->filled('poll_question')) {
-            $poll = IdeaPoll::create([
-                'idea_thread_id' => $ideaThread->id,
-                'question' => $request->poll_question,
+        DB::beginTransaction();
+        try {
+            // Create the basic thread
+            $ideaThread = IdeaThread::create([
+                'userid' => Auth::id(),  // Make sure this matches your column name
+                'title' => $request->title,
+                'description' => $request->description,
             ]);
-    
-            foreach ($request->poll_options as $option) {
-                PollOption::create([
-                    'idea_poll_id' => $poll->id,
-                    'option_text' => $option,
-                ]);
-            }
-        }
 
-        return redirect()->route('idea_board.show', $ideaThread)->with('success', 'Idea thread created successfully.');
+            // Only handle poll if question exists and has options
+            if ($request->filled('poll_question') && is_array($request->poll_options)) {
+                // Validate poll data
+                $request->validate([
+                    'poll_question' => 'string|max:255',
+                    'poll_options' => 'array|min:2',
+                    'poll_options.*' => 'string|max:100',
+                ]);
+
+                $poll = IdeaPoll::create([
+                    'idea_thread_id' => $ideaThread->id,
+                    'question' => $request->poll_question,
+                ]);
+
+                // Only create options that aren't empty
+                foreach ($request->poll_options as $option) {
+                    if (trim($option) !== '') {
+                        PollOption::create([
+                            'idea_poll_id' => $poll->id,
+                            'option_text' => $option,
+                        ]);
+                    }
+                }
+            }
+
+            DB::commit();
+            return redirect()->route('idea_board.index', $ideaThread)
+                ->with('success', 'Idea thread created successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Failed to create idea thread: ' . $e->getMessage());
+            return back()->with('error', 'Failed to create idea thread. Please try again.')
+                ->withInput();
+        }
     }
 
     public function show(IdeaThread $ideaThread)

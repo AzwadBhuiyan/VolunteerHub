@@ -47,6 +47,7 @@
             <x-input-label for="url" :value="__('Profile URL')" class="w-1/4 mr-2 text-left" />
             <x-text-input id="url" name="url" type="text" class="mt-1 block w-full" :value="old('url', $profile->url)" required />
         </div>
+        <p class="text-sm text-gray-500">Note: When you share your profile this is what will show in the website url</p>
         <x-input-error class="mt-2" :messages="$errors->get('url')" />
 
         <div class="flex items-center"> <!-- Adjusted flex container for label and input -->

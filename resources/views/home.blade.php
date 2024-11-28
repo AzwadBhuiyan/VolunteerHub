@@ -153,8 +153,11 @@
                 </div>
 
         </div>
-
-        <x-tutorial-popup/>
+        
+        @if(auth()->check() && auth()->user()->user_type === 'volunteer')
+            <x-tutorial-popup />
+        @endif
+        
 
 </x-app-layout>
 

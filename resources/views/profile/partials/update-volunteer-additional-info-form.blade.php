@@ -41,7 +41,7 @@
 
         <div class="flex items-center">
             <x-input-label for="profession" :value="__('Profession')" class="w-1/4 mr-2 text-left" />
-            <x-text-input id="profession" name="profession" type="text" class="mt-1 block w-full" :value="old('profession', $profile->profession)" required />
+            <x-text-input id="profession" name="profession" type="text" class="mt-1 block w-full" :value="old('profession', $profile->profession)" />
         </div>
         <x-input-error class="mt-2" :messages="$errors->get('profession')" />
 

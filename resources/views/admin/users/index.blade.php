@@ -6,7 +6,10 @@
                     <h2 class="text-2xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text">
                         User Management
                     </h2>
-
+                    <a href="{{ route('admin.users.create') }}" 
+                        class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition-colors">
+                            Create New User
+                    </a>
                     <!-- Search and Filter Section -->
                     <form action="" method="GET" class="mb-6">
                         <div class="mb-6 flex flex-col sm:flex-row gap-4">

@@ -85,7 +85,7 @@
                                     <script>
                                         flatpickr("#date", {
                                             enableTime: false,
-                                            dateFormat: "d/m/Y",
+                                            dateFormat: "Y-m-d",
                                             onChange: function(selectedDates, dateStr, instance) {
                                                 document.getElementById('date').value = dateStr;
                                             },

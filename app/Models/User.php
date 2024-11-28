@@ -46,6 +46,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token',
     ];
 
+    // set default
+    protected $attributes = [
+        'verified' => true,
+    ];
+
     public function volunteer()
     {
         return $this->hasOne(Volunteer::class, 'userid');

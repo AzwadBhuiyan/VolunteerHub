@@ -53,8 +53,11 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/users', [AdminController::class, 'users'])->name('users.index');
+        Route::get('/users/create', [AdminController::class, 'createUser'])->name('users.create');
+        Route::post('/users', [AdminController::class, 'storeUser'])->name('users.store');
         Route::patch('/users/{user}/toggle-status', [AdminController::class, 'toggleUserStatus'])->name('users.toggle-status');
         Route::delete('/users/{user}', [AdminController::class, 'deleteUser'])->name('users.delete');
+        
                 
         // Activity routes
         Route::get('/activities', [AdminController::class, 'activities'])->name('activities.index');

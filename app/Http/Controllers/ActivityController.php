@@ -64,8 +64,8 @@ class ActivityController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'description' => 'required',
-            'date' => 'required|date',
-            'time' => 'required|date_format:H:i',
+            'date' => 'required|date:d/m/Y',
+            'time' => 'required|date_format:h:i A',
             'category' => 'required|exists:activity_categories,name',
             'district' => 'required',
             'difficulty' => 'required|in:easy,medium,hard,severe',
@@ -80,18 +80,6 @@ class ActivityController extends Controller
         $validatedData['userid'] = Auth::id();
         $validatedData['status'] = 'open';
 
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $extension = $image->getClientOriginalExtension();
-            $filename = $activity->activityid . '.' . $extension;
-            
-            $path = public_path('images/activities/' . $activity->activityid);
-            if (!file_exists($path)) {
-                mkdir($path, 0777, true);
-            }
-            
-            $image->move($path, $filename);
-        }
 
         DB::beginTransaction();
         try {
@@ -108,6 +96,19 @@ class ActivityController extends Controller
             }
 
             $activity = Activity::create($validatedData);
+
+            if ($request->hasFile('image')) {
+                $image = $request->file('image');
+                $extension = $image->getClientOriginalExtension();
+                $filename = $activity->activityid . '.' . $extension;
+                
+                $path = public_path('images/activities/' . $activity->activityid);
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                
+                $image->move($path, $filename);
+            }
 
             if (isset($activityRequest)) {
                 $activityRequest->update([
@@ -392,7 +393,7 @@ class ActivityController extends Controller
             }
         }
 
-        return redirect()->route('activities.index')->with('success', 'Activity completed successfully.');
+        return redirect()->route('activity.show')->with('success', 'Activity completed successfully.');
     }
 
     public function timeline(Activity $activity)

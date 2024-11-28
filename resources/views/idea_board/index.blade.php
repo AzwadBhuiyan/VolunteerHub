@@ -137,26 +137,103 @@
                                 @else
                                     <p class="text-gray-700 leading-relaxed">
                                         {{ Str::limit($thread->description, 150) }}</p>
+                                        <!-- upvote buttone for thread -->
+                                        @php
+                                            $votableType = 'thread';
+                                            $votable = $thread;
+                                        @endphp
+                                        <div class="mt-2 flex items-center">
+                                            <button type="button" class="vote-button text-gray-500 hover:text-blue-500"
+                                                data-votable-type="{{ $votableType }}" data-votable-id="{{ $thread->id }}">
+                                                <svg class="w-5 h-5 vote-icon" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M5 15l7-7 7 7"></path>
+                                                </svg>
+                                            </button>
+                                            <span class="mx-2 vote-count">{{ $thread->getVoteCount() }}</span>
+                                        </div>
+                                    
+                                    <!-- Comments Section -->
+                                    <!-- <div class="mt-4">
+                                        <div class="comments-container border border-gray-200 rounded-lg" data-thread-id="{{ $thread->id }}"
+                                            style="max-height: 300px; overflow-y: auto; scrollbar-width: thin;">
+                                            @if ($thread->comments->isNotEmpty())
+                                                @foreach ($thread->comments->take(5) as $comment)
+                                                    <div class="p-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition duration-150">
+                                                        <p class="text-gray-800">{{ $comment->comment }}</p>
+                                                        <div class="flex justify-between items-center mt-2">
+                                                            <div class="text-xs text-gray-600">
+                                                                <span>By: </span>
+                                                                <span>{{ $comment->volunteer->Name }}</span>
+                                                                <span class="mx-1">•</span>
+                                                                <span>{{ $comment->created_at->diffForHumans() }}</span>
+                                                            </div>
+                                                            @if (Auth::id() === $thread->userid && $thread->status === 'open')
+                                                                <button type="button"
+                                                                    class="select-winner-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full text-sm transition duration-150"
+                                                                    data-thread-id="{{ $thread->id }}"
+                                                                    data-comment-id="{{ $comment->id }}">
+                                                                    Select as Winner
+                                                                </button>
+                                                            @endif
+                                                        </div>
+                                                        <div class="mt-2 flex items-center">
+                                                            <button type="button"
+                                                                class="vote-button text-gray-500 hover:text-blue-500 transition duration-150"
+                                                                data-votable-type="comment"
+                                                                data-votable-id="{{ $comment->id }}">
+                                                                <svg class="w-5 h-5 vote-icon" fill="none"
+                                                                    stroke="currentColor" viewBox="0 0 24 24"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                                        stroke-width="2" d="M5 15l7-7 7 7"></path>
+                                                                </svg>
+                                                            </button>
+                                                            <span class="mx-2 vote-count">{{ $comment->getVoteCount() }}</span>
+                                                        </div>
+                                                        @if (Auth::user()->is_admin)
+                                                            <form action="{{ route('admin.comments.delete', $comment) }}" 
+                                                                method="POST" 
+                                                                class="inline-block ml-2"
+                                                                onsubmit="return confirm('Are you sure you want to delete this comment?')">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="text-red-600 hover:text-red-900">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        @endif
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                                <p class="p-3 text-gray-500 text-center">No comments yet. Be the first to comment!</p>
+                                            @endif
+                                        </div>
+                                    </div> -->
+
+                                    <!-- Comment Form - Now outside the comments check -->
+                                    @auth
+                                        @if (Auth::user()->volunteer && !$thread->comments->where('volunteer_userid', Auth::id())->count())
+                                            <div class="mt-4">
+                                                <form method="POST" action="{{ route('idea_board.comment', $thread) }}" class="space-y-4">
+                                                    @csrf
+                                                    <textarea name="comment" rows="2" 
+                                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
+                                                        placeholder="Share your thoughts..." maxlength="200" required></textarea>
+                                                        
+                                                    <p class="text-sm text-gray-600 mb-2">You can only comment once so prepare well</p>
+                                                    <button type="submit" 
+                                                        class="float-right px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-150">
+                                                        Comment
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @endif
+                                    @endauth
                                 @endif
                             </div>
-                            <!-- upvote buttone for thread -->
-                            @if (!$thread->poll)
-                            @php
-                                $votableType = 'thread';
-                                $votable = $thread;
-                            @endphp
-                            <div class="mt-2 flex items-center">
-                                <button type="button" class="vote-button text-gray-500 hover:text-blue-500"
-                                    data-votable-type="{{ $votableType }}" data-votable-id="{{ $thread->id }}">
-                                    <svg class="w-5 h-5 vote-icon" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 15l7-7 7 7"></path>
-                                    </svg>
-                                </button>
-                                <span class="mx-2 vote-count">{{ $thread->getVoteCount() }}</span>
-                            </div>
-                            @endif
+                            
                             @if ($thread->status === 'closed' && $thread->winnerComment)
                                 <div class="px-4 py-2 bg-green-50 border border-green-200 rounded-lg">
                                     <p class="text-sm font-semibold text-green-800">Winner Comment:</p>
@@ -196,7 +273,7 @@
                                             data-thread-id="{{ $thread->id }}" 
                                             data-sort="likes">
                                             <i class="fas fa-heart mr-1 text-xs"></i>
-                                            Most Likeed
+                                            Most Liked
                                         </button>
                                         
                                         <div 
@@ -278,7 +355,7 @@
                                     @endif
                                 </div>
 
-                                @if ($thread->comments->isNotEmpty())
+                               
                                     @auth
                                         @if (Auth::user()->volunteer)
                                             @php
@@ -288,57 +365,26 @@
                                                     ->first();
                                             @endphp
 
-                                            @if (!$userComment)
-                                                <form method="POST" action="{{ route('idea_board.comment', $thread) }}"
-                                                    class="mt-4">
-                                                    @csrf
-                                                    <div class="mb-4">
-                                                        <label for="comment"
-                                                            class="block text-gray-700 text-sm font-bold mb-2">Your
-                                                            Comment:</label>
-                                                        <textarea name="comment" id="comment" rows="3"
-                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                            required maxlength="200"></textarea>
-                                                    </div>
-                                                    <div class="flex items-center justify-end mt-4">
-                                                        <p class="text-yellow-600">You can only comment once, so prepare
-                                                            your comment well.</p>
-                                                        <x-primary-button class="ml-4">
-                                                            {{ __('Submit Comment') }}
-                                                        </x-primary-button>
-                                                    </div>
-                                                </form>
-                                            @else
-                                                <div class="mt-2 p-2 bg-gray-100 rounded">
-                                                    <p class="text-sm"><strong>Your Comment:</strong> </p>
-                                                    <p>{{ Str::limit($userComment->comment, 250) }}
-                                                        @if (strlen($userComment->comment) > 250)
-                                                            <a href="#"
-                                                                class="text-blue-500 hover:underline view-full-description"
-                                                                data-full-description="{{ $userComment->comment }}">View
-                                                                full</a>
-                                                        @endif
-                                                    </p>
-                                                    <p class="text-xs text-gray-500">By:
-                                                        {{ $userComment->volunteer->Name }}</p>
-                                                </div>
+                                            @if ($userComment)
+                                            <div class="mt-2 p-2 bg-gray-100 rounded">
+                                                <p class="text-sm"><strong>Your Comment:</strong> </p>
+                                                <p>{{ Str::limit($userComment->comment, 250) }}
+                                                    @if (strlen($userComment->comment) > 250)
+                                                        <a href="#"
+                                                            class="text-blue-500 hover:underline view-full-description"
+                                                            data-full-description="{{ $userComment->comment }}">View
+                                                            full</a>
+                                                    @endif
+                                                </p>
+                                                <p class="text-xs text-gray-500">By:
+                                                    {{ $userComment->volunteer->Name }}</p>
+                                            </div>
+                                            <p class="text-yellow-600">You have already commented on this idea.</p>
                                             @endif
                                         @endif
                                     @endauth
-                                @endif
+                                
 
-                                <!-- <a href="{{ route('idea_board.show', $thread) }}#comment-section" class="mt-2 inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-3 rounded text-sm">
-                                    View All Comments
-                                </a> -->
-
-                                <!-- Comment Form -->
-                                @auth
-                                    @if (Auth::user()->volunteer)
-                                        @if ($thread->comments->where('volunteer_userid', Auth::id())->count() > 0)
-                                            <p class="text-yellow-600">You have already commented on this idea.</p>
-                                        @endif
-                                    @endif
-                                @endauth
                             @endif
                         </div>
                     @endforeach
@@ -346,7 +392,7 @@
                     {{ $ideaThreads->appends(['sort' => request('sort', 'likes')])->links() }}
                 </div>
 
-                {{ $ideaThreads->links() }}
+                <!-- $ideaThreads->links() -->
             {{-- </div> --}}
         </div>
     </div>
