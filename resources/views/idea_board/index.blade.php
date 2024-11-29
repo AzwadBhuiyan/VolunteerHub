@@ -221,7 +221,7 @@
                                                     @csrf
                                                     <textarea name="comment" rows="2" 
                                                         class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500"
-                                                        placeholder="Share your thoughts..." maxlength="200" required></textarea>
+                                                        placeholder="Share your thoughts..." required></textarea>
                                                         
                                                     <p class="text-sm text-gray-600 mb-2">You can only comment once so prepare well</p>
                                                     <button type="submit" 
