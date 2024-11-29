@@ -127,6 +127,8 @@
                 </div>
             </a>
 
+
+            
             <!-- New Idea Board Icon with updated visibility conditions -->
             @if((Auth::user()->volunteer || Auth::user()->is_admin || Auth::user()->organization) && (Request::is('/') || Request::is('search*')))
                 <a href="{{ route('idea_board.index') }}" class="relative text-gray-500 hover:text-gray-700 icon-link">
@@ -222,7 +224,7 @@
 
 <!-- Updated search container div -->
 <div id="search-container" 
-    class="w-full fixed top-[60px] left-0 right-0 z-[99999]" 
+    class="w-full {{ !Request::is('/') ? 'fixed top-[60px]' : '' }} shadow-md left-0 right-0 z-50" 
     style="display: {{ Request::is('search*') || Request::is('/') ? 'block' : 'none' }}; 
            transform: {{ Request::is('search*') || Request::is('/') ? 'translateY(0)' : 'translateY(-100%)' }};">
     @include('search.search-bar')
@@ -233,6 +235,14 @@
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 </style>
+
+<!-- Updated search container div -->
+{{-- <div id="search-container" class="w-full bg-white shadow-md absolute left-0 right-0 z-50" 
+    style="display: {{ Request::is('search*') || Request::is('/') ? 'block' : 'none' }}; 
+           transform: {{ Request::is('search*') || Request::is('/') ? 'translateY(0)' : 'translateY(-100%)' }}; 
+           transition: transform 0.3s ease-out;">
+    @include('search.search-bar')
+</div> --}}
 
 <script>
 document.getElementById('search-toggle').addEventListener('click', function(e) {

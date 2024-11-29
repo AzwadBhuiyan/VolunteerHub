@@ -3,40 +3,41 @@
 
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
         <!-- Centered container with responsive padding and vertical spacing -->
+        <div
+        class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white">
+        <i class="fas fa-lightbulb text-lg text-yellow-500"></i>
+
+        <h2
+            class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2">
+            Share Your Ideas & Make a Difference!</h2>
+        <p class="text-base text-center">Join our community in creating positive change. Every idea can spark
+            meaningful impact in our society.</p>
+
+        @if (Auth::user()->organization)
+            <a href="{{ route('idea_board.create') }}"
+                class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
+                <i class="fas fa-plus"></i> Create New Idea Thread
+            </a>
+        @endif
+
+        <a href="{{ route('idea_board.my-ideas') }}"
+            class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
+            <i class="fas fa-list"></i> My Ideas
+        </a>
+    </div>
         <div class="p-1 sm:p-8 bg-white shadow sm:rounded-lg">
             <!-- Profile information card with padding, background color, shadow, and rounded corners -->
            
-                <div
-                    class="w-full p-5 mx-auto shadow-lg mb-4 flex flex-col items-center justify-center bg-gray-800 text-white">
-                    <i class="fas fa-lightbulb text-lg text-yellow-500"></i>
+            
 
-                    <h2
-                        class="bg-gradient-to-r from-blue-600 via-green-500 to-blue-500 inline-block text-transparent bg-clip-text text-lg font-bold mt-2 mb-2">
-                        Share Your Ideas & Make a Difference!</h2>
-                    <p class="text-base text-center">Join our community in creating positive change. Every idea can spark
-                        meaningful impact in our society.</p>
-
-                    @if (Auth::user()->organization)
-                        <a href="{{ route('idea_board.create') }}"
-                            class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
-                            <i class="fas fa-plus"></i> Create New Idea Thread
-                        </a>
-                    @endif
-
-                    <a href="{{ route('idea_board.my-ideas') }}"
-                        class="mt-4 text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2">
-                        <i class="fas fa-list"></i> My Ideas
-                    </a>
-                </div>
-
-                <div class="mt-6">
+                <div class="mt-2">
                     @foreach ($ideaThreads as $thread)
                         <div class="rounded-xl mb-4 overflow-hidden flex flex-col shadow border border-gray-200 p-4">
                             <!-- Thread Header -->
                             <div class="flex items-center space-x-4 border-b border-gray-100 pb-2">
                                 <img src="{{ asset($thread->organization->getLogoPath()) }}"
                                     alt="{{ $thread->organization->org_name }}"
-                                    class="w-12 h-12 rounded-full object-cover">
+                                    class="w-10 h-10 rounded-full object-cover">
                                 <div class="flex flex-col ml-2 flex-grow">
                                     <div class="flex items-center justify-between">
                                         <h4 class="text-lg font-semibold">
