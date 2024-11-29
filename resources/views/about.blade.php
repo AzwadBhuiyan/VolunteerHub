@@ -27,16 +27,26 @@
 
             <!-- Stats Section -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                @php
+                    $totalVolunteers = \App\Models\Volunteer::whereHas('user', function ($query) {
+                        $query->where('verified', true);
+                    })->count();
+                    $totalOrganizations = \App\Models\Organization::whereHas('user', function ($query) {
+                        $query->where('verified', true);
+                    })->count();
+                    $totalCompletedActivities = \App\Models\Activity::where('status', 'completed')->count();
+                @endphp
+                
                 <div class="text-center p-4 bg-blue-50 rounded-lg">
-                    <div class="text-3xl font-bold text-blue-600">1000+</div>
+                    <div class="text-3xl font-bold text-blue-600">{{ $totalVolunteers }}+</div>
                     <div class="text-gray-600">Active Volunteers</div>
                 </div>
                 <div class="text-center p-4 bg-green-50 rounded-lg">
-                    <div class="text-3xl font-bold text-green-600">500+</div>
+                    <div class="text-3xl font-bold text-green-600">{{ $totalOrganizations }}+</div>
                     <div class="text-gray-600">Organizations</div>
                 </div>
                 <div class="text-center p-4 bg-indigo-50 rounded-lg">
-                    <div class="text-3xl font-bold text-indigo-600">2000+</div>
+                    <div class="text-3xl font-bold text-indigo-600">{{ $totalCompletedActivities }}+</div>
                     <div class="text-gray-600">Completed Projects</div>
                 </div>
             </div>
