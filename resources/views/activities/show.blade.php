@@ -120,13 +120,19 @@
                                     <button disabled class="px-4 py-2 bg-gray-400 text-white font-medium rounded-md cursor-not-allowed">
                                         Already Registered
                                     </button>
-                                    <form action="{{ route('activities.cancel_registration', $activity) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md transition-colors">
-                                            Cancel Registration
+                                    @if($activity->deadline->isFuture())
+                                        <form action="{{ route('activities.cancel_registration', $activity) }}" method="POST" class="inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-md transition-colors">
+                                                Cancel Registration
+                                            </button>
+                                        </form>
+                                    @else
+                                        <button disabled class="px-4 py-2 bg-gray-400 text-white font-medium rounded-md cursor-not-allowed">
+                                            Cannot Cancel (Deadline Passed)
                                         </button>
-                                    </form>
+                                    @endif
                                 @else
                                     <form action="{{ route('activities.register', $activity) }}" method="POST" class="inline">
                                         @csrf

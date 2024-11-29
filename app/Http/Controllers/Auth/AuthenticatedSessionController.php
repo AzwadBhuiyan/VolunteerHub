@@ -33,12 +33,18 @@ class AuthenticatedSessionController extends Controller
 
         $user = $request->user();
 
-        // if (!$user->email_verified_at) {
-        //     Auth::logout();
-        //     return redirect()->route('login')
-        //         ->withInput($request->only('email', 'remember'))
-        //         ->withErrors(['email' => 'You need to verify your email address before logging in.']);
-        // }
+        if (!$user){
+            Auth::logout();
+            return redirect()->route('login')
+                ->withErrors(['email' => 'This account does not exist']);
+        }
+
+        if (!$user->email_verified_at) {
+            Auth::logout();
+            return redirect()->route('login')
+                ->withInput($request->only('email', 'remember'))
+                ->withErrors(['email' => 'You need to verify your email address before logging in.']);
+        }
         if (!$user->verified) {
             Auth::logout();
             return redirect()->route('login')

@@ -48,9 +48,10 @@
             <main>
                 {{ $slot }}
             </main>
-            
+            <x-back-to-top />
             @include('layouts.footer')
         </div>
         @stack('scripts')
+        <script src="{{ asset('js/back-to-top.js') }}" defer></script>
     </body>
 </html>

@@ -42,7 +42,10 @@ class ActivityController extends Controller
 
     public function show(Activity $activity)
     {
-        // Authorization check can be added here
+        if ($activity->status === 'completed') {
+            return redirect()->route('activities.feed')
+                ->with('error', 'This activity has been completed. You can view it in the activities feed.');
+        }
         return view('activities.show', compact('activity'));
     }
 

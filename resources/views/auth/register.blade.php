@@ -164,6 +164,25 @@
             
         </div>
 
+        <!-- Terms and Conditions Acceptance -->
+        <div class="mt-4">
+            <label class="flex items-center">
+                <input type="checkbox" 
+                       name="terms_acceptance" 
+                       id="terms_acceptance" 
+                       class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+                       required>
+                <span class="ml-2 text-sm text-gray-600">
+                    I accept the 
+                    <a href="{{ route('terms') }}" 
+                       class="text-blue-600 hover:text-blue-700 underline"
+                       target="_blank">
+                        Terms and Conditions
+                    </a>
+                </span>
+            </label>
+        </div>
+
         <div class="mt-4">
             <button type="submit"
                 class="w-full mb-4 py-3 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">
@@ -217,8 +236,41 @@
             toggleUserType();
 
             const form = document.querySelector('form');
+            const submitButton = form.querySelector('button[type="submit"]');
+            const termsCheckbox = document.getElementById('terms_acceptance');
+
+            // Initially disable submit button
+            submitButton.disabled = true;
+            submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+            // Toggle submit button based on checkbox
+            termsCheckbox.addEventListener('change', function() {
+                submitButton.disabled = !this.checked;
+                if (this.checked) {
+                    submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                } else {
+                    submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+                }
+            });
+
             form.addEventListener('submit', function(event) {
                 event.preventDefault(); // Prevent default submission
+                
+                // Check if terms are accepted
+                const termsCheckbox = document.getElementById('terms_acceptance');
+                if (!termsCheckbox.checked) {
+                    // Create or show error message
+                    let errorMsg = document.getElementById('terms-error');
+                    if (!errorMsg) {
+                        errorMsg = document.createElement('p');
+                        errorMsg.id = 'terms-error';
+                        errorMsg.className = 'mt-2 text-sm text-red-600';
+                        errorMsg.textContent = 'Please accept the Terms and Conditions to continue';
+                        termsCheckbox.parentElement.parentElement.appendChild(errorMsg);
+                    }
+                    errorMsg.style.display = 'block';
+                    return;
+                }
                 
                 const userType = document.getElementById('user_type').value;
                 const volunteerFields = document.getElementById('volunteer-fields');
@@ -235,6 +287,14 @@
 
                 // Now submit the form
                 this.submit();
+            });
+
+            // Add event listener to hide error message when checkbox is checked
+            termsCheckbox.addEventListener('change', function() {
+                const errorMsg = document.getElementById('terms-error');
+                if (errorMsg) {
+                    errorMsg.style.display = this.checked ? 'none' : 'block';
+                }
             });
         });
     </script>

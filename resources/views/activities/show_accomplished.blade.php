@@ -5,8 +5,11 @@
             <div class="p-4 border-b bg-gradient-to-r from-gray-50 to-white">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
-                        @if ($activity->organization->logo)
-                            <img src="{{ asset($activity->organization->getLogoPath()) }}"
+                        @php
+                            $logoexisits = $activity->organization->getLogoPath()
+                        @endphp
+                        @if ($logoexisits)
+                            <img src="{{ asset($logoexisits) }}"
                                 alt="{{ $activity->organization->org_name }}"
                                 class="w-10 h-10 rounded-full object-cover ring-2 ring-blue-100 transform hover:scale-105 transition-transform duration-300">
                         @else
