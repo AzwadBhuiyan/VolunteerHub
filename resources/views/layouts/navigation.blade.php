@@ -221,30 +221,36 @@
 </nav>
 
 <!-- Updated search container div -->
-<div id="search-container" class="w-full bg-white shadow-md absolute left-0 right-0 z-50" 
+<div id="search-container" 
+    class="w-full fixed top-[60px] left-0 right-0 z-[99999]" 
     style="display: {{ Request::is('search*') || Request::is('/') ? 'block' : 'none' }}; 
-           transform: {{ Request::is('search*') || Request::is('/') ? 'translateY(0)' : 'translateY(-100%)' }}; 
-           transition: transform 0.3s ease-out;">
+           transform: {{ Request::is('search*') || Request::is('/') ? 'translateY(0)' : 'translateY(-100%)' }};">
     @include('search.search-bar')
 </div>
 
-<!-- Updated script -->
+<style>
+    #search-container {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+</style>
+
 <script>
 document.getElementById('search-toggle').addEventListener('click', function(e) {
     e.preventDefault();
     
-    // Skip the animation if we're on the search or home page
-    if (window.location.pathname.includes('/search') || window.location.pathname === '/') {
-        return;
-    }
-    
     const searchContainer = document.getElementById('search-container');
     
     if (searchContainer.style.display === 'none') {
+        // First set transform to -100% while hidden
+        searchContainer.style.transform = 'translateY(-100%)';
+        // Then make it visible
         searchContainer.style.display = 'block';
         // Force a reflow
         searchContainer.offsetHeight;
-        searchContainer.style.transform = 'translateY(0)';
+        // Then animate down
+        setTimeout(() => {
+            searchContainer.style.transform = 'translateY(0)';
+        }, 10);
     } else {
         searchContainer.style.transform = 'translateY(-100%)';
         setTimeout(() => {
@@ -303,23 +309,6 @@ document.getElementById('search-toggle').addEventListener('click', function(e) {
 
     #dropdown-menu.hidden {
         display: none;
-    }
-
-    /* Add these new styles */
-    #search-container {
-        position: sticky;
-        top: 60px; /* Height of the navbar */
-        background-color: white;
-        z-index: 999; /* Just below the navbar's z-index */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    nav {
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        background-color: white;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 </style>
 
