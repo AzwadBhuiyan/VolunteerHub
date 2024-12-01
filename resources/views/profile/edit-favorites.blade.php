@@ -18,7 +18,7 @@
                     @method('patch')
 
                     <div class="mb-4">
-                        <x-input-label for="category_select" :value="__('Favorite Categories (Select up to 3)')" />
+                        <x-input-label for="category_select" :value="__('Favorite Categories')" />
                         <select id="category_select" class="mt-1 block w-1/2">
                             <option value="">Select a category</option>
                             @foreach ($categories as $category)
@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="mb-4">
-                        <x-input-label for="district_select" :value="__('Favorite Districts (Select up to 3)')" />
+                        <x-input-label for="district_select" :value="__('Favorite Districts')" />
                         <select id="district_select" class="mt-1 block w-1/2">
                             <option value="">Select a district</option>
                             @foreach ($districts as $district)
@@ -112,7 +112,7 @@
             }
 
             categorySelect.addEventListener('change', function() {
-                if (this.value && selectedCategories.length < 3) {
+                if (this.value) {
                     const selectedOption = this.options[this.selectedIndex];
                     const category = {
                         id: this.value,
@@ -128,7 +128,7 @@
             });
 
             districtSelect.addEventListener('change', function() {
-                if (this.value && selectedDistricts.length < 3) {
+                if (this.value) {
                     if (!selectedDistricts.includes(this.value)) {
                         selectedDistricts.push(this.value);
                         districtTags.appendChild(createTag(this.value, 'district'));

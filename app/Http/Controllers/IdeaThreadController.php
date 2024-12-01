@@ -223,8 +223,12 @@ class IdeaThreadController extends Controller
                     'id' => $comment->id,
                     'comment' => $comment->comment,
                     'volunteer_name' => $comment->volunteer->Name,
+                    'volunteer_userid' => $comment->volunteer_userid,
+                    'volunteer_avatar' => $comment->volunteer->getProfilePicturePath(),
                     'vote_count' => $comment->getVoteCount(),
                     'created_at' => $comment->created_at->diffForHumans(),
+                    'thread_id' => $comment->idea_thread_id,
+                    'can_select_winner' => Auth::id() === $comment->idea_thread->userid && $comment->idea_thread->status === 'open'
                 ];
             })
         ]);

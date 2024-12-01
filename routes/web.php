@@ -222,4 +222,3 @@ require __DIR__.'/auth.php';
 
 Route::patch('/profile/volunteer/additional', [ProfileController::class, 'updateVolunteerAdditional'])
     ->name('profile.update.volunteer.additional');
-

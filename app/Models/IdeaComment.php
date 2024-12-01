@@ -32,4 +32,12 @@ class IdeaComment extends Model
     {
         return $this->votes()->sum('vote');
     }
+
+    public function hasVotedBy($userId)
+    {
+        return $this->votes()
+            ->where('user_userid', $userId)
+            ->where('idea_comment_id', $this->id)
+            ->exists();
+    }
 }

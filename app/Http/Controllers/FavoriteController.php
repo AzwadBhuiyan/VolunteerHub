@@ -38,8 +38,8 @@ class FavoriteController extends Controller
         $volunteer = $user->volunteer;
     
         $request->validate([
-            'favorite_categories' => 'required|json|max:255',
-            'favorite_districts' => 'required|json|max:255',
+            'favorite_categories' => 'required|json',
+            'favorite_districts' => 'required|json',
         ]);
     
         $favoriteCategories = json_decode($request->favorite_categories, true);

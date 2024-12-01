@@ -78,6 +78,12 @@ class ActivityController extends Controller
             'max_volunteers' => 'nullable|integer|gt:min_volunteers',
             'image' => 'nullable|image|max:5120', // 5MB Max
             'required_profession' => ['nullable', 'string', 'max:100'],
+            'google_maps_link' => [
+                'nullable',
+                'string',
+                'url',
+                'regex:/^https:\/\/maps\.app\.goo\.gl\//',
+            ],
         ]);
 
         $validatedData['userid'] = Auth::id();

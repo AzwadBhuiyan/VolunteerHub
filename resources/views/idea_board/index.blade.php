@@ -27,9 +27,6 @@
     </div>
         <div class="p-1 sm:p-8 bg-white shadow sm:rounded-lg">
             <!-- Profile information card with padding, background color, shadow, and rounded corners -->
-           
-            
-
                 <div class="mt-2">
                     @foreach ($ideaThreads as $thread)
                         <div class="rounded-xl mb-4 overflow-hidden flex flex-col shadow border border-gray-200 p-4">
@@ -88,53 +85,52 @@
                             </div>
 
                             <!-- Thread Description -->
-                            <div class="px-4 py-1">
+                            <div class="px-4 py-1" name="idea-details-container">
                                 @if ($thread->poll)
-                                    <div class="bg-white p-4 rounded-lg border border-gray-200">
-                                        <p class="text-sm text-gray-600 mb-3">{{ $thread->poll->question }}</p>
-                                        <form
-                                            action="{{ route('idea_board.poll_vote', ['poll' => $thread->poll->id]) }}"
-                                            method="POST">
-                                            @csrf
-                                            @foreach ($thread->poll->options as $option)
-                                                <div class="mb-3">
-                                                    <button type="submit" name="option_id" value="{{ $option->id }}"
-                                                        class="w-full relative border {{ $option->hasVotedBy(Auth::id()) ? 'border-blue-500' : 'border-gray-300' }} rounded-md overflow-hidden">
-                                                        <div class="flex items-center">
-                                                            <div class="w-full">
-                                                                <!-- Base gradient progress bar for ALL options -->
+                                    <p class="text-sm text-gray-600 mb-3">{{ $thread->poll->question }}</p>
+                                    <form
+                                        action="{{ route('idea_board.poll_vote', ['poll' => $thread->poll->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @foreach ($thread->poll->options as $option)
+                                            <div class="mb-3">
+                                                <button type="submit" name="option_id" value="{{ $option->id }}"
+                                                    class="w-full relative border {{ $option->hasVotedBy(Auth::id()) ? 'border-blue-500' : 'border-gray-300' }} rounded-md overflow-hidden">
+                                                    <div class="flex items-center">
+                                                        <div class="w-full">
+                                                            <!-- Base gradient progress bar for ALL options -->
+                                                            <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-100 to-green-100"
+                                                                style="width: {{ $option->getPercentage() }}%; z-index: 0; opacity: 0.4">
+                                                            </div>
+                                                            <!-- Additional overlay with higher opacity only for voted option -->
+                                                            @if ($option->hasVotedBy(Auth::id()))
                                                                 <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-100 to-green-100"
-                                                                    style="width: {{ $option->getPercentage() }}%; z-index: 0; opacity: 0.4">
+                                                                    style="width: {{ $option->getPercentage() }}%; z-index: 0; opacity: 0.8">
                                                                 </div>
-                                                                <!-- Additional overlay with higher opacity only for voted option -->
-                                                                @if ($option->hasVotedBy(Auth::id()))
-                                                                    <div class="absolute top-0 left-0 h-full bg-gradient-to-r from-blue-100 to-green-100"
-                                                                        style="width: {{ $option->getPercentage() }}%; z-index: 0; opacity: 0.8">
-                                                                    </div>
+                                                            @endif
+                                                            <div
+                                                                class="px-4 py-2 relative z-10 flex justify-between items-center {{ $option->hasVotedBy(Auth::id()) ? 'text-blue-600 font-medium' : '' }}">
+                                                                <span>{{ $option->option_text }}</span>
+                                                                @if ($thread->poll->hasVotedBy(Auth::id()))
+                                                                    <span>{{ number_format($option->getPercentage(), 1) }}%</span>
                                                                 @endif
-                                                                <div
-                                                                    class="px-4 py-2 relative z-10 flex justify-between items-center {{ $option->hasVotedBy(Auth::id()) ? 'text-blue-600 font-medium' : '' }}">
-                                                                    <span>{{ $option->option_text }}</span>
-                                                                    @if ($thread->poll->hasVotedBy(Auth::id()))
-                                                                        <span>{{ number_format($option->getPercentage(), 1) }}%</span>
-                                                                    @endif
-                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </button>
-                                                </div>
-                                            @endforeach
-                                        </form>
-                                        <div class="mt-3 text-sm text-gray-500 flex justify-between items-center">
-                                            <span>{{ $thread->poll->getTotalVotes() }} votes</span>
-                                            @if ($thread->poll->hasVotedBy(Auth::id()))
-                                                <span class="text-blue-600">
-                                                    <i class="fas fa-check-circle mr-1"></i>
-                                                    You voted
-                                                </span>
-                                            @endif
-                                        </div>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        @endforeach
+                                    </form>
+                                    <div class="mt-3 text-sm text-gray-500 flex justify-between items-center">
+                                        <span>{{ $thread->poll->getTotalVotes() }} votes</span>
+                                        @if ($thread->poll->hasVotedBy(Auth::id()))
+                                            <span class="text-blue-600">
+                                                <i class="fas fa-check-circle mr-1"></i>
+                                                You voted
+                                            </span>
+                                        @endif
                                     </div>
+
                                 @else
                                     <p class="text-gray-700 leading-relaxed">
                                         {{ Str::limit($thread->description, 150) }}</p>
@@ -144,12 +140,17 @@
                                             $votable = $thread;
                                         @endphp
                                         <div class="mt-2 flex items-center">
-                                            <button type="button" class="vote-button text-gray-500 hover:text-blue-500"
-                                                data-votable-type="{{ $votableType }}" data-votable-id="{{ $thread->id }}">
-                                                <svg class="w-5 h-5 vote-icon" fill="none" stroke="currentColor"
-                                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M5 15l7-7 7 7"></path>
+                                            <button type="button" 
+                                                class="vote-button text-gray-500 hover:text-blue-500 {{ $thread->hasVotedBy(Auth::id()) ? 'text-blue-500' : '' }}"
+                                                data-votable-type="{{ $votableType }}" 
+                                                data-votable-id="{{ $thread->id }}"
+                                                data-voted="{{ $thread->hasVotedBy(Auth::id()) ? 'true' : 'false' }}">
+                                                <svg class="w-5 h-5 vote-icon {{ $thread->hasVotedBy(Auth::id()) ? 'fill-current' : '' }}" 
+                                                    fill="none" 
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24" 
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
                                                 </svg>
                                             </button>
                                             <span class="mx-2 vote-count">{{ $thread->getVoteCount() }}</span>
@@ -253,24 +254,20 @@
                                 <!-- sorting -->
                                 <div class="mt-4 flex justify-between items-center">
                                     <h4 class="text-lg font-semibold">Comments</h4>
-                                <div class=" flex justify-end" x-data="{ activeSort: '{{ $sort }}' }">
+                                <div class="flex justify-end" x-data="{ activeSort: 'recent' }">
                                     <div class="relative inline-flex rounded-full bg-gray-800 p-0.5 shadow-md" style="width: fit-content;">
                                         <button
-                                            @click="activeSort = 'recent'"
-                                            class="sort-comments relative z-10 px-3 py-1 text-xs font-medium transition-all duration-300 ease-in-out rounded-full"
-                                            :class="activeSort === 'recent' ? 'text-white transform scale-105' : 'text-gray-400 hover:text-gray-200'"
+                                            class="sort-comments relative z-10 px-3 py-1 text-xs font-medium transition-all duration-300 ease-in-out rounded-full text-white scale-105"
                                             data-thread-id="{{ $thread->id }}" 
                                             data-sort="recent">
                                             <i class="fas fa-clock mr-1 text-xs"></i>
-                                           Most Recent
+                                            Most Recent
                                         </button>
                                         
                                         <div class="h-4 w-px bg-gray-600 my-auto mx-0.5"></div>
                                         
                                         <button
-                                            @click="activeSort = 'likes'"
-                                            class="sort-comments relative z-10 px-3 py-1 text-xs font-medium transition-all duration-300 ease-in-out rounded-full"
-                                            :class="activeSort === 'likes' ? 'text-white transform scale-105' : 'text-gray-400 hover:text-gray-200'"
+                                            class="sort-comments relative z-10 px-3 py-1 text-xs font-medium transition-all duration-300 ease-in-out rounded-full text-gray-400"
                                             data-thread-id="{{ $thread->id }}" 
                                             data-sort="likes">
                                             <i class="fas fa-heart mr-1 text-xs"></i>
@@ -278,12 +275,8 @@
                                         </button>
                                         
                                         <div 
-                                            class="absolute inset-y-0 w-[45%] rounded-full shadow-md transition-all duration-300 ease-in-out"
-                                            :class="{'translate-x-0': activeSort === 'recent', 'translate-x-[120%]': activeSort === 'likes'}"
-                                            :style="{ 
-                                                'background': 'linear-gradient(135deg, #3B82F6 0%, #10B981 50%, #3B82F6 100%)',
-                                                'z-index': '1'
-                                            }">
+                                            class="absolute inset-y-0 w-[45%] rounded-full shadow-md transition-all duration-300 ease-in-out bg-gradient-to-r from-blue-500 to-blue-600"
+                                            style="z-index: 1; transform: translateX(0);">
                                         </div>
                                     </div>
                                 </div>
@@ -292,57 +285,51 @@
                                 <!-- view more comments -->
 
                                 <div class="mt-4">
-                                    <div class="comments-container border border-gray-200 rounded-lg" data-thread-id="{{ $thread->id }}"
-                                        style="max-height: 300px; overflow-y: auto; scrollbar-width: thin;">
+                                    <div class="comments-container border border-gray-200 rounded-lg" data-thread-id="{{ $thread->id }}" style="max-height: 300px; overflow-y: auto; scrollbar-width: thin;">
                                         @foreach ($thread->comments->take(5) as $comment)
-                                            <div class="p-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition duration-150">
-                                                <p class="text-gray-800">{{ $comment->comment }}</p>
-                                                <div class="flex justify-between items-center mt-2">
-                                                    <div class="text-xs text-gray-600">
-                                                        <span>By: </span>
-                                                        <span>{{ $comment->volunteer->Name }}</span>
-                                                        <span class="mx-1">•</span>
-                                                        <span>{{ $comment->created_at->diffForHumans() }}</span>
+                                            <div class="p-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition duration-150 {{ $comment->volunteer_userid === Auth::id() ? 'bg-blue-50' : '' }}">
+                                                <div class="flex space-x-3">
+                                                    <!-- User Avatar -->
+                                                    <img src="{{ $comment->volunteer->getProfilePicturePath() }}" 
+                                                        alt="{{ $comment->volunteer->Name }}" 
+                                                        class="w-8 h-8 rounded-full object-cover">
+                                                    
+                                                    <div class="flex-1">
+                                                        <!-- Comment Content -->
+                                                        <div class="bg-gray-100 rounded-2xl px-4 py-2">
+                                                            <div class="font-semibold text-sm text-gray-900">
+                                                                {{ $comment->volunteer->Name }}
+                                                            </div>
+                                                            <p class="text-sm text-gray-700">{{ $comment->comment }}</p>
+                                                        </div>
+                                                        
+                                                        <!-- Actions and Timestamp -->
+                                                        <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
+                                                            <span>{{ $comment->created_at->diffForHumans() }}</span>
+                                                            <div class="flex items-center">
+                                                                <button type="button" class="vote-button text-gray-500 hover:text-blue-500" 
+                                                                        data-votable-type="comment" 
+                                                                        data-votable-id="{{ $comment->id }}">
+                                                                    <i class="fas fa-thumbs-up mr-1"></i>
+                                                                    <span>{{ $comment->getVoteCount() }}</span>
+                                                                </button>
+                                                            </div>
+                                                            @if (Auth::id() === $thread->userid && $thread->status === 'open')
+                                                                <button type="button"
+                                                                    class="select-winner-btn text-green-600 hover:text-green-700"
+                                                                    data-thread-id="{{ $thread->id }}"
+                                                                    data-comment-id="{{ $comment->id }}">
+                                                                    <i class="fas fa-crown mr-1"></i>
+                                                                    Select as Winner
+                                                                </button>
+                                                            @endif
+                                                        </div>
                                                     </div>
-                                                    @if (Auth::id() === $thread->userid && $thread->status === 'open')
-                                                        <button type="button"
-                                                            class="select-winner-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full text-sm transition duration-150"
-                                                            data-thread-id="{{ $thread->id }}"
-                                                            data-comment-id="{{ $comment->id }}">
-                                                            Select as Winner
-                                                        </button>
-                                                    @endif
                                                 </div>
-                                                <div class="mt-2 flex items-center">
-                                                    <button type="button"
-                                                        class="vote-button text-gray-500 hover:text-blue-500 transition duration-150"
-                                                        data-votable-type="comment"
-                                                        data-votable-id="{{ $comment->id }}">
-                                                        <svg class="w-5 h-5 vote-icon" fill="none"
-                                                            stroke="currentColor" viewBox="0 0 24 24"
-                                                            xmlns="http://www.w3.org/2000/svg">
-                                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="M5 15l7-7 7 7"></path>
-                                                        </svg>
-                                                    </button>
-                                                    <span class="mx-2 vote-count">{{ $comment->getVoteCount() }}</span>
-                                                </div>
-                                                @if (Auth::user()->is_admin)
-                                                    <form action="{{ route('admin.comments.delete', $comment) }}" 
-                                                        method="POST" 
-                                                        class="inline-block ml-2"
-                                                        onsubmit="return confirm('Are you sure you want to delete this comment?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="text-red-600 hover:text-red-900">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
-                                                    </form>
-                                                @endif
                                             </div>
                                         @endforeach
                                     </div>
-                                    @if ($thread->comments->count() > 1)
+                                    @if ($thread->comments->count() > 4)
                                         <div class="text-center mt-2">
                                             <button
                                                 class="view-more-comments inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium transition duration-150"
@@ -357,7 +344,7 @@
                                 </div>
 
                                
-                                    @auth
+                                    <!-- @auth
                                         @if (Auth::user()->volunteer)
                                             @php
                                                 $authUserId = Auth::id();
@@ -383,7 +370,7 @@
                                             <p class="text-yellow-600">You have already commented on this idea.</p>
                                             @endif
                                         @endif
-                                    @endauth
+                                    @endauth -->
                                 
 
                             @endif
@@ -417,187 +404,94 @@
     </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const buttons = document.querySelectorAll('.sort-comments');
-    
-    buttons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Remove active class from all buttons
-            buttons.forEach(btn => {
-                btn.classList.remove('text-white', 'scale-105');
-                btn.classList.add('text-gray-400');
-            });
-            
-            // Add active class to clicked button with animation
-            this.classList.remove('text-gray-400');
-            this.classList.add('text-white');
-            
-            // Add subtle pop animation
-            this.style.transform = 'scale(1.05)';
-            setTimeout(() => {
-                this.style.transform = 'scale(1)';
-            }, 200);
+
+
+    function sortComments() {
+        const threadId = this.dataset.threadId;
+        const sort = this.dataset.sort;
+        const commentsContainer = document.querySelector(
+            `.comments-container[data-thread-id="${threadId}"]`);
+        const viewMoreButton = document.querySelector(
+            `.view-more-comments[data-thread-id="${threadId}"]`);
+
+        // Update button styles
+        const sortButtons = document.querySelectorAll(`.sort-comments[data-thread-id="${threadId}"]`);
+        sortButtons.forEach(btn => {
+            btn.classList.remove('text-white', 'scale-105');
+            btn.classList.add('text-gray-400');
         });
-    });
-});
-</script>
+        
+        // Add active class to clicked button
+        this.classList.remove('text-gray-400');
+        this.classList.add('text-white', 'scale-105');
 
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const viewMoreButtons = document.querySelectorAll('.view-more-comments');
-        const sortButtons = document.querySelectorAll('.sort-comments');
-
-        viewMoreButtons.forEach(button => {
-            button.addEventListener('click', loadMoreComments);
-        });
-
-        sortButtons.forEach(button => {
-            button.addEventListener('click', sortComments);
-        });
-
-        // Use event delegation for vote buttons
-        document.addEventListener('click', function(event) {
-            if (event.target.closest('.vote-button')) {
-                vote.call(event.target.closest('.vote-button'));
-            }
-        });
-
-        function loadMoreComments() {
-            const threadId = this.dataset.threadId;
-            const offset = parseInt(this.dataset.offset);
-            const commentsContainer = document.querySelector(
-                `.comments-container[data-thread-id="${threadId}"]`);
-
-            fetch(`/idea-board/${threadId}/comments?offset=${offset}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.comments.length > 0) {
-                        data.comments.forEach(comment => {
-                            const commentElement = createCommentElement(comment);
-                            commentsContainer.appendChild(commentElement);
-                        });
-
-                        this.dataset.offset = offset + data.comments.length;
-                        commentsContainer.scrollTop = commentsContainer.scrollHeight;
-                    }
-
-                    if (data.comments.length < 5) {
-                        this.style.display = 'none';
-                    }
-                });
-        }
-
-        function sortComments() {
-            const threadId = this.dataset.threadId;
-            const sort = this.dataset.sort;
-            const commentsContainer = document.querySelector(
-                `.comments-container[data-thread-id="${threadId}"]`);
-            const viewMoreButton = commentsContainer.nextElementSibling;
-
-            // Update button styles
-            const sortButtons = document.querySelectorAll(`.sort-comments[data-thread-id="${threadId}"]`);
-            sortButtons.forEach(button => {
-                button.classList.toggle('text-blue-500', button.dataset.sort === sort);
-                button.classList.toggle('font-bold', button.dataset.sort === sort);
-            });
-
-            fetch(`/idea-board/${threadId}/comments?sort=${sort}`)
-                .then(response => response.json())
-                .then(data => {
-                    commentsContainer.innerHTML = '';
-                    data.comments.forEach(comment => {
-                        const commentElement = createCommentElement(comment);
-                        commentsContainer.appendChild(commentElement);
-                    });
-
-                    // Reset the view more button
-                    if (viewMoreButton) {
-                        viewMoreButton.dataset.offset = '5';
-                        viewMoreButton.style.display = data.comments.length >= 5 ? 'inline-block' : 'none';
-                    }
-                });
-        }
-
-        function vote() {
-            const votableType = this.dataset.votableType;
-            const votableId = this.dataset.votableId;
-            const likeText = this.querySelector('span');
-            const countContainer = this.closest('.text-xs').querySelector('.flex.items-center');
-
-            fetch('/idea-board/vote', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                },
-                body: JSON.stringify({
-                    votable_type: votableType,
-                    votable_id: votableId,
-                    vote: 1
-                })
-            })
+        fetch(`/idea-board/${threadId}/comments?sort=${sort}`)
             .then(response => response.json())
             .then(data => {
-                if (data.success) {
-                    // Toggle like text color
-                    likeText.classList.toggle('text-blue-600', data.voted);
-                    
-                    // Update or create like count
-                    if (data.newVoteCount > 0) {
-                        if (!countContainer) {
-                            const newCount = document.createElement('div');
-                            newCount.className = 'flex items-center';
-                            newCount.innerHTML = `
-                                <span class="inline-flex items-center justify-center bg-blue-500 rounded-full w-4 h-4">
-                                    <i class="fas fa-thumbs-up text-[10px] text-white"></i>
-                                </span>
-                                <span class="ml-1">${data.newVoteCount}</span>
-                            `;
-                            this.closest('.text-xs').appendChild(newCount);
-                        } else {
-                            countContainer.querySelector('span:last-child').textContent = data.newVoteCount;
-                        }
-                    } else if (countContainer) {
-                        countContainer.remove();
-                    }
-                }
-            });
-        }
+                // Clear existing comments
+                commentsContainer.innerHTML = '';
+                
+                // Add new comments
+                data.comments.forEach(comment => {
+                    const commentElement = createCommentElement(comment);
+                    commentsContainer.appendChild(commentElement);
+                });
 
-        function createCommentElement(comment) {
-            const div = document.createElement('div');
-            div.className = 'mb-2 p-2 border rounded';
-            div.innerHTML = `
-                <p>${comment.comment}</p>
-                <div class="flex justify-between items-center">
-                    <div class="text-xs text-gray-400">
-                        <span>By: </span>
-                        <span class="text-gray-500">${comment.volunteer_name}</span>
-                        <span class="mx-1">•</span>
-                        <span>${comment.created_at}</span>
+                // Update view more button
+                if (viewMoreButton) {
+                    viewMoreButton.dataset.offset = '5';
+                    viewMoreButton.style.display = data.comments.length >= 5 ? 'inline-flex' : 'none';
+                }
+            })
+            .catch(error => {
+                console.error('Error sorting comments:', error);
+            });
+    }
+
+    function createCommentElement(comment) {
+        const div = document.createElement('div');
+        const isUserComment = comment.volunteer_userid === {{ Auth::id() }};
+        div.className = `p-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition duration-150 ${isUserComment ? 'bg-blue-50' : ''}`;
+        
+        div.innerHTML = `
+            <div class="flex space-x-3">
+                <img src="${comment.volunteer_avatar}" 
+                    alt="${comment.volunteer_name}" 
+                    class="w-8 h-8 rounded-full object-cover">
+                
+                <div class="flex-1">
+                    <div class="bg-gray-100 rounded-2xl px-4 py-2">
+                        <div class="font-semibold text-sm text-gray-900">
+                            ${comment.volunteer_name}
+                        </div>
+                        <p class="text-sm text-gray-700">${comment.comment}</p>
                     </div>
-                    ${comment.can_select_winner ? `
-                        <button 
-                            type="button"
-                            class="select-winner-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
-                            data-thread-id="${comment.thread_id}"
-                            data-comment-id="${comment.id}">
-                            Select as Winner
-                        </button>
-                    ` : ''}
+                    
+                    <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
+                        <span>${comment.created_at}</span>
+                        <div class="flex items-center">
+                            <button type="button" class="vote-button text-gray-500 hover:text-blue-500" 
+                                    data-votable-type="comment" 
+                                    data-votable-id="${comment.id}">
+                                <i class="fas fa-thumbs-up mr-1"></i>
+                                <span>${comment.vote_count}</span>
+                            </button>
+                        </div>
+                        ${comment.can_select_winner ? `
+                            <button type="button"
+                                class="select-winner-btn text-green-600 hover:text-green-700"
+                                data-thread-id="${comment.thread_id}"
+                                data-comment-id="${comment.id}">
+                                <i class="fas fa-crown mr-1"></i>
+                                Select as Winner
+                            </button>
+                        ` : ''}
+                    </div>
                 </div>
-                <div class="mt-2 flex items-center">
-                    <button type="button" class="vote-button text-gray-500 hover:text-blue-500" data-votable-type="comment" data-votable-id="${comment.id}">
-                        <svg class="w-5 h-5 vote-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
-                    </button>
-                    <span class="mx-2 vote-count">${comment.vote_count}</span>
-                </div>
-            `;
-            return div;
-        }
-    });
+            </div>
+        `;
+        return div;
+    }
 
     let currentThreadId = null;
     let currentCommentId = null;
@@ -657,5 +551,14 @@
                 }
             });
     }
+    document.addEventListener('DOMContentLoaded', function() {
+        // Use event delegation instead of direct event listeners
+        document.addEventListener('click', function(event) {
+            if (event.target.closest('.sort-comments')) {
+                const button = event.target.closest('.sort-comments');
+                sortComments.call(button);
+            }
+        });
+    });
 </script>
 </x-app-layout>

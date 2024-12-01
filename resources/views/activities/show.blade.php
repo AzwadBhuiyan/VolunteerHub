@@ -16,7 +16,7 @@
                     @endif
 
                     <div class="flex items-center mb-6">
-                        @if($activity->organization->logo)
+                        @if($activity->organization->getLogoPath())
                             <img src="{{ asset($activity->organization->getLogoPath()) }}" 
                                 alt="{{ $activity->organization->org_name }}" 
                                 class="w-14 h-14 rounded-full object-cover mr-4">
@@ -81,6 +81,7 @@
                                 <span class="block font-bold text-gray-700">District:</span>
                                 <span class="text-gray-600">{{ $activity->district }}</span>
                             </div>
+
                             <div class="space-y-1">
                                 <span class="block font-bold text-gray-700">Deadline:</span>
                                 <span class="text-gray-600">{{ $activity->deadline->format('M d, Y H:i') }}</span>
@@ -93,7 +94,18 @@
                                 <span class="block font-bold text-gray-700">Location:</span>
                                 <span class="text-gray-600">{{ $activity->address }}</span>
                             </div>
+                            @if($activity->google_maps_link)
+                                <div class="mt-2">
+                                    <a href="{{ $activity->google_maps_link }}" 
+                                    target="_blank" 
+                                    class="inline-flex items-center text-blue-600 hover:text-blue-800">
+                                        <i class="fas fa-map-marker-alt mr-2"></i>
+                                        View on Google Maps
+                                    </a>
+                                </div>
+                            @endif
                         </div>
+
                     </div>
 
                     <div class="flex gap-4">

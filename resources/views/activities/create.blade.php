@@ -174,6 +174,24 @@
                                 <x-input-error :messages="$errors->get('address')" class="mt-2" />
                             </div>
 
+                            <!-- Google Maps Link -->
+                            <div>
+                                <x-input-label for="google_maps_link" value="Google Maps Link (optional)" />
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                        <i class="fas fa-map-marker-alt text-gray-400"></i>
+                                    </div>
+                                    <x-text-input id="google_maps_link" 
+                                        class="block w-full pl-10" 
+                                        type="text" 
+                                        name="google_maps_link"
+                                        :value="old('google_maps_link')" 
+                                        placeholder="Paste Google Maps link here" />
+                                </div>
+                                <p class="text-xs text-gray-500 mt-1">Format: https://maps.app.goo.gl/...</p>
+                                <x-input-error :messages="$errors->get('google_maps_link')" class="mt-2" />
+                            </div>
+
                             <!-- Volunteers -->
                             <div class="grid grid-cols-2 gap-6">
                                 <div>

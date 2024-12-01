@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 27, 2024 at 06:37 AM
+-- Generation Time: Dec 01, 2024 at 01:42 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -37,6 +37,7 @@ CREATE TABLE `activities` (
   `category` varchar(255) NOT NULL,
   `district` varchar(255) NOT NULL,
   `address` text NOT NULL,
+  `google_maps_link` varchar(255) DEFAULT NULL,
   `deadline` datetime NOT NULL,
   `min_volunteers` int(11) NOT NULL,
   `max_volunteers` int(11) DEFAULT NULL,
@@ -54,21 +55,9 @@ CREATE TABLE `activities` (
 -- Dumping data for table `activities`
 --
 
-INSERT INTO `activities` (`activityid`, `userid`, `title`, `description`, `date`, `time`, `category`, `district`, `address`, `deadline`, `min_volunteers`, `max_volunteers`, `required_profession`, `status`, `created_at`, `updated_at`, `accomplished_description`, `duration`, `difficulty`, `points`) VALUES
-(1, 'org-001', 'Party on', 'lets go', '2024-10-04', '12:45:00', 'Agriculture', 'Dhaka', 'asdad', '2024-09-17 00:42:00', 1, 2, NULL, 'completed', '2024-09-20 12:42:20', '2024-10-06 04:12:39', 'it was great lets goooooooo', 4, NULL, 4),
-(2, 'org-001', 'Lets go', 'lets go', '2024-09-27', '06:21:00', 'Agriculture', 'Dhaka', '1aaf', '2024-10-02 03:22:00', 1, 5, NULL, 'completed', '2024-09-25 15:22:15', '2024-09-26 15:24:28', NULL, NULL, NULL, 0),
-(3, 'org-001', 'wall paint need artists', 'lets paint all the walls', '2024-09-30', '16:27:00', 'Agriculture', 'Dhaka', 'bashundhara', '2024-09-29 00:09:00', 3, 10, NULL, 'completed', '2024-09-26 15:52:59', '2024-09-26 16:11:06', 'all walls look beautiful', 6, 'easy', 0),
-(5, 'org-001', 'EMERGENCY FLOOD RESCUE OPERATION', 'need 10 brave volunteers who are good swimmers', '2024-10-08', '06:28:00', 'Disaster Management', 'Gazipur', 'flood, bangladesh', '2024-10-07 23:28:00', 10, NULL, NULL, 'closed', '2024-10-04 18:29:14', '2024-11-20 15:07:32', NULL, NULL, 'easy', 0),
-(6, 'org-001', 'Activity 1', 'This is a description for Activity 1', '2024-10-12', '20:16:44', 'Fundraising', 'Barguna', 'Address for Activity 1', '2024-10-11 20:16:44', 5, 24, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'medium', 0),
-(7, 'org-001', 'Activity 2', 'This is a description for Activity 2', '2024-11-06', '20:16:44', 'Arts and Culture', 'Dhaka', 'Address for Activity 2', '2024-11-04 20:16:44', 7, 24, 'Lawyer', 'closed', '2024-10-07 14:16:44', '2024-11-18 17:01:17', NULL, NULL, 'medium', 0),
-(8, 'org-001', 'Activity 3', 'This is a description for Activity 3', '2024-10-20', '20:16:44', 'Advocacy', 'Dhaka', 'Address for Activity 3', '2024-10-15 20:16:44', 8, 15, NULL, 'open', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'medium', 0),
-(9, 'org-001', 'Activity 4', 'This is a description for Activity 4', '2024-11-03', '20:16:44', 'Agriculture', 'Gazipur', 'Address for Activity 4', '2024-11-01 20:16:44', 8, 24, NULL, 'open', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'easy', 0),
-(10, 'org-001', 'Activity 5', 'This is a description for Activity 5', '2024-10-23', '20:16:44', 'Agriculture', 'Faridpur', 'Address for Activity 5', '2024-10-19 20:16:44', 5, 23, NULL, 'open', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'easy', 0),
-(11, 'org-001', 'Activity 6', 'This is a description for Activity 6', '2024-11-02', '20:16:44', 'Arts and Culture', 'Bhola', 'Address for Activity 6', '2024-11-01 20:16:44', 7, 21, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'hard', 0),
-(12, 'org-001', 'Activity 7', 'This is a description for Activity 7', '2024-10-13', '20:16:44', 'Environment', 'Thakurgaon', 'Address for Activity 7', '2024-10-08 20:16:44', 8, 28, NULL, 'open', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'hard', 0),
-(13, 'org-001', 'Activity 8', 'This is a description for Activity 8', '2024-10-09', '20:16:44', 'Blood Donation', 'Manikganj', 'Address for Activity 8', '2024-10-05 20:16:44', 7, 18, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'severe', 0),
-(14, 'org-001', 'Activity 9', 'This is a description for Activity 9', '2024-10-20', '20:16:44', 'Advocacy', 'Nilphamari', 'Address for Activity 9', '2024-10-17 20:16:44', 6, 20, NULL, 'open', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'hard', 0),
-(15, 'org-001', 'Activity 10', 'This is a description for Activity 10', '2024-10-15', '20:16:44', 'Fundraising', 'Kurigram', 'Address for Activity 10', '2024-10-13 20:16:44', 7, 23, NULL, 'closed', '2024-10-07 14:16:44', '2024-11-20 15:07:32', NULL, NULL, 'medium', 0);
+INSERT INTO `activities` (`activityid`, `userid`, `title`, `description`, `date`, `time`, `category`, `district`, `address`, `google_maps_link`, `deadline`, `min_volunteers`, `max_volunteers`, `required_profession`, `status`, `created_at`, `updated_at`, `accomplished_description`, `duration`, `difficulty`, `points`) VALUES
+(1, 'org-001', 'Tran bitoron to flood affected areas near chittagong', 'We need all the help we can get. Together let\'s try to put a positive impact in those people\'s lives.', '2024-12-12', '10:00:00', 'Disaster Management', 'Chittagong', 'Chittagong', NULL, '2024-12-04 12:00:00', 20, 30, NULL, 'completed', '2024-11-27 15:34:44', '2024-11-27 17:58:05', 'It was a very succesfull event. The turnout was amazing. We could reach more people than what was initially aimed for. Lets bring this back soon.', 6, 'easy', 6),
+(2, 'org-001', 'Clean Up Dhaka!', 'It\'s time to take things on our own hands. Let\'s make the place we live in more liveable. Gather your brooms and ready those gloves. We are hoping to cover most of north dhaka but volunteers from all areas are welcome', '2024-12-20', '12:00:00', 'Community Development', 'Dhaka', 'Uttara, 12no sector', 'https://maps.app.goo.gl/zpFgVnymy3b2grL66', '2024-12-16 12:00:00', 2, 15, NULL, 'open', '2024-11-27 17:47:10', '2024-11-27 17:47:10', NULL, NULL, 'easy', 0);
 
 -- --------------------------------------------------------
 
@@ -130,13 +119,8 @@ CREATE TABLE `activity_milestones` (
 --
 
 INSERT INTO `activity_milestones` (`id`, `activity_id`, `message`, `created_at`, `updated_at`) VALUES
-(1, 7, 'Startooo', '2024-10-27 13:34:45', '2024-10-27 13:34:45'),
-(2, 7, 'Startooo', '2024-10-27 13:34:50', '2024-10-27 13:34:50'),
-(3, 7, 'Endooooooo', '2024-10-27 13:35:15', '2024-10-27 13:35:15'),
-(4, 7, 'surprise not end!!', '2024-10-27 13:57:25', '2024-10-27 13:57:25'),
-(5, 11, 'meet up at bashundhara bus stand 8am', '2024-11-03 11:46:35', '2024-11-03 11:46:35'),
-(6, 7, 'ss', '2024-11-11 10:40:49', '2024-11-11 10:40:49'),
-(7, 7, 'hope everyone is doing well\r\n\r\nwe will resume tomorrow', '2024-11-22 00:43:19', '2024-11-22 00:43:19');
+(1, 1, 'There will be a pre-meeting before the actual event on 12th. We will be meeting at our office on 8th December, 2024 to discuss plans for the event day. See you everyone.', '2024-11-27 15:36:14', '2024-11-27 15:36:14'),
+(2, 2, 'Volunteers we will provide you with all equipments. For any queries about this event visit our website or contact us at gift@good.com', '2024-11-27 17:50:17', '2024-11-27 17:50:17');
 
 -- --------------------------------------------------------
 
@@ -157,13 +141,6 @@ CREATE TABLE `activity_requests` (
   `activity_id` bigint(20) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `activity_requests`
---
-
-INSERT INTO `activity_requests` (`id`, `volunteer_userid`, `approved_by`, `title`, `description`, `district`, `status`, `created_at`, `updated_at`, `activity_id`) VALUES
-(1, '00002', 'org-001', 'Help our village', 'We live in a small village in the forest of sundarban. We\'ve been heavily affected by the flood please help us', 'Bhola', 'in_progress', '2024-11-22 03:36:21', '2024-11-22 12:23:35', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -175,6 +152,7 @@ CREATE TABLE `activity_volunteers` (
   `activityid` bigint(20) UNSIGNED NOT NULL,
   `volunteer_userid` varchar(255) NOT NULL,
   `approval_status` enum('pending','approved','rejected') NOT NULL DEFAULT 'pending',
+  `visibility` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -183,15 +161,10 @@ CREATE TABLE `activity_volunteers` (
 -- Dumping data for table `activity_volunteers`
 --
 
-INSERT INTO `activity_volunteers` (`id`, `activityid`, `volunteer_userid`, `approval_status`, `created_at`, `updated_at`) VALUES
-(2, 1, '00002', 'approved', NULL, NULL),
-(3, 3, '00002', 'approved', '2024-09-26 15:53:14', '2024-09-26 15:58:02'),
-(4, 3, '00004', 'approved', '2024-09-26 15:54:10', '2024-09-26 15:58:02'),
-(66, 3, '00003', 'approved', NULL, NULL),
-(68, 11, '00002', 'approved', '2024-11-02 12:44:23', '2024-11-03 11:09:34'),
-(69, 8, '00002', 'approved', '2024-11-02 12:44:33', '2024-11-03 11:09:11'),
-(70, 13, '00002', 'pending', '2024-11-14 18:27:47', '2024-11-14 18:27:47'),
-(75, 7, '00002', 'approved', '2024-11-14 18:56:07', '2024-11-14 18:56:07');
+INSERT INTO `activity_volunteers` (`id`, `activityid`, `volunteer_userid`, `approval_status`, `visibility`, `created_at`, `updated_at`) VALUES
+(1, 1, '00001', 'approved', 0, '2024-11-27 16:05:31', '2024-11-30 23:32:52'),
+(2, 1, '00003', 'approved', 1, '2024-11-27 16:15:42', '2024-11-27 17:51:52'),
+(3, 2, '00001', 'pending', 1, '2024-11-27 18:22:45', '2024-11-27 18:22:45');
 
 -- --------------------------------------------------------
 
@@ -253,8 +226,7 @@ CREATE TABLE `favorites` (
 --
 
 INSERT INTO `favorites` (`id`, `volunteer_userid`, `favorite_categories`, `favorite_districts`, `created_at`, `updated_at`) VALUES
-(1, '00002', '[]', '[\"Bagerhat\"]', '2024-10-22 04:33:35', '2024-10-22 04:33:35'),
-(2, '00004', '[\"Advocacy\"]', '[]', '2024-10-22 06:18:12', '2024-10-22 06:18:12');
+(1, '00001', '[\"Community Development\",\"Arts and Culture\",\"Community Development\",\"Fundraising\",\"Health\"]', '[\"Dhaka\"]', '2024-12-01 04:36:08', '2024-12-01 04:50:32');
 
 -- --------------------------------------------------------
 
@@ -276,10 +248,8 @@ CREATE TABLE `idea_comments` (
 --
 
 INSERT INTO `idea_comments` (`id`, `idea_thread_id`, `volunteer_userid`, `comment`, `created_at`, `updated_at`) VALUES
-(1, 2, '00002', '2 words:\r\nmachine guns', '2024-10-03 12:28:33', '2024-10-03 12:28:33'),
-(3, 2, '00004', 'time to build a medieval catapult', '2024-10-03 12:44:35', '2024-10-03 12:44:35'),
-(4, 1, '00002', 'kill them all!', '2024-10-03 12:51:32', '2024-10-03 12:51:32'),
-(5, 2, '00003', 'this is weird', '2024-10-03 15:55:21', '2024-10-03 15:55:21');
+(1, 2, '00001', 'It is only with the help of locals around those places can we hope to achieve this. They will know the best routes and methods. Then we can improve upon those ways.', '2024-11-27 18:38:01', '2024-11-27 18:38:01'),
+(2, 2, '00003', 'We need to petition the government to create accessible roads to these places. This will not only benefit organizations trying to reach and help these areas but also the locals moving about here.', '2024-12-01 05:06:57', '2024-12-01 05:06:57');
 
 -- --------------------------------------------------------
 
@@ -300,7 +270,7 @@ CREATE TABLE `idea_polls` (
 --
 
 INSERT INTO `idea_polls` (`id`, `idea_thread_id`, `question`, `created_at`, `updated_at`) VALUES
-(3, 5, 'Communism will always fail', '2024-10-31 04:53:13', '2024-10-31 04:53:13');
+(1, 1, 'Should we do clean up dhaka again soon?', '2024-11-27 18:04:21', '2024-11-27 18:04:21');
 
 -- --------------------------------------------------------
 
@@ -325,9 +295,9 @@ CREATE TABLE `idea_threads` (
 --
 
 INSERT INTO `idea_threads` (`id`, `userid`, `title`, `description`, `status`, `votes`, `created_at`, `updated_at`, `winner_comment_id`) VALUES
-(1, 'org-001', 'how to stop corruption', 'lets hear it', 'open', 0, '2024-10-03 01:58:52', '2024-10-03 01:58:55', NULL),
-(2, 'org-001', 'How would you rob a bank?', 'Best idea maker will be taken to jail\r\n\r\nNo bombs allowed', 'closed', 0, '2024-10-03 12:20:24', '2024-11-04 06:43:42', 3),
-(5, 'org-001', 'Communism will always fail', 'am i right boiss??', 'open', 0, '2024-10-31 04:53:13', '2024-10-31 04:53:13', NULL);
+(1, 'org-001', 'Should we do clean up dhaka again soon?', 'Since the last event for clean up dhaka was successful we want to organize one again. But it hasn\'t been that long. We want to hear what you want.', 'open', 0, '2024-11-27 18:04:21', '2024-11-27 18:04:21', NULL),
+(2, 'org-001', 'How to increase our reach into isolated areas of bangladesh?', 'The most accessible and implementable solution will win. The volunteer who wins will be taken into our project.', 'open', 0, '2024-11-27 18:21:40', '2024-11-27 18:21:40', NULL),
+(3, 'org-001', 'What is the main issue the population of bangladesh is facing?', '.', 'open', 0, '2024-11-27 18:43:41', '2024-11-27 18:43:41', NULL);
 
 -- --------------------------------------------------------
 
@@ -350,20 +320,9 @@ CREATE TABLE `idea_votes` (
 --
 
 INSERT INTO `idea_votes` (`id`, `idea_thread_id`, `idea_comment_id`, `user_userid`, `vote`, `created_at`, `updated_at`) VALUES
-(13, 2, 1, '00003', 1, '2024-10-03 16:43:36', '2024-10-03 16:43:36'),
-(15, 2, 3, '00003', 1, '2024-10-03 16:48:20', '2024-10-03 16:48:20'),
-(17, 2, NULL, '00004', 1, '2024-10-03 16:48:38', '2024-10-03 16:48:38'),
-(18, 1, NULL, '00004', 1, '2024-10-03 16:48:41', '2024-10-03 16:48:41'),
-(20, 2, 3, '00004', 1, '2024-10-03 16:48:55', '2024-10-03 16:48:55'),
-(21, 2, NULL, '00003', 1, '2024-10-03 16:49:10', '2024-10-03 16:49:10'),
-(39, 2, 3, 'org-001', 1, '2024-10-05 10:05:51', '2024-10-05 10:05:51'),
-(41, 2, 5, 'org-001', 1, '2024-10-07 06:34:02', '2024-10-07 06:34:02'),
-(42, 2, NULL, 'org-001', 1, '2024-10-07 06:34:04', '2024-10-07 06:34:04'),
-(50, 1, NULL, '00002', 1, '2024-10-25 07:18:59', '2024-10-25 07:18:59'),
-(56, 2, 3, '00002', 1, '2024-11-05 13:32:52', '2024-11-05 13:32:52'),
-(57, 2, 1, '00002', 1, '2024-11-07 13:16:25', '2024-11-07 13:16:25'),
-(61, 2, 5, '00002', 1, '2024-11-17 20:18:01', '2024-11-17 20:18:01'),
-(63, 2, NULL, '00002', 1, '2024-11-17 20:18:35', '2024-11-17 20:18:35');
+(14, 2, 1, '00001', 1, '2024-12-01 00:43:15', '2024-12-01 00:43:15'),
+(20, 2, NULL, '00001', 1, '2024-12-01 04:32:55', '2024-12-01 04:32:55'),
+(22, 2, 1, '00003', 1, '2024-12-01 04:58:53', '2024-12-01 04:58:53');
 
 -- --------------------------------------------------------
 
@@ -417,41 +376,41 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(19, '2024_09_07_194436_add_bio_to_volunteers_table', 3),
-(20, '0001_01_01_000000_create_users_table', 4),
-(21, '0001_01_01_000001_create_cache_table', 4),
-(22, '0001_01_01_000002_create_jobs_table', 4),
-(23, '2024_08_28_170817_create_volunteers_table', 4),
-(24, '2024_08_28_174453_create_organizations_table', 4),
-(25, '2024_09_02_093608_add_verified_to_users_table', 4),
-(26, '2024_09_06_131216_create_activity_categories_table', 4),
-(27, '2024_09_06_131342_create_volunteer_favorite_categories_table', 4),
-(28, '2024_09_06_143531_create_activities_table', 4),
-(29, '2024_09_06_144947_create_activity_volunteers_table', 4),
-(31, '2024_09_26_210817_add_completion_details_to_activities_table', 5),
-(32, '2024_09_27_193349_add_profession_to_volunteer_table', 6),
-(33, '2024_09_29_093437_create_idea_threads_table', 6),
-(34, '2024_09_29_093438_create_idea_comments_table', 6),
-(35, '2024_09_29_093438_create_idea_polls_table', 6),
-(36, '2024_09_29_093438_create_poll_options_table', 6),
-(39, '2024_09_29_093458_create_idea_votes_table', 7),
-(41, '2024_10_03_221834_add_status_to_idea_threads_table', 8),
-(47, '2024_10_07_184918_create_favorites_table', 9),
-(48, '2024_10_08_193437_create_volunteer_follows_table', 9),
-(49, '2024_10_22_121517_add_allow_follow_to_volunteers_table', 10),
-(52, '2024_10_27_191728_create_activity_milestones_table', 11),
-(53, '2024_10_31_104305_create_poll_votes_table', 12),
-(54, '2024_11_04_101626_create_add_winner_column_to_ideathread_table', 13),
-(57, '2024_11_10_184547_add_role_to_users_table', 14),
-(58, '2024_11_13_185436_add_required_profession_to_activities_table', 14),
-(59, '2024_11_15_173422_add_email_verified_at_to_users_table', 15),
-(60, '2024_11_21_005530_create_add_lockout_fields_to_users_table', 16),
-(61, '2024_11_21_012219_create_add_2fa_fields_to_users_table', 17),
-(62, '2024_11_22_084012_add_show_posts_to_users_table', 18),
-(63, '2024_11_22_091501_create_activity_requests_table', 19),
-(64, '2024_11_22_093819_add_last_requests_read_to_organizations_table', 20),
-(65, '2024_11_22_181015_add_activity_id_to_requests_table', 21),
-(67, '2024_11_23_075817_create_tutorial_progress_table', 22);
+(1, '0001_01_01_000000_create_users_table', 1),
+(2, '0001_01_01_000001_create_cache_table', 1),
+(3, '0001_01_01_000002_create_jobs_table', 1),
+(4, '2024_08_28_170817_create_volunteers_table', 1),
+(5, '2024_08_28_174453_create_organizations_table', 1),
+(6, '2024_09_02_093608_add_verified_to_users_table', 1),
+(7, '2024_09_06_131216_create_activity_categories_table', 1),
+(8, '2024_09_06_143531_create_activities_table', 1),
+(9, '2024_09_06_144947_create_activity_volunteers_table', 1),
+(10, '2024_09_26_210817_add_completion_details_to_activities_table', 1),
+(11, '2024_09_27_193349_add_profession_to_volunteer_table', 1),
+(12, '2024_09_29_093437_create_idea_threads_table', 1),
+(13, '2024_09_29_093438_create_idea_comments_table', 1),
+(14, '2024_09_29_093438_create_idea_polls_table', 1),
+(15, '2024_09_29_093438_create_poll_options_table', 1),
+(16, '2024_09_29_093458_create_idea_votes_table', 1),
+(17, '2024_10_03_221834_add_status_to_idea_threads_table', 1),
+(18, '2024_10_07_184918_create_favorites_table', 1),
+(19, '2024_10_08_193437_create_volunteer_follows_table', 1),
+(20, '2024_10_22_121517_add_allow_follow_to_volunteers_table', 1),
+(21, '2024_10_27_191728_create_activity_milestones_table', 1),
+(22, '2024_10_31_104305_create_poll_votes_table', 1),
+(23, '2024_11_04_101626_create_add_winner_column_to_ideathread_table', 1),
+(24, '2024_11_10_184547_add_role_to_users_table', 1),
+(25, '2024_11_13_185436_add_required_profession_to_activities_table', 1),
+(26, '2024_11_15_173422_add_email_verified_at_to_users_table', 1),
+(27, '2024_11_21_005530_create_add_lockout_fields_to_users_table', 1),
+(28, '2024_11_21_012219_create_add_2fa_fields_to_users_table', 1),
+(29, '2024_11_22_084012_add_show_posts_to_users_table', 1),
+(30, '2024_11_22_091501_create_activity_requests_table', 1),
+(31, '2024_11_22_093819_add_last_requests_read_to_organizations_table', 1),
+(32, '2024_11_22_181015_add_activity_id_to_requests_table', 1),
+(33, '2024_11_23_075817_create_tutorial_progress_table', 1),
+(34, '2024_12_01_050249_add_visibility_to_activity_volunteers_table', 2),
+(35, '2024_12_01_123447_add_map_location_to_activities_table', 3);
 
 -- --------------------------------------------------------
 
@@ -468,19 +427,6 @@ CREATE TABLE `milestone_reads` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `milestone_reads`
---
-
-INSERT INTO `milestone_reads` (`id`, `milestone_id`, `volunteer_userid`, `is_read`, `read_at`, `created_at`, `updated_at`) VALUES
-(1, 1, '00002', 1, '2024-11-26 19:09:27', '2024-10-27 13:34:45', '2024-11-26 19:09:27'),
-(2, 2, '00002', 1, '2024-11-26 19:09:27', '2024-10-27 13:34:50', '2024-11-26 19:09:27'),
-(3, 3, '00002', 1, '2024-11-26 19:09:27', '2024-10-27 13:35:15', '2024-11-26 19:09:27'),
-(4, 4, '00002', 1, '2024-11-26 19:09:27', '2024-10-27 13:57:25', '2024-11-26 19:09:27'),
-(5, 5, '00002', 1, '2024-11-03 13:07:38', '2024-11-03 11:46:35', '2024-11-03 13:07:38'),
-(6, 6, '00002', 1, '2024-11-26 19:09:27', '2024-11-11 10:40:49', '2024-11-26 19:09:27'),
-(7, 7, '00002', 1, '2024-11-26 19:09:27', '2024-11-22 00:43:19', '2024-11-26 19:09:27');
 
 -- --------------------------------------------------------
 
@@ -509,9 +455,7 @@ CREATE TABLE `organizations` (
 --
 
 INSERT INTO `organizations` (`userid`, `url`, `org_name`, `primary_address`, `secondary_address`, `website`, `org_mobile`, `org_telephone`, `description`, `verification_status`, `created_at`, `updated_at`, `last_requests_read_at`) VALUES
-('org-001', 'rahatinc', 'rahat inc', 'dh', 'dh', 'https://www.facebook.com/rht.krmO.o/', '123', '132', 'we believe in hella money $$$$$', 'verified', '2024-09-20 07:52:52', '2024-11-22 23:41:32', '2024-11-22 23:41:32'),
-('org-002', 'org-002', 'org', 'org', 'org', 'https://org@c.com', '91239', '123123', NULL, 'unverified', '2024-09-20 10:18:14', '2024-09-20 10:18:14', NULL),
-('org-003', 'org-003', 'Gift for good', 'bashundhara r/a', 'bashundhara r/a', 'https://www.netflix.com/', '01990385489', '01288841', NULL, 'unverified', '2024-11-07 13:34:29', '2024-11-07 13:34:29', NULL);
+('org-001', 'org-001', 'Gift for Good', 'House 13, Rd 5, Anderkilla, Chittagong', 'House 13, Rd 5, Anderkilla, Chittagong', 'https://www.giftforgood.com', '12345678912', '1234124', 'Lets do all we can for humanity', 'unverified', '2024-11-27 15:18:25', '2024-11-28 05:49:59', '2024-11-28 05:49:01');
 
 -- --------------------------------------------------------
 
@@ -545,9 +489,9 @@ CREATE TABLE `poll_options` (
 --
 
 INSERT INTO `poll_options` (`id`, `idea_poll_id`, `option_text`, `votes`, `created_at`, `updated_at`) VALUES
-(6, 3, 'yes', 1, '2024-10-31 04:53:13', '2024-11-16 17:28:43'),
-(7, 3, 'no', 2, '2024-10-31 04:53:13', '2024-11-16 17:28:43'),
-(8, 3, 'it wasn\'t tried correctly!! boohooo I CRYYY', 0, '2024-10-31 04:53:13', '2024-11-04 03:43:07');
+(1, 1, 'Yes', 1, '2024-11-27 18:04:21', '2024-11-27 18:04:31'),
+(2, 1, 'No', 0, '2024-11-27 18:04:21', '2024-11-27 18:04:21'),
+(3, 1, 'Interested in any other similar work', 0, '2024-11-27 18:04:21', '2024-11-27 18:04:21');
 
 -- --------------------------------------------------------
 
@@ -569,9 +513,7 @@ CREATE TABLE `poll_votes` (
 --
 
 INSERT INTO `poll_votes` (`id`, `idea_poll_id`, `poll_option_id`, `user_id`, `created_at`, `updated_at`) VALUES
-(2, 3, 6, '00004', '2024-10-31 05:16:52', '2024-10-31 05:16:52'),
-(20, 3, 7, '00002', '2024-11-05 13:32:13', '2024-11-05 13:32:13'),
-(26, 3, 7, '00006', '2024-11-16 17:28:43', '2024-11-16 17:28:43');
+(1, 1, 1, 'org-001', '2024-11-27 18:04:31', '2024-11-27 18:04:31');
 
 -- --------------------------------------------------------
 
@@ -609,14 +551,18 @@ CREATE TABLE `tutorial_progress` (
 --
 
 INSERT INTO `tutorial_progress` (`id`, `userid`, `page_name`, `dont_show_again`, `last_step_seen`, `created_at`, `updated_at`) VALUES
-(1, '00002', 'volunteer_dashboard', 0, 0, NULL, NULL),
-(2, '00007', 'volunteer_dashboard', 0, 0, '2024-11-26 21:30:40', '2024-11-26 23:29:57'),
-(3, '00007', 'volunteer_profile', 0, 0, '2024-11-26 21:30:40', '2024-11-26 23:29:57'),
-(4, '00007', 'favorites', 1, 0, '2024-11-26 21:30:40', '2024-11-26 23:30:19'),
-(5, '00007', 'home', 0, 0, '2024-11-26 21:30:40', '2024-11-26 23:29:57'),
-(6, '00002', 'favorites', 0, 0, '2024-11-27 05:31:08', '2024-11-27 05:31:08'),
-(7, '00002', 'volunteer_profile', 0, 0, '2024-11-27 05:31:08', '2024-11-27 05:31:08'),
-(8, '00002', 'home', 0, 0, '2024-11-27 05:31:47', '2024-11-27 05:31:47');
+(1, '00001', 'volunteer_dashboard', 1, 0, '2024-11-27 14:46:02', '2024-11-27 16:05:48'),
+(2, '00001', 'volunteer_profile', 1, 0, '2024-11-27 14:46:02', '2024-11-27 18:47:56'),
+(3, '00001', 'favorites', 1, 0, '2024-11-27 14:46:02', '2024-11-28 15:00:25'),
+(4, '00001', 'home', 0, 0, '2024-11-27 14:46:02', '2024-11-27 14:46:02'),
+(5, '00002', 'volunteer_dashboard', 0, 0, '2024-11-27 14:47:26', '2024-11-27 14:47:26'),
+(6, '00002', 'volunteer_profile', 1, 0, '2024-11-27 14:47:26', '2024-11-27 14:58:08'),
+(7, '00002', 'favorites', 0, 0, '2024-11-27 14:47:26', '2024-11-27 14:47:26'),
+(8, '00002', 'home', 1, 0, '2024-11-27 14:47:26', '2024-11-27 15:02:30'),
+(9, '00003', 'volunteer_dashboard', 1, 0, '2024-11-27 15:37:24', '2024-11-27 16:15:36'),
+(10, '00003', 'volunteer_profile', 1, 0, '2024-11-27 15:37:24', '2024-11-27 15:44:31'),
+(11, '00003', 'favorites', 0, 0, '2024-11-27 15:37:24', '2024-11-27 15:37:24'),
+(12, '00003', 'home', 0, 0, '2024-11-27 15:37:24', '2024-11-27 15:37:24');
 
 -- --------------------------------------------------------
 
@@ -648,15 +594,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`userid`, `email`, `role`, `password`, `remember_token`, `created_at`, `updated_at`, `verified`, `email_verified_at`, `login_attempts`, `locked_until`, `max_attempts`, `two_factor_enabled`, `show_posts`, `two_factor_code`, `two_factor_expires_at`) VALUES
-('00002', 'volunteer@gmail.com', 'volunteer', '$2y$12$UoCj2BpNB1JrgIt52cSfzOMdn08Wk/HJj6ro8Gv6jB7vtw5GSEWLC', NULL, '2024-09-20 07:54:58', '2024-11-22 02:58:56', 1, '2024-11-11 02:01:23', 0, NULL, 5, 0, 0, NULL, '2024-11-22 00:19:18'),
-('00003', 'rht.krt@gmail.com', 'volunteer', '$2y$12$V7A2GOSUdQgSk.EwzPdE.elMi29NAzgkxYZdVpfdhepWW86LsmCSa', NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 1, NULL, 0, NULL, 5, 0, 1, NULL, NULL),
-('00004', 'as2@gmail.com', 'volunteer', '$2y$12$jVXp.L4xCT/eGMS1mvziT.RyvbmZ57Rqx9L9gCBP/lOyXs8B34ucO', NULL, '2024-09-26 15:50:49', '2024-09-26 15:50:49', 0, NULL, 0, NULL, 5, 0, 1, NULL, NULL),
-('00005', 'real@gmail.com', 'volunteer', '$2y$12$6K3SsBVUR/cfj.pZhCJr/O3cMTtm.qVlP6kc7H6S1VJDyfzxhMqpa', NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1, NULL, 0, NULL, 5, 0, 1, NULL, NULL),
-('00006', 'test@test.com', 'admin', '$2y$12$QGwn3t/.ezDJOy28KOWKIOSuuOqvL45e8OWBVWhDB3kM/bKzkZhyW', NULL, '2024-11-16 16:48:03', '2024-11-16 16:48:03', 1, NULL, 0, NULL, 5, 0, 1, NULL, NULL),
-('00007', 'a@b.com', 'volunteer', '$2y$12$7savz3GUMPYzTDUWFMKxBuPvS.NxEPMVfLdT9ApGWit9W7u3N6Jzm', NULL, '2024-11-26 21:30:40', '2024-11-26 21:30:40', 1, '2024-11-27 03:31:31', 0, NULL, 5, 0, 1, NULL, NULL),
-('org-001', 'organization@gmail.com', 'organization', '$2y$12$eohVVZ72P3qUd9MFC/eKFOmQIHraB1FLZsIS3bLKuc5Gdk31p3I8a', NULL, '2024-09-20 07:52:52', '2024-11-22 00:42:32', 1, '2024-11-05 02:24:37', 0, NULL, 5, 0, 1, NULL, '2024-11-22 00:52:20'),
-('org-002', 'org2@gmail.com', 'organization', '$2y$12$R1fNsPbwj5ZicKAPcZPnDe6XoqPKjfmkOl6mYNFBxGMoQW4Mif9gO', NULL, '2024-09-20 10:18:14', '2024-09-20 10:18:14', 1, '2024-11-19 19:56:25', 0, NULL, 5, 0, 1, NULL, NULL),
-('org-003', 'org@gmail.com', 'organization', '$2y$12$iebVwhgixO161EblQEmMruTLsMtLZnrmvjeA42AgCXPLIJm/bojCC', NULL, '2024-11-07 13:34:29', '2024-11-07 13:34:29', 0, NULL, 0, NULL, 5, 0, 1, NULL, NULL);
+('00001', 'rht.krt@gmail.com', 'volunteer', '$2y$12$BOUFp.nyoWHWKcsqRsT/puPSl3RNvRK1ciFuT7wVPMVQI.PgPIzve', NULL, '2024-11-27 14:46:02', '2024-11-27 14:46:02', 1, '2024-11-27 21:40:47', 0, NULL, 5, 0, 1, NULL, NULL),
+('00002', 'admin@kormonno.com', 'admin', '$2y$12$.XuunYNCSCJThSfCUhq4Cu7P1K7DDdLzaO8Y15YZjqBXrWS/a.AWq', NULL, '2024-11-27 14:47:26', '2024-11-27 14:47:26', 1, '2024-11-27 20:47:41', 0, NULL, 5, 0, 1, NULL, NULL),
+('00003', 'rahat.karim95@gmail.com', 'volunteer', '$2y$12$oMlVbn8YF617Rba1IlS/hux5vU5h1GlM2RghNebdqajbd4bMln44m', NULL, '2024-11-27 15:37:24', '2024-11-27 15:37:24', 1, '2024-11-27 21:37:39', 0, NULL, 5, 0, 1, NULL, NULL),
+('org-001', 'organization@gmail.com', 'organization', '$2y$12$Jvd7ymXJpb8V3h6xlExw9.Wo1o.FWbP0hsBounoI85rKEye4O5mg.', NULL, '2024-11-27 15:18:25', '2024-11-27 15:18:25', 1, '2024-11-27 21:18:33', 0, NULL, 5, 0, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -691,11 +632,9 @@ CREATE TABLE `volunteers` (
 --
 
 INSERT INTO `volunteers` (`userid`, `url`, `Name`, `Phone`, `NID`, `Gender`, `DOB`, `BloodGroup`, `PresentAddress`, `PermanentAddress`, `District`, `TrainedInEmergencyResponse`, `Points`, `profession`, `Badges`, `bio`, `created_at`, `updated_at`, `allow_follow`) VALUES
-('00002', 'TheGreatestVolunteerWhoLived', 'Abbas ali', '01990376524', '1293847561', 'M', '2024-09-25', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 33, 'Lawyer', NULL, 'I am TheGreatestVolunteerWhoLived. Bow down before me', '2024-09-20 07:54:58', '2024-11-13 13:33:44', 1),
-('00003', '00003', 'Rahatul Karim', '01990376524', NULL, 'M', '2024-09-11', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-09-20 10:19:02', '2024-09-20 10:19:02', 1),
-('00004', 'fatherTeresa', 'asdf', '01990376524', NULL, 'M', '1992-06-09', 'A+', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', '4th floor, House 439, Rupayan Suraiya, Road 18, Block A, Bashundhara', 'Gopalganj', 0, 6, NULL, NULL, NULL, '2024-09-26 15:50:49', '2024-10-30 07:30:12', 0),
-('00005', '00005', 'Real Person', '01234567891', NULL, 'M', '2002-01-30', 'Not Set', 'Real Address', 'Real Address', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-11-07 13:46:08', '2024-11-07 13:46:08', 1),
-('00007', '00007', 'abc', '12345689011', NULL, 'M', '1981-04-02', 'Not Set', 'abc', 'abc', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-11-26 21:30:40', '2024-11-26 21:30:40', 1);
+('00001', '00001', 'Rahatul Karim', '01990376524', NULL, 'M', '1995-06-17', 'A+', 'Flat 2A, Marquise Haus, Plot 1322, Road 20, Block i, Bashundhara R/A', 'Flat 2A, Marquise Haus, Plot 1322, Road 20, Block i, Bashundhara R/A', 'Dhaka', 0, 6, NULL, NULL, NULL, '2024-11-27 14:46:02', '2024-11-28 15:00:04', 1),
+('00002', '00002', 'Rahatul Karim', '01990376514', NULL, 'M', '1997-03-11', 'Not Set', 'Flat 2A, Marquise Haus, Plot 1322, Road 20, Block i, Bashundhara R/A', 'Flat 2A, Marquise Haus, Plot 1322, Road 20, Block i, Bashundhara R/A', 'Dhaka', 0, 0, NULL, NULL, NULL, '2024-11-27 14:47:26', '2024-11-27 14:47:26', 1),
+('00003', 'abbasali', 'Abbas Ali', '92883471839', NULL, 'M', '1987-10-14', 'A+', 'road 2, block A', 'road 2, block A', 'Dhaka', 0, 6, NULL, NULL, 'I like volunteering. Follow me to see my journey.', '2024-11-27 15:37:24', '2024-11-27 17:58:05', 1);
 
 -- --------------------------------------------------------
 
@@ -717,7 +656,7 @@ CREATE TABLE `volunteer_follows` (
 --
 
 INSERT INTO `volunteer_follows` (`id`, `follower_id`, `followed_id`, `type`, `created_at`, `updated_at`) VALUES
-(2, '00002', 'org-001', 'organization', '2024-10-22 04:50:54', '2024-10-22 04:50:54');
+(1, '00001', 'org-001', 'organization', '2024-12-01 05:25:29', '2024-12-01 05:25:29');
 
 --
 -- Indexes for dumped tables
@@ -917,7 +856,7 @@ ALTER TABLE `volunteer_follows`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `activityid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `activityid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `activity_categories`
@@ -929,19 +868,19 @@ ALTER TABLE `activity_categories`
 -- AUTO_INCREMENT for table `activity_milestones`
 --
 ALTER TABLE `activity_milestones`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `activity_requests`
 --
 ALTER TABLE `activity_requests`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `activity_volunteers`
 --
 ALTER TABLE `activity_volunteers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -953,31 +892,31 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `idea_comments`
 --
 ALTER TABLE `idea_comments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `idea_polls`
 --
 ALTER TABLE `idea_polls`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `idea_threads`
 --
 ALTER TABLE `idea_threads`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `idea_votes`
 --
 ALTER TABLE `idea_votes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -989,37 +928,37 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `milestone_reads`
 --
 ALTER TABLE `milestone_reads`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `poll_options`
 --
 ALTER TABLE `poll_options`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `poll_votes`
 --
 ALTER TABLE `poll_votes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tutorial_progress`
 --
 ALTER TABLE `tutorial_progress`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `volunteer_follows`
 --
 ALTER TABLE `volunteer_follows`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables

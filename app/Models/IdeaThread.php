@@ -42,4 +42,12 @@ class IdeaThread extends Model
     {
         return !$this->poll()->exists();
     }
+
+    public function hasVotedBy($userId)
+    {
+        return $this->votes()
+            ->where('user_userid', $userId)
+            ->whereNull('idea_comment_id')
+            ->exists();
+    }
 }
