@@ -35,7 +35,7 @@ class Activity extends Model
     public function volunteers()
     {
         return $this->belongsToMany(Volunteer::class, 'activity_volunteers', 'activityid', 'volunteer_userid')
-                    ->withPivot('approval_status')
+                    ->withPivot('approval_status', 'visibility')
                     ->withTimestamps();
     }
 

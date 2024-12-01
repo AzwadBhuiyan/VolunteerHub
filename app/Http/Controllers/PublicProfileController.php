@@ -21,9 +21,15 @@ class PublicProfileController extends Controller
         $user = $profile->user;
         
         if ($user->volunteer) {
-            $completedActivities = Activity::whereHas('volunteers', function ($query) use ($user) {
-                $query->where('volunteer_userid', $user->userid)->where('approval_status', 'approved');
-            })->where('status', 'completed')->get();
+            $completedActivities = Activity::with(['volunteers' => function($query) use ($user) {
+                $query->where('volunteer_userid', $user->userid);
+            }])
+            ->whereHas('volunteers', function ($query) use ($user) {
+                $query->where('volunteer_userid', $user->userid)
+                      ->where('approval_status', 'approved');
+            })
+            ->where('status', 'completed')
+            ->get();
             
             return view('profile.public-profile-volunteer', compact('profile', 'completedActivities'));
         } elseif ($user->organization) {

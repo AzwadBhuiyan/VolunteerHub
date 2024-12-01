@@ -430,5 +430,36 @@ class ActivityController extends Controller
         return view('activities.timeline', compact('activity'));
     }
 
+    public function toggleVisibility(Request $request, Activity $activity)
+    {
+        $volunteer = $request->user()->volunteer;
+        
+        if (!$volunteer) {
+            return back()->with('error', 'Unauthorized action.');
+        }
+    
+        $pivot = $activity->volunteers()
+            ->where('volunteer_userid', $volunteer->userid)
+            ->first();
+    
+        if (!$pivot) {
+            return back()->with('error', 'Activity not found.');
+        }
+    
+        DB::beginTransaction();
+        try {
+            $activity->volunteers()->updateExistingPivot(
+                $volunteer->userid,
+                ['visibility' => !$pivot->pivot->visibility]
+            );
+            DB::commit();
+            
+            return back()->with('success', 'Activity visibility updated successfully.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Failed to update activity visibility.');
+        }
+    }
+
 
 }

@@ -131,6 +131,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // volunteer->activities
     Route::post('/activities/{activity}/register', [ActivityController::class, 'register'])->name('activities.register')->middleware('auth');
     Route::delete('/activities/{activity}/cancel-registration', [ActivityController::class, 'cancelRegistration'])->name('activities.cancel_registration');
+    Route::patch('/activities/{activity}/toggle-visibility', [ActivityController::class, 'toggleVisibility'])->name('activities.toggle-visibility');
         // timeline & milestone
     Route::get('/activities/{activity}/timeline', [ActivityController::class, 'timeline'])->name('activities.timeline');
     Route::post('/activities/{activity}/milestones', [ActivityMilestoneController::class, 'store'])->name('activities.milestones.store');
