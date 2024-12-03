@@ -420,6 +420,23 @@
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm">
                                             <div class="flex items-center space-x-4">
+                                                <div class="relative">
+                                                    <a href="{{ route('activities.show_accomplished', $activity) }}"
+                                                        class="text-purple-600 hover:text-purple-900">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
+                                                            height="24" fill="#3B82F6"
+                                                            class="bi bi-eye translate-y-[2px] group relative"
+                                                            viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z" />
+                                                            <path d="M8 5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+                                                        </svg>
+                                                        <span
+                                                            class="tooltip-text absolute invisible bg-black text-white text-xs rounded py-1 px-2 -mt-16 -ml-8 whitespace-nowrap opacity-0 transition-opacity duration-300 hover:opacity-100">View
+                                                            Details</span>
+                                                    </a>
+                                                </div>
+
                                                 @if ($activity->pivot->approval_status === 'approved')
                                                     <div class="relative">
                                                         <a href="{{ route('activities.timeline', $activity) }}"
@@ -446,23 +463,6 @@
                                                         </a>
                                                     </div>
                                                 @endif
-
-                                                <div class="relative ml-8">
-                                                    <a href="{{ route('activities.show_accomplished', $activity) }}"
-                                                        class="text-purple-600 hover:text-purple-900">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                                            height="24" fill="#3B82F6"
-                                                            class="bi bi-eye translate-y-[2px] group relative"
-                                                            viewBox="0 0 16 16">
-                                                            <path
-                                                                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4.5a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z" />
-                                                            <path d="M8 5a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
-                                                        </svg>
-                                                        <span
-                                                            class="tooltip-text absolute invisible bg-black text-white text-xs rounded py-1 px-2 -mt-16 -ml-8 whitespace-nowrap opacity-0 transition-opacity duration-300 hover:opacity-100">View
-                                                            Details</span>
-                                                    </a>
-                                                </div>
                                             </div>
                                         </td>
                                     </tr>

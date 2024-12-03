@@ -14,7 +14,7 @@
             class="w-10 h-10 rounded-full object-cover">
         <div class="flex flex-col ml-4 flex-grow">
             <div class="flex justify-between items-start">
-                <h4 class="text-base font-semibold text-gray-800 hover:bg-gradient-to-r hover:from-blue-600 hover:via-green-500 hover:to-blue-600 hover:bg-clip-text hover:text-transparent transition-all duration-300"><a href="{{ route('activities.show', $activity) }}" class="text-gray-800">{{ $activity->title }}</a></h4>
+                <h4 class="text-base font-semibold text-gray-800"><a href="{{ route('activities.show', $activity) }}" class="text-gray-800 hover:text-blue-700">{{ $activity->title }}</a></h4>
                 <div class="relative ml-4" x-data="{ open: false }">
                     <button @click="open = !open" 
                         class="flex items-center space-x-1 px-2 py-0.5 text-xs border border-gray-300 rounded-md hover:bg-gray-50 transition duration-150">
