@@ -111,7 +111,7 @@
                                             flatpickr("#time", {
                                                 enableTime: true,
                                                 noCalendar: true,
-                                                dateFormat: "h:i K",
+                                                dateFormat: "h:i A",
                                                 time_24hr: false,
                                                 onChange: function(selectedDates, timeStr, instance) {
                                                     document.getElementById('time').value = timeStr;
