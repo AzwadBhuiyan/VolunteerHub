@@ -44,32 +44,32 @@
                                     </label>
                                 </div>
                             </div>
-
-
                             <p class="text-xs text-gray-500 mt-2">Maximum file size: 5MB</p>
                             <x-input-error class="mt-1" :messages="$errors->get('image')" />
                         </div>
 
+                        
+
                         <div class="space-y-6">
                             <!-- Title -->
                             <div>
-                                <x-input-label for="title" value="Title" />
                                 <x-text-input id="title" 
                                               name="title" 
                                               type="text" 
                                               class="mt-1 block w-full" 
                                               value="{{ isset($activityRequest) ? $activityRequest->title : old('title') }}"
+                                              placeholder="Title"
                                               required />
                                 <x-input-error :messages="$errors->get('title')" class="mt-2" />
                             </div>
 
                             <!-- Description -->
                             <div>
-                                <x-input-label for="description" value="Description" />
                                 <textarea id="description" 
                                           name="description" 
                                           rows="4" 
                                           class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
+                                          placeholder="Description"
                                           required>{{ isset($activityRequest) ? $activityRequest->description : old('description') }}</textarea>
                                 <x-input-error :messages="$errors->get('description')" class="mt-2" />
                             </div>
@@ -131,8 +131,8 @@
                                     <select id="category" name="category"
                                         class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                         required>
-                                        <option value="">Select a category</option>
-                                        @foreach ($categories as $category)
+                                        <option value="">Select category</option>
+                                        @foreach ($categories->sortBy('name') as $category)
                                             <option value="{{ $category->name }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
@@ -145,7 +145,7 @@
                                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
                                             required>
                                         <option value="">Select District</option>
-                                        @foreach(config('districts.districts') as $district)
+                                        @foreach(collect(config('districts.districts'))->sort() as $district)
                                             <option value="{{ $district }}" 
                                                 {{ (isset($activityRequest) && $activityRequest->district === $district) ? 'selected' : '' }}>
                                                 {{ $district }}
@@ -172,7 +172,7 @@
 
                             <!-- Address -->
                             <div>
-                                <textarea id="address" name="address" class="block w-full h-20 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required placeholder="Enter Project Address">{{ old('address') }}</textarea>
+                                <textarea id="address" name="address" class="block w-full h-20 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required placeholder="Project Address">{{ old('address') }}</textarea>
                                 <x-input-error :messages="$errors->get('address')" class="mt-2" />
                             </div>
 
@@ -198,14 +198,14 @@
                                 <div>
                                     <x-text-input id="min_volunteers" class="block w-full" type="number"
                                         name="min_volunteers" :value="old('min_volunteers')" required min="1"
-                                        placeholder="Enter Minimum Number of Volunteers" />
+                                        placeholder="Minimum Volunteers" />
                                     <x-input-error :messages="$errors->get('min_volunteers')" class="mt-2" />
                                 </div>
 
                                 <div>
                                     <x-text-input id="max_volunteers" class="block w-full" type="number"
                                         name="max_volunteers" :value="old('max_volunteers')" min="1"
-                                        placeholder="Enter Maximum Number of Volunteers (Optional)" />
+                                        placeholder="Maximum Volunteers (Optional)" />
                                     <x-input-error :messages="$errors->get('max_volunteers')" class="mt-2" />
                                 </div>
                             </div>
@@ -239,7 +239,7 @@
                                     {{-- <x-input-label for="required_profession" :value="__('Required Profession (optional)')" /> --}}
                                     <select id="required_profession" name="required_profession"
                                         class="block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                        <option value="">Select a profession (optional)</option>
+                                        <option value="">Profession (optional)</option>
                                         <option value="Accountant">Accountant</option>
                                         <option value="Architect">Architect</option>
                                         <option value="Carpenter">Carpenter</option>
