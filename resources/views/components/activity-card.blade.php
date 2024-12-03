@@ -35,7 +35,7 @@
                             target="_blank" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             <i class="fab fa-linkedin mr-2"></i>Share on LinkedIn
                         </a>
-                        <button onclick="navigator.clipboard.writeText('{{ route('activities.show', $activity) }}')"
+                        <button @click="navigator.clipboard.writeText('{{ route('activities.show', $activity) }}').then(() => { open = false; const popup = document.createElement('div'); popup.textContent = 'Link copied!'; popup.className = 'fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-100 text-green-800 text-center rounded-md py-2 px-4 shadow-md'; document.body.appendChild(popup); setTimeout(() => { popup.remove(); }, 2000); })"
                             class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                             <i class="fas fa-link mr-2"></i>Copy Link
                         </button>

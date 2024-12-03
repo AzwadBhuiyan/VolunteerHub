@@ -127,68 +127,9 @@
                         </button>
                     </div>
 
-                    <!-- Activities Section -->
                     <div x-show="tab === 'ongoing'" class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-4">
-                        <!-- Match the same container structure -->
                         @foreach ($ongoingActivities as $activity)
-                            <div class="rounded-lg mb-4 overflow-hidden flex flex-col shadow-lg border border-gray-200">
-                                <!-- Activity Header -->
-                                <div class="p-3 flex items-center space-x-4 border-b  border-gray-100">
-                                    <!-- Adjusted padding-bottom -->
-                                    <img src="{{ asset($activity->organization->getLogoPath()) }}"
-                                        alt="{{ $activity->organization->org_name }}"
-                                        class="w-10 h-10 rounded-full object-cover">
-                                    <div class="flex flex-col ml-4 flex-grow">
-                                        <h4 class="text-base font-semibold text-gray-800">{{ $activity->title }}
-                                        </h4>
-                                        <div class="text-xs text-gray-500 flex justify-between">
-                                            <div>
-                                                <a href="{{ route('profile.public', $activity->organization->url) }}"
-                                                    class="text-blue-500 hover:underline">{{ $activity->organization->org_name }}</a>
-                                                <span>.</span>
-                                                <span>{{ $activity->date->format('M d, Y') }}</span>
-                                            </div>
-                                            <span>
-                                                <i class="fas fa-map-marker-alt mr-1"></i>
-                                                {{ $activity->district }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Activity Description -->
-                                <div class="px-4 py-1"> <!-- Adjusted padding -->
-                                    <p class=" text-sm text-gray-700 leading-relaxed">
-                                        {{ Str::limit($activity->description, 150) }} <!-- Limit description length -->
-                                    </p>
-                                </div>
-                                @if($activity->required_profession)
-                                    <div class="mt-1">
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                            <i class="fas fa-briefcase mr-1"></i>
-                                            Required Profession: {{ $activity->required_profession }}
-                                        </span>
-                                    </div>
-                                @endif
-
-                                <!-- Activity Images -->
-                                <div class="px-2 py-2">
-                                    <div class="aspect-w-1 aspect-h-1">
-                                        <a href="{{ route('activities.show', $activity) }}" class="block w-full h-full">
-                                            <x-activity-ongoing-image :activity="$activity" class="hover:opacity-90 transition-opacity" />
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <!-- Activity Footer -->
-                                <!-- Activity Footer -->
-                                <div class="px-2 py-2 bg-gray-50 mt-auto">
-                                    <a href="{{ route('activities.show', $activity) }}"
-                                        class="block text-center text-sm bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 text-white font-bold py-2 px-4 rounded">
-                                        View Details
-                                    </a>
-                                </div>
-                            </div>
+                            <x-activity-card :activity="$activity" />
                         @endforeach
                     </div>
 
