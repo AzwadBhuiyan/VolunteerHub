@@ -130,7 +130,19 @@
                 style="border-bottom: 2px solid transparent; border-image: linear-gradient(to right, #3B82F6, #10B981, #3B82F6); border-image-slice: 1; width: 50%; margin: 0 auto;">
                 Accomplishments
             </h3>
-            
+                @php
+                    $visibleActivities = $completedActivities->filter(function($activity) use ($profile) {
+                        $volunteerPivot = $activity->volunteers->first();
+                        return Auth::id() == $profile->userid || ($volunteerPivot && $volunteerPivot->pivot->visibility);
+                    });
+                @endphp
+
+                @if ($visibleActivities->isEmpty())
+                    <div class="text-center py-8 px-4 bg-gray-100 rounded-lg shadow-inner my-4">
+                        <i class="fas fa-info-circle text-gray-500 text-2xl mb-2"></i>
+                        <p class="text-gray-700 font-medium">No accomplishments are available for display at this time. This may be due to the absence of activities or the privacy settings of the posts.</p>
+                    </div>
+                @endif
                 @if(!$profile->user->show_posts && Auth::id() !== $profile->userid)
                     <div class="text-center py-8 bg-gray-50 rounded-lg shadow-inner my-4">
                         <i class="fas fa-eye-slash text-gray-400 text-3xl mb-2"></i>
@@ -169,16 +181,30 @@
                                             </div>
                                         </div>
                                         @if (Auth::id() == $profile->userid)
-                                            <form action="{{ route('activities.toggle-visibility', ['activity' => $activity]) }}" 
-                                                  method="POST">
-                                                @csrf
-                                                @method('PATCH')
-                                                <button type="submit" 
-                                                        class="text-gray-500 hover:text-gray-700 transition-colors p-2 rounded-full hover:bg-gray-100"
-                                                        title="{{ $volunteerPivot && $volunteerPivot->pivot->visibility ? 'Hide this activity' : 'Show this activity' }}">
-                                                    <i class="fas {{ $volunteerPivot && $volunteerPivot->pivot->visibility ? 'fa-eye' : 'fa-eye-slash' }} text-lg"></i>
+                                            <div class="relative" x-data="{ open: false }">
+                                                <button @click="open = !open" 
+                                                        class="flex items-center justify-between text-gray-500 hover:text-gray-700 transition-colors p-1 rounded-md border border-gray-300 hover:bg-gray-100"
+                                                        title="Change visibility">
+                                                    <i class="fas {{ $volunteerPivot && $volunteerPivot->pivot->visibility ? 'fa-eye' : 'fa-eye-slash' }} text-xs"></i>
+                                                    <span class="ml-1 text-xs font-medium">{{ $volunteerPivot && $volunteerPivot->pivot->visibility ? 'Public' : 'Private' }}</span>
+                                                    <i class="fas fa-caret-down text-sm ml-1"></i>
                                                 </button>
-                                            </form>
+                                                <div x-show="open" @click.away="open = false" 
+                                                     class="absolute right-0 mt-2 w-32 bg-white rounded-md shadow-lg py-1 z-50 border">
+                                                    <form action="{{ route('activities.toggle-visibility', ['activity' => $activity]) }}" method="POST">
+                                                        @csrf
+                                                        @method('PATCH')
+                                                        <button type="submit" name="visibility" value="public"
+                                                                class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                            <i class="fas fa-eye text-xs"></i> Public
+                                                        </button>
+                                                        <button type="submit" name="visibility" value="private"
+                                                                class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                            <i class="fas fa-eye-slash text-xs"></i> Private
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         @endif
                                     </div>
 
@@ -218,7 +244,6 @@
         </div>
     </div>
 
-    <!--<x-image-popup />--> <!-- Component for image popup functionality -->
 
     @push('scripts')
         @vite(['resources/js/popup.js']) <!-- Include JavaScript for popup functionality -->

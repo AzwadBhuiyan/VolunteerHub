@@ -41,7 +41,24 @@
 
         <div class="flex items-center">
             <x-input-label for="profession" :value="__('Profession')" class="w-1/4 mr-2 text-left" />
-            <x-text-input id="profession" name="profession" type="text" class="mt-1 block w-full" :value="old('profession', $profile->profession)" />
+            <x-select id="profession" name="profession" class="mt-1 block w-full" required>
+                <option value="">Select a profession</option>
+                <option value="Accountant" {{ old('profession', $profile->profession) == 'Accountant' ? 'selected' : '' }}>Accountant</option>
+                <option value="Architect" {{ old('profession', $profile->profession) == 'Architect' ? 'selected' : '' }}>Architect</option>
+                <option value="Carpenter" {{ old('profession', $profile->profession) == 'Carpenter' ? 'selected' : '' }}>Carpenter</option>
+                <option value="Chef" {{ old('profession', $profile->profession) == 'Chef' ? 'selected' : '' }}>Chef</option>
+                <option value="Doctor" {{ old('profession', $profile->profession) == 'Doctor' ? 'selected' : '' }}>Doctor</option>
+                <option value="Electrician" {{ old('profession', $profile->profession) == 'Electrician' ? 'selected' : '' }}>Electrician</option>
+                <option value="Engineer" {{ old('profession', $profile->profession) == 'Engineer' ? 'selected' : '' }}>Engineer</option>
+                <option value="IT Professional" {{ old('profession', $profile->profession) == 'IT Professional' ? 'selected' : '' }}>IT Professional</option>
+                <option value="Lawyer" {{ old('profession', $profile->profession) == 'Lawyer' ? 'selected' : '' }}>Lawyer</option>
+                <option value="Nurse" {{ old('profession', $profile->profession) == 'Nurse' ? 'selected' : '' }}>Nurse</option>
+                <option value="Plumber" {{ old('profession', $profile->profession) == 'Plumber' ? 'selected' : '' }}>Plumber</option>
+                <option value="Psychologist" {{ old('profession', $profile->profession) == 'Psychologist' ? 'selected' : '' }}>Psychologist</option>
+                <option value="Social Worker" {{ old('profession', $profile->profession) == 'Social Worker' ? 'selected' : '' }}>Social Worker</option>
+                <option value="Student" {{ old('profession', $profile->profession) == 'Student' ? 'selected' : '' }}>Student</option>
+                <option value="Teacher" {{ old('profession', $profile->profession) == 'Teacher' ? 'selected' : '' }}>Teacher</option>
+            </x-select>
         </div>
         <x-input-error class="mt-2" :messages="$errors->get('profession')" />
 

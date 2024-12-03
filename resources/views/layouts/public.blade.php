@@ -17,7 +17,7 @@
 
         <!-- Scripts -->
         <link href="{{ asset('build/assets/app-DcmFpQJ7.css') }}" rel="stylesheet">
-        <!-- <link href="{{ asset('build/assets/app-X6JekhOX.css') }}" rel="stylesheet"> -->
+   <link href="{{ asset('build/assets/app-X6JekhOX.css') }}" rel="stylesheet"> 
         <script src="{{ asset('build/assets/app-GVFhffYa.js') }}" defer></script>
     </head>
     <body class="font-sans text-gray-900 antialiased">

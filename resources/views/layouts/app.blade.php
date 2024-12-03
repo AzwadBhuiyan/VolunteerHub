@@ -17,9 +17,9 @@
         
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        <!-- @vite(['resources/css/app.css', 'resources/js/app.js']) -->
+       @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link href="{{ asset('build/assets/app-JORL7NPY.css') }}" rel="stylesheet">
-        <!-- <link href="{{ asset('build/assets/app-X6JekhOX.css') }}" rel="stylesheet"> -->
+      <link href="{{ asset('build/assets/app-X6JekhOX.css') }}" rel="stylesheet"> 
         <script src="{{ asset('build/assets/app-BrtSY-Si.js') }}" defer></script>
         <link rel="icon" href="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" type="image/png"> <!-- Favicon -->
 

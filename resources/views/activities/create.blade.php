@@ -31,17 +31,21 @@
 
                         <div class="mb-6">
                             <div class="flex items-center justify-center w-full">
-                                <div class="relative w-full h-48 bg-gray-100 rounded-lg overflow-hidden">
+                                <div class="relative w-full h-68 bg-gray-100 rounded-lg overflow-hidden">
+
                                     <img id="imagePreview" src="{{ asset('images/defaults/default-activity.jpg') }}"
                                         class="w-full h-full object-cover">
-                                    <label for="image"
-                                        class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-center cursor-pointer hover:bg-opacity-60 transition">
+                                        <label for="image"
+                                        class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white p-2 text-center cursor-pointer hover:bg-opacity-60 transition"
+                                        style="height: 15%; width: 100%; bottom: 0; display: flex; align-items: center; justify-content: center;">
                                         <span class="text-sm font-medium">{{ __('Change Project Photo') }}</span>
                                         <input id="image" name="image" type="file" class="hidden"
                                             accept="image/*" onchange="previewImage(this, 'imagePreview')" />
                                     </label>
                                 </div>
                             </div>
+
+
                             <p class="text-xs text-gray-500 mt-2">Maximum file size: 5MB</p>
                             <x-input-error class="mt-1" :messages="$errors->get('image')" />
                         </div>
@@ -136,7 +140,6 @@
                                 </div>
 
                                 <div>
-                                    <x-input-label for="district" value="District" />
                                     <select id="district" 
                                             name="district" 
                                             class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500" 
@@ -169,14 +172,12 @@
 
                             <!-- Address -->
                             <div>
-                                <x-text-input id="address" class="block w-full" type="text" name="address"
-                                    :value="old('address')" required placeholder="Enter Project Address" />
+                                <textarea id="address" name="address" class="block w-full h-20 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" required placeholder="Enter Project Address">{{ old('address') }}</textarea>
                                 <x-input-error :messages="$errors->get('address')" class="mt-2" />
                             </div>
 
                             <!-- Google Maps Link -->
                             <div>
-                                <x-input-label for="google_maps_link" value="Google Maps Link (optional)" />
                                 <div class="relative">
                                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         <i class="fas fa-map-marker-alt text-gray-400"></i>
@@ -186,12 +187,12 @@
                                         type="text" 
                                         name="google_maps_link"
                                         :value="old('google_maps_link')" 
-                                        placeholder="Paste Google Maps link here" />
+                                        placeholder="Google maps direction link (optional)" />
                                 </div>
-                                <p class="text-xs text-gray-500 mt-1">Format: https://maps.app.goo.gl/...</p>
+                                {{-- <p class="text-xs text-gray-500 mt-1">Format: https://maps.app.goo.gl/...</p> --}}
                                 <x-input-error :messages="$errors->get('google_maps_link')" class="mt-2" />
                             </div>
-
+                         
                             <!-- Volunteers -->
                             <div class="grid grid-cols-2 gap-6">
                                 <div>
