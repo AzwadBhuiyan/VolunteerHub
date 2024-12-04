@@ -1,7 +1,7 @@
 @props(['activity', 'isOrganizer' => false])
 
 <div class="bg-white p-4 mt-4">
-    <h2 class="text-2xl font-bold mb-5 text-center bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text tracking-wide animate-gradient">{{ $activity->title }}</h2>
+    <h2 class="text-lg font-semibold mb-5">{{ $activity->title }}</h2>
 
     <div class="flex justify-between items-center mb-4">
 
