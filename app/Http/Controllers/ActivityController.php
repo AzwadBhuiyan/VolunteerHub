@@ -68,7 +68,7 @@ class ActivityController extends Controller
             'title' => 'required|max:255',
             'description' => 'required',
             'date' => 'required|date:d/m/Y',
-            'time' => 'required|date_format:h:i A',
+            'time' => 'required',
             'category' => 'required|exists:activity_categories,name',
             'district' => 'required',
             'difficulty' => 'required|in:easy,medium,hard,severe',

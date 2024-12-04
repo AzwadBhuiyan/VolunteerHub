@@ -28,13 +28,9 @@
                                 <div class="flex items-center justify-center w-full">
                                     <div class="relative w-full h-68 bg-gray-100 rounded-lg overflow-hidden">
                                         @php
-                                            $imageSrc = $activity->image 
-                                                ? (Str::startsWith($activity->image, ['http://', 'https://']) 
-                                                    ? $activity->image 
-                                                    : (Str::startsWith($activity->image, 'public/') 
-                                                        ? Storage::url(Str::replaceFirst('public/', '', $activity->image))
-                                                        : Storage::url($activity->image)))
-                                                : asset('images/defaults/default-activity.jpg');
+                                            $imagePath = 'images/activities/' . $activity->activityid . '/' . $activity->activityid . '.*';
+                                            $matchingFiles = glob(public_path($imagePath));
+                                            $imageSrc = !empty($matchingFiles) ? asset('images/activities/' . $activity->activityid . '/' . basename($matchingFiles[0])) : asset('images/defaults/default-activity.jpg');
                                         @endphp
                                         <img id="imagePreview" 
                                             src="{{ $imageSrc }}" 
