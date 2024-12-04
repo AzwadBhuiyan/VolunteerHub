@@ -102,7 +102,8 @@
                                         <div class="relative">
                                             <input type="text" id="time" name="time"
                                                 class="block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                                                :value="old('time')" required placeholder="Select Time" />
+                                                :value="old('time')" required
+                                                placeholder="Select Time" />
                                         </div>
                                         <link rel="stylesheet"
                                             href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -116,9 +117,7 @@
                                                 onChange: function(selectedDates, timeStr, instance) {
                                                     document.getElementById('time').value = timeStr;
                                                 },
-                                                theme: "material_blue",
-                                                disableMobile: true,
-                                                clickOpens: true
+                                                theme: "material_blue"
                                             });
                                         </script>
                                         <x-input-error :messages="$errors->get('time')" class="mt-2" />
