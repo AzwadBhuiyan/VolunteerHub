@@ -70,7 +70,7 @@
                 <h3 class="text-xl font-semibold mb-4">Get Involved</h3>
                 <p class="mb-4">Interested in our mission? Join us in making a difference!</p>
                 <div class="space-x-4">
-                    <a href="{{ route('organizations.contact', $organization) }}" 
+                    <a href="{{ route('profile.contact', $organization) }}" 
                        class="inline-block bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
                         Contact Us
                     </a>
