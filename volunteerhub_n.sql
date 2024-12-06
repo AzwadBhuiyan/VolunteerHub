@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2024 at 01:28 PM
+-- Generation Time: Dec 06, 2024 at 01:43 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -58,7 +58,9 @@ CREATE TABLE `activities` (
 INSERT INTO `activities` (`activityid`, `userid`, `title`, `description`, `date`, `time`, `category`, `district`, `address`, `google_maps_link`, `deadline`, `min_volunteers`, `max_volunteers`, `required_profession`, `status`, `created_at`, `updated_at`, `accomplished_description`, `duration`, `difficulty`, `points`) VALUES
 (1, 'org-001', 'Tran bitoron to flood affected areas near chittagong', 'We need all the help we can get. Together let\'s try to put a positive impact in those people\'s lives.', '2024-12-12', '10:00:00', 'Disaster Management', 'Chittagong', 'Chittagong', NULL, '2024-12-04 12:00:00', 20, 30, NULL, 'completed', '2024-11-27 15:34:44', '2024-11-27 17:58:05', 'It was a very succesfull event. The turnout was amazing. We could reach more people than what was initially aimed for. Lets bring this back soon.', 6, 'easy', 6),
 (2, 'org-001', 'Clean Up Dhaka!', 'It\'s time to take things on our own hands. Let\'s make the place we live in more liveable. Gather your brooms and ready those gloves. We are hoping to cover most of north dhaka but volunteers from all areas are welcome', '2024-12-20', '12:00:00', 'Community Development', 'Dhaka', 'Uttara, 12no sector', 'https://maps.app.goo.gl/zpFgVnymy3b2grL66', '2024-12-16 12:00:00', 2, 15, NULL, 'open', '2024-11-27 17:47:10', '2024-11-27 17:47:10', NULL, NULL, 'easy', 0),
-(3, 'org-001', 'test', 'test', '2024-12-31', '08:00:00', 'Research', 'Gazipur', 'test', NULL, '2024-12-16 12:00:00', 1, NULL, NULL, 'open', '2024-12-03 11:31:20', '2024-12-03 11:31:20', NULL, NULL, 'medium', 0);
+(3, 'org-001', 'test', 'test', '2024-12-31', '08:00:00', 'Research', 'Gazipur', 'test', NULL, '2024-12-16 12:00:00', 1, NULL, NULL, 'open', '2024-12-03 11:31:20', '2024-12-03 11:31:20', NULL, NULL, 'medium', 0),
+(4, 'org-001', 'Relief for Noakhali: Volunteer for Flood Recovery 🌊', 'Be a beacon of hope for flood-affected families in Noakhali. Join us in our mission to provide essential aid, including food, clean water, clothing, and medical supplies, to those in need. Together, we can help rebuild lives and restore hope in this time of crisis. Your time, effort, and compassion can make a lasting difference in the lives of many.', '2024-12-27', '10:00:00', 'Disaster Management', 'Noakhali', 'Luxmipur, Noakhali', NULL, '2024-12-12 12:00:00', 15, NULL, NULL, 'open', '2024-12-06 06:41:52', '2024-12-06 06:41:52', NULL, NULL, 'medium', 0),
+(5, 'org-001', 'Volunteer Day in Sylhet 🌿', 'Join us for an inspiring day of community service in the beautiful landscapes of Sylhet! This event includes tree planting in tea gardens, river clean-ups, and engaging with local communities to create a positive impact. Together, let’s make Sylhet greener, cleaner, and more vibrant for everyone. All ages are welcome, and your efforts will contribute to preserving the natural beauty and cultural heritage of this stunning region.', '2024-12-30', '12:00:00', 'Environment', 'Sylhet', 'Habiganj, Sylhet', NULL, '2024-12-18 12:00:00', 5, NULL, NULL, 'open', '2024-12-06 06:43:22', '2024-12-06 06:43:22', NULL, NULL, 'medium', 0);
 
 -- --------------------------------------------------------
 
@@ -868,7 +870,7 @@ ALTER TABLE `volunteer_follows`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `activityid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `activityid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `activity_categories`

@@ -128,7 +128,7 @@
                                 <div>
                                     <p class="text-xs font-medium text-gray-500">Time</p>
                                     <p class="text-sm font-semibold text-gray-900">
-                                        {{ $activity->date->format('M d, Y') }} . {{ $activity->time->format('h:i A') }}</p>
+                                        {{ $activity->time->format('h:i A') }}</p>
                                 </div>
                             </div>
 
