@@ -12,7 +12,7 @@
                 <a href="{{ route('about') }}" class="{{ isset($isGuestLayout) ? 'text-base text-white/90 hover:text-white' : 'text-base text-white hover:text-gray-300' }}">
                     About Us
                 </a>
-                <a href="{{ route('contact') }}" class="{{ isset($isGuestLayout) ? 'text-base text-white/90 hover:text-white' : 'text-base text-white hover:text-gray-300' }}">
+                <a href="{{ route('contact.show') }}" class="{{ isset($isGuestLayout) ? 'text-base text-white/90 hover:text-white' : 'text-base text-white hover:text-gray-300' }}">
                     Contact Us
                 </a>
             </div>

@@ -15,46 +15,45 @@
                         </div>
                     </div>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="grid grid-cols-1 gap-4">
+                        @if($organization->contact_email)
+                        <div class="p-3 bg-gray-50 rounded">
+                            <p class="text-sm font-medium text-gray-700">Email</p>
+                            <p>{{ $organization->contact_email }}</p>
+                        </div>
+                        @endif
+
                         <div class="p-3 bg-gray-50 rounded">
                             <p class="text-sm font-medium text-gray-700">Mobile</p>
                             <p>{{ $organization->org_mobile }}</p>
                         </div>
+
                         @if($organization->org_telephone)
                         <div class="p-3 bg-gray-50 rounded">
                             <p class="text-sm font-medium text-gray-700">Telephone</p>
                             <p>{{ $organization->org_telephone }}</p>
                         </div>
                         @endif
+
+                        @if($organization->website)
+                        <div class="p-3 bg-gray-50 rounded">
+                            <p class="text-sm font-medium text-gray-700">Website</p>
+                            <a href="{{ $organization->website }}" target="_blank" class="text-blue-600 hover:underline">
+                                {{ $organization->website }}
+                            </a>
+                        </div>
+                        @endif
+
+                        <div class="p-3 bg-gray-50 rounded">
+                            <p class="text-sm font-medium text-gray-700">Address</p>
+                            <p>{{ $organization->primary_address }}</p>
+                            @if($organization->secondary_address)
+                                <p class="mt-2 text-gray-600">Secondary Address:</p>
+                                <p>{{ $organization->secondary_address }}</p>
+                            @endif
+                        </div>
                     </div>
                 </div>
-
-                <form action="{{ route('profile.send-message', $organization) }}" method="POST" class="space-y-6">
-                    @csrf
-                    <div>
-                        <label for="email" class="block text-sm font-medium text-gray-700">Your Email</label>
-                        <input type="email" name="email" id="email" 
-                               class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                               placeholder="your@email.com"
-                               value="{{ Auth::user()->email ?? old('email') }}"
-                               required>
-                    </div>
-
-                    <div>
-                        <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
-                        <textarea name="message" id="message" rows="4" 
-                                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-                                  placeholder="Your message here..."
-                                  required></textarea>
-                    </div>
-
-                    <div class="flex justify-end">
-                        <button type="submit" 
-                                class="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
-                            Send Message
-                        </button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>

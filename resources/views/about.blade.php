@@ -111,7 +111,7 @@
             <div class="text-center bg-gray-50 p-6 rounded-lg">
                 <h3 class="text-xl font-semibold mb-4">Join Our Mission</h3>
                 <p class="mb-4">Ready to make a difference? Join our community of changemakers today!</p>
-                <a href="{{ route('contact') }}" class="inline-block bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                <a href="{{ route('contact.show') }}" class="inline-block bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
                     Contact Us
                 </a>
             </div>

@@ -50,6 +50,16 @@
             </div>
         </div>
 
+        <div class="flex items-center space-x-2">
+            <div class="w-1/4">
+                <x-input-label for="contact_email" :value="__('Contact Email')" />
+            </div>
+            <div class="w-3/4">
+                <x-text-input id="contact_email" name="contact_email" type="email" class="mt-1 block w-full" :value="old('contact_email', $profile->contact_email)" />
+                <x-input-error class="mt-2" :messages="$errors->get('contact_email')" />
+            </div>
+        </div>
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save Additional Details') }}</x-primary-button>
 

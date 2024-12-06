@@ -34,7 +34,10 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
 //footer links
 Route::view('/about', 'about')->name('about');
-Route::view('/contact', 'contact')->name('contact');
+// Route::middleware(['throttle:contact'])->group(function () {
+    Route::get('/contact', [AdminController::class, 'showContactForm'])->name('contact.show');
+    Route::post('/contact', [AdminController::class, 'handleContactForm'])->name('contact.send');
+// });
 Route::view('/terms', 'terms')->name('terms');
 Route::view('/privacy', 'privacy')->name('privacy');
 

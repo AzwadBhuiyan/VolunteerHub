@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactFormMail;
 
 class AdminController extends Controller
 {
@@ -636,4 +638,43 @@ class AdminController extends Controller
             return back()->withInput()->withErrors(['error' => 'Failed to create user. ' . $e->getMessage()]);
         }
     }
+
+
+    //Send email from Contact Us view
+    public function showContactForm()
+    {
+        return view('contact');
+    }
+
+    public function handleContactForm(Request $request)
+    {
+        $this->checkAdminAccess();
+
+        $validated = $request->validate([
+            'email' => ['required', 'email', 'max:255'],
+            'subject' => ['required', 'string', 'min:5', 'max:100'],
+            'description' => ['required', 'string', 'min:10', 'max:1000'],
+        ]);
+
+        try {
+            Mail::to('contact@kormonno.com')->send(new ContactFormMail($validated));
+            
+            Log::info('Contact Form Submission', [
+                'from_email' => $validated['email'],
+                'subject' => $validated['subject'],
+                'timestamp' => now()
+            ]);
+
+            return back()->with('status', 'Your message has been sent successfully!');
+        } catch (\Exception $e) {
+            Log::error('Contact Form Submission Failed', [
+                'from_email' => $validated['email'],
+                'error' => $e->getMessage()
+            ]);
+            
+            return back()->withInput()
+                ->with('error', 'Failed to send message. Please try again later.');
+        }
+    }
+
 }

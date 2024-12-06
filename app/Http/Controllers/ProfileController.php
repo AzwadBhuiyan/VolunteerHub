@@ -150,9 +150,10 @@ class ProfileController extends Controller
             'secondary_address' => ['nullable', 'string', 'max:300'],
             'org_mobile' => ['required', 'string', 'size:11'],
             'org_telephone' => ['nullable', 'string', 'between:7,11'],
+            'contact_email' => ['nullable', 'email', 'max:255'],
         ]);
 
-        $profile->update($request->only(['primary_address', 'secondary_address', 'org_mobile', 'org_telephone']));
+        $profile->update($request->only(['primary_address', 'secondary_address', 'org_mobile', 'org_telephone', 'contact_email']));
 
         return Redirect::route('profile.edit')->with('status', 'organization-additional-updated');
     }

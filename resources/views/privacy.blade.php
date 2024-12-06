@@ -72,7 +72,7 @@
 
                 <!-- Contact Information -->
                 <h3 class="text-xl font-semibold mb-4">6. Contact Us</h3>
-                <p class="mb-4">For privacy concerns, <a href="{{ route('contact') }}" class="text-blue-500 hover:text-blue-700">contact us here</a></p>
+                <p class="mb-4">For privacy concerns, <a href="{{ route('contact.show') }}" class="text-blue-500 hover:text-blue-700">contact us here</a></p>
             {{-- </div> --}}
         </div>
     </div>

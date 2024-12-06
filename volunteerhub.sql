@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2024 at 01:42 PM
+-- Generation Time: Dec 06, 2024 at 01:28 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -57,7 +57,8 @@ CREATE TABLE `activities` (
 
 INSERT INTO `activities` (`activityid`, `userid`, `title`, `description`, `date`, `time`, `category`, `district`, `address`, `google_maps_link`, `deadline`, `min_volunteers`, `max_volunteers`, `required_profession`, `status`, `created_at`, `updated_at`, `accomplished_description`, `duration`, `difficulty`, `points`) VALUES
 (1, 'org-001', 'Tran bitoron to flood affected areas near chittagong', 'We need all the help we can get. Together let\'s try to put a positive impact in those people\'s lives.', '2024-12-12', '10:00:00', 'Disaster Management', 'Chittagong', 'Chittagong', NULL, '2024-12-04 12:00:00', 20, 30, NULL, 'completed', '2024-11-27 15:34:44', '2024-11-27 17:58:05', 'It was a very succesfull event. The turnout was amazing. We could reach more people than what was initially aimed for. Lets bring this back soon.', 6, 'easy', 6),
-(2, 'org-001', 'Clean Up Dhaka!', 'It\'s time to take things on our own hands. Let\'s make the place we live in more liveable. Gather your brooms and ready those gloves. We are hoping to cover most of north dhaka but volunteers from all areas are welcome', '2024-12-20', '12:00:00', 'Community Development', 'Dhaka', 'Uttara, 12no sector', 'https://maps.app.goo.gl/zpFgVnymy3b2grL66', '2024-12-16 12:00:00', 2, 15, NULL, 'open', '2024-11-27 17:47:10', '2024-11-27 17:47:10', NULL, NULL, 'easy', 0);
+(2, 'org-001', 'Clean Up Dhaka!', 'It\'s time to take things on our own hands. Let\'s make the place we live in more liveable. Gather your brooms and ready those gloves. We are hoping to cover most of north dhaka but volunteers from all areas are welcome', '2024-12-20', '12:00:00', 'Community Development', 'Dhaka', 'Uttara, 12no sector', 'https://maps.app.goo.gl/zpFgVnymy3b2grL66', '2024-12-16 12:00:00', 2, 15, NULL, 'open', '2024-11-27 17:47:10', '2024-11-27 17:47:10', NULL, NULL, 'easy', 0),
+(3, 'org-001', 'test', 'test', '2024-12-31', '08:00:00', 'Research', 'Gazipur', 'test', NULL, '2024-12-16 12:00:00', 1, NULL, NULL, 'open', '2024-12-03 11:31:20', '2024-12-03 11:31:20', NULL, NULL, 'medium', 0);
 
 -- --------------------------------------------------------
 
@@ -177,6 +178,14 @@ CREATE TABLE `cache` (
   `value` mediumtext NOT NULL,
   `expiration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `cache`
+--
+
+INSERT INTO `cache` (`key`, `value`, `expiration`) VALUES
+('c5d45e590efb5ee912f68f9060c3acef', 'i:2;', 1733486262),
+('c5d45e590efb5ee912f68f9060c3acef:timer', 'i:1733486262;', 1733486262);
 
 -- --------------------------------------------------------
 
@@ -321,8 +330,9 @@ CREATE TABLE `idea_votes` (
 
 INSERT INTO `idea_votes` (`id`, `idea_thread_id`, `idea_comment_id`, `user_userid`, `vote`, `created_at`, `updated_at`) VALUES
 (14, 2, 1, '00001', 1, '2024-12-01 00:43:15', '2024-12-01 00:43:15'),
-(20, 2, NULL, '00001', 1, '2024-12-01 04:32:55', '2024-12-01 04:32:55'),
-(22, 2, 1, '00003', 1, '2024-12-01 04:58:53', '2024-12-01 04:58:53');
+(22, 2, 1, '00003', 1, '2024-12-01 04:58:53', '2024-12-01 04:58:53'),
+(25, 2, NULL, '00001', 1, '2024-12-03 11:15:29', '2024-12-03 11:15:29'),
+(27, 2, 2, '00001', 1, '2024-12-03 11:15:36', '2024-12-03 11:15:36');
 
 -- --------------------------------------------------------
 
@@ -410,7 +420,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (32, '2024_11_22_181015_add_activity_id_to_requests_table', 1),
 (33, '2024_11_23_075817_create_tutorial_progress_table', 1),
 (34, '2024_12_01_050249_add_visibility_to_activity_volunteers_table', 2),
-(35, '2024_12_01_123447_add_map_location_to_activities_table', 3);
+(35, '2024_12_01_123447_add_map_location_to_activities_table', 3),
+(36, '2024_12_06_112936_add_contact_email_to_organizations_table', 4);
 
 -- --------------------------------------------------------
 
@@ -443,6 +454,7 @@ CREATE TABLE `organizations` (
   `website` varchar(255) NOT NULL,
   `org_mobile` varchar(255) NOT NULL,
   `org_telephone` varchar(255) NOT NULL,
+  `contact_email` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL,
   `verification_status` enum('unverified','verified') NOT NULL DEFAULT 'unverified',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -454,8 +466,8 @@ CREATE TABLE `organizations` (
 -- Dumping data for table `organizations`
 --
 
-INSERT INTO `organizations` (`userid`, `url`, `org_name`, `primary_address`, `secondary_address`, `website`, `org_mobile`, `org_telephone`, `description`, `verification_status`, `created_at`, `updated_at`, `last_requests_read_at`) VALUES
-('org-001', 'org-001', 'Gift for Good', 'House 13, Rd 5, Anderkilla, Chittagong', 'House 13, Rd 5, Anderkilla, Chittagong', 'https://www.giftforgood.com', '12345678912', '1234124', 'Lets do all we can for humanity', 'unverified', '2024-11-27 15:18:25', '2024-11-28 05:49:59', '2024-11-28 05:49:01');
+INSERT INTO `organizations` (`userid`, `url`, `org_name`, `primary_address`, `secondary_address`, `website`, `org_mobile`, `org_telephone`, `contact_email`, `description`, `verification_status`, `created_at`, `updated_at`, `last_requests_read_at`) VALUES
+('org-001', 'org-001', 'Gift for Good', 'House 13, Rd 5, Anderkilla, Chittagong', 'House 13, Rd 5, Anderkilla, Chittagong', 'https://www.giftforgood.com', '12345678912', '1234124', 'contact@gfg.com', 'Lets do all we can for humanity', 'unverified', '2024-11-27 15:18:25', '2024-12-06 06:06:46', '2024-12-06 06:06:46');
 
 -- --------------------------------------------------------
 
@@ -656,7 +668,7 @@ CREATE TABLE `volunteer_follows` (
 --
 
 INSERT INTO `volunteer_follows` (`id`, `follower_id`, `followed_id`, `type`, `created_at`, `updated_at`) VALUES
-(1, '00001', 'org-001', 'organization', '2024-12-01 05:25:29', '2024-12-01 05:25:29');
+(2, '00001', 'org-001', 'organization', '2024-12-06 05:11:22', '2024-12-06 05:11:22');
 
 --
 -- Indexes for dumped tables
@@ -856,7 +868,7 @@ ALTER TABLE `volunteer_follows`
 -- AUTO_INCREMENT for table `activities`
 --
 ALTER TABLE `activities`
-  MODIFY `activityid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `activityid` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `activity_categories`
@@ -916,7 +928,7 @@ ALTER TABLE `idea_threads`
 -- AUTO_INCREMENT for table `idea_votes`
 --
 ALTER TABLE `idea_votes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -928,7 +940,7 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `milestone_reads`
@@ -958,7 +970,7 @@ ALTER TABLE `tutorial_progress`
 -- AUTO_INCREMENT for table `volunteer_follows`
 --
 ALTER TABLE `volunteer_follows`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
