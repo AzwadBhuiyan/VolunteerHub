@@ -1,6 +1,6 @@
 <x-app-layout>
     <link href="{{ asset('css/volunteer-profile.css') }}" rel="stylesheet">
-
+    <script src="{{ asset('js/vote_new.js') }}" defer></script>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-screen">
         <!-- Centered container with responsive padding and vertical spacing -->
         <div
@@ -141,80 +141,18 @@
                                         @endphp
                                         <div class="mt-2 flex items-center">
                                             <button type="button" 
-                                                class="vote-button text-gray-500 hover:text-blue-500 {{ $thread->hasVotedBy(Auth::id()) ? 'text-blue-500' : '' }}"
-                                                data-votable-type="{{ $votableType }}" 
-                                                data-votable-id="{{ $thread->id }}"
-                                                data-voted="{{ $thread->hasVotedBy(Auth::id()) ? 'true' : 'false' }}">
-                                                <svg class="w-5 h-5 vote-icon {{ $thread->hasVotedBy(Auth::id()) ? 'fill-current' : '' }}" 
-                                                    fill="none" 
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24" 
-                                                    xmlns="http://www.w3.org/2000/svg">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
-                                                </svg>
+                                                class="new-vote-btn text-gray-500 hover:text-blue-500 {{ $thread->hasVotedBy(Auth::id()) ? 'text-blue-500' : '' }}"
+                                                data-new-votable-type="{{ $votableType }}" 
+                                                data-new-votable-id="{{ $thread->id }}"
+                                                data-new-vote-status="{{ $thread->hasVotedBy(Auth::id()) ? 'true' : 'false' }}">
+                                                <i class="fas fa-thumbs-up mr-1 new-vote-icon {{ $thread->hasVotedBy(Auth::id()) ? 'text-blue-500' : '' }}"></i>
                                             </button>
-                                            <span class="mx-2 vote-count">{{ $thread->getVoteCount() }}</span>
+                                            <span class="mx-2 new-vote-count">{{ $thread->getVoteCount() }}</span>
                                         </div>
                                     
-                                    <!-- Comments Section -->
-                                    <!-- <div class="mt-4">
-                                        <div class="comments-container border border-gray-200 rounded-lg" data-thread-id="{{ $thread->id }}"
-                                            style="max-height: 300px; overflow-y: auto; scrollbar-width: thin;">
-                                            @if ($thread->comments->isNotEmpty())
-                                                @foreach ($thread->comments->take(5) as $comment)
-                                                    <div class="p-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition duration-150">
-                                                        <p class="text-gray-800">{{ $comment->comment }}</p>
-                                                        <div class="flex justify-between items-center mt-2">
-                                                            <div class="text-xs text-gray-600">
-                                                                <span>By: </span>
-                                                                <span>{{ $comment->volunteer->Name }}</span>
-                                                                <span class="mx-1">•</span>
-                                                                <span>{{ $comment->created_at->diffForHumans() }}</span>
-                                                            </div>
-                                                            @if (Auth::id() === $thread->userid && $thread->status === 'open')
-                                                                <button type="button"
-                                                                    class="select-winner-btn bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-full text-sm transition duration-150"
-                                                                    data-thread-id="{{ $thread->id }}"
-                                                                    data-comment-id="{{ $comment->id }}">
-                                                                    Select as Winner
-                                                                </button>
-                                                            @endif
-                                                        </div>
-                                                        <div class="mt-2 flex items-center">
-                                                            <button type="button"
-                                                                class="vote-button text-gray-500 hover:text-blue-500 transition duration-150"
-                                                                data-votable-type="comment"
-                                                                data-votable-id="{{ $comment->id }}">
-                                                                <svg class="w-5 h-5 vote-icon" fill="none"
-                                                                    stroke="currentColor" viewBox="0 0 24 24"
-                                                                    xmlns="http://www.w3.org/2000/svg">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        stroke-width="2" d="M5 15l7-7 7 7"></path>
-                                                                </svg>
-                                                            </button>
-                                                            <span class="mx-2 vote-count">{{ $comment->getVoteCount() }}</span>
-                                                        </div>
-                                                        @if (Auth::user()->is_admin)
-                                                            <form action="{{ route('admin.comments.delete', $comment) }}" 
-                                                                method="POST" 
-                                                                class="inline-block ml-2"
-                                                                onsubmit="return confirm('Are you sure you want to delete this comment?')">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="text-red-600 hover:text-red-900">
-                                                                    <i class="fas fa-trash"></i>
-                                                                </button>
-                                                            </form>
-                                                        @endif
-                                                    </div>
-                                                @endforeach
-                                            @else
-                                                <p class="p-3 text-gray-500 text-center">No comments yet. Be the first to comment!</p>
-                                            @endif
-                                        </div>
-                                    </div> -->
+                                    
 
-                                    <!-- Comment Form - Now outside the comments check -->
+                                    <!-- Comment Form - -->
                                     @auth
                                         @if (Auth::user()->volunteer && !$thread->comments->where('volunteer_userid', Auth::id())->count())
                                             <div class="mt-4">
@@ -307,12 +245,14 @@
                                                         <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
                                                             <span>{{ $comment->created_at->diffForHumans() }}</span>
                                                             <div class="flex items-center">
-                                                                <button type="button" class="vote-button text-gray-500 hover:text-blue-500" 
-                                                                        data-votable-type="comment" 
-                                                                        data-votable-id="{{ $comment->id }}">
-                                                                    <i class="fas fa-thumbs-up mr-1"></i>
-                                                                    <span>{{ $comment->getVoteCount() }}</span>
-                                                                </button>
+                                                                <button type="button" 
+                                                                    class="new-vote-btn text-gray-500 hover:text-blue-500 {{ $comment->hasVotedBy(Auth::id()) ? 'text-blue-500' : '' }}"
+                                                                    data-new-votable-type="comment" 
+                                                                    data-new-votable-id="{{ $comment->id }}"
+                                                                    data-new-vote-status="{{ $comment->hasVotedBy(Auth::id()) ? 'true' : 'false' }}">
+                                                                <i class="fas fa-thumbs-up mr-1 new-vote-icon {{ $comment->hasVotedBy(Auth::id()) ? 'text-blue-500' : '' }}"></i>
+                                                                <span class="new-vote-count">{{ $comment->getVoteCount() }}</span>
+                                                            </button>
                                                             </div>
                                                             @if (Auth::id() === $thread->userid && $thread->status === 'open')
                                                                 <button type="button"
