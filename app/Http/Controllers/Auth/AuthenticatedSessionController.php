@@ -66,7 +66,7 @@ class AuthenticatedSessionController extends Controller
             return back()->withErrors(['email' => 'Failed to send verification code']);
         }
 
-        return redirect()->route('dashboard');
+        return redirect()->route('home');
     }
 
     /**

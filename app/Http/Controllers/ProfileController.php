@@ -246,4 +246,45 @@ class ProfileController extends Controller
         ];
     }
 
+    public function showOrganizationAbout(Organization $organization): View
+    {
+        $ongoingActivities = $organization->activities()
+            ->where('status', '!=', 'completed')
+            ->latest()
+            ->take(3)
+            ->get();
+            
+        $completedActivities = $organization->activities()
+            ->where('status', 'completed')
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('profile.about', [
+            'organization' => $organization,
+            'ongoingActivities' => $ongoingActivities,
+            'completedActivities' => $completedActivities
+        ]);
+    }
+
+    public function showOrganizationContact(Organization $organization): View
+    {
+        return view('profile.contact', [
+            'organization' => $organization
+        ]);
+    }
+
+    public function sendOrganizationMessage(Request $request, Organization $organization): RedirectResponse
+    {
+        $validated = $request->validate([
+            'email' => ['required', 'email'],
+            'message' => ['required', 'string', 'max:1000'],
+        ]);
+
+        // Here you would typically handle the message sending logic
+        // For example, sending an email or storing in the database
+
+        return back()->with('status', 'Message sent successfully!');
+    }
+
 }

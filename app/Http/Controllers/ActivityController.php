@@ -402,7 +402,7 @@ class ActivityController extends Controller
             }
         }
 
-        return redirect()->route('activity.show')->with('success', 'Activity completed successfully.');
+        return redirect()->route('activity.show_accomplished')->with('success', 'Activity completed successfully.');
     }
 
     public function timeline(Activity $activity)

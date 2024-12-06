@@ -105,6 +105,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/edit-profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/edit-profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::patch('/profile/security', [ProfileController::class, 'updateSecurity'])->name('profile.update.security');
+    Route::get('/organizations/{organization}/about', [ProfileController::class, 'showOrganizationAbout'])
+    ->name('profile.about');
+    Route::get('/organizations/{organization}/contact', [ProfileController::class, 'showOrganizationContact'])
+        ->name('profile.contact');
+    Route::post('/organizations/{organization}/contact', [ProfileController::class, 'sendOrganizationMessage'])
+        ->name('profile.send-message');
     
     
     // update organization information -- partials are independent

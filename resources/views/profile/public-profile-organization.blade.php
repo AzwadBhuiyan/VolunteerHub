@@ -100,8 +100,8 @@
                 </div>
                 <!-- Action Buttons -->
                 <div class="flex space-x-2 my-2 justify-center p-2">
-                    <a href="#" class="btn-rounded custom-btn">About</a>
-                    <a href="#" class="btn-rounded custom-btn">Contact</a>
+                    <a href="{{ route('profile.about', $profile) }}" class="btn-rounded custom-btn">About</a>
+                    <a href="{{ route('profile.contact', $profile) }}" class="btn-rounded custom-btn">Contact</a>
                     <a href="{{ $profile->website }}" class="btn-rounded custom-btn">Website</a>
                 </div>
                 <h3 class="text-lg sm:text-xl font-semibold mb-4 py-3 text-center" 
