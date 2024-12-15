@@ -191,6 +191,7 @@ class Volunteer extends Model
         return $this->hasMany(ActivityRequest::class, 'volunteer_userid', 'userid');
     }
 
+    //probably double function created check volunteer_dashboard php code
     public function canMakeRequest()
     {
         $level = $this->getLevel();

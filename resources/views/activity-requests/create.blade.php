@@ -4,7 +4,7 @@
             <div class="p-6 bg-white border-b border-gray-200">
                 <h2 class="text-2xl font-bold mb-4">Request New Activity</h2>
 
-                <form action="{{ route('activity-requests.store') }}" method="POST" class="space-y-4">
+                <form action="{{ route('activity-requests.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                     @csrf
 
                     <div>
@@ -34,14 +34,15 @@
 
                     <!--image upload field -->
                     <div>
-                        <x-input-label for="image" value="Activity Image" />
+                        <x-input-label for="image" value="Activity Image (Optional)" />
                         <input type="file" id="image" name="image" accept="image/*"
                             class="mt-1 block w-full text-sm text-gray-500
                             file:mr-4 file:py-2 file:px-4
                             file:rounded-full file:border-0
                             file:text-sm file:font-semibold
                             file:bg-blue-50 file:text-blue-700
-                            hover:file:bg-blue-100" required />
+                            hover:file:bg-blue-100" />
+                        <p class="mt-1 text-sm text-gray-500">If no image is uploaded, a default image will be used.</p>
                         <x-input-error :messages="$errors->get('image')" class="mt-2" />
                     </div>
 

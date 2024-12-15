@@ -51,8 +51,13 @@ class ActivityRequestController extends Controller
             'title' => 'required|max:255',
             'description' => 'required',
             'district' => 'required|in:' . implode(',', config('districts.districts')),
-            'image' => 'required|image|max:5120', // 5MB Max
         ]);
+
+        if ($request->hasFile('image')) {
+            $request->validate([
+                'image' => 'mimes:jpeg,png,jpg,gif,svg,webp,bmp,tiff|max:5120', // 5MB Max
+            ]);
+        }
 
         $validatedData['volunteer_userid'] = $volunteer->userid;
         
