@@ -151,12 +151,11 @@ class RegisteredUserController extends Controller
                 ]);
             }
 
-            event(new Registered($user));
+            $user->sendEmailVerificationNotification();
 
-            Auth::login($user);
 
-            // Instead of logging in the user, redirect them to a page asking to verify email
-            return redirect()->route('verification.notice')->with('status', 'Please check your email for a verification link.');
+            return redirect()->route('login')
+                ->with('status', 'Please check your email for a verification link.');
         } catch (\Exception $e) {
             \Log::error('Registration failed', [
                 'error' => $e->getMessage(),

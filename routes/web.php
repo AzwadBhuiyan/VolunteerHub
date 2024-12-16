@@ -17,6 +17,7 @@ use App\Http\Controllers\Auth\TwoFactorController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ActivityRequestController;
 use App\Http\Controllers\TutorialProgressController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('/connection', function () {
     try {
@@ -217,15 +218,17 @@ Route::get('/email/verify', function () {
 
 
 
-Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
-    ->middleware(['auth', 'signed', 'throttle:6,1'])
+Route::get('/email/verify/{userid}/{hash}', [VerifyEmailController::class, '__invoke'])
+    ->middleware(['signed', 'throttle:6,1'])
     ->name('verification.verify');
 
 Route::post('/email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-    ->middleware(['auth', 'throttle:6,1', 'verify.rate.limit'])
+    ->middleware(['throttle:6,1', 'verify.rate.limit'])
     ->name('verification.send');
 
 Route::post('/login', [CustomLoginController::class, 'login'])->name('login');
+Route::get('login', [AuthenticatedSessionController::class, 'create'])
+    ->name('login');
 
 require __DIR__.'/auth.php';
 

@@ -27,7 +27,7 @@ class EmailVerificationNotificationController extends Controller
     
         // Check both verification methods
         if ($request->user()->verified && $request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended(route('home', absolute: false));
         }
     
         // Check cooldown period

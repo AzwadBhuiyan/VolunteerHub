@@ -15,17 +15,16 @@ class VerificationRateLimiter
 
     public function handle(Request $request, Closure $next): Response
     {
-        if ($this->limiter->tooManyAttempts($this->throttleKey($request), 10)) {
-            return back()->withErrors(['email' => 'Too many verification requests. Please try again in an hour.']);
+        $key = 'verification:'.$request->ip();
+        
+        if ($this->limiter->tooManyAttempts($key, 5)) {
+            return back()->withErrors([
+                'email' => 'Too many verification attempts. Please try again later.'
+            ]);
         }
 
-        $this->limiter->hit($this->throttleKey($request), 3600);
+        $this->limiter->hit($key, 60 * 24); // 24 hour window
 
         return $next($request);
-    }
-
-    protected function throttleKey(Request $request): string
-    {
-        return 'verification:' . $request->ip();
     }
 }
