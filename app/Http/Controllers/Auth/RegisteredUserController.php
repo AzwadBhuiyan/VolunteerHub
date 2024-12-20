@@ -72,24 +72,11 @@ class RegisteredUserController extends Controller
         ];
         
         $volunteerRules = [
-            'userid' => ['required', 'string', 'max:255', 'unique:users'],
             'name' => ['required', 'string', 'max:50'],
-            'phone' => ['required', 'string', 'size:11'],
-            'gender' => ['required', 'in:M,F,O'],
-            'dob' => ['required', 'date', 'before_or_equal:' . now()->subYears(18)->format('Y-m-d')],
-            'present_address' => ['required', 'string', 'max:300'],
-            'district' => ['required', 'string'],
         ];
         
         $organizationRules = [
-            'userid' => ['required', 'string', 'max:255', 'unique:users'],
             'org_name' => ['required', 'string', 'max:255'],
-            'primary_address' => ['required', 'string', 'max:300'],
-            'secondary_address' => ['nullable', 'string', 'max:300'],
-            'website' => ['required', 'string', 'regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/'],
-            'org_mobile' => ['required', 'string', 'max:11'],
-            'org_telephone' => ['required', 'string', 'between:7,11'],
-            'description' => ['required', 'string', 'max:150'],
         ];
         
         $rules = array_merge($commonRules, $request->user_type === 'volunteer' ? $volunteerRules : $organizationRules);
@@ -121,13 +108,13 @@ class RegisteredUserController extends Controller
                     'userid' => $user->userid,
                     'url' => $user->userid,
                     'Name' => $request->name,
-                    'Phone' => $request->phone,
-                    'Gender' => $request->gender,
-                    'DOB' => $request->dob,
-                    'PresentAddress' => $request->present_address,
-                    'District' => $request->district,
+                    'Phone' => 'Not Set',
+                    'Gender' => 'O',
+                    'DOB' => '1900-01-01',
+                    'PresentAddress' => 'Not Set',
+                    'District' => 'Dhaka',
                     'BloodGroup' => 'Not Set',  // Default value
-                    'PermanentAddress' => $request->present_address,  // Use present address as default
+                    'PermanentAddress' => 'Not Set',  // Use present address as default
                     'TrainedInEmergencyResponse' => false,
                     'Points' => 0,
                     'Badges' => null,
@@ -142,11 +129,11 @@ class RegisteredUserController extends Controller
                     'userid' => $user->userid,
                     'url' => $user->userid,
                     'org_name' => $request->org_name,
-                    'primary_address' => $request->primary_address,
-                    'secondary_address' => $request->secondary_address,
-                    'website' => $request->website,
-                    'org_mobile' => $request->org_mobile,
-                    'org_telephone' => $request->org_telephone,
+                    'primary_address' => 'Not Set',
+                    'secondary_address' => 'Not Set',
+                    'website' => 'http://example.com',
+                    'org_mobile' => '00000000000',
+                    'org_telephone' => '0000000',
                     'verification_status' => 'unverified',
                 ]);
             }
@@ -155,7 +142,7 @@ class RegisteredUserController extends Controller
 
 
             return redirect()->route('login')
-                ->with('status', 'Please check your email for a verification link.');
+                ->with('status', 'Please check your email, including spam, for a verification link.');
         } catch (\Exception $e) {
             \Log::error('Registration failed', [
                 'error' => $e->getMessage(),

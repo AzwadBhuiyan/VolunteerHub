@@ -300,14 +300,25 @@
                                     </button>
                                 @endif
                             @else
-                                <form action="{{ route('activities.register', $activity) }}" method="POST"
-                                    class="inline">
-                                    @csrf
-                                    <button type="submit"
-                                        class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors">
-                                        Register for this Activity
-                                    </button>
+                                @if(Auth::user()->volunteer && Auth::user()->volunteer->getProfileCompletionPercentage() < 100)
+                                    <div class="flex flex-col space-y-4">
+                                        <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4">
+                                            <p class="font-bold">Profile Incomplete</p>
+                                            <p>Please complete your profile before registering for activities. 
+                                            <a href="{{ route('profile.edit') }}" class="underline">Complete Profile</a>
+                                            </p>
+                                        </div>
+                                        @endif
+                                        <form action="{{ route('activities.register', $activity) }}" method="POST"
+                                            class="inline">
+                                            @csrf
+                                            <button type="submit"
+                                                class="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition-colors">
+                                                Register for this Activity
+                                            </button>
+                                    </div>
                                 </form>
+                                
                             @endif
                         @endif
                     @else

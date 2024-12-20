@@ -2,6 +2,7 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <h3 class="mt-6 text-center text-2xl font-extrabold">
         Create your account</h3>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -15,6 +16,26 @@
                 <option value="organization">Organization</option>
             </select>
             <x-input-error :messages="$errors->get('user_type')" class="mt-2" />
+        </div>
+
+        <!-- Volunteer Fields -->
+        <div id="volunteer-fields" style="display: none;">
+            <!-- Name -->
+            <div class="mt-4">
+                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"
+                    :value="old('name')" data-required autofocus autocomplete="name" placeholder="Full Name" />
+                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+            </div>
+        </div>
+
+        <!-- Organization Fields -->
+        <div id="organization-fields" style="display: none;">
+            <!-- Organization Name -->
+            <div class="mt-4">
+                <x-text-input id="org_name" class="block mt-1 w-full" type="text" name="org_name"
+                    :value="old('org_name')" data-required placeholder="Organization Name" />
+                <x-input-error :messages="$errors->get('org_name')" class="mt-2" />
+            </div>
         </div>
 
         <!-- Common Fields -->
@@ -43,127 +64,8 @@
                     placeholder="Confirm Password" />
                 <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
             </div>
-         
 
-            <!-- Volunteer Fields -->
-            <div id="volunteer-fields" style="display: none;">
-                <!-- Name -->
-                <div class="mt-4">
-                    <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"
-                        :value="old('name')" data-required autofocus autocomplete="name" placeholder="Full Name" />
-                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                </div>
-
-                <!-- Phone -->
-                <div class="mt-4">
-                    <x-text-input id="phone" class="block mt-1 w-full" type="tel" name="phone"
-                        :value="old('phone')" data-required placeholder="Phone" />
-                    <x-input-error :messages="$errors->get('phone')" class="mt-2" />
-                </div>
-
-                      <!-- Gender -->
-                      <div class="mt-4 flex items-center">
-                        <label for="gender" class="mr-2 whitespace-nowrap">Gender:</label>
-                        <select id="gender" name="gender" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" data-required>
-                            <option value="M">Male</option>
-                            <option value="F">Female</option>
-                            <option value="O">Other</option>
-                        </select>
-                        <x-input-error :messages="$errors->get('gender')" class="mt-2" />
-                    </div>
-    
-                    <!-- Date of Birth -->
-                    <div class="mt-4 flex items-center">
-                        <label for="dob" class="mr-2 whitespace-nowrap" style="min-width: 100px;">Date of Birth:</label>
-                        <x-text-input id="dob" class="block w-full" type="date" name="dob"
-                            :value="old('dob')" data-required placeholder="Date of Birth" />
-                        <x-input-error :messages="$errors->get('dob')" class="mt-2" />
-                    </div>
-    
-                
-
-                    <!-- Present Address -->
-                    <div class="mt-4">
-                        <textarea id="present_address" name="present_address" rows="3"
-                            class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                            data-required placeholder="Present Address">{{ old('present_address') }}</textarea>
-                        <x-input-error :messages="$errors->get('present_address')" class="mt-2" />
-                    </div>
-    
-                    <!-- District -->
-                    @php
-                        $districts = config('districts.districts');
-                    @endphp
-                    <div class="mt-4 flex items-center">
-                        <label for="district" class="mr-2 whitespace-nowrap">District:</label>
-                        <select id="district" name="district" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" data-required>
-                            @foreach ($districts as $district)
-                                <option value="{{ $district }}">{{ $district }}</option>
-                            @endforeach
-                        </select>
-                        <x-input-error :messages="$errors->get('district')" class="mt-2" />
-                    </div>
-
-             
-
-                
-            </div>
         </div>
-
-        <!-- Organization Fields -->
-        <div id="organization-fields" style="display: none;">
-            <!-- Organization Name -->
-            <div class="mt-4">
-                <x-text-input id="org_name" class="block mt-1 w-full" type="text" name="org_name"
-                    :value="old('org_name')" data-required placeholder="Organization Name" />
-                <x-input-error :messages="$errors->get('org_name')" class="mt-2" />
-            </div>
-            <!-- Description -->
-            <div class="mt-4">
-                <textarea id="description" name="description" rows="3"
-                    class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    placeholder="Organization Description (optional)">{{ old('description') }}</textarea>
-                <x-input-error :messages="$errors->get('description')" class="mt-2" />
-            </div>
-
-            <!-- Primary Address -->
-            <div class="mt-4">
-                <textarea id="primary_address" name="primary_address" rows="3"
-                    class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    data-required placeholder="Primary Address">{{ old('primary_address') }}</textarea>
-                <x-input-error :messages="$errors->get('primary_address')" class="mt-2" />
-            </div>
-
-            <!-- Secondary Address -->
-            <div class="mt-4">
-                <textarea id="secondary_address" name="secondary_address" rows="3"
-                    class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                    data-required placeholder="Secondary Address">{{ old('secondary_address') }}</textarea>
-                <x-input-error :messages="$errors->get('secondary_address')" class="mt-2" />
-            </div>
-
-            <!-- Website -->
-            <div class="mt-4">
-                <x-text-input id="website" class="block mt-1 w-full" type="url" name="website"
-                    :value="old('website')" data-required placeholder="Website" />
-                <x-input-error :messages="$errors->get('website')" class="mt-2" />
-            </div>
-
-            <!-- Organization mobile -->
-            <div class="mt-4">
-                <x-text-input id="org_mobile" class="block mt-1 w-full" type="tel" name="org_mobile"
-                    :value="old('org_mobile')" data-required placeholder="Organization mobile +880" />
-                <x-input-error :messages="$errors->get('org_mobile')" class="mt-2" />
-            </div>
-            <!-- Organization Telephone -->
-            <div class="mt-4">
-                <x-text-input id="org_telephone" class="block mt-1 w-full" type="tel" name="org_telephone"
-                    :value="old('org_telephone')" data-required placeholder="Organization telephone" />
-                <x-input-error :messages="$errors->get('org_telephone')" class="mt-2" />
-            </div>
-            
-        </div>
-
         <!-- Terms and Conditions Acceptance -->
         <div class="mt-4">
             <label class="flex items-center">
@@ -198,7 +100,6 @@
         </a>
     </p>
 <br> <br> <br>
-
     <script>
         function toggleUserType() {
             const userType = document.getElementById('user_type').value;

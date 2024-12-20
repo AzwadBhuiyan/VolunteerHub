@@ -139,7 +139,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/activities/{activity}/volunteers/{volunteer}', [ActivityController::class, 'updateVolunteerStatus'])->name('activities.update_volunteer_status');
     Route::patch('/activities/{activity}/update-multiple-volunteer-status', [ActivityController::class, 'updateMultipleVolunteerStatus'])->name('activities.update_multiple_volunteer_status');
         // volunteer->activities
-    Route::post('/activities/{activity}/register', [ActivityController::class, 'register'])->name('activities.register')->middleware('auth');
+    Route::post('/activities/{activity}/register', [ActivityController::class, 'register'])->name('activities.register')->middleware(['profile.complete']);
     Route::delete('/activities/{activity}/cancel-registration', [ActivityController::class, 'cancelRegistration'])->name('activities.cancel_registration');
     Route::patch('/activities/{activity}/toggle-visibility', [ActivityController::class, 'toggleVisibility'])->name('activities.toggle-visibility');
         // timeline & milestone

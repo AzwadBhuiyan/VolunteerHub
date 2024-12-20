@@ -177,7 +177,7 @@ class ProfileController extends Controller
         $profile->PermanentAddress = $validated['permanent_address'];
         $profile->District = $validated['district'];
         $profile->TrainedInEmergencyResponse = $validated['trained_in_emergency'] ?? false;
-        $profile->Profession = $validated['profession'];
+        $profile->Profession = !empty($validated['profession']) ? $validated['profession'] : null;
 
         $profile->save();
 

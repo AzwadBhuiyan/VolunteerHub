@@ -37,12 +37,17 @@ class VerifyEmailController extends Controller
         // Update the legacy verified column too
         $user->update(['verified' => true]);
 
+        // Log the user in
+        Auth::login($request->user());
 
         // Auto login the user
-        Auth::login($user);
+        return $this->redirectToPublicProfile($request->user())
+            ->with('status', 'Your email has been verified. Please complete your profile to get started.');
+    }
 
-        return redirect()->route('home')
-            ->with('verified', true)
-            ->with('status', 'Your email has been verified!');
+    private function redirectToPublicProfile($user): RedirectResponse
+    {
+        $profile = $user->volunteer ?? $user->organization;
+        return redirect()->route('profile.public', ['url' => $profile->url]);
     }
 }

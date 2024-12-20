@@ -70,4 +70,72 @@ class Organization extends Model
     {
         $this->update(['last_requests_read_at' => now()]);
     }
+
+    public function getProfileCompletionPercentage()
+    {
+        $fields = [
+            // Required fields (50%)
+            'required' => [
+                'org_name' => ['Not Set'],
+                'primary_address' => ['Not Set'],
+                'org_mobile' => ['00000000000'],
+                'description' => ['Not Set', null],
+            ],
+            // Optional fields (50%)
+            'optional' => [
+                'secondary_address' => ['Not Set'],
+                'website' => ['http://example.com'],
+                'org_telephone' => ['0000000'],
+                'contact_email' => ['', null]
+            ]
+        ];
+
+        // Calculate required fields completion (50%)
+        $requiredCompleted = 0;
+        foreach ($fields['required'] as $field => $defaultValues) {
+            if (!empty($this->$field) && !in_array($this->$field, $defaultValues)) {
+                $requiredCompleted++;
+            }
+        }
+        $requiredPercentage = ($requiredCompleted / count($fields['required'])) * 50;
+
+        // Calculate optional fields completion (50%)
+        $optionalCompleted = 0;
+        foreach ($fields['optional'] as $field => $defaultValues) {
+            if (!empty($this->$field) && !in_array($this->$field, $defaultValues)) {
+                $optionalCompleted++;
+            }
+        }
+        $optionalPercentage = ($optionalCompleted / count($fields['optional'])) * 50;
+
+        return min(100, round($requiredPercentage + $optionalPercentage));
+    }
+
+    public function getIncompleteFields()
+    {
+        $fields = [
+            'org_name' => ['label' => 'Organization Name', 'default' => ['Not Set']],
+            'primary_address' => ['label' => 'Primary Address', 'default' => ['Not Set']],
+            'org_mobile' => ['label' => 'Mobile Number', 'default' => ['00000000000']],
+            'description' => ['label' => 'Description', 'default' => ['Not Set', null]],
+            'secondary_address' => ['label' => 'Secondary Address', 'default' => ['Not Set']],
+            'website' => ['label' => 'Website', 'default' => ['http://example.com']],
+            'org_telephone' => ['label' => 'Telephone', 'default' => ['0000000']],
+            'contact_email' => ['label' => 'Contact Email', 'default' => ['', null]]
+        ];
+
+        $incomplete = [];
+        foreach ($fields as $field => $config) {
+            if (empty($this->$field) || in_array($this->$field, $config['default'])) {
+                $incomplete[] = $config['label'];
+            }
+        }
+
+        return $incomplete;
+    }
+
+    public function isProfileIncomplete()
+    {
+        return $this->getProfileCompletionPercentage() < 100;
+    }
 }

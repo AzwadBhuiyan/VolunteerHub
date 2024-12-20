@@ -73,5 +73,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'verify.rate.limit' => \App\Http\Middleware\VerificationRateLimiter::class,
         '2fa' => \App\Http\Middleware\TwoFactorMiddleware::class,
+        'profile.complete' => \App\Http\Middleware\CheckProfileCompletion::class,
     ];
 }

@@ -138,42 +138,70 @@ class Volunteer extends Model
     }
 
     // Profile Completion
+    // need to revisit the specifics
     public function getProfileCompletionPercentage()
     {
-        $total = 5; // Total number of optional fields
-        $completed = 0;
         $fields = [
-            'PermanentAddress',
-            'NID',
-            'BloodGroup',
-            'profession',
-            'bio'
+            // Required fields (40%)
+            'required' => [
+                'Name' => ['Not Set'],
+                'Phone' => ['Not Set'],
+                'Gender' => ['Not Set'],
+                'DOB' => ['1900-01-01'],
+                'PresentAddress' => ['Not Set'],
+                'District' => ['Not Set']
+            ],
+            // Optional fields (60%)
+            'optional' => [
+                'PermanentAddress' => ['Not Set'],
+                'NID' => ['Not Set'],
+                'BloodGroup' => ['Not Set'],
+                'profession' => ['', null],
+                'bio' => ['', null],
+            ]
         ];
 
-        foreach ($fields as $field) {
-            if (!empty($this->$field)) {
-                $completed++;
+        // Calculate required fields completion (40%)
+        $requiredCompleted = 0;
+        foreach ($fields['required'] as $field => $defaultValues) {
+            if (!empty($this->$field) && !in_array($this->$field, $defaultValues)) {
+                $requiredCompleted++;
             }
         }
+        $requiredPercentage = ($requiredCompleted / count($fields['required'])) * 40;
 
-        $percentage = 50 + ($completed * 10); // Start at 50% and add 10% for each completed field
-        return $percentage >= 100 ? 100 : $percentage;
+        // Calculate optional fields completion (60%)
+        $optionalCompleted = 0;
+        foreach ($fields['optional'] as $field => $defaultValues) {
+            if (!empty($this->$field) && !in_array($this->$field, $defaultValues)) {
+                $optionalCompleted++;
+            }
+        }
+        $optionalPercentage = ($optionalCompleted / count($fields['optional'])) * 60;
+
+        return min(100, round($requiredPercentage + $optionalPercentage));
     }
 
     public function getIncompleteFields()
     {
-        $incomplete = [];
         $fields = [
-            'PermanentAddress' => 'Permanent Address',
-            'NID' => 'NID',
-            'BloodGroup' => 'Blood Group',
-            'Profession' => 'Profession',
-            'bio' => 'Bio'
+            'Name' => ['label' => 'Full Name', 'default' => ['Not Set']],
+            'Phone' => ['label' => 'Phone Number', 'default' => ['Not Set']],
+            'Gender' => ['label' => 'Gender', 'default' => ['Not Set']],
+            'DOB' => ['label' => 'Date of Birth', 'default' => ['1900-01-01']],
+            'PresentAddress' => ['label' => 'Present Address', 'default' => ['Not Set']],
+            'District' => ['label' => 'District', 'default' => ['Not Set']],
+            'PermanentAddress' => ['label' => 'Permanent Address', 'default' => ['Not Set']],
+            'NID' => ['label' => 'NID', 'default' => ['Not Set']],
+            'BloodGroup' => ['label' => 'Blood Group', 'default' => ['Not Set']],
+            'profession' => ['label' => 'Profession', 'default' => ['', null],],
+            'bio' => ['label' => 'Bio', 'default' => ['', null],]
         ];
 
-        foreach ($fields as $field => $label) {
-            if (empty($this->$field)) {
-                $incomplete[] = $label;
+        $incomplete = [];
+        foreach ($fields as $field => $config) {
+            if (empty($this->$field) || in_array($this->$field, $config['default'])) {
+                $incomplete[] = $config['label'];
             }
         }
 

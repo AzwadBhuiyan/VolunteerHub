@@ -10,9 +10,16 @@ use App\Models\ActivityCategory;
 use Illuminate\Support\Facades\DB;
 use App\Models\ActivityRequest;
 use Illuminate\Support\Facades\File;
+use Illuminate\Routing\Controller as BaseController;
 
 class ActivityController extends Controller
 {
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    //     $this->middleware('profile.complete', ['only' => ['register', 'create', 'store']]);
+    // }
+
     public function create(Request $request)
     {
         if (!Auth::user()->organization) {

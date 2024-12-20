@@ -28,6 +28,14 @@
                     </style>
 
                     <div class="p-3">
+                        @if(Auth::user()->organization->getProfileCompletionPercentage() < 100)
+                            <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4">
+                                <p class="font-bold">Organization Profile Incomplete</p>
+                                <p>Please complete your organization profile before creating activities. 
+                                <a href="{{ route('profile.edit') }}" class="underline">Complete Profile</a>
+                                </p>
+                            </div>
+                        @endif
                         <form method="POST" action="{{ route('activities.store') }}" class="space-y-4"
                             enctype="multipart/form-data">
                             @csrf

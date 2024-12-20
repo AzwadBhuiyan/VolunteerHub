@@ -41,8 +41,9 @@
 
         <div class="flex items-center">
             <x-input-label for="profession" :value="__('Profession')" class="w-1/4 mr-2 text-left" />
-            <x-select id="profession" name="profession" class="mt-1 block w-full" required>
+            <x-select id="profession" name="profession" class="mt-1 block w-full">
                 <option value="">Select a profession</option>
+                <option value="None" {{ old('profession', $profile->profession) == 'None' ? 'selected' : '' }}>None</option>
                 <option value="Accountant" {{ old('profession', $profile->profession) == 'Accountant' ? 'selected' : '' }}>Accountant</option>
                 <option value="Architect" {{ old('profession', $profile->profession) == 'Architect' ? 'selected' : '' }}>Architect</option>
                 <option value="Carpenter" {{ old('profession', $profile->profession) == 'Carpenter' ? 'selected' : '' }}>Carpenter</option>

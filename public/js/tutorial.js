@@ -29,7 +29,7 @@ const volunteerProfileTutorial = {
     steps: [
         {
             target: '[data-tutorial="edit-profile"]',
-            content: "Complete your profile to get the maximum out of Kormonno. You can also change various settings here.",
+            content: "Complete your profile to get the maximum out of Kormonno. You CANNOT REGISTER for job posts by organizations unless you complete your profile. You can also change various settings here.",
             position: 'bottom'
         },
         {

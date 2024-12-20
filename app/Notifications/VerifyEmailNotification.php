@@ -17,13 +17,23 @@ class VerifyEmailNotification extends Notification
     public function toMail($notifiable)
     {
         $verificationUrl = $this->verificationUrl($notifiable);
+        $appName = config('app.name');
 
         return (new MailMessage)
-            ->subject('Verify Email Address')
-            ->line('Please click the button below to verify your email address.')
+            ->subject("{$appName} - Please Verify Your Email Address")
+            ->greeting("Hello!")
+            ->line("Welcome to {$appName}!")
+            ->line("Please verify your email address by clicking the button below:")
             ->action('Verify Email Address', $verificationUrl)
-            ->line('If you did not create an account, no further action is required.')
-            ->line('This verification link will expire in 24 hours.');
+            ->line("This verification link will expire in 24 hours.")
+            ->line("If you did not create an account, please ignore this email.")
+            ->salutation("Best regards,\n{$appName} Team")
+            ->withSymfonyMessage(function ($message) {
+                $message->getHeaders()
+                    ->addTextHeader('X-Entity-Ref-ID', uniqid())
+                    ->addTextHeader('List-Unsubscribe', '<' . config('app.url') . '/unsubscribe>')
+                    ->addTextHeader('Feedback-ID', 'VERIFICATION');
+            });
     }
 
     protected function verificationUrl($notifiable)
