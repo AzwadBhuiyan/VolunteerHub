@@ -1,4 +1,7 @@
 <x-app-layout>
+    @push('body-class')
+        organization-profile
+    @endpush
 
     <link href="{{ asset('css/org-profile.css') }}" rel="stylesheet">
     <!-- Link to custom CSS for styling the volunteer profile -->
@@ -77,11 +80,11 @@
 
                     @if (Auth::id() == $profile->userid)
                         <!-- Check if the logged-in user is the profile owner -->
-                        <a href="{{ route('profile.edit') }}" class="btn"> <!-- Link to edit profile -->
+                        <a href="{{ route('profile.edit') }}" class="btn" data-tutorial="edit-profile"> <!-- Link to edit profile -->
                             <i class="fas fa-pen"></i> Edit Profile <!-- Icon and text for editing profile -->
                         </a>
                     @endif
-                    <div class="dropdown"> <!-- Dropdown for sharing options -->
+                    <div class="dropdown" data-tutorial="share-profile"> <!-- Dropdown for sharing options -->
                         <button class="btn"> <!-- Share profile button -->
                             <i class="fas fa-share-alt"></i> Share Profile <!-- Icon and text for sharing profile -->
                         </button>
@@ -138,7 +141,7 @@
 
 
                 <!-- Action Buttons -->
-                <div class="flex space-x-2 my-2 justify-center p-2">
+                <div class="flex space-x-2 my-2 justify-center p-2" data-tutorial="about-contact">
                     <a href="{{ route('profile.about', $profile) }}" class="btn-rounded custom-btn">About</a>
                     <a href="{{ route('profile.contact', $profile) }}" class="btn-rounded custom-btn">Contact</a>
                     <a href="{{ $profile->website }}" class="btn-rounded custom-btn">Website</a>
@@ -152,7 +155,7 @@
               
                 <!-- Activities Section -->
                 
-                <div x-data="{ tab: 'ongoing' }" class="mb-6">
+                <div x-data="{ tab: 'ongoing' }" class="mb-6" data-tutorial="activities-section">
                     <div class="flex justify-center space-x-2 mb-4 w-full">
                         <button @click="tab = 'ongoing'"
                             :class="{ 'bg-gray-700': tab === 'ongoing', 'bg-gray-400': tab !== 'ongoing', 'shadow-lg': tab === 'ongoing', 'border-2 border-black': tab === 'ongoing', 'hover:bg-gray-400': tab !== 'ongoing', 'hover:bg-gray-700': tab === 'ongoing' }"
@@ -269,5 +272,9 @@
         </main>
         {{-- </div> --}}
     </div>
+
+    @if (Auth::id() == $profile->userid)
+        <x-tutorial-popup/>
+    @endif
 
 </x-app-layout>

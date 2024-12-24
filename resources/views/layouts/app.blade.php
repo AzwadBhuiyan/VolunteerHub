@@ -33,7 +33,7 @@
         
     </head>
 
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased {{ trim(Stack::content('body-class')) }}">
         <div class="min-h-full bg-white">
             @include('layouts.navigation')
 

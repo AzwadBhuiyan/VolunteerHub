@@ -88,6 +88,32 @@ const homeTutorial = {
     pageName: 'home'
 };
 
+const organizationProfileTutorial = {
+    steps: [
+        {
+            target: '[data-tutorial="edit-profile"]',
+            content: "Complete your organization profile to maximize your reach. You can manage your organization's details and settings here.",
+            position: 'bottom'
+        },
+        {
+            target: '[data-tutorial="share-profile"]',
+            content: "Share your organization's profile to increase visibility and attract more volunteers.",
+            position: 'bottom'
+        },
+        {
+            target: '[data-tutorial="about-contact"]',
+            content: "Manage your organization's information and let volunteers connect with you directly.",
+            position: 'bottom'
+        },
+        {
+            target: '[data-tutorial="activities-section"]',
+            content: "All your organization's volunteer projects, both ongoing and completed, will be displayed here. Volunteers can easily discover and join your initiatives.",
+            position: 'top'
+        }
+    ],
+    pageName: 'organization_profile'
+};
+
 // Then the rest of the code starting with the DOMContentLoaded event
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -168,7 +194,8 @@ document.addEventListener('DOMContentLoaded', function() {
         if (path === '/dashboard') {
             currentTutorial = volunteerDashboardTutorial;
         } else if (path.match(/^\/profile\/[^/]+$/)) {
-            currentTutorial = volunteerProfileTutorial;
+            const isOrganization = document.body.classList.contains('organization-profile');
+            currentTutorial = isOrganization ? organizationProfileTutorial : volunteerProfileTutorial;
         } else if (path === '/favorites') {
             currentTutorial = favoritesTutorial;
         } else if (path === '/' || path === '') {
