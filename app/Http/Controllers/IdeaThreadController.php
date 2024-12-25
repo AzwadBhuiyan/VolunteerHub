@@ -26,6 +26,19 @@ class IdeaThreadController extends Controller
                 return $query->withCount('votes')->orderByDesc('votes_count');
             })
             ->paginate(10);
+
+        // Load top 5 most liked comments for each thread
+        foreach ($ideaThreads as $thread) {
+            if (!$thread->poll) {  // Only for non-poll threads
+                $thread->setRelation('comments', $thread->comments()
+                    ->with('volunteer')
+                    ->withCount('votes')
+                    ->orderByDesc('votes_count')
+                    ->take(5)
+                    ->get()
+                );
+            }
+        }
     
         return view('idea_board.index', compact('ideaThreads', 'sort'));
     }
@@ -90,8 +103,15 @@ class IdeaThreadController extends Controller
 
     public function show(IdeaThread $ideaThread)
     {
-        $ideaThread->load('organization', 'comments.volunteer', 'poll.options');
-        return view('idea_board.show', compact('ideaThread'));
+        $ideaThread->load(['organization', 'poll.options']);
+        
+        // Load comments with default sorting (most recent first)
+        $comments = $ideaThread->comments()
+            ->with('volunteer')
+            ->orderBy('created_at', 'desc')
+            ->get();
+    
+        return view('idea_board.show', compact('ideaThread', 'comments'));
     }
 
     public function comment(Request $request, IdeaThread $ideaThread)
@@ -203,20 +223,38 @@ class IdeaThreadController extends Controller
 
     public function loadMoreComments(IdeaThread $thread, Request $request)
     {
-        $offset = $request->query('offset', 0);
-        $sort = $request->query('sort', 'recent');
-    
-        $comments = $thread->comments()->with('volunteer')
-            ->when($sort === 'likes', function ($query) {
-                return $query->withCount('votes')->orderByDesc('votes_count');
-            })
-            ->when($sort === 'recent', function ($query) {
-                return $query->orderBy('created_at', 'desc');
-            })
-            ->skip($offset)
-            ->take(5)
-            ->get();
-    
+        if ($request->isMethod('post')) {
+            // Handle sorting of specific comments
+            $commentIds = $request->input('comment_ids', []);
+            
+            $query = $thread->comments()
+                ->whereIn('id', $commentIds)
+                ->with('volunteer')
+                ->when($request->query('sort') === 'likes', function ($query) {
+                    return $query->withCount('votes')->orderByDesc('votes_count');
+                })
+                ->when($request->query('sort') === 'recent', function ($query) {
+                    return $query->orderBy('created_at', 'desc');
+                });
+        } else {
+            // Original load more functionality
+            $offset = $request->query('offset', 0);
+            $limit = $request->query('limit', 5);
+            
+            $query = $thread->comments()
+                ->with('volunteer')
+                ->when($request->query('sort') === 'likes', function ($query) {
+                    return $query->withCount('votes')->orderByDesc('votes_count');
+                })
+                ->when($request->query('sort') === 'recent', function ($query) {
+                    return $query->orderBy('created_at', 'desc');
+                })
+                ->skip($offset)
+                ->take($limit);
+        }
+
+        $comments = $query->get();
+        
         return response()->json([
             'comments' => $comments->map(function ($comment) {
                 return [
@@ -230,7 +268,8 @@ class IdeaThreadController extends Controller
                     'thread_id' => $comment->idea_thread_id,
                     'can_select_winner' => Auth::id() === $comment->idea_thread->userid && $comment->idea_thread->status === 'open'
                 ];
-            })
+            }),
+            'hasMore' => !$request->isMethod('post') && $comments->count() >= ($request->query('limit', 5))
         ]);
     }
 
@@ -290,6 +329,63 @@ class IdeaThreadController extends Controller
         }
 
         return view('idea_board.my-ideas', compact('ideaThreads'));
+    }
+
+    public function sortComments(IdeaThread $thread, Request $request)
+    {
+        try {
+            $sort = $request->query('sort', 'recent');
+            $limit = 5;
+            
+            // Simplified auth check
+            $currentUser = Auth::user();
+            $isOrganization = $currentUser && $currentUser->organization;
+
+            $query = $thread->comments()
+                ->with(['volunteer']) 
+                ->when($sort === 'likes', function ($query) {
+                    return $query->withCount('votes')
+                                ->orderByDesc('votes_count')
+                                ->orderByDesc('created_at');
+                })
+                ->when($sort === 'recent', function ($query) {
+                    return $query->orderByDesc('created_at');
+                });
+
+            $comments = $query->take($limit)->get();
+
+            $mappedComments = $comments->map(function ($comment) use ($thread, $currentUser, $isOrganization) {
+                try {
+                    return [
+                        'id' => $comment->id,
+                        'comment' => $comment->comment,
+                        'volunteer_name' => $comment->volunteer ? $comment->volunteer->Name : 'Unknown',
+                        'volunteer_userid' => $comment->volunteer_userid,
+                        'volunteer_avatar' => $comment->volunteer ? $comment->volunteer->getProfilePicturePath() : '/default-avatar.png',
+                        'vote_count' => $comment->getVoteCount(),
+                        'has_voted' => $currentUser && !$isOrganization ? $comment->hasVotedBy($currentUser->id) : false,
+                        'created_at' => $comment->created_at->diffForHumans(),
+                        'thread_id' => $thread->id,
+                        'can_select_winner' => $isOrganization && $currentUser->id === $thread->userid && $thread->status === 'open'
+                    ];
+                } catch (\Exception $e) {
+                    \Log::error('Error mapping comment ' . $comment->id . ': ' . $e->getMessage());
+                    return null;
+                }
+            })->filter();
+
+            return response()->json([
+                'comments' => $mappedComments,
+                'hasMore' => $thread->comments()->count() > $limit
+            ], 200);
+
+        } catch (\Exception $e) {
+            \Log::error('Error in sortComments: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'An error occurred while sorting comments',
+                'message' => config('app.debug') ? $e->getMessage() : 'Internal server error'
+            ], 500);
+        }
     }
 
 }

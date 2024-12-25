@@ -21,7 +21,7 @@
 
        @vite(['resources/css/app.css', 'resources/js/app.js'])
         <link href="{{ asset('build/assets/app-JORL7NPY.css') }}" rel="stylesheet">
-      <link href="{{ asset('build/assets/app-X6JekhOX.css') }}" rel="stylesheet"> 
+      <!-- <link href="{{ asset('build/assets/app-X6JekhOX.css') }}" rel="stylesheet">  -->
         <script src="{{ asset('build/assets/app-BrtSY-Si.js') }}" defer></script>
         <link rel="icon" href="{{ asset('images/logos/Volunteer Hub Bangladesh.png') }}" type="image/png"> <!-- Favicon -->
 
@@ -33,7 +33,7 @@
         
     </head>
 
-    <body class="font-sans antialiased {{ trim(Stack::content('body-class')) }}">
+    <body class="font-sans antialiased @stack('body-class')">
         <div class="min-h-full bg-white">
             @include('layouts.navigation')
 

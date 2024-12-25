@@ -160,7 +160,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/idea-board/vote', [IdeaThreadController::class, 'vote'])->name('idea_board.vote');
     Route::get('/idea-board/{thread}/comments', [IdeaThreadController::class, 'loadMoreComments'])->name('idea_board.load_more_comments');
     Route::post('/idea-board/{ideaThread}/close', [IdeaThreadController::class, 'close'])->name('idea_board.close');
-    
+    // Route::match(['get', 'post'], '/idea-board/{thread}/comments', [IdeaThreadController::class, 'loadMoreComments'])
+    // ->name('idea-board.comments.sort');
+    Route::get('/idea-board/{thread}/sort-comments', [IdeaThreadController::class, 'sortComments'])
+    ->name('idea_board.sort_comments');
 
 
     // Favorites

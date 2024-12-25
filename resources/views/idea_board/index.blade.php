@@ -193,7 +193,8 @@
                                 <div class="mt-4 flex justify-between items-center">
                                     <h4 class="text-lg font-semibold">Comments</h4>
                                 <div class="flex justify-end" x-data="{ activeSort: 'recent' }">
-                                    <div class="relative inline-flex rounded-full bg-gray-800 p-0.5 shadow-md" style="width: fit-content;">
+                                    <!-- SORTING IS MOVED TO SHOW.BLADE -->
+                                    <!-- <div class="relative inline-flex rounded-full bg-gray-800 p-0.5 shadow-md" style="width: fit-content;">
                                         <button
                                             class="sort-comments relative z-10 px-3 py-1 text-xs font-medium transition-all duration-300 ease-in-out rounded-full text-white scale-105"
                                             data-thread-id="{{ $thread->id }}" 
@@ -216,7 +217,7 @@
                                             class="absolute inset-y-0 w-[45%] rounded-full shadow-md transition-all duration-300 ease-in-out bg-gradient-to-r from-blue-500 to-blue-600"
                                             style="z-index: 1; transform: translateX(0);">
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
 
@@ -250,8 +251,9 @@
                                                                     data-new-votable-type="comment" 
                                                                     data-new-votable-id="{{ $comment->id }}"
                                                                     data-new-vote-status="{{ $comment->hasVotedBy(Auth::id()) ? 'true' : 'false' }}">
-                                                                <i class="fas fa-thumbs-up mr-1 new-vote-icon {{ $comment->hasVotedBy(Auth::id()) ? 'text-blue-500' : '' }}"></i>
-                                                                <span class="new-vote-count">{{ $comment->getVoteCount() }}</span>
+                                                                    <i class="fas fa-thumbs-up mr-1 new-vote-icon {{ $comment->hasVotedBy(Auth::id()) ? 'text-blue-500' : '' }}"></i>
+                                                                </button>
+                                                                <span class="mx-2 new-vote-count">{{ $comment->getVoteCount() }}</span>
                                                             </button>
                                                             </div>
                                                             @if (Auth::id() === $thread->userid && $thread->status === 'open')
@@ -271,48 +273,16 @@
                                     </div>
                                     @if ($thread->comments->count() > 4)
                                         <div class="text-center mt-2">
-                                            <button
-                                                class="view-more-comments inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium transition duration-150"
-                                                data-thread-id="{{ $thread->id }}" data-offset="5">
-                                                <span>View more comments</span>
+                                            <a href="{{ route('idea_board.show', $thread) }}"
+                                                class="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm font-medium transition duration-150">
+                                                <span>View all comments</span>
                                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                                 </svg>
-                                            </button>
+                                            </a>
                                         </div>
                                     @endif
                                 </div>
-
-                               
-                                    <!-- @auth
-                                        @if (Auth::user()->volunteer)
-                                            @php
-                                                $authUserId = Auth::id();
-                                                $userComment = $thread->comments
-                                                    ->where('volunteer_userid', $authUserId)
-                                                    ->first();
-                                            @endphp
-
-                                            @if ($userComment)
-                                            <div class="mt-2 p-2 bg-gray-100 rounded">
-                                                <p class="text-sm"><strong>Your Comment:</strong> </p>
-                                                <p>{{ Str::limit($userComment->comment, 250) }}
-                                                    @if (strlen($userComment->comment) > 250)
-                                                        <a href="#"
-                                                            class="text-blue-500 hover:underline view-full-description"
-                                                            data-full-description="{{ $userComment->comment }}">View
-                                                            full</a>
-                                                    @endif
-                                                </p>
-                                                <p class="text-xs text-gray-500">By:
-                                                    {{ $userComment->volunteer->Name }}</p>
-                                            </div>
-                                            <p class="text-yellow-600">You have already commented on this idea.</p>
-                                            @endif
-                                        @endif
-                                    @endauth -->
-                                
-
                             @endif
                         </div>
                     @endforeach
@@ -344,94 +314,6 @@
     </div>
 
 <script>
-
-
-    function sortComments() {
-        const threadId = this.dataset.threadId;
-        const sort = this.dataset.sort;
-        const commentsContainer = document.querySelector(
-            `.comments-container[data-thread-id="${threadId}"]`);
-        const viewMoreButton = document.querySelector(
-            `.view-more-comments[data-thread-id="${threadId}"]`);
-
-        // Update button styles
-        const sortButtons = document.querySelectorAll(`.sort-comments[data-thread-id="${threadId}"]`);
-        sortButtons.forEach(btn => {
-            btn.classList.remove('text-white', 'scale-105');
-            btn.classList.add('text-gray-400');
-        });
-        
-        // Add active class to clicked button
-        this.classList.remove('text-gray-400');
-        this.classList.add('text-white', 'scale-105');
-
-        fetch(`/idea-board/${threadId}/comments?sort=${sort}`)
-            .then(response => response.json())
-            .then(data => {
-                // Clear existing comments
-                commentsContainer.innerHTML = '';
-                
-                // Add new comments
-                data.comments.forEach(comment => {
-                    const commentElement = createCommentElement(comment);
-                    commentsContainer.appendChild(commentElement);
-                });
-
-                // Update view more button
-                if (viewMoreButton) {
-                    viewMoreButton.dataset.offset = '5';
-                    viewMoreButton.style.display = data.comments.length >= 5 ? 'inline-flex' : 'none';
-                }
-            })
-            .catch(error => {
-                console.error('Error sorting comments:', error);
-            });
-    }
-
-    function createCommentElement(comment) {
-        const div = document.createElement('div');
-        const isUserComment = comment.volunteer_userid === {{ Auth::id() }};
-        div.className = `p-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition duration-150 ${isUserComment ? 'bg-blue-50' : ''}`;
-        
-        div.innerHTML = `
-            <div class="flex space-x-3">
-                <img src="${comment.volunteer_avatar}" 
-                    alt="${comment.volunteer_name}" 
-                    class="w-8 h-8 rounded-full object-cover">
-                
-                <div class="flex-1">
-                    <div class="bg-gray-100 rounded-2xl px-4 py-2">
-                        <div class="font-semibold text-sm text-gray-900">
-                            ${comment.volunteer_name}
-                        </div>
-                        <p class="text-sm text-gray-700">${comment.comment}</p>
-                    </div>
-                    
-                    <div class="flex items-center space-x-4 mt-1 text-xs text-gray-500">
-                        <span>${comment.created_at}</span>
-                        <div class="flex items-center">
-                            <button type="button" class="vote-button text-gray-500 hover:text-blue-500" 
-                                    data-votable-type="comment" 
-                                    data-votable-id="${comment.id}">
-                                <i class="fas fa-thumbs-up mr-1"></i>
-                                <span>${comment.vote_count}</span>
-                            </button>
-                        </div>
-                        ${comment.can_select_winner ? `
-                            <button type="button"
-                                class="select-winner-btn text-green-600 hover:text-green-700"
-                                data-thread-id="${comment.thread_id}"
-                                data-comment-id="${comment.id}">
-                                <i class="fas fa-crown mr-1"></i>
-                                Select as Winner
-                            </button>
-                        ` : ''}
-                    </div>
-                </div>
-            </div>
-        `;
-        return div;
-    }
 
     let currentThreadId = null;
     let currentCommentId = null;
@@ -491,14 +373,6 @@
                 }
             });
     }
-    document.addEventListener('DOMContentLoaded', function() {
-        // Use event delegation instead of direct event listeners
-        document.addEventListener('click', function(event) {
-            if (event.target.closest('.sort-comments')) {
-                const button = event.target.closest('.sort-comments');
-                sortComments.call(button);
-            }
-        });
-    });
+
 </script>
 </x-app-layout>

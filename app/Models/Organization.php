@@ -138,4 +138,9 @@ class Organization extends Model
     {
         return $this->getProfileCompletionPercentage() < 100;
     }
+
+    public function isOrganization()
+    {
+        return true;
+    }
 }

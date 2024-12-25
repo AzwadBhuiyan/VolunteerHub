@@ -25,7 +25,7 @@ class IdeaComment extends Model
 
     public function votes()
     {
-        return $this->hasMany(IdeaVote::class);
+        return $this->hasMany(IdeaVote::class, 'idea_comment_id');
     }
 
     public function getVoteCount()
